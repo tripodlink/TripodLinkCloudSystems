@@ -1,10 +1,10 @@
-﻿using CloudCmsCommon.Models;
+﻿using CloudImsCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CloudCmsCommon.Extensions 
+namespace CloudImsCommon.Extensions 
 {
     public class AppTenant
     {

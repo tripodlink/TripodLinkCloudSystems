@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using CloudCmsCommon.Models;
+using CloudImsCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CloudCmsCommon.Database
+namespace CloudImsCommon.Database
 {
     public static class AppModelBuilderExtensions
     {

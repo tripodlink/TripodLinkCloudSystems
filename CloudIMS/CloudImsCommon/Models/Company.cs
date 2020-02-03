@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CloudCmsCommon.Models
+namespace CloudImsCommon.Models
 {
     [Table("company")]
     public class Company

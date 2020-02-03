@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace CloudCmsCommon.Database
+namespace CloudImsCommon.Database
 {
     public class AppDesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {

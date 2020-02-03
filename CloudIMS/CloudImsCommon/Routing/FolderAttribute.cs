@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CloudCmsCommon.Routing
+namespace CloudImsCommon.Routing
 {
     public class FolderAttribute : RouteValueAttribute
     {

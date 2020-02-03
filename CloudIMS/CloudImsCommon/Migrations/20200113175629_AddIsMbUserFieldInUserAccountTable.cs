@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace CloudCmsCommon.Migrations
+namespace CloudImsCommon.Migrations
 {
     public partial class AddIsMbUserFieldInUserAccountTable : Migration
     {

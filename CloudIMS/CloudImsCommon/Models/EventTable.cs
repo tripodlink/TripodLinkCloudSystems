@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace CloudCmsCommon.Models
+namespace CloudImsCommon.Models
 {
     [Table("event_table")]
     public class EventTable

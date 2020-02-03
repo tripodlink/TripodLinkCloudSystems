@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-namespace CloudCmsCommon.Models
+namespace CloudImsCommon.Models
 {
     [Table("user_group_programs")]
     public class UserGroupProgram

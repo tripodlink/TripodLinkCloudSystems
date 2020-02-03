@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using CloudCmsCommon.Database;
+using CloudImsCommon.Database;
 
-namespace CloudCmsCommon.Migrations
+namespace CloudImsCommon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20200101122808_InitialMigration")]
@@ -18,7 +18,7 @@ namespace CloudCmsCommon.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.8-servicing-32085");
 
-            modelBuilder.Entity("CloudCmsCommon.Models.Clinician", b =>
+            modelBuilder.Entity("CloudImsCommon.Models.Clinician", b =>
                 {
                     b.Property<string>("ID")
                         .ValueGeneratedOnAdd()
@@ -52,7 +52,7 @@ namespace CloudCmsCommon.Migrations
                     );
                 });
 
-            modelBuilder.Entity("CloudCmsCommon.Models.Company", b =>
+            modelBuilder.Entity("CloudImsCommon.Models.Company", b =>
                 {
                     b.Property<string>("ID")
                         .ValueGeneratedOnAdd()
@@ -78,7 +78,7 @@ namespace CloudCmsCommon.Migrations
                     );
                 });
 
-            modelBuilder.Entity("CloudCmsCommon.Models.EventTable", b =>
+            modelBuilder.Entity("CloudImsCommon.Models.EventTable", b =>
                 {
                     b.Property<string>("Code")
                         .ValueGeneratedOnAdd()
@@ -109,7 +109,7 @@ namespace CloudCmsCommon.Migrations
                     );
                 });
 
-            modelBuilder.Entity("CloudCmsCommon.Models.Item", b =>
+            modelBuilder.Entity("CloudImsCommon.Models.Item", b =>
                 {
                     b.Property<string>("Code")
                         .ValueGeneratedOnAdd()
@@ -187,7 +187,7 @@ namespace CloudCmsCommon.Migrations
                     );
                 });
 
-            modelBuilder.Entity("CloudCmsCommon.Models.UserAccount", b =>
+            modelBuilder.Entity("CloudImsCommon.Models.UserAccount", b =>
                 {
                     b.Property<string>("UserID")
                         .ValueGeneratedOnAdd()

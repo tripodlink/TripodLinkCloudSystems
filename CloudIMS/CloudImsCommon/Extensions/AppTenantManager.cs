@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using CloudCmsCommon.Database;
+using CloudImsCommon.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CloudCmsCommon.Extensions
+namespace CloudImsCommon.Extensions
 {
     public class AppTenantManager
     {

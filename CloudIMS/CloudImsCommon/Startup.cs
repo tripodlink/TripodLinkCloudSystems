@@ -10,13 +10,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Mvc.Razor;
-using CloudCmsCommon.Database;
+using CloudImsCommon.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
-using CloudCmsCommon.Extensions;
+using CloudImsCommon.Extensions;
 using Microsoft.AspNetCore.Mvc.Authorization;
 
-namespace CloudCmsCommon
+namespace CloudImsCommon
 {
     public class Startup
     {

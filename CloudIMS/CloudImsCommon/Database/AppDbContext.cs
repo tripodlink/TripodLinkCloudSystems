@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using CloudCmsCommon.Extensions;
-using CloudCmsCommon.Models;
+using CloudImsCommon.Extensions;
+using CloudImsCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CloudCmsCommon.Database
+namespace CloudImsCommon.Database
 {
     public class AppDbContext : DbContext
     {

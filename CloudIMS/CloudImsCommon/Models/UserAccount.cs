@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 
-namespace CloudCmsCommon.Models
+namespace CloudImsCommon.Models
 {
     [Table("user_account")]
     public class UserAccount

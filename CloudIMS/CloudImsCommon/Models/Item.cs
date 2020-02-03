@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 
-namespace CloudCmsCommon.Models
+namespace CloudImsCommon.Models
 {
     [Table("item_master")]
     public class Item

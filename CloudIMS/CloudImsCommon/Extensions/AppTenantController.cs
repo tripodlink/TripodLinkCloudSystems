@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using CloudCmsCommon.Database;
+using CloudImsCommon.Database;
 
-namespace CloudCmsCommon.Extensions
+namespace CloudImsCommon.Extensions
 {
     public class AppTenantController : Controller
     {
