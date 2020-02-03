@@ -1,0 +1,20 @@
+﻿@*@inject Microsoft.AspNetCore.Http.HttpContext  context;*@
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+        @*@{
+            if (context.User != null)
+            {
+                if (context.User.Identity != null && context.User.Identity.IsAuthenticated)
+                {
+                    <a href="@Url.Action("logout", "home")" class="btn btn-warning">Sign-Out</a>
+                }
+            }
+        }*@
+    </div>

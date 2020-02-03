@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "AP";
+}
+
+@model ApLandingPage.ViewModels.ApLandingPageUserAccountFoldersViewModel;
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome @Model.UserAccount.UserName</h1>
+        <h1 class="display-4">AP Landing Page</h1>
+
+        @foreach (var pf in Model.ProgramFolders)
+        {
+            <div class="row">
+                <a href="@Url.Action("", new { Area = pf.ModuleRouteAttribute, Folder = pf.RouteAttribute})" class="btn btn-primary">@pf.ID + " " + @pf.Name</a>
+            </div>
+        }
+    </div>
