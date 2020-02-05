@@ -20,15 +20,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
-    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.18" />
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.19" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ANATOMICAL PATHOLOGY\ApLandingPage\ApLandingPage.csproj" />
-    <ProjectReference Include="..\ANATOMICAL PATHOLOGY\Result Management\ApResultEntry\ApResultEntry.csproj" />
-    <ProjectReference Include="..\ANATOMICAL PATHOLOGY\Result Management\PapSmearResultEntry\PapSmearResultEntry.csproj" />
-    <ProjectReference Include="..\ANATOMICAL PATHOLOGY\Sample Management\ApSampleReception\ApSampleReception.csproj" />
-    <ProjectReference Include="..\ANATOMICAL PATHOLOGY\Sample Management\BlockAndSlide\BlockAndSlide.csproj" />
     <ProjectReference Include="..\BLOOD BANK\BbLandingPage\BbLandingPage.csproj" />
     <ProjectReference Include="..\BLOOD BANK\DonorManagement\DonationRegistration\RegisterDonor.csproj" />
     <ProjectReference Include="..\BLOOD BANK\ResultManagement\BloodBankResultEntry\BloodBankResultEntry.csproj" />

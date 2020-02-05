@@ -3,7 +3,16 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>BB.BbLandingPage</AssemblyName>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CloudImsCommon\CloudImsCommon.csproj" />
+    <ProjectReference Include="..\DonorManagement\DonationRegistration\RegisterDonor.csproj" />
+    <ProjectReference Include="..\ResultManagement\BloodBankResultEntry\BloodBankResultEntry.csproj" />
+  </ItemGroup>
 
 
 

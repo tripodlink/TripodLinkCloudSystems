@@ -10,18 +10,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Mvc.Razor;
-using CloudCmsCommon.Database;
+using CloudImsCommon.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
-using CloudCmsCommon.Extensions;
+using CloudImsCommon.Extensions;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using AnatomicalPathology.ResultManagement.ApResultEntry.Controllers;
 using BloodBank.DonorManagement.RegisterDonor.Controllers;
 using BloodBank.ResultManagement.ResultEntry.Controllers;
-using AnatomicalPathology.ResultManagement.PapSmearResultEntry.Controllers;
-using AnatomicalPathology.SampleManagement.ApSampleReception.Controllers;
-using AnatomicalPathology.SampleManagement.BlockAndSlide.Controllers;
-using AnatomicalPathology.Controllers;
+
 using BloodBank.Controllers;
 
 namespace CloudCms
@@ -44,11 +40,11 @@ namespace CloudCms
             services.AddMvc()
 
                 //AP Assemblies
-                .AddApplicationPart(typeof(ApLandingPageController).Assembly)
-                .AddApplicationPart(typeof(BlockAndSlideController).Assembly)
-                .AddApplicationPart(typeof(ApSampleReceptionController).Assembly)
-                .AddApplicationPart(typeof(ApResultEntryController).Assembly)
-                .AddApplicationPart(typeof(PapSmearResultEntryController).Assembly)
+                //.AddApplicationPart(typeof(ApLandingPageController).Assembly)
+                //.AddApplicationPart(typeof(BlockAndSlideController).Assembly)
+                //.AddApplicationPart(typeof(ApSampleReceptionController).Assembly)
+                //.AddApplicationPart(typeof(ApResultEntryController).Assembly)
+                //.AddApplicationPart(typeof(PapSmearResultEntryController).Assembly)
 
                 //Blood Bank Assemblies
                 .AddApplicationPart(typeof(BbLandingPageController).Assembly)

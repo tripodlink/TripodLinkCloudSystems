@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CloudCmsCommon.Extensions;
-using CloudCmsCommon.Models;
+using CloudImsCommon.Models;
 using CloudCmsCommon.Routing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

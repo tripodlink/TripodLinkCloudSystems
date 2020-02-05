@@ -4,16 +4,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using CloudCmsCommon.Routing;
+using CloudImsCommon.Routing;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CloudCms.Areas.Home.Models;
-using CloudCmsCommon.Extensions;
-using CloudCmsCommon.Database;
-using CloudCmsCommon.Models;
+using CloudImsCommon.Extensions;
+using CloudImsCommon.Database;
+using CloudImsCommon.Models;
 
 namespace CloudCms.Areas.Home.Controllers
 {

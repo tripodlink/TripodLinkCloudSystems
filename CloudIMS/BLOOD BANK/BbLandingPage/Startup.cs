@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BloodBank.DonorManagement.RegisterDonor.Controllers;
+using BloodBank.ResultManagement.ResultEntry.Controllers;
+using CloudImsCommon.Extensions;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,7 +27,25 @@ namespace ApLandingPage
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddSingleton<AppTenantManager>();
+
+
+            services.AddMvc()
+                ////Blood Bank Assemblies
+                .AddApplicationPart(typeof(RegisterDonorController).Assembly)
+                .AddApplicationPart(typeof(BloodBankResultEntryController).Assembly)
+
+                //Add all controllers
+                .AddControllersAsServices();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                 .AddCookie(options =>
+                 {
+                     options.Cookie.Name = "CloudCms";
+                     options.LoginPath = "/debug/login";
+                     options.ExpireTimeSpan = TimeSpan.FromMinutes(-1);
+                     options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
+                 });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,13 +66,14 @@ namespace ApLandingPage
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{area=Home}/{folder=Home}/{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

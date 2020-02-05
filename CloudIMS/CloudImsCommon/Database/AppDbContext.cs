@@ -52,6 +52,7 @@ namespace CloudImsCommon.Database
         //Dictionary tables
         public DbSet<Clinician> Clinicians { get; set; }
         public DbSet<Item> OrderItems { get; set; }
+        public DbSet<UnitCode> UnitCodes { get; set; }
 
         //User Account tables
         public DbSet<UserAccount> UserAccounts { get; set; }
