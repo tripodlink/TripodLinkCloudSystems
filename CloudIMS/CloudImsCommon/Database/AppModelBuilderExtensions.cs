@@ -35,7 +35,7 @@ namespace CloudImsCommon.Database
             //Dictionary Seeds
             SeedClinicians(modelBuilder);
             SeedOrderItems(modelBuilder);
-
+            SeedUnitCodes(modelBuilder);
 
             //User Group Seeds
             modelBuilder.Entity<UserGroupProgram>().HasKey(c => new {c.UserGroupID, c.ProgramMenuID });
@@ -87,6 +87,17 @@ namespace CloudImsCommon.Database
                new Item { Code = "PRE-EMP-1", Name = "PRE-EMPLOYMENT PACKAGE #1", Category = "P", CostCenter = "0", Type = "0", HostCode = "PRE-EMP1", IsEditablePrice = false, IsActive = true, Remarks = "", CreatedOn = DateTime.Now, CreatedBy = "SYSAD", UpdatedOn = DateTime.Now, UpdatedBy = "SYSAD" },
                 new Item { Code = "URINA", Name = "URINALYSIS", Category = "S", CostCenter = "LAB", Type = "T", HostCode = "URINA", IsEditablePrice = false, IsActive = true, Remarks = "", CreatedOn = DateTime.Now, CreatedBy = "SYSAD", UpdatedOn = DateTime.Now, UpdatedBy = "SYSAD" }
 
+               );
+        }
+        
+        private static void SeedUnitCodes(ModelBuilder modelBuilder)
+        {
+            //create unique index 
+            modelBuilder.Entity<UnitCode>().HasIndex(idx => new { idx.Description }).IsUnique(false).HasName("IDX_DESCRIPTION");
+            modelBuilder.Entity<UnitCode>().HasData(
+                new UnitCode { Code = "100", Description = "Meter" },
+                new UnitCode { Code = "101", Description = "Kilo" },
+                new UnitCode { Code = "102", Description = "Gram" }
                );
         }
 

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using CloudCmsCommon.Debug.Controllers;
+using CloudImsCommon.Debug.Controllers;
 
 namespace ApResultEntry
 {

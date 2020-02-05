@@ -14,7 +14,7 @@ using CloudImsCommon.Database;
 using CloudImsCommon.Extensions;
 using CloudImsCommon.Models;
 
-namespace CloudCmsCommon.Debug.Controllers
+namespace CloudImsCommon.Debug.Controllers
 {
     [Area("debug")]
     public class AutoLoginController : AppTenantController

@@ -3,14 +3,16 @@ using System;
 using CloudImsCommon.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CloudImsCommon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200205154256_AddShortDescriptionColumnInUnitCodeTable")]
+    partial class AddShortDescriptionColumnInUnitCodeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,10 +180,10 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("item_master");
 
                     b.HasData(
-                        new { Code = "CBC", Category = "S", CostCenter = "LAB", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 5, 23, 47, 45, 503, DateTimeKind.Local), HostCode = "CBC", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "COMPLETE BLOOD COUNT", Remarks = "", Type = "T", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 5, 23, 47, 45, 503, DateTimeKind.Local) },
-                        new { Code = "FBS", Category = "S", CostCenter = "LAB", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 5, 23, 47, 45, 503, DateTimeKind.Local), HostCode = "FBS", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "FASTING BLOOD SUGAR", Remarks = "", Type = "T", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 5, 23, 47, 45, 503, DateTimeKind.Local) },
-                        new { Code = "PRE-EMP-1", Category = "P", CostCenter = "0", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 5, 23, 47, 45, 503, DateTimeKind.Local), HostCode = "PRE-EMP1", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "PRE-EMPLOYMENT PACKAGE #1", Remarks = "", Type = "0", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 5, 23, 47, 45, 503, DateTimeKind.Local) },
-                        new { Code = "URINA", Category = "S", CostCenter = "LAB", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 5, 23, 47, 45, 503, DateTimeKind.Local), HostCode = "URINA", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "URINALYSIS", Remarks = "", Type = "T", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 5, 23, 47, 45, 503, DateTimeKind.Local) }
+                        new { Code = "CBC", Category = "S", CostCenter = "LAB", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 5, 23, 42, 55, 942, DateTimeKind.Local), HostCode = "CBC", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "COMPLETE BLOOD COUNT", Remarks = "", Type = "T", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 5, 23, 42, 55, 942, DateTimeKind.Local) },
+                        new { Code = "FBS", Category = "S", CostCenter = "LAB", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 5, 23, 42, 55, 942, DateTimeKind.Local), HostCode = "FBS", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "FASTING BLOOD SUGAR", Remarks = "", Type = "T", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 5, 23, 42, 55, 942, DateTimeKind.Local) },
+                        new { Code = "PRE-EMP-1", Category = "P", CostCenter = "0", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 5, 23, 42, 55, 942, DateTimeKind.Local), HostCode = "PRE-EMP1", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "PRE-EMPLOYMENT PACKAGE #1", Remarks = "", Type = "0", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 5, 23, 42, 55, 942, DateTimeKind.Local) },
+                        new { Code = "URINA", Category = "S", CostCenter = "LAB", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 5, 23, 42, 55, 942, DateTimeKind.Local), HostCode = "URINA", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "URINALYSIS", Remarks = "", Type = "T", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 5, 23, 42, 55, 942, DateTimeKind.Local) }
                     );
                 });
 
@@ -372,8 +374,7 @@ namespace CloudImsCommon.Migrations
 
                     b.HasData(
                         new { Code = "100", Description = "Meter" },
-                        new { Code = "101", Description = "Kilo" },
-                        new { Code = "102", Description = "Gram" }
+                        new { Code = "101", Description = "Kilo" }
                     );
                 });
 
@@ -423,10 +424,10 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 5, 23, 47, 45, 479, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 5, 23, 47, 45, 481, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" },
-                        new { UserID = "FUR", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 5, 23, 47, 45, 481, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 5, 23, 47, 45, 481, DateTimeKind.Local), UserName = "FLORANTE U. REGUIS" },
-                        new { UserID = "FGC", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 5, 23, 47, 45, 481, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 5, 23, 47, 45, 481, DateTimeKind.Local), UserName = "FROILAN G. CUIZON" },
-                        new { UserID = "MLS", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 5, 23, 47, 45, 481, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 5, 23, 47, 45, 481, DateTimeKind.Local), UserName = "MARKWIN L. SORIANO" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 5, 23, 42, 55, 925, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 5, 23, 42, 55, 927, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" },
+                        new { UserID = "FUR", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 5, 23, 42, 55, 927, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 5, 23, 42, 55, 927, DateTimeKind.Local), UserName = "FLORANTE U. REGUIS" },
+                        new { UserID = "FGC", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 5, 23, 42, 55, 927, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 5, 23, 42, 55, 927, DateTimeKind.Local), UserName = "FROILAN G. CUIZON" },
+                        new { UserID = "MLS", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 5, 23, 42, 55, 927, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 5, 23, 42, 55, 927, DateTimeKind.Local), UserName = "MARKWIN L. SORIANO" }
                     );
                 });
 

@@ -22,5 +22,9 @@ namespace CloudImsCommon.Models
         [Column("uc_description")]
         [MaxLength(20, ErrorMessage = "Unit description cannot exceed 20 characters.")]
         public String Description { get; set; }
+
+        [Column("uc_short_description")]
+        [MaxLength(10)]
+        public String? ShortDescription { get; set; }
     }
 }

@@ -5,6 +5,10 @@
     <AssemblyName>AP.ApLandingPage</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\CloudImsCommon\CloudImsCommon.csproj" />
+  </ItemGroup>
+
 
 
 </Project>

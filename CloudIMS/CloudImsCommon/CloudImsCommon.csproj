@@ -47,6 +47,8 @@
     <Compile Remove="Migrations\20200115010531_CreateUserGroupTables.Designer.cs" />
     <Compile Remove="Migrations\20200121145403_testing_migration.cs" />
     <Compile Remove="Migrations\20200121145403_testing_migration.Designer.cs" />
+    <Compile Remove="Migrations\20200205152250_CreateUnitCodeTable.cs" />
+    <Compile Remove="Migrations\20200205152250_CreateUnitCodeTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
