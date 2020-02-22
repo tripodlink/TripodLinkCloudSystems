@@ -1,24 +1,30 @@
-﻿<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <form method="post" action="/Home/Home/Home/Login">
-                <div class="form-group">
-                    <label for="userID">User ID</label>
-                    <input type="text" class="form-control" id="userID" name="userID" aria-describedby="userIdHelp" placeholder="User ID">
-                    <small id="userIdHelp" class="form-text text-muted"></small>
-                </div>
-                <div class="form-group">
-                    <label for="moduleID">Module</label>
-                    <input type="text" class="form-control" id="moduleID" name="moduleID" aria-describedby="moduleIDHelp" placeholder="Module ID">
-                    <small id="moduleIDHelp" class="form-text text-muted"></small>
-                </div>
-                <div class="form-group">
-                    <label for="userPassword">Password</label>
-                    <input type="password" class="form-control" id="userPassword" name="userPassword" placeholder="Password">
-                </div>
-                <button type="submit" class="btn btn-primary">Login</button>
-            </form>
-        </div>
+﻿@{ 
+    ViewData["IsLogin"] = "Y";
+}}
+
+<section class="material-half-bg">
+    <div class="cover"></div>
+</section>
+<section class="login-content">
+    <div class="logo">
+        <h1>Vali</h1>
     </div>
-</div>
+    <div class="login-box">
+        <form class="login-form" method="post" action="/Home/Home/Home/Login">
+            <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>SIGN IN</h3>
+            <div class="form-group">
+                <label for="userID" class="control-label">User ID</label>
+                <input class="form-control" type="text" id="userID" name="userID" aria-describedby="userIdHelp" placeholder="User ID" autofocus>
+                <small id="userIdHelp" class="form-text text-muted"></small>
+            </div>
+            <div class="form-group">
+                <label for="userPassword" class="control-label">Password</label>
+                <input class="form-control" type="password" id="userPassword" name="userPassword"  placeholder="Password">
+            </div>
+            <div class="form-group btn-container">
+                <button type="submit"  class="btn btn-primary btn-block"><i class="fa fa-sign-in fa-lg fa-fw"></i>Login</button>
+            </div>
+        </form>
+    </div>
+</section>
 

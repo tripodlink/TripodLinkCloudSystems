@@ -71,7 +71,7 @@ namespace CloudIms.Areas.Home.Controllers
                 {
                     if (user.Password == userPassword)
                     {
-                        List<ProgramMenu> menus = DbContext.ProgramMenus.Where(p => p.ModuleRouteAttribute == "ap").ToList();
+                        List<ProgramMenu> menus = DbContext.ProgramMenus.Where(p => p.ProgramFolderID == "IVM").ToList();
 
                         var menuStr = "";
                         foreach (var menu in menus)

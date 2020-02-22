@@ -10,51 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200113180044_AddAdditionalUser.cs" />
-    <Compile Remove="Migrations\20200113180044_AddAdditionalUser.Designer.cs" />
-    <Compile Remove="Migrations\20200113180401_DeleteUserCherie.cs" />
-    <Compile Remove="Migrations\20200113180401_DeleteUserCherie.Designer.cs" />
-    <Compile Remove="Migrations\20200113180932_CreateUserFgcAndMls.cs" />
-    <Compile Remove="Migrations\20200113180932_CreateUserFgcAndMls.Designer.cs" />
-    <Compile Remove="Migrations\20200114144503_CreateProgramMenuTables.cs" />
-    <Compile Remove="Migrations\20200114144503_CreateProgramMenuTables.Designer.cs" />
-    <Compile Remove="Migrations\20200114144911_CreateProgramMenuTables.cs" />
-    <Compile Remove="Migrations\20200114144911_CreateProgramMenuTables.Designer.cs" />
-    <Compile Remove="Migrations\20200114151803_CreateProgramMenuTables.cs" />
-    <Compile Remove="Migrations\20200114151803_CreateProgramMenuTables.Designer.cs" />
-    <Compile Remove="Migrations\20200114152121_CreateProgramMenuTables.cs" />
-    <Compile Remove="Migrations\20200114152121_CreateProgramMenuTables.Designer.cs" />
-    <Compile Remove="Migrations\20200114221057_CreateProgramMenuTables.cs" />
-    <Compile Remove="Migrations\20200114221057_CreateProgramMenuTables.Designer.cs" />
-    <Compile Remove="Migrations\20200114221534_CreateProgramMenuTables.cs" />
-    <Compile Remove="Migrations\20200114221534_CreateProgramMenuTables.Designer.cs" />
-    <Compile Remove="Migrations\20200114234416_CreateUserGroupTables.cs" />
-    <Compile Remove="Migrations\20200114234416_CreateUserGroupTables.Designer.cs" />
-    <Compile Remove="Migrations\20200115001204_CreateUserGroupTables.cs" />
-    <Compile Remove="Migrations\20200115001204_CreateUserGroupTables.Designer.cs" />
-    <Compile Remove="Migrations\20200115001650_CreateUserGroupTables.cs" />
-    <Compile Remove="Migrations\20200115001650_CreateUserGroupTables.Designer.cs" />
-    <Compile Remove="Migrations\20200115002718_CreateUserGroupTables.cs" />
-    <Compile Remove="Migrations\20200115002718_CreateUserGroupTables.Designer.cs" />
-    <Compile Remove="Migrations\20200115003008_CreateUserGroupTables.cs" />
-    <Compile Remove="Migrations\20200115003008_CreateUserGroupTables.Designer.cs" />
-    <Compile Remove="Migrations\20200115003203_CreateUserGroupTables.cs" />
-    <Compile Remove="Migrations\20200115003203_CreateUserGroupTables.Designer.cs" />
-    <Compile Remove="Migrations\20200115003439_testing.cs" />
-    <Compile Remove="Migrations\20200115003439_testing.Designer.cs" />
-    <Compile Remove="Migrations\20200115005735_CreateUserGroupTables.cs" />
-    <Compile Remove="Migrations\20200115005735_CreateUserGroupTables.Designer.cs" />
-    <Compile Remove="Migrations\20200115010531_CreateUserGroupTables.cs" />
-    <Compile Remove="Migrations\20200115010531_CreateUserGroupTables.Designer.cs" />
-    <Compile Remove="Migrations\20200121145403_testing_migration.cs" />
-    <Compile Remove="Migrations\20200121145403_testing_migration.Designer.cs" />
-    <Compile Remove="Migrations\20200205152250_CreateUnitCodeTable.cs" />
-    <Compile Remove="Migrations\20200205152250_CreateUnitCodeTable.Designer.cs" />
-    <Compile Remove="Migrations\20200221114731_AddSomeProperty.cs" />
-    <Compile Remove="Migrations\20200221114731_AddSomeProperty.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.8">

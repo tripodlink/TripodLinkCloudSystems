@@ -22,26 +22,7 @@ namespace CloudImsCommon.Models
         [Required]
         public String Name { get; set; }
 
-
-        [Column("pf_root")]
-        [MaxLength(10)]
-        [Required]
-        public String ProgramRootID { get; set; }
-        public ProgramRoot ProgramRoot { get; set; }
-
-
-        [Column("pf_module")]
-        [MaxLength(10)]
-        [Required]
-        public String ModuleID { get; set; }
-
-
-        [Column("pf_module_route")]
-        [MaxLength(10)]
-        [Required]
-        public String ModuleRouteAttribute { get; set; }
-
-
+                           
         [Column("pf_folder_route")]
         [MaxLength(25)]
         [Required]

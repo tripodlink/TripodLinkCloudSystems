@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 namespace CloudImsCommon.Models
 {
-    [Table("user_group_programs")]
+    [Table("user_group_program")]
     public class UserGroupProgram
     {
         [Key]

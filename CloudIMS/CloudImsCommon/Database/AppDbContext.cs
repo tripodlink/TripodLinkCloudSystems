@@ -42,8 +42,6 @@ namespace CloudImsCommon.Database
 
 
         //Dictionary tables
-        public DbSet<Clinician> Clinicians { get; set; }
-        public DbSet<Item> OrderItems { get; set; }
         public DbSet<UnitCode> UnitCodes { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
 
@@ -52,7 +50,6 @@ namespace CloudImsCommon.Database
         public DbSet<UserAccountGroup> UserAccountGroups { get; set; }
 
         //Program Menu tables
-        public DbSet<ProgramRoot> ProgramRoots { get; set; }
         public DbSet<ProgramFolder> ProgramFolders { get; set; }
         public DbSet<ProgramMenu> ProgramMenus { get; set; }
 

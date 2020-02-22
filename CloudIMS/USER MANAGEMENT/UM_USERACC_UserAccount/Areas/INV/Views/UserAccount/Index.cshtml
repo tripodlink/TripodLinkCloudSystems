@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "User Management";
+}
+
+@model DataDictionary.Unit.ViewModels.UserAccountViewModel
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome to Data Dictionary\User Account</h1>
+
+        <br />
+
+        @{
+            foreach (var menu in Model.ProgramMenus)
+            {
+                <a class="btn btn-primary" href=@Url.Action("index", menu.ControllerRouteAttribute,new { Area="inv", Folder = menu.FolderRouteAttribute })>@menu.Name</a>
+            }
+
+        }
+    </div>

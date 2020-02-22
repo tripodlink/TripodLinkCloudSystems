@@ -16,40 +16,6 @@ namespace CloudImsCommon.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.8-servicing-32085");
 
-            modelBuilder.Entity("CloudImsCommon.Models.Clinician", b =>
-                {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("clin_id")
-                        .HasMaxLength(20);
-
-                    b.Property<string>("Email")
-                        .HasColumnName("clin_email")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("MobileNo")
-                        .HasColumnName("clin_mobile_no")
-                        .HasMaxLength(40);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("clin_name")
-                        .HasMaxLength(100);
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasName("IDX_NAME");
-
-                    b.ToTable("clinician");
-
-                    b.HasData(
-                        new { ID = "FUR", Email = "reguis.florante@gmail.com", MobileNo = "09171447107", Name = "FLORANTE U. REGUIS, MD" },
-                        new { ID = "FGC", Email = "cuizonfg@gmail.com", MobileNo = "09171447170", Name = "FROILAN G. CUIZON, MD" }
-                    );
-                });
-
             modelBuilder.Entity("CloudImsCommon.Models.Company", b =>
                 {
                     b.Property<string>("ID")
@@ -97,91 +63,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("event_table");
 
                     b.HasData(
-                        new { Code = "TRX_ADD", Description = "Add transaction" },
-                        new { Code = "TRX_UPDATE", Description = "Update transaction" },
-                        new { Code = "TRX_VOID", Description = "Void transaction" },
-                        new { Code = "TRX_POST", Description = "Post transaction" },
-                        new { Code = "TRX_PAY", Description = "Pay transaction" },
-                        new { Code = "TRX_UNDO_PAY", Description = "Undo pay transaction" },
-                        new { Code = "TRX_DELETE", Description = "Delete transaction" }
-                    );
-                });
-
-            modelBuilder.Entity("CloudImsCommon.Models.Item", b =>
-                {
-                    b.Property<string>("Code")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("im_code")
-                        .HasMaxLength(10);
-
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnName("im_category")
-                        .HasMaxLength(1);
-
-                    b.Property<string>("CostCenter")
-                        .IsRequired()
-                        .HasColumnName("im_cost_center")
-                        .HasMaxLength(10);
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnName("im_created_by")
-                        .HasMaxLength(20);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnName("im_created_on");
-
-                    b.Property<string>("HostCode")
-                        .IsRequired()
-                        .HasColumnName("im_host_code")
-                        .HasMaxLength(20);
-
-                    b.Property<byte>("IsActive")
-                        .HasColumnName("im_active")
-                        .HasColumnType("TINYINT");
-
-                    b.Property<byte>("IsEditablePrice")
-                        .HasColumnName("im_editable_price")
-                        .HasColumnType("TINYINT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("im_name")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Remarks")
-                        .HasColumnName("im_remarks")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnName("im_type")
-                        .HasMaxLength(3);
-
-                    b.Property<string>("UpdatedBy")
-                        .IsRequired()
-                        .HasColumnName("im_updated_by")
-                        .HasMaxLength(20);
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnName("im_updated_on");
-
-                    b.HasKey("Code");
-
-                    b.HasIndex("Category")
-                        .HasName("IDX_CATEGORY");
-
-                    b.HasIndex("Name")
-                        .HasName("IDX_NAME");
-
-                    b.ToTable("item_master");
-
-                    b.HasData(
-                        new { Code = "CBC", Category = "S", CostCenter = "LAB", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 957, DateTimeKind.Local), HostCode = "CBC", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "COMPLETE BLOOD COUNT", Remarks = "", Type = "T", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 957, DateTimeKind.Local) },
-                        new { Code = "FBS", Category = "S", CostCenter = "LAB", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 958, DateTimeKind.Local), HostCode = "FBS", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "FASTING BLOOD SUGAR", Remarks = "", Type = "T", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 958, DateTimeKind.Local) },
-                        new { Code = "PRE-EMP-1", Category = "P", CostCenter = "0", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 958, DateTimeKind.Local), HostCode = "PRE-EMP1", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "PRE-EMPLOYMENT PACKAGE #1", Remarks = "", Type = "0", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 958, DateTimeKind.Local) },
-                        new { Code = "URINA", Category = "S", CostCenter = "LAB", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 958, DateTimeKind.Local), HostCode = "URINA", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "URINALYSIS", Remarks = "", Type = "T", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 958, DateTimeKind.Local) }
+                        new { Code = "IV_IN", Description = "Inventory In" }
                     );
                 });
 
@@ -204,25 +86,10 @@ namespace CloudImsCommon.Migrations
                         .HasColumnName("pf_icon_type")
                         .HasMaxLength(10);
 
-                    b.Property<string>("ModuleID")
-                        .IsRequired()
-                        .HasColumnName("pf_module")
-                        .HasMaxLength(10);
-
-                    b.Property<string>("ModuleRouteAttribute")
-                        .IsRequired()
-                        .HasColumnName("pf_module_route")
-                        .HasMaxLength(10);
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("pf_folder_name")
                         .HasMaxLength(100);
-
-                    b.Property<string>("ProgramRootID")
-                        .IsRequired()
-                        .HasColumnName("pf_root")
-                        .HasMaxLength(10);
 
                     b.Property<string>("RouteAttribute")
                         .IsRequired()
@@ -234,17 +101,13 @@ namespace CloudImsCommon.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ProgramRootID");
-
                     b.ToTable("program_folder");
 
                     b.HasData(
-                        new { ID = "GENSM", ModuleID = "GEN", ModuleRouteAttribute = "gen", Name = "Sample Management", ProgramRootID = "PRG", RouteAttribute = "sample-management", SequenceNo = 10 },
-                        new { ID = "GENRM", ModuleID = "GEN", ModuleRouteAttribute = "gen", Name = "Result Management", ProgramRootID = "PRG", RouteAttribute = "result-management", SequenceNo = 10 },
-                        new { ID = "BBSM", ModuleID = "BB", ModuleRouteAttribute = "gen", Name = "Sample Management", ProgramRootID = "PRG", RouteAttribute = "sample-management", SequenceNo = 10 },
-                        new { ID = "BBRM", ModuleID = "BB", ModuleRouteAttribute = "bb", Name = "Result Management", ProgramRootID = "PRG", RouteAttribute = "result-management", SequenceNo = 10 },
-                        new { ID = "APSM", ModuleID = "AP", ModuleRouteAttribute = "ap", Name = "Sample Management", ProgramRootID = "PRG", RouteAttribute = "sample-management", SequenceNo = 10 },
-                        new { ID = "APRM", ModuleID = "AP", ModuleRouteAttribute = "ap", Name = "Result Management", ProgramRootID = "PRG", RouteAttribute = "result-management", SequenceNo = 20 }
+                        new { ID = "DASH", Name = "Dashboard", RouteAttribute = "dashboard", SequenceNo = 0 },
+                        new { ID = "IVM", Name = "Inventory Management", RouteAttribute = "inventory-management", SequenceNo = 10 },
+                        new { ID = "DIC", Name = "Data Dictionary", RouteAttribute = "data-dictionary", SequenceNo = 20 },
+                        new { ID = "UM", Name = "User Management", RouteAttribute = "user-management", SequenceNo = 30 }
                     );
                 });
 
@@ -282,11 +145,6 @@ namespace CloudImsCommon.Migrations
                         .HasColumnName("pm_icon_type")
                         .HasMaxLength(10);
 
-                    b.Property<string>("ModuleRouteAttribute")
-                        .IsRequired()
-                        .HasColumnName("pm_module_route")
-                        .HasMaxLength(10);
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("pm_name")
@@ -307,49 +165,16 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("program_menu");
 
                     b.HasData(
-                        new { ID = "GENSM_SAMREC", ActionRouteAttribute = "index", ControllerRouteAttribute = "sample-reception", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "gen", Name = "Sample Reception", ProgramFolderID = "GENSM", SequenceNo = 10 },
-                        new { ID = "GENSM_SAMCHK", ActionRouteAttribute = "index", ControllerRouteAttribute = "sample-checkin", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "gen", Name = "Sample Check-In", ProgramFolderID = "GENSM", SequenceNo = 20 },
-                        new { ID = "GENSM_REJSAM", ActionRouteAttribute = "index", ControllerRouteAttribute = "reject -sample", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "gen", Name = "Reject Sample", ProgramFolderID = "GENSM", SequenceNo = 30 },
-                        new { ID = "GENSM_ADDELO", ActionRouteAttribute = "index", ControllerRouteAttribute = "add-delete-lab-order", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "gen", Name = "Add/Delete Lab Order", ProgramFolderID = "GENSM", SequenceNo = 40 },
-                        new { ID = "GENSM_DELLN", ActionRouteAttribute = "index", ControllerRouteAttribute = "delete-lab-number", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "gen", Name = "Delete Lab Number", ProgramFolderID = "GENSM", SequenceNo = 50 },
-                        new { ID = "GENRM_RESENT", ActionRouteAttribute = "index", ControllerRouteAttribute = "result-entry", FolderRouteAttribute = "result-management", ModuleRouteAttribute = "gen", Name = "Result Entry", ProgramFolderID = "GENRM", SequenceNo = 10 },
-                        new { ID = "GENRM_FPATREC", ActionRouteAttribute = "index", ControllerRouteAttribute = "find-patient-record", FolderRouteAttribute = "result-management", ModuleRouteAttribute = "gen", Name = "Find Patient Record", ProgramFolderID = "GENRM", SequenceNo = 20 },
-                        new { ID = "BBSM_SAMREC", ActionRouteAttribute = "index", ControllerRouteAttribute = "sample-reception", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "bb", Name = "Sample Reception", ProgramFolderID = "BBSM", SequenceNo = 10 },
-                        new { ID = "BBSM_SAMCHK", ActionRouteAttribute = "index", ControllerRouteAttribute = "sample-checkin", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "bb", Name = "Sample Check-In", ProgramFolderID = "BBSM", SequenceNo = 20 },
-                        new { ID = "BBSM_REJSAM", ActionRouteAttribute = "index", ControllerRouteAttribute = "reject -sample", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "bb", Name = "Reject Sample", ProgramFolderID = "BBSM", SequenceNo = 30 },
-                        new { ID = "BBSM_ADDELO", ActionRouteAttribute = "index", ControllerRouteAttribute = "add-delete-lab-order", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "bb", Name = "Add/Delete Lab Order", ProgramFolderID = "BBSM", SequenceNo = 40 },
-                        new { ID = "BBSM_DELLN", ActionRouteAttribute = "index", ControllerRouteAttribute = "delete-lab-number", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "bb", Name = "Delete Lab Number", ProgramFolderID = "BBSM", SequenceNo = 50 },
-                        new { ID = "BBRM_RESENT", ActionRouteAttribute = "index", ControllerRouteAttribute = "result-entry", FolderRouteAttribute = "result-management", ModuleRouteAttribute = "bb", Name = "Result Entry", ProgramFolderID = "BBRM", SequenceNo = 10 },
-                        new { ID = "BBRM_FPATREC", ActionRouteAttribute = "index", ControllerRouteAttribute = "find-patient-record", FolderRouteAttribute = "result-management", ModuleRouteAttribute = "gen", Name = "Find Patient Record", ProgramFolderID = "BBRM", SequenceNo = 20 },
-                        new { ID = "APSM_SAMREC", ActionRouteAttribute = "index", ControllerRouteAttribute = "sample-reception", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "ap", Name = "Sample Reception", ProgramFolderID = "APSM", SequenceNo = 10 },
-                        new { ID = "APSM_BLKSLD", ActionRouteAttribute = "index", ControllerRouteAttribute = "block-and-slide", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "ap", Name = "Block & Slide", ProgramFolderID = "APSM", SequenceNo = 20 },
-                        new { ID = "APRM_RESENT", ActionRouteAttribute = "index", ControllerRouteAttribute = "ap-result-entry", FolderRouteAttribute = "result-management", ModuleRouteAttribute = "ap", Name = "AP Result Entry", ProgramFolderID = "APRM", SequenceNo = 10 },
-                        new { ID = "APRM_PAPRES", ActionRouteAttribute = "index", ControllerRouteAttribute = "pap-smear-result-entry", FolderRouteAttribute = "result-management", ModuleRouteAttribute = "ap", Name = "Pap Smear Result Enter", ProgramFolderID = "APRM", SequenceNo = 20 }
-                    );
-                });
-
-            modelBuilder.Entity("CloudImsCommon.Models.ProgramRoot", b =>
-                {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("pr_id")
-                        .HasMaxLength(10);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("pr_name")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("SequenceNo")
-                        .HasColumnName("pr_seqno");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("program_root");
-
-                    b.HasData(
-                        new { ID = "PRG", Name = "Program", SequenceNo = 100 },
-                        new { ID = "SM", Name = "System Management", SequenceNo = 200 }
+                        new { ID = "IVM_IN", ActionRouteAttribute = "index", ControllerRouteAttribute = "inventory-in", FolderRouteAttribute = "inventory-management", Name = "Inventory In", ProgramFolderID = "IVM", SequenceNo = 10 },
+                        new { ID = "IVM_OUT", ActionRouteAttribute = "index", ControllerRouteAttribute = "inventory-out", FolderRouteAttribute = "inventory-management", Name = "Inventory Out", ProgramFolderID = "IVM", SequenceNo = 20 },
+                        new { ID = "DIC_UNIT", ActionRouteAttribute = "index", ControllerRouteAttribute = "unit", FolderRouteAttribute = "data-dictionary", Name = "Unit", ProgramFolderID = "DIC", SequenceNo = 10 },
+                        new { ID = "DIC_SUP", ActionRouteAttribute = "index", ControllerRouteAttribute = "supplier", FolderRouteAttribute = "data-dictionary", Name = "Supplier", ProgramFolderID = "DIC", SequenceNo = 20 },
+                        new { ID = "DIC_MANU", ActionRouteAttribute = "index", ControllerRouteAttribute = "manufacturer", FolderRouteAttribute = "data-dictionary", Name = "Manufacturer", ProgramFolderID = "DIC", SequenceNo = 30 },
+                        new { ID = "DIC_ITEM", ActionRouteAttribute = "index", ControllerRouteAttribute = "item-master", FolderRouteAttribute = "data-dictionary", Name = "Item Master", ProgramFolderID = "DIC", SequenceNo = 40 },
+                        new { ID = "DIC_ITEMGRP", ActionRouteAttribute = "index", ControllerRouteAttribute = "item-group", FolderRouteAttribute = "data-dictionary", Name = "Item Group", ProgramFolderID = "DIC", SequenceNo = 50 },
+                        new { ID = "UM_USERACC", ActionRouteAttribute = "index", ControllerRouteAttribute = "user-account", FolderRouteAttribute = "user-management", Name = "User Account", ProgramFolderID = "UM", SequenceNo = 10 },
+                        new { ID = "UM_USERGRP", ActionRouteAttribute = "index", ControllerRouteAttribute = "user-group", FolderRouteAttribute = "user-management", Name = "User Group", ProgramFolderID = "UM", SequenceNo = 20 },
+                        new { ID = "UM_USERPROF", ActionRouteAttribute = "index", ControllerRouteAttribute = "user-profile", FolderRouteAttribute = "user-management", Name = "User Profile", ProgramFolderID = "UM", SequenceNo = 30 }
                     );
                 });
 
@@ -446,19 +271,18 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 939, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 941, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" },
-                        new { UserID = "FUR", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 941, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 941, DateTimeKind.Local), UserName = "FLORANTE U. REGUIS" },
-                        new { UserID = "FGC", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 941, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 941, DateTimeKind.Local), UserName = "FROILAN G. CUIZON" },
-                        new { UserID = "MLS", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 941, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 941, DateTimeKind.Local), UserName = "MARKWIN L. SORIANO" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 22, 19, 38, 27, 569, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 22, 19, 38, 27, 570, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 
             modelBuilder.Entity("CloudImsCommon.Models.UserAccountGroup", b =>
                 {
                     b.Property<string>("UserAccountID")
+                        .HasColumnName("uag_user_id")
                         .HasMaxLength(20);
 
                     b.Property<string>("UserGroupID")
+                        .HasColumnName("uag_group_id")
                         .HasMaxLength(20);
 
                     b.HasKey("UserAccountID", "UserGroupID");
@@ -468,8 +292,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account_group");
 
                     b.HasData(
-                        new { UserAccountID = "SYSAD", UserGroupID = "GENADMIN" },
-                        new { UserAccountID = "SYSAD", UserGroupID = "BBADMIN" }
+                        new { UserAccountID = "SYSAD", UserGroupID = "ADMIN" }
                     );
                 });
 
@@ -479,11 +302,6 @@ namespace CloudImsCommon.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("ug_id")
                         .HasMaxLength(20);
-
-                    b.Property<string>("ModuleID")
-                        .IsRequired()
-                        .HasColumnName("ug_module")
-                        .HasMaxLength(10);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -495,8 +313,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_group");
 
                     b.HasData(
-                        new { ID = "GENADMIN", ModuleID = "GEN", Name = "SYSTEM ADMINISTRATORS (GENLAB)" },
-                        new { ID = "BBADMIN", ModuleID = "BB", Name = "SYSTEM ADMINISTRATORS (BLOOD BANK)" }
+                        new { ID = "ADMIN", Name = "SYSTEM ADMINISTRATORS" }
                     );
                 });
 
@@ -514,32 +331,20 @@ namespace CloudImsCommon.Migrations
 
                     b.HasAlternateKey("ProgramMenuID", "UserGroupID");
 
-                    b.ToTable("user_group_programs");
+                    b.ToTable("user_group_program");
 
                     b.HasData(
-                        new { UserGroupID = "GENADMIN", ProgramMenuID = "BBSM_SAMREC" },
-                        new { UserGroupID = "GENADMIN", ProgramMenuID = "BBSM_SAMCHK" },
-                        new { UserGroupID = "GENADMIN", ProgramMenuID = "BBSM_REJSAM" },
-                        new { UserGroupID = "GENADMIN", ProgramMenuID = "BBSM_ADDELO" },
-                        new { UserGroupID = "GENADMIN", ProgramMenuID = "BBSM_DELLN" },
-                        new { UserGroupID = "GENADMIN", ProgramMenuID = "BBRM_RESENT" },
-                        new { UserGroupID = "GENADMIN", ProgramMenuID = "BBRM_FPATREC" },
-                        new { UserGroupID = "BBADMIN", ProgramMenuID = "BBSM_SAMREC" },
-                        new { UserGroupID = "BBADMIN", ProgramMenuID = "BBSM_SAMCHK" },
-                        new { UserGroupID = "BBADMIN", ProgramMenuID = "BBSM_REJSAM" },
-                        new { UserGroupID = "BBADMIN", ProgramMenuID = "BBSM_ADDELO" },
-                        new { UserGroupID = "BBADMIN", ProgramMenuID = "BBSM_DELLN" },
-                        new { UserGroupID = "BBADMIN", ProgramMenuID = "BBRM_RESENT" },
-                        new { UserGroupID = "BBADMIN", ProgramMenuID = "BBRM_FPATREC" }
+                        new { UserGroupID = "ADMIN", ProgramMenuID = "IVM_IN" },
+                        new { UserGroupID = "ADMIN", ProgramMenuID = "IVM_OUT" },
+                        new { UserGroupID = "ADMIN", ProgramMenuID = "DIC_UNIT" },
+                        new { UserGroupID = "ADMIN", ProgramMenuID = "DIC_SUP" },
+                        new { UserGroupID = "ADMIN", ProgramMenuID = "DIC_MANU" },
+                        new { UserGroupID = "ADMIN", ProgramMenuID = "DIC_ITEM" },
+                        new { UserGroupID = "ADMIN", ProgramMenuID = "DIC_ITEMGRP" },
+                        new { UserGroupID = "ADMIN", ProgramMenuID = "UM_USERACC" },
+                        new { UserGroupID = "ADMIN", ProgramMenuID = "UM_USERGRP" },
+                        new { UserGroupID = "ADMIN", ProgramMenuID = "UM_USERPROF" }
                     );
-                });
-
-            modelBuilder.Entity("CloudImsCommon.Models.ProgramFolder", b =>
-                {
-                    b.HasOne("CloudImsCommon.Models.ProgramRoot", "ProgramRoot")
-                        .WithMany()
-                        .HasForeignKey("ProgramRootID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CloudImsCommon.Models.ProgramMenu", b =>

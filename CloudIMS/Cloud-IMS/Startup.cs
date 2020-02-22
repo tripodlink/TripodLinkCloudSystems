@@ -1,11 +1,3 @@
-using AnatomicalPathology.Controllers;
-using AnatomicalPathology.ResultManagement.ApResultEntry.Controllers;
-using AnatomicalPathology.ResultManagement.PapSmearResultEntry.Controllers;
-using AnatomicalPathology.SampleManagement.ApSampleReception.Controllers;
-using AnatomicalPathology.SampleManagement.BlockAndSlide.Controllers;
-using BloodBank.Controllers;
-using BloodBank.DonorManagement.RegisterDonor.Controllers;
-using BloodBank.ResultManagement.ResultEntry.Controllers;
 using CloudImsCommon.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -38,16 +30,16 @@ namespace CloudIms
             services.AddMvc()
 
                 //AP Assemblies
-                .AddApplicationPart(typeof(ApLandingPageController).Assembly)
-                .AddApplicationPart(typeof(BlockAndSlideController).Assembly)
-                .AddApplicationPart(typeof(ApSampleReceptionController).Assembly)
-                .AddApplicationPart(typeof(ApResultEntryController).Assembly)
-                .AddApplicationPart(typeof(PapSmearResultEntryController).Assembly)
+                //.AddApplicationPart(typeof(ApLandingPageController).Assembly)
+                //.AddApplicationPart(typeof(BlockAndSlideController).Assembly)
+                //.AddApplicationPart(typeof(ApSampleReceptionController).Assembly)
+                //.AddApplicationPart(typeof(ApResultEntryController).Assembly)
+                //.AddApplicationPart(typeof(PapSmearResultEntryController).Assembly)
 
                 //Blood Bank Assemblies
-                .AddApplicationPart(typeof(BbLandingPageController).Assembly)
-                .AddApplicationPart(typeof(RegisterDonorController).Assembly)
-                .AddApplicationPart(typeof(BloodBankResultEntryController).Assembly)
+                //.AddApplicationPart(typeof(BbLandingPageController).Assembly)
+                //.AddApplicationPart(typeof(RegisterDonorController).Assembly)
+                //.AddApplicationPart(typeof(BloodBankResultEntryController).Assembly)
 
                 //Add all controllers
                 .AddControllersAsServices();

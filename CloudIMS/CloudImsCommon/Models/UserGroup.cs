@@ -21,11 +21,5 @@ namespace CloudImsCommon.Models
         [MaxLength(100)]
         [Required]
         public String Name { get; set; }
-
-
-        [Column("ug_module")]
-        [MaxLength(10)]
-        [Required]
-        public String ModuleID { get; set; }
     }
 }

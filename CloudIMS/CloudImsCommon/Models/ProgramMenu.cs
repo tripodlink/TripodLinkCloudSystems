@@ -30,11 +30,6 @@ namespace CloudImsCommon.Models
         public ProgramFolder ProgramFolder { get; set; }
 
 
-        [Column("pm_module_route")]
-        [MaxLength(10)]
-        [Required]
-        public String ModuleRouteAttribute { get; set; }
-
         [Column("pm_folder_route")]
         [MaxLength(25)]
         [Required]
