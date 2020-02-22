@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Cloud CMS</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -31,6 +32,25 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+
+            @{
+                try
+                {
+                    String menuStr = ViewData["SideBarMenu"].ToString();
+
+                    IEnumerable<CloudImsCommon.Models.ProgramMenu> menus = CloudImsCommon.Extensions.SideBarMenu.GetSideBarMenus(menuStr);
+
+                    foreach (var menu in menus)
+                    {
+                        <a href="#" class="btn-danger">@menu.ID</a>
+                        <a href="#" class="btn-light">@menu.Name</a>
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+
             @RenderBody()
         </main>
     </div>

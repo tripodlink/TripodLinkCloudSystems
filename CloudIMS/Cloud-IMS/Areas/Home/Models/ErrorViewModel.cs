@@ -1,6 +1,6 @@
 using System;
 
-namespace CloudCms.Areas.Home.Models
+namespace CloudIms.Areas.Home.Models
 {
     public class ErrorViewModel
     {

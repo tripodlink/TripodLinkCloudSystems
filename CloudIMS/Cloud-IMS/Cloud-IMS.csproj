@@ -24,10 +24,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ANATOMICAL PATHOLOGY\ApLandingPage\ApLandingPage.csproj" />
+    <ProjectReference Include="..\ANATOMICAL PATHOLOGY\Result Management\ApResultEntry\ApResultEntry.csproj" />
+    <ProjectReference Include="..\ANATOMICAL PATHOLOGY\Result Management\PapSmearResultEntry\PapSmearResultEntry.csproj" />
+    <ProjectReference Include="..\ANATOMICAL PATHOLOGY\Sample Management\ApSampleReception\ApSampleReception.csproj" />
+    <ProjectReference Include="..\ANATOMICAL PATHOLOGY\Sample Management\BlockAndSlide\BlockAndSlide.csproj" />
     <ProjectReference Include="..\BLOOD BANK\BbLandingPage\BbLandingPage.csproj" />
     <ProjectReference Include="..\BLOOD BANK\DonorManagement\DonationRegistration\RegisterDonor.csproj" />
     <ProjectReference Include="..\BLOOD BANK\ResultManagement\BloodBankResultEntry\BloodBankResultEntry.csproj" />
+    <ProjectReference Include="..\CloudImsCommon\CloudImsCommon.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 
 

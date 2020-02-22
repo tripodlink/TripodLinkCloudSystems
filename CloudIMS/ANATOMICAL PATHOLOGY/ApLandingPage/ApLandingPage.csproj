@@ -7,6 +7,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\CloudImsCommon\CloudImsCommon.csproj" />
+    <ProjectReference Include="..\Result Management\ApResultEntry\ApResultEntry.csproj" />
+    <ProjectReference Include="..\Result Management\PapSmearResultEntry\PapSmearResultEntry.csproj" />
+    <ProjectReference Include="..\Sample Management\ApSampleReception\ApSampleReception.csproj" />
+    <ProjectReference Include="..\Sample Management\BlockAndSlide\BlockAndSlide.csproj" />
   </ItemGroup>
 
 

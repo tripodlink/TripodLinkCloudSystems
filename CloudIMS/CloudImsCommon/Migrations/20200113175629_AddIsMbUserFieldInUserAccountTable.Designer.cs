@@ -74,7 +74,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("company");
 
                     b.HasData(
-                        new { ID = "000", CompanyID = "NEW", CompanyName = "NEW CLOUD CMS CUSTOMER" }
+                        new { ID = "000", CompanyID = "NEW", CompanyName = "NEW CLOUD IMS CUSTOMER" }
                     );
                 });
 

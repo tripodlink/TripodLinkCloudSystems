@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using CloudImsCommon.Extensions;
 using CloudImsCommon.Models;
 using System;
 using System.Collections.Generic;
@@ -15,11 +14,10 @@ namespace CloudImsCommon.Database
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
+            
         }
 
-        public static AppDbContext CreateInstance(String companyId)
-        {
-
+        public static String GetConnectionString() {
             var projectDirectory = Directory.GetCurrentDirectory();
             var executableDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
@@ -28,20 +26,14 @@ namespace CloudImsCommon.Database
             .AddJsonFile("appsettings.json")
             .Build();
 
-            var connectionString = configuration.GetConnectionString("CcmsConnection");
-            connectionString = connectionString.Replace("<COMPANY_ID>", companyId.ToLower());
+            var connectionString =  configuration.GetConnectionString("ImsConnection");
 
-            DbContextOptionsBuilder<AppDbContext> builder = new DbContextOptionsBuilder<AppDbContext>();
-            builder.UseMySQL(connectionString);
-
-            var dbcontext = new AppDbContext(builder.Options);
-
-            return dbcontext;
+            return connectionString;
         }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+        {          
+            base.OnModelCreating(modelBuilder);            
             modelBuilder.Seed();
         }
         
@@ -53,6 +45,7 @@ namespace CloudImsCommon.Database
         public DbSet<Clinician> Clinicians { get; set; }
         public DbSet<Item> OrderItems { get; set; }
         public DbSet<UnitCode> UnitCodes { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
 
         //User Account tables
         public DbSet<UserAccount> UserAccounts { get; set; }

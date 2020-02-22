@@ -3,14 +3,16 @@ using System;
 using CloudImsCommon.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CloudImsCommon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200221145417_AddApProgramMenus")]
+    partial class AddApProgramMenus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,10 +180,10 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("item_master");
 
                     b.HasData(
-                        new { Code = "CBC", Category = "S", CostCenter = "LAB", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 957, DateTimeKind.Local), HostCode = "CBC", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "COMPLETE BLOOD COUNT", Remarks = "", Type = "T", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 957, DateTimeKind.Local) },
-                        new { Code = "FBS", Category = "S", CostCenter = "LAB", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 958, DateTimeKind.Local), HostCode = "FBS", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "FASTING BLOOD SUGAR", Remarks = "", Type = "T", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 958, DateTimeKind.Local) },
-                        new { Code = "PRE-EMP-1", Category = "P", CostCenter = "0", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 958, DateTimeKind.Local), HostCode = "PRE-EMP1", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "PRE-EMPLOYMENT PACKAGE #1", Remarks = "", Type = "0", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 958, DateTimeKind.Local) },
-                        new { Code = "URINA", Category = "S", CostCenter = "LAB", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 958, DateTimeKind.Local), HostCode = "URINA", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "URINALYSIS", Remarks = "", Type = "T", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 958, DateTimeKind.Local) }
+                        new { Code = "CBC", Category = "S", CostCenter = "LAB", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 21, 22, 54, 16, 448, DateTimeKind.Local), HostCode = "CBC", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "COMPLETE BLOOD COUNT", Remarks = "", Type = "T", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 21, 22, 54, 16, 448, DateTimeKind.Local) },
+                        new { Code = "FBS", Category = "S", CostCenter = "LAB", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 21, 22, 54, 16, 448, DateTimeKind.Local), HostCode = "FBS", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "FASTING BLOOD SUGAR", Remarks = "", Type = "T", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 21, 22, 54, 16, 448, DateTimeKind.Local) },
+                        new { Code = "PRE-EMP-1", Category = "P", CostCenter = "0", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 21, 22, 54, 16, 448, DateTimeKind.Local), HostCode = "PRE-EMP1", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "PRE-EMPLOYMENT PACKAGE #1", Remarks = "", Type = "0", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 21, 22, 54, 16, 448, DateTimeKind.Local) },
+                        new { Code = "URINA", Category = "S", CostCenter = "LAB", CreatedBy = "SYSAD", CreatedOn = new DateTime(2020, 2, 21, 22, 54, 16, 448, DateTimeKind.Local), HostCode = "URINA", IsActive = (byte)1, IsEditablePrice = (byte)0, Name = "URINALYSIS", Remarks = "", Type = "T", UpdatedBy = "SYSAD", UpdatedOn = new DateTime(2020, 2, 21, 22, 54, 16, 448, DateTimeKind.Local) }
                     );
                 });
 
@@ -314,11 +316,11 @@ namespace CloudImsCommon.Migrations
                         new { ID = "GENSM_DELLN", ActionRouteAttribute = "index", ControllerRouteAttribute = "delete-lab-number", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "gen", Name = "Delete Lab Number", ProgramFolderID = "GENSM", SequenceNo = 50 },
                         new { ID = "GENRM_RESENT", ActionRouteAttribute = "index", ControllerRouteAttribute = "result-entry", FolderRouteAttribute = "result-management", ModuleRouteAttribute = "gen", Name = "Result Entry", ProgramFolderID = "GENRM", SequenceNo = 10 },
                         new { ID = "GENRM_FPATREC", ActionRouteAttribute = "index", ControllerRouteAttribute = "find-patient-record", FolderRouteAttribute = "result-management", ModuleRouteAttribute = "gen", Name = "Find Patient Record", ProgramFolderID = "GENRM", SequenceNo = 20 },
-                        new { ID = "BBSM_SAMREC", ActionRouteAttribute = "index", ControllerRouteAttribute = "sample-reception", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "bb", Name = "Sample Reception", ProgramFolderID = "BBSM", SequenceNo = 10 },
-                        new { ID = "BBSM_SAMCHK", ActionRouteAttribute = "index", ControllerRouteAttribute = "sample-checkin", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "bb", Name = "Sample Check-In", ProgramFolderID = "BBSM", SequenceNo = 20 },
-                        new { ID = "BBSM_REJSAM", ActionRouteAttribute = "index", ControllerRouteAttribute = "reject -sample", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "bb", Name = "Reject Sample", ProgramFolderID = "BBSM", SequenceNo = 30 },
-                        new { ID = "BBSM_ADDELO", ActionRouteAttribute = "index", ControllerRouteAttribute = "add-delete-lab-order", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "bb", Name = "Add/Delete Lab Order", ProgramFolderID = "BBSM", SequenceNo = 40 },
-                        new { ID = "BBSM_DELLN", ActionRouteAttribute = "index", ControllerRouteAttribute = "delete-lab-number", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "bb", Name = "Delete Lab Number", ProgramFolderID = "BBSM", SequenceNo = 50 },
+                        new { ID = "BBSM_SAMREC", ActionRouteAttribute = "index", ControllerRouteAttribute = "sample-reception", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "gen", Name = "Sample Reception", ProgramFolderID = "BBSM", SequenceNo = 10 },
+                        new { ID = "BBSM_SAMCHK", ActionRouteAttribute = "index", ControllerRouteAttribute = "sample-checkin", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "gen", Name = "Sample Check-In", ProgramFolderID = "BBSM", SequenceNo = 20 },
+                        new { ID = "BBSM_REJSAM", ActionRouteAttribute = "index", ControllerRouteAttribute = "reject -sample", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "gen", Name = "Reject Sample", ProgramFolderID = "BBSM", SequenceNo = 30 },
+                        new { ID = "BBSM_ADDELO", ActionRouteAttribute = "index", ControllerRouteAttribute = "add-delete-lab-order", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "gen", Name = "Add/Delete Lab Order", ProgramFolderID = "BBSM", SequenceNo = 40 },
+                        new { ID = "BBSM_DELLN", ActionRouteAttribute = "index", ControllerRouteAttribute = "delete-lab-number", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "gen", Name = "Delete Lab Number", ProgramFolderID = "BBSM", SequenceNo = 50 },
                         new { ID = "BBRM_RESENT", ActionRouteAttribute = "index", ControllerRouteAttribute = "result-entry", FolderRouteAttribute = "result-management", ModuleRouteAttribute = "bb", Name = "Result Entry", ProgramFolderID = "BBRM", SequenceNo = 10 },
                         new { ID = "BBRM_FPATREC", ActionRouteAttribute = "index", ControllerRouteAttribute = "find-patient-record", FolderRouteAttribute = "result-management", ModuleRouteAttribute = "gen", Name = "Find Patient Record", ProgramFolderID = "BBRM", SequenceNo = 20 },
                         new { ID = "APSM_SAMREC", ActionRouteAttribute = "index", ControllerRouteAttribute = "sample-reception", FolderRouteAttribute = "sample-management", ModuleRouteAttribute = "ap", Name = "Sample Reception", ProgramFolderID = "APSM", SequenceNo = 10 },
@@ -351,23 +353,6 @@ namespace CloudImsCommon.Migrations
                         new { ID = "PRG", Name = "Program", SequenceNo = 100 },
                         new { ID = "SM", Name = "System Management", SequenceNo = 200 }
                     );
-                });
-
-            modelBuilder.Entity("CloudImsCommon.Models.Supplier", b =>
-                {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("sup_id")
-                        .HasMaxLength(10);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("sup_name")
-                        .HasMaxLength(100);
-
-                    b.HasKey("ID");
-
-                    b.ToTable("supplier");
                 });
 
             modelBuilder.Entity("CloudImsCommon.Models.UnitCode", b =>
@@ -446,10 +431,10 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 939, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 941, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" },
-                        new { UserID = "FUR", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 941, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 941, DateTimeKind.Local), UserName = "FLORANTE U. REGUIS" },
-                        new { UserID = "FGC", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 941, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 941, DateTimeKind.Local), UserName = "FROILAN G. CUIZON" },
-                        new { UserID = "MLS", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 941, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 22, 16, 43, 44, 941, DateTimeKind.Local), UserName = "MARKWIN L. SORIANO" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 21, 22, 54, 16, 427, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 21, 22, 54, 16, 428, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" },
+                        new { UserID = "FUR", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 21, 22, 54, 16, 428, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 21, 22, 54, 16, 428, DateTimeKind.Local), UserName = "FLORANTE U. REGUIS" },
+                        new { UserID = "FGC", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 21, 22, 54, 16, 428, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 21, 22, 54, 16, 428, DateTimeKind.Local), UserName = "FROILAN G. CUIZON" },
+                        new { UserID = "MLS", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 21, 22, 54, 16, 428, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 21, 22, 54, 16, 428, DateTimeKind.Local), UserName = "MARKWIN L. SORIANO" }
                     );
                 });
 

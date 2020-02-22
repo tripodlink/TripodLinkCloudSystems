@@ -11,21 +11,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CloudImsCommon.Database;
-using CloudImsCommon.Extensions;
 using CloudImsCommon.Models;
+using CloudImsCommon.Extensions;
 
 namespace CloudImsCommon.Debug.Controllers
 {
     [Area("debug")]
-    public class AutoLoginController : AppTenantController
+    public class AutoLoginController : AppController 
     {
-        private readonly ILogger<AutoLoginController> _logger;
-
         public string ReturnUrl { get; private set; }
 
-        public AutoLoginController(ILogger<AutoLoginController> logger)
+        public AutoLoginController(AppDbContext dbContext, ILogger<AutoLoginController> logger)
+            : base(dbContext, logger)
         {
-            _logger = logger;
         }
 
         /// <summary>
@@ -41,11 +39,10 @@ namespace CloudImsCommon.Debug.Controllers
             var claims = new List<Claim>()
                             {
                                 new Claim(ClaimTypes.Name, "SYSAD"),
-                                new Claim("CompanyID", "TGSC"),
                                 new Claim("UUID", Guid.NewGuid().ToString()),
                             };
 
-            var identity = new ClaimsIdentity(claims, "CloudCms");
+            var identity = new ClaimsIdentity(claims, "CloudIms");
             var principal = new ClaimsPrincipal(identity);
 
             HttpContext.SignInAsync(

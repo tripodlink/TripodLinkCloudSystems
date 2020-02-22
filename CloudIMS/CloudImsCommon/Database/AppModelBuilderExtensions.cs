@@ -30,7 +30,9 @@ namespace CloudImsCommon.Database
             //Blood Bank
             SeedBloodBankSampleManagementProgramMenus(modelBuilder);
             SeedBloodBankResultManagementProgramMenus(modelBuilder);
-
+            //AP
+            SeedApSampleManagementProgramMenus(modelBuilder);
+            SeedApResultManagementProgramMenus(modelBuilder);
 
             //Dictionary Seeds
             SeedClinicians(modelBuilder);
@@ -48,7 +50,7 @@ namespace CloudImsCommon.Database
         private static void SeedCompany(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Company>().HasData(
-               new Company { ID = "000", CompanyID = "NEW", CompanyName = "NEW CLOUD CMS CUSTOMER" }
+               new Company { ID = "000", CompanyID = "NEW", CompanyName = "NEW CLOUD IMS CUSTOMER" }
                );
         }
 
@@ -161,6 +163,34 @@ namespace CloudImsCommon.Database
                );
         }
 
+        private static void SeedApSampleManagementProgramMenus(ModelBuilder modelBuilder)
+        {
+            //create Sample Management folder 
+            modelBuilder.Entity<ProgramFolder>().HasData(
+               new ProgramFolder { ID = "APSM", Name = "Sample Management", ProgramRootID = "PRG", ModuleID = "AP", ModuleRouteAttribute = "ap", RouteAttribute = "sample-management", SequenceNo = 10 }
+               );
+
+            //create Sample Management menu 
+            modelBuilder.Entity<ProgramMenu>().HasData(
+               new ProgramMenu { ID = "APSM_SAMREC", Name = "Sample Reception", ProgramFolderID = "APSM", ModuleRouteAttribute = "ap", FolderRouteAttribute = "sample-management", ControllerRouteAttribute = "sample-reception", ActionRouteAttribute = "index", SequenceNo = 10 },
+               new ProgramMenu { ID = "APSM_BLKSLD", Name = "Block & Slide", ProgramFolderID = "APSM", ModuleRouteAttribute = "ap", FolderRouteAttribute = "sample-management", ControllerRouteAttribute = "block-and-slide", ActionRouteAttribute = "index", SequenceNo = 20 }
+               );
+        }
+
+        private static void SeedApResultManagementProgramMenus(ModelBuilder modelBuilder)
+        {
+            //create Sample Management folder 
+            modelBuilder.Entity<ProgramFolder>().HasData(
+               new ProgramFolder { ID = "APRM", Name = "Result Management", ProgramRootID = "PRG", ModuleID = "AP", ModuleRouteAttribute = "ap", RouteAttribute = "result-management", SequenceNo = 20 }
+               );
+
+            //create Sample Management menu 
+            modelBuilder.Entity<ProgramMenu>().HasData(
+               new ProgramMenu { ID = "APRM_RESENT", Name = "AP Result Entry", ProgramFolderID = "APRM", ModuleRouteAttribute = "ap", FolderRouteAttribute = "result-management", ControllerRouteAttribute = "ap-result-entry", ActionRouteAttribute = "index", SequenceNo = 10 },
+               new ProgramMenu { ID = "APRM_PAPRES", Name = "Pap Smear Result Enter", ProgramFolderID = "APRM", ModuleRouteAttribute = "ap", FolderRouteAttribute = "result-management", ControllerRouteAttribute = "pap-smear-result-entry", ActionRouteAttribute = "index", SequenceNo = 20 }
+               );
+        }
+
         private static void SeedBloodBankSampleManagementProgramMenus(ModelBuilder modelBuilder)
         {
             //create Sample Management folder 
@@ -170,11 +200,11 @@ namespace CloudImsCommon.Database
 
             //create Sample Management menu 
             modelBuilder.Entity<ProgramMenu>().HasData(
-               new ProgramMenu { ID = "BBSM_SAMREC", Name = "Sample Reception", ProgramFolderID = "BBSM", ModuleRouteAttribute = "gen", FolderRouteAttribute = "sample-management" , ControllerRouteAttribute = "sample-reception", ActionRouteAttribute = "index", SequenceNo = 10 },
-               new ProgramMenu { ID = "BBSM_SAMCHK", Name = "Sample Check-In", ProgramFolderID = "BBSM", ModuleRouteAttribute = "gen", FolderRouteAttribute = "sample-management", ControllerRouteAttribute = "sample-checkin", ActionRouteAttribute = "index", SequenceNo = 20 },
-               new ProgramMenu { ID = "BBSM_REJSAM", Name = "Reject Sample", ProgramFolderID = "BBSM", ModuleRouteAttribute = "gen", FolderRouteAttribute = "sample-management", ControllerRouteAttribute = "reject -sample", ActionRouteAttribute = "index", SequenceNo = 30 },
-               new ProgramMenu { ID = "BBSM_ADDELO", Name = "Add/Delete Lab Order", ProgramFolderID = "BBSM", ModuleRouteAttribute = "gen", FolderRouteAttribute = "sample-management", ControllerRouteAttribute = "add-delete-lab-order", ActionRouteAttribute = "index", SequenceNo = 40 },
-               new ProgramMenu { ID = "BBSM_DELLN", Name = "Delete Lab Number", ProgramFolderID = "BBSM", ModuleRouteAttribute = "gen", FolderRouteAttribute = "sample-management", ControllerRouteAttribute = "delete-lab-number", ActionRouteAttribute = "index", SequenceNo = 50 }
+               new ProgramMenu { ID = "BBSM_SAMREC", Name = "Sample Reception", ProgramFolderID = "BBSM", ModuleRouteAttribute = "bb", FolderRouteAttribute = "sample-management" , ControllerRouteAttribute = "sample-reception", ActionRouteAttribute = "index", SequenceNo = 10 },
+               new ProgramMenu { ID = "BBSM_SAMCHK", Name = "Sample Check-In", ProgramFolderID = "BBSM", ModuleRouteAttribute = "bb", FolderRouteAttribute = "sample-management", ControllerRouteAttribute = "sample-checkin", ActionRouteAttribute = "index", SequenceNo = 20 },
+               new ProgramMenu { ID = "BBSM_REJSAM", Name = "Reject Sample", ProgramFolderID = "BBSM", ModuleRouteAttribute = "bb", FolderRouteAttribute = "sample-management", ControllerRouteAttribute = "reject -sample", ActionRouteAttribute = "index", SequenceNo = 30 },
+               new ProgramMenu { ID = "BBSM_ADDELO", Name = "Add/Delete Lab Order", ProgramFolderID = "BBSM", ModuleRouteAttribute = "bb", FolderRouteAttribute = "sample-management", ControllerRouteAttribute = "add-delete-lab-order", ActionRouteAttribute = "index", SequenceNo = 40 },
+               new ProgramMenu { ID = "BBSM_DELLN", Name = "Delete Lab Number", ProgramFolderID = "BBSM", ModuleRouteAttribute = "bb", FolderRouteAttribute = "sample-management", ControllerRouteAttribute = "delete-lab-number", ActionRouteAttribute = "index", SequenceNo = 50 }
                );
         }
 

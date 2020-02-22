@@ -13,8 +13,8 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using CloudImsCommon.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
-using CloudImsCommon.Extensions;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace CloudImsCommon
 {
@@ -30,13 +30,14 @@ namespace CloudImsCommon
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<AppTenantManager>();
+            services.AddDbContextPool<AppDbContext>(
+                options => options.UseMySQL(Configuration.GetConnectionString("ImsConnection")));
                        
             services.AddMvc();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                  .AddCookie(options =>
                  {
-                     options.Cookie.Name = "CloudCms";
+                     options.Cookie.Name = "CloudIms";
                      options.LoginPath = "/Home/Home/Home/Login";
                      options.ExpireTimeSpan = TimeSpan.FromMinutes(-1);
                      options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;

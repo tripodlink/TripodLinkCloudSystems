@@ -1,33 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using CloudIms.Areas.Home.Models;
+using CloudImsCommon.Database;
+using CloudImsCommon.Extensions;
+using CloudImsCommon.Models;
 using CloudImsCommon.Routing;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using CloudCms.Areas.Home.Models;
-using CloudImsCommon.Extensions;
-using CloudImsCommon.Database;
-using CloudImsCommon.Models;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Security.Claims;
 
-namespace CloudCms.Areas.Home.Controllers
+namespace CloudIms.Areas.Home.Controllers
 {
     [Area("home")]
     [Folder("home")]
-    public class HomeController : AppTenantController
+    public class HomeController : AppController
     {
-        private readonly ILogger<HomeController> _logger;
-
         public string ReturnUrl { get; private set; }
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(AppDbContext dbContext , ILogger<HomeController> logger)
+            :base(dbContext, logger)
         {
-            _logger = logger;
         }
 
         public IActionResult Index()
@@ -58,34 +55,46 @@ namespace CloudCms.Areas.Home.Controllers
         /// <summary>
         /// The action to login user.
         /// </summary>
-        /// <param name="companyID"></param>
         /// <param name="userID"></param>
         /// <param name="userPassword"></param>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login(String companyID, String userID, String userPassword, String moduleID)
+        public IActionResult Login(String userID, String userPassword, String moduleID)
         {
 
             try
             {
-                AppDbContext dbcontext = CreateDbContext(companyID);
-
-                UserAccount user = dbcontext.UserAccounts.Find(userID);
+                UserAccount user = DbContext.UserAccounts.Find(userID);
 
                 if (user != null)
                 {
                     if (user.Password == userPassword)
                     {
+                        List<ProgramMenu> menus = DbContext.ProgramMenus.Where(p => p.ModuleRouteAttribute == "ap").ToList();
+
+                        var menuStr = "";
+                        foreach (var menu in menus)
+                        {
+                            if (menuStr == "")
+                            {
+                                menuStr = "id^" + menu.ID + "|" + "name^" + menu.Name + "|";
+                            }
+                            else
+                            {
+                                menuStr += "~id^" + menu.ID + "|" + "name^" + menu.Name + "|";
+                            }
+                        }
+
                         var claims = new List<Claim>()
                             {
                                 new Claim(ClaimTypes.Name, userID),
                                 new Claim("UserID", userID),
-                                new Claim("CompanyID", companyID),
                                 new Claim("UUID", Guid.NewGuid().ToString()),
+                                new Claim("SideBarMenu", menuStr),
                             };
 
-                        var identity = new ClaimsIdentity(claims, "CloudCms");
+                        var identity = new ClaimsIdentity(claims, "CloudIms");
                         var principal = new ClaimsPrincipal(identity);
 
                         HttpContext.SignInAsync(

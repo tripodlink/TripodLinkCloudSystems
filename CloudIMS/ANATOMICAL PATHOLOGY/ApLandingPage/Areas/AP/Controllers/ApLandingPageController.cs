@@ -3,35 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using CloudImsCommon.Extensions;
 using CloudImsCommon.Models;
 using CloudImsCommon.Routing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using CloudImsCommon.Database;
+using CloudImsCommon.Extensions;
+using ApLandingPage.ViewModels;
 
 namespace AnatomicalPathology.Controllers
 {
     [Area("ap")]
-    [Route("[area]/ap-landing-page")]
-    [Route("[area]/")]
     [Authorize]
-    public class ApLandingPageController : AppTenantController
+    public class ApLandingPageController : AppController
     {
+        public ApLandingPageController(AppDbContext dbContext, ILogger<ApLandingPageController> logger)
+            : base(dbContext, logger)
+        {
+        }
+
+        [Route("[area]/")]
+        [Route("[area]/ap-landing-page")]
+        [Route("[area]/ap-landing-page/index")]
         public IActionResult Index()
         {
             IEnumerable<Claim> claims = HttpContext.User.Claims;
             String user_id = claims.First(x => x.Type == "UserID").Value;
-            String company_id = claims.First(x => x.Type == "CompanyID").Value;
 
-            var dbcontext = CreateDbContext(company_id);
-            UserAccount user = dbcontext.UserAccounts.Find(user_id);
+            UserAccount user = DbContext.UserAccounts.Find(user_id);
 
-            
+            List<ProgramMenu> menus = DbContext.ProgramMenus.Where(p => p.ModuleRouteAttribute == "ap").ToList();
+                      
+            var model = new ApLandingPageUserAccountFoldersViewModel(HttpContext);
+            model.UserAccount = user;
+            model.Menus = menus;
 
-            //var x = from folders in dbcontext.ProgramFolders
-                     
-            return View();
+            return View("index", model);
         }
 
     }

@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CloudImsCommon.Debug.Controllers;
+using CloudImsCommon.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApResultEntry
 {
@@ -25,8 +27,12 @@ namespace ApResultEntry
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Add AppDbContext
+            services.AddDbContextPool<AppDbContext>(
+                options => options.UseMySQL(AppDbContext.GetConnectionString()));
 
-            //Add AutoLoginController Assembly -> CloudCmsCommon
+
+            //Add AutoLoginController Assembly -> CloudImsCommon
             services.AddMvc()
                 .AddApplicationPart(typeof(AutoLoginController).Assembly)
                 .AddControllersAsServices();
@@ -35,7 +41,7 @@ namespace ApResultEntry
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                  .AddCookie(options =>
                  {
-                     options.Cookie.Name = "CloudCms";
+                     options.Cookie.Name = "CloudIms";
                      options.LoginPath = "/Debug/Login";
                      options.ExpireTimeSpan = TimeSpan.FromMinutes(-1);
                      options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
@@ -44,7 +50,7 @@ namespace ApResultEntry
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -57,6 +63,9 @@ namespace ApResultEntry
                 app.UseHsts();
             }
 
+            //ensure that database is in-sync with models
+            dbContext.Database.Migrate();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -64,13 +73,14 @@ namespace ApResultEntry
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{area=ap}/{folder=result-management}/{controller=ap-result-entry}/{action?}/{id?}");
+                    pattern: "{area=Home}/{folder=Home}/{controller=main}/{action=landing-page}/{id?}");
             });
+
         }
     }
 }

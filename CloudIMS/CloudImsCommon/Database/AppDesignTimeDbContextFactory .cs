@@ -17,11 +17,11 @@ namespace CloudImsCommon.Database
             .AddJsonFile("appsettings.json")
             .Build();
 
-            var connectionString = configuration.GetConnectionString("CcmsConnection");
-            connectionString = connectionString.Replace("<COMPANY_ID>", "tgsc");
+            var connectionString = configuration.GetConnectionString("ImsConnection");
 
             var builder = new DbContextOptionsBuilder<AppDbContext>();
             builder.UseMySQL(connectionString);
+
             return new AppDbContext(builder.Options);
         }
     }

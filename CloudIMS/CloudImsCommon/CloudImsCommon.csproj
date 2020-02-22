@@ -6,6 +6,7 @@
     <OutputType>Library</OutputType>
     <StartupObject />
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <AssemblyName>CloudImsCommon</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -49,6 +50,8 @@
     <Compile Remove="Migrations\20200121145403_testing_migration.Designer.cs" />
     <Compile Remove="Migrations\20200205152250_CreateUnitCodeTable.cs" />
     <Compile Remove="Migrations\20200205152250_CreateUnitCodeTable.Designer.cs" />
+    <Compile Remove="Migrations\20200221114731_AddSomeProperty.cs" />
+    <Compile Remove="Migrations\20200221114731_AddSomeProperty.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,6 +65,14 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.19" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 
 

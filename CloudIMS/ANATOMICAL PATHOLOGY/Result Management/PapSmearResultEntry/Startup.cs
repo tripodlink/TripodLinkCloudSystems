@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CloudImsCommon.Database;
 using CloudImsCommon.Debug.Controllers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +28,12 @@ namespace ApResultEntry
         public void ConfigureServices(IServiceCollection services)
         {
 
-            //Add AutoLoginController Assembly -> CloudCmsCommon
+            //Add AppDbContext
+            services.AddDbContextPool<AppDbContext>(
+                options => options.UseMySQL(AppDbContext.GetConnectionString()));
+
+
+            //Add AutoLoginController Assembly -> CloudImsCommon
             services.AddMvc()
                 .AddApplicationPart(typeof(AutoLoginController).Assembly)
                 .AddControllersAsServices();
@@ -35,7 +42,7 @@ namespace ApResultEntry
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                  .AddCookie(options =>
                  {
-                     options.Cookie.Name = "CloudCms";
+                     options.Cookie.Name = "CloudIms";
                      options.LoginPath = "/Debug/Login";
                      options.ExpireTimeSpan = TimeSpan.FromMinutes(-1);
                      options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
@@ -44,7 +51,7 @@ namespace ApResultEntry
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -56,6 +63,9 @@ namespace ApResultEntry
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //ensure that database is in-sync with models
+            dbContext.Database.Migrate();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -69,8 +79,9 @@ namespace ApResultEntry
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{area=ap}/{folder=result-management}/{controller=pap-smear-result-entry}/{action?}/{id?}");
+                    pattern: "{area=Home}/{folder=Home}/{controller=main}/{action=landing-page}/{id?}");
             });
+
         }
     }
 }

@@ -1,26 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AnatomicalPathology.Controllers;
+using AnatomicalPathology.ResultManagement.ApResultEntry.Controllers;
+using AnatomicalPathology.ResultManagement.PapSmearResultEntry.Controllers;
+using AnatomicalPathology.SampleManagement.ApSampleReception.Controllers;
+using AnatomicalPathology.SampleManagement.BlockAndSlide.Controllers;
+using BloodBank.Controllers;
+using BloodBank.DonorManagement.RegisterDonor.Controllers;
+using BloodBank.ResultManagement.ResultEntry.Controllers;
+using CloudImsCommon.Database;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.AspNetCore.Mvc.Razor;
-using CloudImsCommon.Database;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using CloudImsCommon.Extensions;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using BloodBank.DonorManagement.RegisterDonor.Controllers;
-using BloodBank.ResultManagement.ResultEntry.Controllers;
+using System;
 
-using BloodBank.Controllers;
-
-namespace CloudCms
+namespace CloudIms
 {
     public class Startup
     {
@@ -34,17 +30,19 @@ namespace CloudCms
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<AppTenantManager>();
 
-            
+            services.AddDbContextPool<AppDbContext>(
+                options => options.UseMySQL(AppDbContext.GetConnectionString()));
+
+
             services.AddMvc()
 
                 //AP Assemblies
-                //.AddApplicationPart(typeof(ApLandingPageController).Assembly)
-                //.AddApplicationPart(typeof(BlockAndSlideController).Assembly)
-                //.AddApplicationPart(typeof(ApSampleReceptionController).Assembly)
-                //.AddApplicationPart(typeof(ApResultEntryController).Assembly)
-                //.AddApplicationPart(typeof(PapSmearResultEntryController).Assembly)
+                .AddApplicationPart(typeof(ApLandingPageController).Assembly)
+                .AddApplicationPart(typeof(BlockAndSlideController).Assembly)
+                .AddApplicationPart(typeof(ApSampleReceptionController).Assembly)
+                .AddApplicationPart(typeof(ApResultEntryController).Assembly)
+                .AddApplicationPart(typeof(PapSmearResultEntryController).Assembly)
 
                 //Blood Bank Assemblies
                 .AddApplicationPart(typeof(BbLandingPageController).Assembly)
@@ -57,7 +55,7 @@ namespace CloudCms
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                  .AddCookie(options =>
                  {
-                     options.Cookie.Name = "CloudCms";
+                     options.Cookie.Name = "CloudIms";
                      options.LoginPath = "/Home/Home/Home/Login";
                      options.ExpireTimeSpan = TimeSpan.FromMinutes(-1);
                      options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
@@ -65,7 +63,7 @@ namespace CloudCms
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -77,6 +75,10 @@ namespace CloudCms
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //ensure that database is in-sync with models
+            dbContext.Database.Migrate();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -84,14 +86,6 @@ namespace CloudCms
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //      name: "default",
-            //      template: "{area=Home}/{controller=Home}/{action=Index}/{id?}"
-            //    );
-            //});
 
             app.UseEndpoints(endpoints =>
             {
