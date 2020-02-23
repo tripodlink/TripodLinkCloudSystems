@@ -1,10 +1,11 @@
-﻿@{ 
+﻿@{
     bool IsFullScreen = false;
     bool IsLogin = false;
 
     try
     {
-        if (ViewData["IsFullScreen"].ToString() == "Y") {
+        if (ViewData["IsFullScreen"].ToString() == "Y")
+        {
             IsFullScreen = true;
         }
     }
@@ -14,14 +15,15 @@
 
     try
     {
-        if (ViewData["IsLogin"].ToString() == "Y") {
+        if (ViewData["IsLogin"].ToString() == "Y")
+        {
             IsLogin = true;
         }
     }
     catch (Exception)
     {
     }
-}}
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,55 +35,10 @@
     @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />*@
     <link rel="stylesheet" href="~/vali-css/main.css" />
-
-
 </head>
+
+
 <body class="app sidebar-mini">
-    @*<header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Cloud CMS Common Layout</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>*@
-    @*<div class="container">
-            <main role="main" class="pb-3">
-
-                @{
-                    try
-                    {
-                        String menuStr = ViewData["SideBarMenu"].ToString();
-
-                        IEnumerable<CloudImsCommon.Models.ProgramMenu> menus = CloudImsCommon.Extensions.SideBarMenu.GetSideBarMenus(menuStr);
-
-                        foreach (var menu in menus)
-                        {
-                            <a href="#" class="btn-danger">@menu.ID</a>
-                            <a href="#" class="btn-light">@menu.Name</a>
-                        }
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-
-
-            </main>
-        </div>*@
 
     @if (!IsLogin)
     {
@@ -230,31 +187,40 @@
         </aside>
     }
 
+    @{
 
-<main class="app-content">
-    <div class="app-title">
-        <div>
-            <h1><i class="fa fa-dashboard"></i> Dashboard</h1>
-            <p>A free and open source Bootstrap 4 admin template</p>
+        if (IsLogin)
+        {
+            @RenderBody()
+        }
+        else
+        {
+            <main class="app-content">
+                <div class="app-title">
+                    <div>
+                        <h1><i class="fa fa-dashboard"></i> Dashboard</h1>
+                        <p>A free and open source Bootstrap 4 admin template</p>
+                    </div>
+                    <ul class="app-breadcrumb breadcrumb">
+                        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    </ul>
+                </div>
+
+                @RenderBody()
+            </main>
+        }
+    }
+
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2019 - Cloud CMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-        <ul class="app-breadcrumb breadcrumb">
-            <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-        </ul>
-    </div>
-    @RenderBody()
-</main>
-
-
-
-        <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2019 - Cloud CMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        @RenderSection("Scripts", required: false)
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
