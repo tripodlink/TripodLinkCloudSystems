@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using CloudImsCommon.Extensions;
 using CloudImsCommon.Database;
 using Microsoft.Extensions.Logging;
+using Home.LandingPage.ViewModels;
 
 namespace CloudIms.Areas.Home.Controllers
 {
@@ -25,7 +26,10 @@ namespace CloudIms.Areas.Home.Controllers
         [ActionName("landing-page")]
         public IActionResult LandingPage()
         {
-            return View("LandingPage");
+            var model = new LandinPageViewModel(HttpContext);
+
+
+            return View("LandingPage",model);
         }
     }
 }

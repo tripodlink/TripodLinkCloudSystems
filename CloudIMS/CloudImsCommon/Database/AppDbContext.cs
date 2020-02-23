@@ -17,6 +17,13 @@ namespace CloudImsCommon.Database
             
         }
 
+        public static AppDbContext CreateAppDbContext() {
+            DbContextOptionsBuilder<AppDbContext> builder = new DbContextOptionsBuilder<AppDbContext>();
+            builder.UseMySQL(GetConnectionString());
+
+            return new AppDbContext(builder.Options);
+        }
+
         public static String GetConnectionString() {
             var projectDirectory = Directory.GetCurrentDirectory();
             var executableDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);

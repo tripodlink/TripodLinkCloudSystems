@@ -1,6 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    ViewData["SideBarMenu"] = Model.SideBarMenus;
+    ViewData["SideBarFolder"] = Model.SideBarFolders;
+
+
+
 }
+@model Home.LandingPage.ViewModels.LandinPageViewModel
 
     <div class="text-center">
         <h1 class="display-4">Welcome to Cloud IMS</h1><br>
