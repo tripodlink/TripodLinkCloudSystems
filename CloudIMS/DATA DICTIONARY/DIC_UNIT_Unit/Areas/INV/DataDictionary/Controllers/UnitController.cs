@@ -25,7 +25,7 @@ namespace CloudIms.Areas.DataDictionary.Controllers
         [Route("[area]/[folder]/unit/index")]
         public IActionResult Index()
         {
-            return View();
+            return View("");
         }
 
     }

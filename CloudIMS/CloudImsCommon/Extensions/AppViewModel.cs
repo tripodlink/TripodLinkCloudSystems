@@ -16,13 +16,17 @@ namespace CloudImsCommon.Extensions
             {
                 if (claim.Type == "SideBarMenu")
                 {
-                    this.SindeBarMenus = claim.Value;
+                    this.SideBarMenus = claim.Value;
+                }
 
-                    break;
+                if (claim.Type == "SideBarFolder")
+                {
+                    this.SideBarFolders = claim.Value;
                 }
             }
         }
 
-        public string SindeBarMenus { get; }
+        public string SideBarMenus { get; }
+        public string SideBarFolders { get; }
     }
 }

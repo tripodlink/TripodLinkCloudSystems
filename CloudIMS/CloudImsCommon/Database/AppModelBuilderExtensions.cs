@@ -87,8 +87,8 @@ namespace CloudImsCommon.Database
 
             //create Sample Management menu 
             modelBuilder.Entity<ProgramMenu>().HasData(
-               new ProgramMenu { ID = "IVM_IN", Name = "Inventory In", ProgramFolderID = "IVM", FolderRouteAttribute = "inventory-management", ControllerRouteAttribute = "inventory-in", ActionRouteAttribute = "index", SequenceNo = 10 },
-               new ProgramMenu { ID = "IVM_OUT", Name = "Inventory Out", ProgramFolderID = "IVM", FolderRouteAttribute = "inventory-management", ControllerRouteAttribute = "inventory-out", ActionRouteAttribute = "index", SequenceNo = 20 }
+               new ProgramMenu { ID = "IVM_IN", Name = "Inventory In", ProgramFolderID = "IVM", ControllerRouteAttribute = "inventory-in", ActionRouteAttribute = "index", SequenceNo = 10 },
+               new ProgramMenu { ID = "IVM_OUT", Name = "Inventory Out", ProgramFolderID = "IVM", ControllerRouteAttribute = "inventory-out", ActionRouteAttribute = "index", SequenceNo = 20 }
                );
         }
 
@@ -101,11 +101,11 @@ namespace CloudImsCommon.Database
 
             //create Sample Management menu 
             modelBuilder.Entity<ProgramMenu>().HasData(
-               new ProgramMenu { ID = "DIC_UNIT", Name = "Unit", ProgramFolderID = "DIC", FolderRouteAttribute = "data-dictionary", ControllerRouteAttribute = "unit", ActionRouteAttribute = "index", SequenceNo = 10 },
-               new ProgramMenu { ID = "DIC_SUP", Name = "Supplier", ProgramFolderID = "DIC", FolderRouteAttribute = "data-dictionary", ControllerRouteAttribute = "supplier", ActionRouteAttribute = "index", SequenceNo = 20 },
-               new ProgramMenu { ID = "DIC_MANU", Name = "Manufacturer", ProgramFolderID = "DIC", FolderRouteAttribute = "data-dictionary", ControllerRouteAttribute = "manufacturer", ActionRouteAttribute = "index", SequenceNo = 30 },
-               new ProgramMenu { ID = "DIC_ITEM", Name = "Item Master", ProgramFolderID = "DIC", FolderRouteAttribute = "data-dictionary", ControllerRouteAttribute = "item-master", ActionRouteAttribute = "index", SequenceNo = 40 },
-               new ProgramMenu { ID = "DIC_ITEMGRP", Name = "Item Group", ProgramFolderID = "DIC", FolderRouteAttribute = "data-dictionary", ControllerRouteAttribute = "item-group", ActionRouteAttribute = "index", SequenceNo = 50 });
+               new ProgramMenu { ID = "DIC_UNIT", Name = "Unit", ProgramFolderID = "DIC", ControllerRouteAttribute = "unit", ActionRouteAttribute = "index", SequenceNo = 10 },
+               new ProgramMenu { ID = "DIC_SUP", Name = "Supplier", ProgramFolderID = "DIC", ControllerRouteAttribute = "supplier", ActionRouteAttribute = "index", SequenceNo = 20 },
+               new ProgramMenu { ID = "DIC_MANU", Name = "Manufacturer", ProgramFolderID = "DIC", ControllerRouteAttribute = "manufacturer", ActionRouteAttribute = "index", SequenceNo = 30 },
+               new ProgramMenu { ID = "DIC_ITEM", Name = "Item Master", ProgramFolderID = "DIC", ControllerRouteAttribute = "item-master", ActionRouteAttribute = "index", SequenceNo = 40 },
+               new ProgramMenu { ID = "DIC_ITEMGRP", Name = "Item Group", ProgramFolderID = "DIC", ControllerRouteAttribute = "item-group", ActionRouteAttribute = "index", SequenceNo = 50 });
         }
 
         private static void SeedUserManagementProgramMenus(ModelBuilder modelBuilder)
@@ -117,9 +117,9 @@ namespace CloudImsCommon.Database
 
             //create Sample Management menu 
             modelBuilder.Entity<ProgramMenu>().HasData(
-               new ProgramMenu { ID = "UM_USERACC", Name = "User Account", ProgramFolderID = "UM", FolderRouteAttribute = "user-management", ControllerRouteAttribute = "user-account", ActionRouteAttribute = "index", SequenceNo = 10 },
-               new ProgramMenu { ID = "UM_USERGRP", Name = "User Group", ProgramFolderID = "UM", FolderRouteAttribute = "user-management", ControllerRouteAttribute = "user-group", ActionRouteAttribute = "index", SequenceNo = 20 },
-               new ProgramMenu { ID = "UM_USERPROF", Name = "User Profile", ProgramFolderID = "UM", FolderRouteAttribute = "user-management", ControllerRouteAttribute = "user-profile", ActionRouteAttribute = "index", SequenceNo = 30 });
+               new ProgramMenu { ID = "UM_USERACC", Name = "User Account", ProgramFolderID = "UM", ControllerRouteAttribute = "user-account", ActionRouteAttribute = "index", SequenceNo = 10 },
+               new ProgramMenu { ID = "UM_USERGRP", Name = "User Group", ProgramFolderID = "UM", ControllerRouteAttribute = "user-group", ActionRouteAttribute = "index", SequenceNo = 20 },
+               new ProgramMenu { ID = "UM_USERPROF", Name = "User Profile", ProgramFolderID = "UM", ControllerRouteAttribute = "user-profile", ActionRouteAttribute = "index", SequenceNo = 30 });
         }
 
         private static void CreateSystemAdminGroupWithUserPrograms(ModelBuilder modelBuilder)

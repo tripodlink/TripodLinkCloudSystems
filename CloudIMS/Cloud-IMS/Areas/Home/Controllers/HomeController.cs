@@ -71,27 +71,36 @@ namespace CloudIms.Areas.Home.Controllers
                 {
                     if (user.Password == userPassword)
                     {
-                        List<ProgramMenu> menus = DbContext.ProgramMenus.Where(p => p.ProgramFolderID == "IVM").ToList();
+                       var groupIdArr = DbContext.UserAccountGroups.Where(u => u.UserAccountID == "SYSAD")
+                            .Select(u => new { UserGroupID = u.UserGroupID })
+                            .ToList();
 
-                        var menuStr = "";
-                        foreach (var menu in menus)
-                        {
-                            if (menuStr == "")
-                            {
-                                menuStr = "id^" + menu.ID + "|" + "name^" + menu.Name + "|";
-                            }
-                            else
-                            {
-                                menuStr += "~id^" + menu.ID + "|" + "name^" + menu.Name + "|";
-                            }
-                        }
+
+                        var userProgramsArr = DbContext.UserGroupPrograms
+                                              .Where(ugp => groupIdArr.Any(gi => gi.UserGroupID == ugp.UserGroupID))
+                                              .Select(ugp => new { ProgramID = ugp.ProgramMenuID })
+                                              .ToList();
+
+
+                        List<ProgramMenu> menus = DbContext.ProgramMenus
+                                                    .Where(pm => userProgramsArr.Any(up => up.ProgramID == pm.ID))
+                                                    .ToList();
+
+                        List<ProgramFolder> folders = DbContext.ProgramFolders
+                                                    .Where(pf => menus.Any(pm => pm.ProgramFolderID == pf.ID))
+                                                    .ToList();
+
+                        
+
+
 
                         var claims = new List<Claim>()
                             {
                                 new Claim(ClaimTypes.Name, userID),
                                 new Claim("UserID", userID),
                                 new Claim("UUID", Guid.NewGuid().ToString()),
-                                new Claim("SideBarMenu", menuStr),
+                                new Claim("SideBarMenu", SideBarMenu.CreateSideBarMenuCookieClaimValue(menus)),
+                                new Claim("SideBarFolder", SideBarMenu.CreateSideBarFolderCookieClaimValue(folders)),
                             };
 
                         var identity = new ClaimsIdentity(claims, "CloudIms");

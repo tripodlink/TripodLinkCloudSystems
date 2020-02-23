@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "User Management";
+    ViewData["SideBarMenu"] = Model.SideBarMenus;
 }
 
 @model DataDictionary.Unit.ViewModels.UserAccountViewModel
@@ -12,7 +13,7 @@
         @{
             foreach (var menu in Model.ProgramMenus)
             {
-                <a class="btn btn-primary" href=@Url.Action("index", menu.ControllerRouteAttribute,new { Area="inv", Folder = menu.FolderRouteAttribute })>@menu.Name</a>
+                <a class="btn btn-primary" href=@Url.Action("index", menu.ControllerRouteAttribute,new { Area="inv", Folder = menu.ProgramFolder.RouteAttribute })>@menu.Name</a>
             }
 
         }
