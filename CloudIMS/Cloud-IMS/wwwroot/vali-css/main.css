@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /*!
  * Vali Admin
  * Author: Pratik Borsadiya
@@ -16375,12 +16375,12 @@ be a descendant of the grid when it is being dragged.
 
 .login-content .logo {
   margin-bottom: 40px;
-  font-family: "Niconne";
+  font-family: Montserrat;
   color: #fff;
 }
 
 .login-content .logo h1 {
-  font-size: 52px;
+  font-size: 50px;
   font-weight: 400;
 }
 
