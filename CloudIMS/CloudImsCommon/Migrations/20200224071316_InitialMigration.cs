@@ -34,6 +34,45 @@ namespace CloudImsCommon.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "item_group",
+                columns: table => new
+                {
+                    ig_id = table.Column<string>(maxLength: 10, nullable: false),
+                    ig_item_group_name = table.Column<string>(maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_item_group", x => x.ig_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "item_master",
+                columns: table => new
+                {
+                    im_id = table.Column<string>(maxLength: 10, nullable: false),
+                    im_item_name = table.Column<string>(maxLength: 250, nullable: false),
+                    im_unit = table.Column<string>(maxLength: 100, nullable: false),
+                    im_supp = table.Column<string>(maxLength: 100, nullable: false),
+                    im_manufact = table.Column<string>(maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_item_master", x => x.im_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "manufacturer",
+                columns: table => new
+                {
+                    m_id = table.Column<string>(maxLength: 10, nullable: false),
+                    m_item_group_name = table.Column<string>(maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_manufacturer", x => x.m_id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "program_folder",
                 columns: table => new
                 {
@@ -113,7 +152,6 @@ namespace CloudImsCommon.Migrations
                     pm_id = table.Column<string>(maxLength: 20, nullable: false),
                     pm_name = table.Column<string>(maxLength: 100, nullable: false),
                     pm_folder = table.Column<string>(maxLength: 10, nullable: false),
-                    pm_folder_route = table.Column<string>(maxLength: 25, nullable: false),
                     pm_controller_route = table.Column<string>(maxLength: 25, nullable: false),
                     pm_action_route = table.Column<string>(maxLength: 25, nullable: false),
                     pm_icon_type = table.Column<string>(maxLength: 10, nullable: true),
@@ -215,7 +253,7 @@ namespace CloudImsCommon.Migrations
             migrationBuilder.InsertData(
                 table: "user_account",
                 columns: new[] { "ua_user_id", "im_created_by", "im_created_on", "ua_is_active", "ua_is_mb_user", "ua_password", "im_updated_by", "im_updated_on", "ua_user_name" },
-                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 2, 22, 19, 38, 27, 569, DateTimeKind.Local), (byte)1, (byte)1, ".00000", "SYSTEM", new DateTime(2020, 2, 22, 19, 38, 27, 570, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
+                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 2, 24, 15, 13, 16, 42, DateTimeKind.Local), (byte)1, (byte)1, ".00000", "SYSTEM", new DateTime(2020, 2, 24, 15, 13, 16, 43, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "user_group",
@@ -224,19 +262,19 @@ namespace CloudImsCommon.Migrations
 
             migrationBuilder.InsertData(
                 table: "program_menu",
-                columns: new[] { "pm_id", "pm_action_route", "pm_controller_route", "pm_folder_route", "pm_icon_name", "pm_icon_provider", "pm_icon_type", "pm_name", "pm_folder", "pm_seqno" },
+                columns: new[] { "pm_id", "pm_action_route", "pm_controller_route", "pm_icon_name", "pm_icon_provider", "pm_icon_type", "pm_name", "pm_folder", "pm_seqno" },
                 values: new object[,]
                 {
-                    { "IVM_IN", "index", "inventory-in", "inventory-management", null, null, null, "Inventory In", "IVM", 10 },
-                    { "IVM_OUT", "index", "inventory-out", "inventory-management", null, null, null, "Inventory Out", "IVM", 20 },
-                    { "DIC_UNIT", "index", "unit", "data-dictionary", null, null, null, "Unit", "DIC", 10 },
-                    { "DIC_SUP", "index", "supplier", "data-dictionary", null, null, null, "Supplier", "DIC", 20 },
-                    { "DIC_MANU", "index", "manufacturer", "data-dictionary", null, null, null, "Manufacturer", "DIC", 30 },
-                    { "DIC_ITEM", "index", "item-master", "data-dictionary", null, null, null, "Item Master", "DIC", 40 },
-                    { "DIC_ITEMGRP", "index", "item-group", "data-dictionary", null, null, null, "Item Group", "DIC", 50 },
-                    { "UM_USERACC", "index", "user-account", "user-management", null, null, null, "User Account", "UM", 10 },
-                    { "UM_USERGRP", "index", "user-group", "user-management", null, null, null, "User Group", "UM", 20 },
-                    { "UM_USERPROF", "index", "user-profile", "user-management", null, null, null, "User Profile", "UM", 30 }
+                    { "IVM_IN", "index", "inventory-in", null, null, null, "Inventory In", "IVM", 10 },
+                    { "IVM_OUT", "index", "inventory-out", null, null, null, "Inventory Out", "IVM", 20 },
+                    { "DIC_UNIT", "index", "unit", null, null, null, "Unit", "DIC", 10 },
+                    { "DIC_SUP", "index", "supplier", null, null, null, "Supplier", "DIC", 20 },
+                    { "DIC_MANU", "index", "manufacturer", null, null, null, "Manufacturer", "DIC", 30 },
+                    { "DIC_ITEM", "index", "item-master", null, null, null, "Item Master", "DIC", 40 },
+                    { "DIC_ITEMGRP", "index", "item-group", null, null, null, "Item Group", "DIC", 50 },
+                    { "UM_USERACC", "index", "user-account", null, null, null, "User Account", "UM", 10 },
+                    { "UM_USERGRP", "index", "user-group", null, null, null, "User Group", "UM", 20 },
+                    { "UM_USERPROF", "index", "user-profile", null, null, null, "User Profile", "UM", 30 }
                 });
 
             migrationBuilder.InsertData(
@@ -284,6 +322,15 @@ namespace CloudImsCommon.Migrations
 
             migrationBuilder.DropTable(
                 name: "event_table");
+
+            migrationBuilder.DropTable(
+                name: "item_group");
+
+            migrationBuilder.DropTable(
+                name: "item_master");
+
+            migrationBuilder.DropTable(
+                name: "manufacturer");
 
             migrationBuilder.DropTable(
                 name: "supplier");
