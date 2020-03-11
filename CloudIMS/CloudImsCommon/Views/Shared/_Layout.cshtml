@@ -165,7 +165,7 @@
                     //2.) loop tru all the folders
                     foreach (var pf in programfolders)
                     {
-                        <li><a class="app-menu__item" href=""><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">@pf.Name</span></a></li>
+                        <li><a class="app-menu__item" id="btn_sidebar" href="#"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">@pf.Name</span></a></li>
 
                     }
 
@@ -176,8 +176,11 @@
 
                         }*@
                 }
+
             </ul>
         </aside>
+
+
     }
 
     @{
@@ -199,11 +202,51 @@
                     </ul>
                 </div>
                 <div id="renderbody" name="renderbody">
-                    @RenderBody()
+                    <div class="row">
+                        @RenderBody()
+                        @{
+
+                            foreach (var pm in programs)
+
+                            {
+
+                                <div class="col-md-2">
+                                    <a href="#">
+                                        <div class="tile">
+                                            <div class="tile-body">
+                                                <center><i class="fa fa-user-md fa-4x"></i></center>
+                                            </div>
+                                            <div class="tile-footer">
+                                                <center><h5>@pm.Name</h5></center>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                            }
+
+                        }
+                    </div>
                 </div>
             </main>
         }
     }
+
+    @*<script type="text/javascript">
+            $(document).ready(function () {
+                console.log("try");
+                $('#btn_sidebar').click(function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'home/home',
+                        success: function (result) {
+                            console.log("try" + result);
+                        }
+                    });
+                });
+
+        </script>*@
+
 
     <script src="~/vali-js/jquery-3.3.1.min.js"></script>
     <script src="~/vali-js/popper.min.js"></script>
@@ -282,6 +325,24 @@
         });
     </script>
 
+    <script>
+        $(document).ready(function () {
+            console.log("ready!");
+            $('#btn_sidebar').click(function () {
+                console.log("ready!");
+                $.ajax({
+                        type: 'POST',
+                        url: 'home/home',
+                        success: function () {
+                           
+                                $.each(prg,function(index,value){
+                                    console.log(value);
+                                });
+                        }
+                    });
+            });
+        });
+    </script>
 
 </body>
-</html>
+</html >
