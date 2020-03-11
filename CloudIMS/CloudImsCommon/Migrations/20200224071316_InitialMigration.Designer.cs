@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CloudImsCommon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200222113828_InitialMigration")]
+    [Migration("20200224071316_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,6 +67,72 @@ namespace CloudImsCommon.Migrations
                     b.HasData(
                         new { Code = "IV_IN", Description = "Inventory In" }
                     );
+                });
+
+            modelBuilder.Entity("CloudImsCommon.Models.ItemGroup", b =>
+                {
+                    b.Property<string>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("ig_id")
+                        .HasMaxLength(10);
+
+                    b.Property<string>("ItemGroupName")
+                        .IsRequired()
+                        .HasColumnName("ig_item_group_name")
+                        .HasMaxLength(100);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("item_group");
+                });
+
+            modelBuilder.Entity("CloudImsCommon.Models.ItemMaster", b =>
+                {
+                    b.Property<string>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("im_id")
+                        .HasMaxLength(10);
+
+                    b.Property<string>("ItemName")
+                        .IsRequired()
+                        .HasColumnName("im_item_name")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("Manufacturer")
+                        .IsRequired()
+                        .HasColumnName("im_manufact")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Supplier")
+                        .IsRequired()
+                        .HasColumnName("im_supp")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasColumnName("im_unit")
+                        .HasMaxLength(100);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("item_master");
+                });
+
+            modelBuilder.Entity("CloudImsCommon.Models.Manufacturer", b =>
+                {
+                    b.Property<string>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("m_id")
+                        .HasMaxLength(10);
+
+                    b.Property<string>("ManufactName")
+                        .IsRequired()
+                        .HasColumnName("m_item_group_name")
+                        .HasMaxLength(100);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("manufacturer");
                 });
 
             modelBuilder.Entity("CloudImsCommon.Models.ProgramFolder", b =>
@@ -130,11 +196,6 @@ namespace CloudImsCommon.Migrations
                         .HasColumnName("pm_controller_route")
                         .HasMaxLength(25);
 
-                    b.Property<string>("FolderRouteAttribute")
-                        .IsRequired()
-                        .HasColumnName("pm_folder_route")
-                        .HasMaxLength(25);
-
                     b.Property<string>("IconName")
                         .HasColumnName("pm_icon_name")
                         .HasMaxLength(100);
@@ -167,16 +228,16 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("program_menu");
 
                     b.HasData(
-                        new { ID = "IVM_IN", ActionRouteAttribute = "index", ControllerRouteAttribute = "inventory-in", FolderRouteAttribute = "inventory-management", Name = "Inventory In", ProgramFolderID = "IVM", SequenceNo = 10 },
-                        new { ID = "IVM_OUT", ActionRouteAttribute = "index", ControllerRouteAttribute = "inventory-out", FolderRouteAttribute = "inventory-management", Name = "Inventory Out", ProgramFolderID = "IVM", SequenceNo = 20 },
-                        new { ID = "DIC_UNIT", ActionRouteAttribute = "index", ControllerRouteAttribute = "unit", FolderRouteAttribute = "data-dictionary", Name = "Unit", ProgramFolderID = "DIC", SequenceNo = 10 },
-                        new { ID = "DIC_SUP", ActionRouteAttribute = "index", ControllerRouteAttribute = "supplier", FolderRouteAttribute = "data-dictionary", Name = "Supplier", ProgramFolderID = "DIC", SequenceNo = 20 },
-                        new { ID = "DIC_MANU", ActionRouteAttribute = "index", ControllerRouteAttribute = "manufacturer", FolderRouteAttribute = "data-dictionary", Name = "Manufacturer", ProgramFolderID = "DIC", SequenceNo = 30 },
-                        new { ID = "DIC_ITEM", ActionRouteAttribute = "index", ControllerRouteAttribute = "item-master", FolderRouteAttribute = "data-dictionary", Name = "Item Master", ProgramFolderID = "DIC", SequenceNo = 40 },
-                        new { ID = "DIC_ITEMGRP", ActionRouteAttribute = "index", ControllerRouteAttribute = "item-group", FolderRouteAttribute = "data-dictionary", Name = "Item Group", ProgramFolderID = "DIC", SequenceNo = 50 },
-                        new { ID = "UM_USERACC", ActionRouteAttribute = "index", ControllerRouteAttribute = "user-account", FolderRouteAttribute = "user-management", Name = "User Account", ProgramFolderID = "UM", SequenceNo = 10 },
-                        new { ID = "UM_USERGRP", ActionRouteAttribute = "index", ControllerRouteAttribute = "user-group", FolderRouteAttribute = "user-management", Name = "User Group", ProgramFolderID = "UM", SequenceNo = 20 },
-                        new { ID = "UM_USERPROF", ActionRouteAttribute = "index", ControllerRouteAttribute = "user-profile", FolderRouteAttribute = "user-management", Name = "User Profile", ProgramFolderID = "UM", SequenceNo = 30 }
+                        new { ID = "IVM_IN", ActionRouteAttribute = "index", ControllerRouteAttribute = "inventory-in", Name = "Inventory In", ProgramFolderID = "IVM", SequenceNo = 10 },
+                        new { ID = "IVM_OUT", ActionRouteAttribute = "index", ControllerRouteAttribute = "inventory-out", Name = "Inventory Out", ProgramFolderID = "IVM", SequenceNo = 20 },
+                        new { ID = "DIC_UNIT", ActionRouteAttribute = "index", ControllerRouteAttribute = "unit", Name = "Unit", ProgramFolderID = "DIC", SequenceNo = 10 },
+                        new { ID = "DIC_SUP", ActionRouteAttribute = "index", ControllerRouteAttribute = "supplier", Name = "Supplier", ProgramFolderID = "DIC", SequenceNo = 20 },
+                        new { ID = "DIC_MANU", ActionRouteAttribute = "index", ControllerRouteAttribute = "manufacturer", Name = "Manufacturer", ProgramFolderID = "DIC", SequenceNo = 30 },
+                        new { ID = "DIC_ITEM", ActionRouteAttribute = "index", ControllerRouteAttribute = "item-master", Name = "Item Master", ProgramFolderID = "DIC", SequenceNo = 40 },
+                        new { ID = "DIC_ITEMGRP", ActionRouteAttribute = "index", ControllerRouteAttribute = "item-group", Name = "Item Group", ProgramFolderID = "DIC", SequenceNo = 50 },
+                        new { ID = "UM_USERACC", ActionRouteAttribute = "index", ControllerRouteAttribute = "user-account", Name = "User Account", ProgramFolderID = "UM", SequenceNo = 10 },
+                        new { ID = "UM_USERGRP", ActionRouteAttribute = "index", ControllerRouteAttribute = "user-group", Name = "User Group", ProgramFolderID = "UM", SequenceNo = 20 },
+                        new { ID = "UM_USERPROF", ActionRouteAttribute = "index", ControllerRouteAttribute = "user-profile", Name = "User Profile", ProgramFolderID = "UM", SequenceNo = 30 }
                     );
                 });
 
@@ -273,7 +334,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 22, 19, 38, 27, 569, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 22, 19, 38, 27, 570, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 2, 24, 15, 13, 16, 42, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 2, 24, 15, 13, 16, 43, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 

@@ -51,6 +51,9 @@ namespace CloudImsCommon.Database
         //Dictionary tables
         public DbSet<UnitCode> UnitCodes { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Manufacturer> Manufacturers { get; set; }
+        public DbSet<ItemMaster> ItemMasters { get; set; }
+        public DbSet<ItemGroup> ItemGroups { get; set; }
 
         //User Account tables
         public DbSet<UserAccount> UserAccounts { get; set; }

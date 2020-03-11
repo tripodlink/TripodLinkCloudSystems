@@ -27,9 +27,10 @@ namespace CloudIms.Areas.UserAccount.Controllers
         [Route("[area]/[folder]/user-account/index")]
         public IActionResult Index()
         {
+
+
             var model = new UserAccountViewModel(HttpContext);
             model.ProgramMenus = DbContext.ProgramMenus.ToList();
-
 
             return View("index", model);
         }

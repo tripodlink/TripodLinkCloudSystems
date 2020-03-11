@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DIC_UNIT_Unit", "DATA DICTI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UM_USERACC_UserAccount", "USER MANAGEMENT\UM_USERACC_UserAccount\UM_USERACC_UserAccount.csproj", "{7F886502-F23F-42AC-8570-6F8199B11FD4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DIC_ITMSRT_ItemMaster", "DATA DICTIONARY\DIC_ITMSRT_ItemMaster\DIC_ITMSRT_ItemMaster.csproj", "{2DFDD816-8547-4848-A217-765FBF3DD227}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{7F886502-F23F-42AC-8570-6F8199B11FD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F886502-F23F-42AC-8570-6F8199B11FD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F886502-F23F-42AC-8570-6F8199B11FD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DFDD816-8547-4848-A217-765FBF3DD227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DFDD816-8547-4848-A217-765FBF3DD227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DFDD816-8547-4848-A217-765FBF3DD227}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DFDD816-8547-4848-A217-765FBF3DD227}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F0F131BF-032D-4991-9FC3-001EFCB2AAB5} = {EE595B61-3DB8-42BE-B665-9A2D79A09C73}
 		{7F886502-F23F-42AC-8570-6F8199B11FD4} = {81D7AA70-6DC2-420F-8D37-AECE4DD28A6C}
+		{2DFDD816-8547-4848-A217-765FBF3DD227} = {EE595B61-3DB8-42BE-B665-9A2D79A09C73}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6372EAA5-72B6-4720-AB99-6A70E04FDF53}
