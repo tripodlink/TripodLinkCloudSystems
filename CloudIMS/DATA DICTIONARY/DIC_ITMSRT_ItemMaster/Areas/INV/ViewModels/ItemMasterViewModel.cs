@@ -19,5 +19,7 @@ namespace DataDictionary.Unit.ViewModels
         public List<ProgramMenu> ProgramMenus { get; set; } = new List<ProgramMenu>();
 
         public List<ItemMaster> ItemMasters { get; set; } = new List<ItemMaster>();
+
+        public List<ItemGroup> ItemGroups { get; set; } = new List<ItemGroup>();
     }
 }

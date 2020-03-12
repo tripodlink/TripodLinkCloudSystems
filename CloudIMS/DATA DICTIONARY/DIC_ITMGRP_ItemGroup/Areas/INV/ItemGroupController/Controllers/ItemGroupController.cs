@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CloudIms.Areas.UserAccount.Controllers;
 
+
+
 namespace CloudIms.Areas.UserAccount.Controllers
 {
     [Area("inv")]
@@ -111,6 +113,37 @@ namespace CloudIms.Areas.UserAccount.Controllers
                 return View("index", model);
             }
 
+        }
+        [Route("[area]/[folder]/item-group/Search")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public IActionResult Search(String item_group_name)
+        {
+            var model = new ItemGroupViewModel(HttpContext);
+            model.ItemGroups = DbContext.ItemGroups.ToList();
+            try
+            {
+                var im = DbContext.ItemMasters.Find(item_group_name);
+                if(im == null)
+                {
+                 //   return Json(new { data = im }, JsonRequestBehavior.AllowGet);
+       
+                }
+               else
+                {
+
+                }
+            
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+            return View("index");
         }
     }
 }

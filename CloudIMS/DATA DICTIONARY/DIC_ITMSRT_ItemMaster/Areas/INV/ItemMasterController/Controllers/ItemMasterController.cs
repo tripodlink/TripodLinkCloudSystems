@@ -43,7 +43,11 @@ namespace CloudIms.Areas.UserAccount.Controllers
         {
             var model = new ItemMasterViewModel(HttpContext);
             model.ItemMasters = DbContext.ItemMasters.ToList();
+            model.ItemGroups = DbContext.ItemGroups.ToList();
+
+        
             return View("Index", model);
+          
         }
 
         [Route("[area]/[folder]/item-master/AddEdit")]
@@ -119,5 +123,6 @@ namespace CloudIms.Areas.UserAccount.Controllers
             }
 
         }
+
     }
 }
