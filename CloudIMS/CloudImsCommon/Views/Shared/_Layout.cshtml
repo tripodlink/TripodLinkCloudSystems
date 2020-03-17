@@ -50,7 +50,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Cloud IMS</title>
 
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/vali-css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="~/vali-css/all.css" rel="stylesheet" type="text/css"> 
     <link rel="stylesheet" href="~/vali-css/main.css" />
 </head>
 
@@ -165,7 +166,7 @@
                     //2.) loop tru all the folders
                     foreach (var pf in programfolders)
                     {
-                        <li><a class="app-menu__item" id="btn_sidebar" href="#"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">@pf.Name</span></a></li>
+                        <li><a class="app-menu__item" id="@pf.ID" href="#"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">@pf.Name</span></a></li>
 
                     }
 
@@ -194,7 +195,7 @@
             <main class="app-content">
                 <div class="app-title">
                     <div>
-                        <h1><i class="fa fa-dashboard"></i> Dashboard</h1>
+                                <h1><i class="fa fa-dashboard"></i>Dashboard</h1>
                     </div>
                     <ul class="app-breadcrumb breadcrumb">
                         <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -206,7 +207,7 @@
                         @RenderBody()
                         @{
 
-                            foreach (var pm in programs)
+                            foreach (var pm in programs.Where(p => p.ProgramFolderID == "IVM"))
 
                             {
 
@@ -331,18 +332,33 @@
             $('#btn_sidebar').click(function () {
                 console.log("ready!");
                 $.ajax({
-                        type: 'POST',
-                        url: 'home/home',
-                        success: function () {
-                           
-                                $.each(prg,function(index,value){
-                                    console.log(value);
-                                });
-                        }
-                    });
+                    type: 'POST',
+                    url: 'home/home',
+                    success: function () {
+
+                        $.each(prg, function (index, value) {
+                            console.log(value);
+                        });
+                    }
+                });
             });
         });
+
+            $('li').click(function () {
+                alert(this.id);
+                $.ajax({
+                    type: 'POST',
+                    url: 'home/home',
+                    success: function () {
+
+                        $.each(prg, function (index, value) {
+                            console.log(value);
+                        });
+                    }
+                });
+            });
+    
     </script>
 
 </body>
-</html >
+</html>

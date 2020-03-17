@@ -17,6 +17,11 @@ namespace CloudImsCommon.Models
         public String ID { get; set; }
 
         [Required]
+        [Column("im_item_group")]
+        [MaxLength(250, ErrorMessage = "Item Group cannot exceed 250 characters.")]
+        public String ItemGroup { get; set; }
+
+        [Required]
         [Column("im_item_name")]
         [MaxLength(250, ErrorMessage = "Item Name cannot exceed 250 characters.")]
         public String ItemName { get; set; }

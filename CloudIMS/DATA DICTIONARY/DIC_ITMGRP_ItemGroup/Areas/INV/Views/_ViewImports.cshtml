@@ -1,0 +1,11 @@
+﻿@using CloudIms.Areas.UserAccount.Controllers
+@using CloudImsCommon.Extensions
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@{
+    ViewData["Title"] = "Item-Group";
+    ViewData["SideBarMenu"] = Model.SideBarMenus;
+    ViewData["SideBarFolder"] = Model.SideBarFolders;
+}
+@model DataDictionary.Unit.ViewModels.ItemGroupViewModel;
