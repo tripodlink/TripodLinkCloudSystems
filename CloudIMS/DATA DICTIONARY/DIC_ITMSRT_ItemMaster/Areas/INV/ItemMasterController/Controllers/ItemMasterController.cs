@@ -30,6 +30,7 @@ namespace CloudIms.Areas.UserAccount.Controllers
         /// The action to login user.
         /// </summary>
         /// <param name="ID"></param>
+        /// <param name="ItemGroupDropDown"></param>
         /// <param name="itemname"></param>
         /// <param name="itemunit"></param>
         /// <param name="itemsup"></param>
@@ -54,7 +55,7 @@ namespace CloudIms.Areas.UserAccount.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public IActionResult AddEdit(String ID, String itemname, String itemunit, String itemsup, String itemmanu)
+        public IActionResult AddEdit(String ID,String ItemGroupDropDown, String itemname, String itemunit, String itemsup, String itemmanu)
         {
             var model = new ItemMasterViewModel(HttpContext);
             model.ItemMasters = DbContext.ItemMasters.ToList();
@@ -63,6 +64,7 @@ namespace CloudIms.Areas.UserAccount.Controllers
                 var im = DbContext.ItemMasters.Find(ID);
                 if (im != null)
                 {
+                    im.ItemGroup = ItemGroupDropDown;
                     im.ItemName = itemname;
                     im.Unit = itemunit;
                     im.Supplier = itemsup;
@@ -76,6 +78,7 @@ namespace CloudIms.Areas.UserAccount.Controllers
                 {
                     var im2 = new ItemMaster();
                     im2.ID = ID;
+                    im2.ItemGroup = ItemGroupDropDown;
                     im2.ItemName = itemname;
                     im2.Unit = itemunit;
                     im2.Supplier = itemsup;

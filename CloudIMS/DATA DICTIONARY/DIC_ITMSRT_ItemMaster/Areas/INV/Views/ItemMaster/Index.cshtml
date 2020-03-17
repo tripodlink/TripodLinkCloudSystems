@@ -1,122 +1,134 @@
-﻿<div class="tile mb-4">
-    <div class="page-header">
+﻿<div class="col-md-12">
+    <div class="tile">
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="mb-3 line-head" id="buttons">Item-Master</h2>
-            </div>
-        </div>
-    </div>
-   
-        <div class="row">
-            <div class="col">
-                <input class="app-search__input search" id="search" onkeyup="myFunction()" type="search" placeholder="Search">
-            </div>
-            <div class="col text-right">
-                <button class="btn btn-primary btn-lg clear" type="button" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>New</button>
-            </div>
-        </div>
-        <br />
-
-    <form method="post">
-        <table id="itemMasterTable" class="table table-bordered">
-            <thead>
-                <tr><th>ID</th><th>Item Name</th><th>Unit</th><th>Supplier</th><th>Manufacturer</th><th>Action</th></tr>
-            </thead>
-
-            <tbody>
-
-                @foreach (var im in Model.ItemMasters)
-                {
-
-                    <tr>
-                        <td>@im.ID</td>
-                        <td>@im.ItemName</td>
-                        <td>@im.Unit</td>
-                        <td>@im.Supplier</td>
-                        <td>@im.Manufacturer</td>
-                        <td align="center">
-                            <button type="button" class="btn btn-warning small-btn edit" style="width:75px;height:40px;" data-target="#myModal" data-toggle="modal">Edit</button>
-
-                            <button type="submit" onclick="return confirm('Are you sure you want to delete Item ?')" asp-action="Delete" asp-route-id="@im.ID" style="width:75px;height:40px;" class="btn btn-danger">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-
-                }
-            </tbody>
-        </table>
-    </form>
-    <div class="modal fade bd-example-modal-lg" method="post" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add / Update</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h2 class="mb-3 line-head" id="buttons">Item-Master</h2>
+                        </div>
+                    </div>
                 </div>
-                <form asp-action="AddEdit" method="post">
-                    <div class="modal-body">
 
-                        <div class="form-group">
-                            <label for="ID" class="col-form-label">ID</label>
-                            <input for="ID" type="text" class="form-control" name="ID" id="ID">
-
-                        </div>
-                        <div class="form-group">
-                            <label for="ItemGroupDropDown" class="col-form-label">Item Group</label>
-                            <select form="ItemGroupDropDown" class="form-control" name="ItemGroupDropDown" id="ItemGroupDropDown">
-                                @foreach (var ig in Model.ItemGroups)
-                                {
-                                    <option>@ig.ItemGroupName</option>
-
-                                }
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="itemname" class="col-form-label">Item Name</label>
-                            <input for="itemname" type="text" class="form-control" name="itemname" id="itemname">
-
-                        </div>
-                        <div class="form-group">
-                            <label for="itemunit" class="col-form-label">Item Unit</label>
-                            <input for="itemunit" type="text" class="form-control" name="itemunit" id="itemunit">
-
-                        </div>
-                        <div class="form-group">
-                            <label for="itemsup" class="col-form-label">Item Supplier</label>
-                            <input for="itemsup" type="text" class="form-control" name="itemsup" id="itemsup">
-
-                        </div>
-                        <div class="form-group">
-                            <label for="itemmanu" class="col-form-label">Item Manufacturer</label>
-                            <input for="itemmanu" type="text" class="form-control" name="itemmanu" id="itemmanu">
-
-                        </div>
-
+                <div class="row">
+                    <div class="col text-right">
+                        <button class="btn btn-primary btn-lg clear" type="button" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>New</button>
                     </div>
+                </div>
+                <br />
 
-                    <div class="modal-footer form-group btn-container">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="reset" class="btn btn-warning">Clear</button>
-                        <button type="submit" class="btn btn-primary">
-                            Save Changes
-                        </button>
-                    </div>
+                <form method="post">
+                    <table id="itemMasterTable" class="table table-bordered">
+                        <thead>
+                            <tr><th>ID</th><th>Item Group</th><th>Item Name</th><th>Unit</th><th>Supplier</th><th>Manufacturer</th><th>Action</th></tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var im in Model.ItemMasters)
+                            {
+
+                                <tr>
+                                    <td>@im.ID</td>
+                                    <td>@im.ItemGroup</td>
+                                    <td>@im.ItemName</td>
+                                    <td>@im.Unit</td>
+                                    <td>@im.Supplier</td>
+                                    <td>@im.Manufacturer</td>
+                                    <td align="center">
+                                        <button type="button" class="btn btn-warning small-btn edit" style="width:75px;height:40px;" data-target="#myModal" data-toggle="modal">Edit</button>
+
+                                        <button type="submit" onclick="return confirm('Are you sure you want to delete Item ?')" asp-action="Delete" asp-route-id="@im.ID" style="width:75px;height:40px;" class="btn btn-danger">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
                 </form>
+                <div class="modal fade bd-example-modal-lg" method="post" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Add / Update</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form asp-action="AddEdit" method="post">
+                                <div class="modal-body">
+
+                                    <div class="form-group">
+                                        <label for="ID" class="col-form-label">ID</label>
+                                        <input for="ID" type="text" class="form-control" name="ID" id="ID">
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ItemGroupDropDown" class="col-form-label">Item Group</label>
+                                        <select for="ItemGroupDropDown" class="form-control" name="ItemGroupDropDown" id="ItemGroupDropDown">
+                                            @foreach (var ig in Model.ItemGroups)
+                                            {
+                                                <option>@ig.ItemGroupName</option>
+
+                                            }
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="itemname" class="col-form-label">Item Name</label>
+                                        <input for="itemname" type="text" class="form-control" name="itemname" id="itemname">
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="itemunit" class="col-form-label">Item Unit</label>
+                                        <input for="itemunit" type="text" class="form-control" name="itemunit" id="itemunit">
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="itemsup" class="col-form-label">Item Supplier</label>
+                                        <input for="itemsup" type="text" class="form-control" name="itemsup" id="itemsup">
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="itemmanu" class="col-form-label">Item Manufacturer</label>
+                                        <input for="itemmanu" type="text" class="form-control" name="itemmanu" id="itemmanu">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer form-group btn-container">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="reset" class="btn btn-warning">Clear</button>
+                                    <button type="submit" class="btn btn-primary">
+                                        Save Changes
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
+
     </div>
 
 </div>
 
 
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="~/vali-js/plugins/jquery.min.js"></script>
+<script src="~/vali-js/plugins/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="~/vali-js/plugins/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript" src="~/vali-js/plugins/dataTables.bootstrap.min.js"></script>
+
+<script type="text/javascript">$('#itemMasterTable').DataTable();</script>
+
 <script type="text/javascript">
     $(function () {
 
@@ -125,13 +137,15 @@
             var tr = $(this).parent().parent();
             var tdRecords = $(tr).children();
             var ID = $(tdRecords[0]).text();
-            var itemname = $(tdRecords[1]).text();
-            var itemunit = $(tdRecords[2]).text();
-            var itemsup = $(tdRecords[3]).text();
-            var itemmanu = $(tdRecords[3]).text();
+            var ItemGroup = $(tdRecords[1]).text();
+            var itemname = $(tdRecords[2]).text();
+            var itemunit = $(tdRecords[3]).text();
+            var itemsup = $(tdRecords[4]).text();
+            var itemmanu = $(tdRecords[5]).text();
 
 
             $("#ID").val(ID);
+            $("#ItemGroupDropDown").val(ItemGroup);
             $("#itemname").val(itemname);
             $("#itemunit").val(itemunit);
             $("#itemsup").val(itemsup);
@@ -141,11 +155,12 @@
         });
     });
 
-     $(function () {
+    $(function () {
 
         $(".clear").click(function () {
 
             $("#ID").val("");
+            $("#ItemGroupDropDown").val("");
             $("#itemname").val("");
             $("#itemunit").val("");
             $("#itemsup").val("");
@@ -153,24 +168,5 @@
 
             $('#myModal').modal('show');
         });
-     });
-
-      function myFunction() {
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("search");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("itemMasterTable");
-        tr = table.getElementsByTagName("tr");
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[1];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-    }	
+    });
 </script>

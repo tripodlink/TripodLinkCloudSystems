@@ -1,0 +1,145 @@
+﻿
+<div class="col-md-12">
+    <div class="tile">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h2 class="mb-3 line-head" id="buttons">Item-Group</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col text-right">
+                        <button class="btn btn-primary btn-lg clear" type="button" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>New</button>
+                    </div>
+                </div>
+                <br />
+
+                <form method="post">
+                    <table id="Unit" class="table table-bordered">
+                        <thead>
+                            <tr><th>Unit Code</th><th>Unit Description</th><th>Unit Short Description</th><th>Action</th></tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var uc in Model.UnitCodes)
+                            {
+
+                                <tr>
+                                    <td>@uc.Code</td>
+                                    <td>@uc.Description</td>
+                                    <td>@uc.ShortDescription</td>
+                                    <td align="center">
+                                        <button type="button" class="btn btn-warning small-btn edit" id="edit" style="width:75px;height:40px;" data-target="#myModal" data-toggle="modal">Edit</button>
+
+                                        <button type="submit" onclick="return confirm('Are you sure you want to delete Item ?')" asp-action="Delete" asp-route-id="@uc.Code" style="width:75px;height:40px;" class="btn btn-danger">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" method="post" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add / Update</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="AddEdit" method="post">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="Code" class="col-form-label">ID</label>
+                        <input for="Code" type="text" class="form-control" name="Code" id="Code">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="Desc" class="col-form-label">Item Group Name</label>
+                        <input for="Desc" type="text" class="form-control" name="Desc" id="Desc">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="ShortDesc" class="col-form-label">Item Group Name</label>
+                        <input for="ShortDesc" type="text" class="form-control" name="ShortDesc" id="ShortDesc">
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer form-group btn-container">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="reset" class="btn btn-warning">Clear</button>
+                    <button type="submit" class="btn btn-primary">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/vali-js/plugins/jquery.min.js"></script>
+<script src="~/vali-js/plugins/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="~/vali-js/plugins/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript" src="~/vali-js/plugins/dataTables.bootstrap.min.js"></script>
+
+<script type="text/javascript">$('#Unit').DataTable();</script>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        $(".edit").click(function () {
+
+            var tr = $(this).parent().parent();
+            var tdRecords = $(tr).children();
+            var Code = $(tdRecords[0]).text();
+            var Desc = $(tdRecords[1]).text();
+            var ShortDesc = $(tdRecords[2]).text();
+
+            $("#Code").val(Code);
+            $("#Desc").val(Desc);
+            $("#ShortDesc").val(ShortDesc);
+
+            $('#myModal').modal('show');
+        });
+    });
+
+    $(function () {
+
+        $(".clear").click(function () {
+
+            $("#Code").val("");
+            $("#Desc").val("");
+            $("#ShortDesc").val("");
+
+            $('#myModal').modal('show');
+        });
+    });
+</script>
+
+
+

@@ -95,11 +95,11 @@ namespace CloudIms.Areas.UserAccount.Controllers
             model.ItemGroups = DbContext.ItemGroups.ToList();
             try
             {
-                var im = DbContext.ItemMasters.Find(ID);
+                var im = DbContext.ItemGroups.Find(ID);
 
                 if (im != null)
                 {
-                    DbContext.ItemMasters.Remove(im);
+                    DbContext.ItemGroups.Remove(im);
                     DbContext.SaveChanges();
                     return RedirectToAction("index", model);
                 }
