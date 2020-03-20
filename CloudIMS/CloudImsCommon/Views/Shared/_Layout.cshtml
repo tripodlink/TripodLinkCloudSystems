@@ -50,9 +50,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Cloud IMS</title>
 
-    <link href="~/vali-css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="~/vali-css/all.css" rel="stylesheet" type="text/css"> 
+    @*<link href="~/vali-css/font-awesome.min.css" rel="stylesheet" type="text/css">*@
+    <link href="~/vali-css/all.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="~/vali-css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 
@@ -169,13 +170,6 @@
                         <li><a class="app-menu__item" id="@pf.ID" href="#"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">@pf.Name</span></a></li>
 
                     }
-
-                    @*foreach (var pm in programs)
-                        {
-
-                            <li><a class="app-menu__item active" href=@Url.Action(pm.ActionRouteAttribute, pm.ControllerRouteAttribute, new { Area = "inv", Folder=pm.ProgramFolder.RouteAttribute })><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">@pm.Name</span></a></li>
-
-                        }*@
                 }
 
             </ul>
@@ -193,17 +187,7 @@
         else
         {
             <main class="app-content">
-                <div class="app-title">
-                    <div>
-                                <h1><i class="fa fa-dashboard"></i>Dashboard</h1>
-                    </div>
-                    <ul class="app-breadcrumb breadcrumb">
-                        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-                        <li class="breadcrumb-item"><a href="#"></a></li>
-                    </ul>
-                </div>
-                <div id="renderbody" name="renderbody">
-                    <div class="row">
+                
                         @RenderBody()
                         @{
 
@@ -227,8 +211,6 @@
                             }
 
                         }
-                    </div>
-                </div>
             </main>
         }
     }
@@ -343,21 +325,6 @@
                 });
             });
         });
-
-            $('li').click(function () {
-                alert(this.id);
-                $.ajax({
-                    type: 'POST',
-                    url: 'home/home',
-                    success: function () {
-
-                        $.each(prg, function (index, value) {
-                            console.log(value);
-                        });
-                    }
-                });
-            });
-    
     </script>
 
 </body>

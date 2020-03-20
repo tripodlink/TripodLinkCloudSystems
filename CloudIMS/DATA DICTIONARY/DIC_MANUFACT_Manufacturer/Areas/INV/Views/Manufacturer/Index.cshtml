@@ -1,0 +1,185 @@
+﻿<div class="app-title">
+    <div>
+        <h1><i class="fa fa-building"></i>  Manufacturer</h1>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Action("home/home")"><i class="fa fa-home fa-lg"></i></a></li>
+    </ul>
+</div>
+<div id="renderbody" name="renderbody">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col text-right">
+                                <button class="btn btn-primary btn-lg clear" type="button" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>New</button>
+                            </div>
+                        </div>
+                        <br />
+
+                        <form method="post">
+                            <table id="table_html_manufact" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Manufacturer ID</th>
+                                        <th>Manufacturer Name</th>
+                                        <th>Action</th>
+                                </thead>
+
+                                <tbody id="tablebody">
+
+                                    @foreach (var mc in Model.manufacturers)
+                                    {
+
+                                        <tr id="@mc.ID">
+                                            <td>@mc.ID</td>
+                                            <td>@mc.ManufactName</td>
+                                            <td align="left">
+                                                <button type="button" class="btn btn-warning small-btn edit" id="edit" style="width:100px;height:40px;" data-target="#myModal" data-toggle="modal"><i class="fa fa-pencil-square"></i>Edit</button>
+                                                <button type="button" class="btn btn-danger small-btn danger demoSwal" style="width:100px;height:40px;"><i class="fa fa-trash"></i>Delete</button>
+                                            </td>
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal fade bd-example-modal-lg" method="post" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-pencil-square"></i> Add / Update</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form asp-action="AddEdit" method="post">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="control-label">Manufacturer ID</label>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-id-card"></i></span></div>
+                                        <input for="ID" type="text" class="form-control" name="ID" id="ID">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ManufactName" class="col-form-label">Manufacturer Name</label>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-language"></i></span></div>
+                                        <input for="ManufactName" type="text" class="form-control" name="ManufactName" id="ManufactName">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer form-group btn-container">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times-circle"></i>Close</button>
+                            <button type="reset" class="btn btn-warning"><i class="fa fa-eraser"></i>Clear</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-save"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+     </div>
+ </div>
+
+
+        <script type="text/javascript" src="~/vali-js/plugins/bootstrap-notify.min.js"></script>
+        <script type="text/javascript" src="~/vali-js/plugins/sweetalert.min.js"></script>
+        <script src="~/vali-js/jquery-3.3.1.min.js"></script>
+        <script src="~/vali-js/popper.min.js"></script>
+        <script src="~/vali-js/main.js"></script>
+        <script src="~/vali-js/plugins/jquery.min.js"></script>
+        <script src="~/vali-js/plugins/bootstrap.min.js"></script>
+        <script type="text/javascript" src="~/vali-js/plugins/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="~/vali-js/plugins/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript">$('#table_html_manufact').DataTable();</script>
+        <script type="text/javascript">
+
+            $(function () {
+
+                $(".edit").click(function () {
+
+                    var tr = $(this).parent().parent();
+                    var tdRecords = $(tr).children();
+                    var ID = $(tdRecords[0]).text();
+                    var ManufactName = $(tdRecords[1]).text();
+                  
+
+                    $("#ID").val(ID);
+                    $("#ManufactName").val(ManufactName);
+                    $('#myModal').modal('show');
+                });
+            });
+
+            $(function () {
+
+                $(".clear").click(function () {
+
+                    $("#ID").val("");
+                    $("#ManufactName").val("");
+                    $('#myModal').modal('show');
+                });
+            });
+        </script>
+
+        <script type="text/javascript">
+    $(document).ready(function () {
+        $(".demoSwal").click(function (event) {
+            event.preventDefault();
+
+            var tr = $(this).parent().parent();
+            var tdrecords = $(tr).children();
+            var ID = $(tdrecords[0]).text();
+            var ManufactName = $(tdrecords[1]).text();
+
+            swal({
+                title: "Are you sure do you want to delete?",
+                text: "You will not be able to recover this data "+ '"'+ ManufactName+ '"',
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                cancelButtonText: "Cancel",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+
+
+                    $.ajax({
+                        url: '@Url.Action("Delete")',
+                        type: 'POST',
+                        data: { ID : ID },
+                        success: function (data) {
+
+                             $('#table_html_manufact tr[id="' + ID + '"]').hide();
+                             swal("Done!", "It was succesfully deleted!", "success");
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            swal("Error deleting!", "Please try again", "error");
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Your data is safe :)", "error");
+                }
+            });
+        });
+    });
+        </script>
