@@ -343,21 +343,6 @@
                 });
             });
         });
-
-            $('li').click(function () {
-                alert(this.id);
-                $.ajax({
-                    type: 'POST',
-                    url: 'home/home',
-                    success: function () {
-
-                        $.each(prg, function (index, value) {
-                            console.log(value);
-                        });
-                    }
-                });
-            });
-    
     </script>
 
 </body>

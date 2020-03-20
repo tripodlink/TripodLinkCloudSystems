@@ -30,14 +30,14 @@
                             @foreach (var uc in Model.UnitCodes)
                             {
 
-                                <tr>
+                                <tr id="@uc.Code">
                                     <td>@uc.Code</td>
                                     <td>@uc.Description</td>
                                     <td>@uc.ShortDescription</td>
                                     <td align="center">
                                         <button type="button" class="btn btn-warning small-btn edit" id="edit" style="width:75px;height:40px;" data-target="#myModal" data-toggle="modal">Edit</button>
 
-                                        <button type="submit" onclick="return confirm('Are you sure you want to delete Item ?')" asp-action="Delete" asp-route-id="@uc.Code" style="width:75px;height:40px;" class="btn btn-danger">
+                                        <button type="button" class="btn btn-danger delete" style="width:75px;height:40px;">
                                             Delete
                                         </button>
                                     </td>
@@ -108,6 +108,10 @@
 
 <script type="text/javascript">$('#Unit').DataTable();</script>
 
+<script type="text/javascript" src="~/vali-js/plugins/bootstrap-notify.min.js"></script>
+
+<script type="text/javascript" src="~/vali-js/plugins/sweetalert.min.js"></script>
+
 <script type="text/javascript">
 
     $(function () {
@@ -140,6 +144,51 @@
         });
     });
 </script>
+<script type="text/javascript">
+    $(function () {
 
+        $(".delete").click(function () {
+             var tr = $(this).parent().parent();
+                  var tdRecords = $(tr).children();
+            var ID = $(tdRecords[0]).text();
+             var item_group_name = $(tdRecords[1]).text();
+            console.log(this.id);
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover "+ " " + item_group_name + " "+ " file!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {  if (isConfirm) {
+
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: { ID: ID},
+                        url: '@Url.Action("Delete")',
+                        success: function (data) {
+
+                            $('#Unit tr[id="' + ID + '"]').hide();
+
+
+                      swal("Deleted!", "Your file has been deleted.", "success");
+                        },
+                    error: function () {
+
+                        }
+                });
+
+            }
+            else {
+                  swal("Cancelled", "Your file is safe :)", "error");
+
+            }
+        })
+    }); });
+
+
+</script>
 
 

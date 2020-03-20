@@ -14,6 +14,7 @@ using CloudIms.Areas.UserAccount.Controllers;
 
 
 
+
 namespace CloudIms.Areas.UserAccount.Controllers
 {
     [Area("inv")]
@@ -31,7 +32,7 @@ namespace CloudIms.Areas.UserAccount.Controllers
         /// <summary>
         /// The action to login user.
         /// </summary>
-        /// <param name="ID"></param>
+        /// <param name="igID"></param>
         /// <param name="item_group_name"></param>
 
         /// <returns></returns>
@@ -46,53 +47,48 @@ namespace CloudIms.Areas.UserAccount.Controllers
             return View("Index", model);
         }
 
-        [Route("[area]/[folder]/item-group/AddEdit")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AllowAnonymous]
-        public IActionResult AddEdit(String ID, String item_group_name)
-        {
-            var model = new ItemGroupViewModel(HttpContext);
-            model.ItemGroups = DbContext.ItemGroups.ToList();
+        [Route("[area]/[folder]/item-group/Add")]
+        public JsonResult Add(String igID, String item_group_name)
+        { 
             try
             {
-                var ig = DbContext.ItemGroups.Find(ID);
-                if (ig != null)
-                { 
-                    ig.ItemGroupName = item_group_name;
-
-                    DbContext.ItemGroups.Update(ig);
-                    DbContext.SaveChanges();
-                    return RedirectToAction("Index", model);
-                }
-                else
-                {
                     var ig2 = new ItemGroup();
-                    ig2.ID = ID;
+                    ig2.ID = igID;
                     ig2.ItemGroupName = item_group_name;
                  
                     DbContext.ItemGroups.Add(ig2);
                     DbContext.SaveChanges();
-                    return RedirectToAction("index", model);
-                }
-
+                    return GETJSON();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
             }
-            return View("index", model);
+            return GETJSON();
+        }
+        [Route("[area]/[folder]/item-group/Edit")]
+        public JsonResult Edit(String igID, String item_group_name)
+        {
+            try
+            {
+                    var ig = new ItemGroup();
+                    ig.ItemGroupName = item_group_name;
+
+                    DbContext.ItemGroups.Update(ig);
+                    DbContext.SaveChanges();
+                    return GETJSON();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return GETJSON();
         }
 
 
         [Route("[area]/[folder]/item-group/Delete")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AllowAnonymous]
-        public IActionResult Delete(String ID)
+        public JsonResult Delete(String ID)
         {
-            var model = new ItemGroupViewModel(HttpContext);
-            model.ItemGroups = DbContext.ItemGroups.ToList();
             try
             {
                 var im = DbContext.ItemGroups.Find(ID);
@@ -101,49 +97,24 @@ namespace CloudIms.Areas.UserAccount.Controllers
                 {
                     DbContext.ItemGroups.Remove(im);
                     DbContext.SaveChanges();
-                    return RedirectToAction("index", model);
+                    return GETJSON();
                 }
                 else
                 {
-                    return View("index", model);
+                    return GETJSON();
                 }
             }
             catch (Exception)
             {
-                return View("index", model);
+                return GETJSON();
             }
 
         }
-        [Route("[area]/[folder]/item-group/Search")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AllowAnonymous]
-        public IActionResult Search(String item_group_name)
+        public JsonResult GETJSON()
         {
             var model = new ItemGroupViewModel(HttpContext);
             model.ItemGroups = DbContext.ItemGroups.ToList();
-            try
-            {
-                var im = DbContext.ItemMasters.Find(item_group_name);
-                if(im == null)
-                {
-                 //   return Json(new { data = im }, JsonRequestBehavior.AllowGet);
-       
-                }
-               else
-                {
-
-                }
-            
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-
-            return View("index");
+            return Json (model);
         }
     }
 }
