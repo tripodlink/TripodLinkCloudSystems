@@ -254,7 +254,7 @@ namespace CloudImsCommon.Migrations
             migrationBuilder.InsertData(
                 table: "user_account",
                 columns: new[] { "ua_user_id", "im_created_by", "im_created_on", "ua_is_active", "ua_is_mb_user", "ua_password", "im_updated_by", "im_updated_on", "ua_user_name" },
-                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 3, 11, 15, 49, 29, 244, DateTimeKind.Local), (byte)1, (byte)1, ".00000", "SYSTEM", new DateTime(2020, 3, 11, 15, 49, 29, 245, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
+                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 3, 17, 9, 43, 5, 245, DateTimeKind.Local), (byte)1, (byte)1, ".00000", "SYSTEM", new DateTime(2020, 3, 17, 9, 43, 5, 247, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "user_group",
