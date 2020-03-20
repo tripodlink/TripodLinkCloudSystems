@@ -28,7 +28,7 @@
                             @foreach (var im in Model.ItemMasters)
                             {
 
-                                <tr>
+                                <tr id="@im.ID">
                                     <td>@im.ID</td>
                                     <td>@im.ItemGroup</td>
                                     <td>@im.ItemName</td>
@@ -38,7 +38,7 @@
                                     <td align="center">
                                         <button type="button" class="btn btn-warning small-btn edit" style="width:75px;height:40px;" data-target="#myModal" data-toggle="modal">Edit</button>
 
-                                        <button type="submit" onclick="return confirm('Are you sure you want to delete Item ?')" asp-action="Delete" asp-route-id="@im.ID" style="width:75px;height:40px;" class="btn btn-danger">
+                                        <button type="button" class="btn btn-danger delete" style="width:75px;height:40px;">
                                             Delete
                                         </button>
                                     </td>
@@ -62,8 +62,8 @@
                                 <div class="modal-body">
 
                                     <div class="form-group">
-                                        <label for="ID" class="col-form-label">ID</label>
-                                        <input for="ID" type="text" class="form-control" name="ID" id="ID">
+                                        <label for="imID" class="col-form-label">ID</label>
+                                        <input for="imID" type="text" class="form-control" name="imID" id="imID">
 
                                     </div>
                                     <div class="form-group">
@@ -129,6 +129,9 @@
 
 <script type="text/javascript">$('#itemMasterTable').DataTable();</script>
 
+<script type="text/javascript" src="~/vali-js/plugins/bootstrap-notify.min.js"></script>
+
+<script type="text/javascript" src="~/vali-js/plugins/sweetalert.min.js"></script>
 <script type="text/javascript">
     $(function () {
 
@@ -144,7 +147,7 @@
             var itemmanu = $(tdRecords[5]).text();
 
 
-            $("#ID").val(ID);
+            $("#imID").val(ID);
             $("#ItemGroupDropDown").val(ItemGroup);
             $("#itemname").val(itemname);
             $("#itemunit").val(itemunit);
@@ -159,7 +162,7 @@
 
         $(".clear").click(function () {
 
-            $("#ID").val("");
+            $("#imID").val("");
             $("#ItemGroupDropDown").val("");
             $("#itemname").val("");
             $("#itemunit").val("");
@@ -169,4 +172,50 @@
             $('#myModal').modal('show');
         });
     });
+</script>
+<script type="text/javascript">
+    $(function () {
+
+        $(".delete").click(function () {
+             var tr = $(this).parent().parent();
+                  var tdRecords = $(tr).children();
+            var ID = $(tdRecords[0]).text();
+             var itemname = $(tdRecords[2]).text();
+
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover "+ itemname +" file!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {  if (isConfirm) {
+
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: { ID: ID},
+                        url: '@Url.Action("Delete")',
+                        success: function (data) {
+
+                            $('#itemMasterTable tr[id="' + ID + '"]').hide();
+
+
+                      swal("Deleted!", "Your file has been deleted.", "success");
+                        },
+                    error: function () {
+
+                        }
+                });
+
+            }
+            else {
+                  swal("Cancelled", "Your file is safe :)", "error");
+
+            }
+        })
+    }); });
+
+
 </script>

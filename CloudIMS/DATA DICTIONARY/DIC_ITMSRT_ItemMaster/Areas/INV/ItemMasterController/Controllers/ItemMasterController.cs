@@ -29,7 +29,7 @@ namespace CloudIms.Areas.UserAccount.Controllers
         /// <summary>
         /// The action to login user.
         /// </summary>
-        /// <param name="ID"></param>
+        /// <param name="imID"></param>
         /// <param name="ItemGroupDropDown"></param>
         /// <param name="itemname"></param>
         /// <param name="itemunit"></param>
@@ -52,16 +52,13 @@ namespace CloudIms.Areas.UserAccount.Controllers
         }
 
         [Route("[area]/[folder]/item-master/AddEdit")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AllowAnonymous]
-        public IActionResult AddEdit(String ID,String ItemGroupDropDown, String itemname, String itemunit, String itemsup, String itemmanu)
+        public IActionResult AddEdit(String imID, String ItemGroupDropDown, String itemname, String itemunit, String itemsup, String itemmanu)
         {
             var model = new ItemMasterViewModel(HttpContext);
             model.ItemMasters = DbContext.ItemMasters.ToList();
             try
             {
-                var im = DbContext.ItemMasters.Find(ID);
+                var im = DbContext.ItemMasters.Find(imID);
                 if (im != null)
                 {
                     im.ItemGroup = ItemGroupDropDown;
@@ -77,7 +74,7 @@ namespace CloudIms.Areas.UserAccount.Controllers
                 else
                 {
                     var im2 = new ItemMaster();
-                    im2.ID = ID;
+                    im2.ID = imID;
                     im2.ItemGroup = ItemGroupDropDown;
                     im2.ItemName = itemname;
                     im2.Unit = itemunit;
@@ -98,9 +95,6 @@ namespace CloudIms.Areas.UserAccount.Controllers
 
 
         [Route("[area]/[folder]/item-master/Delete")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AllowAnonymous]
         public IActionResult Delete(String ID)
         {
             var model = new ItemMasterViewModel(HttpContext);

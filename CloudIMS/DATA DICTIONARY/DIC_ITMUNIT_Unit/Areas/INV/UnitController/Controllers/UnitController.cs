@@ -46,10 +46,7 @@ namespace CloudIms.Areas.UserAccount.Controllers
             return View("Index", model);
         }
 
-        [Route("[area]/[folder]/item-group/AddEdit")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AllowAnonymous]
+        [Route("[area]/[folder]/unit/AddEdit")]
         public IActionResult AddEdit(String Code, String Desc, String ShortDesc)
         {
             var model = new UnitViewModel(HttpContext);
@@ -87,9 +84,6 @@ namespace CloudIms.Areas.UserAccount.Controllers
 
 
         [Route("[area]/[folder]/unit/Delete")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [AllowAnonymous]
         public IActionResult Delete(String ID)
         {
             var model = new UnitViewModel(HttpContext);
