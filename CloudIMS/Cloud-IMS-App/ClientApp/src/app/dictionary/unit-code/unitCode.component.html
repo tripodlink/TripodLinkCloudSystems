@@ -1,0 +1,19 @@
+<div><h1>Hello from Unit Code</h1></div>
+<br />
+<br />
+<table>
+  <thead>
+    <tr>
+      <td>Code</td>
+      <td>Description</td>
+      <td>Short Description</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let unit of unitCodes">
+      <td>{{unit.code}}</td>
+      <td>{{unit.description}}</td>
+      <td>{{unit.shortDescription}}</td>
+    </tr>
+  </tbody>
+</table>

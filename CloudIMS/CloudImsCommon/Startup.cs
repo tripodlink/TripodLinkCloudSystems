@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 
 namespace CloudImsCommon
 {
@@ -33,7 +34,12 @@ namespace CloudImsCommon
             services.AddDbContextPool<AppDbContext>(
                 options => options.UseMySQL(Configuration.GetConnectionString("ImsConnection")));
                        
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(jsonOptions =>
+                {
+                    jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
+                });
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                  .AddCookie(options =>
                  {
