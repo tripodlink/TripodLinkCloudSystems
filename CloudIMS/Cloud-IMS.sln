@@ -25,6 +25,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DIC_MANUFACT_Manufacturer",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DIC_SUPPLIER_Supplier", "DATA DICTIONARY\DIC_SUPPLIER_Supplier\DIC_SUPPLIER_Supplier.csproj", "{7C9ACDDD-DE55-4E02-864F-68F6F1CCBCC2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cloud-IMS-Api", "Cloud-IMS-Api\Cloud-IMS-Api.csproj", "{9F5C0003-2256-4B66-9D75-2808441013E7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cloud-IMS-App", "Cloud-IMS-App\Cloud-IMS-App.csproj", "{69B35DFB-F4B3-4A0D-9430-4B4E3D1C2F7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +67,14 @@ Global
 		{7C9ACDDD-DE55-4E02-864F-68F6F1CCBCC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C9ACDDD-DE55-4E02-864F-68F6F1CCBCC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C9ACDDD-DE55-4E02-864F-68F6F1CCBCC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F5C0003-2256-4B66-9D75-2808441013E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F5C0003-2256-4B66-9D75-2808441013E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F5C0003-2256-4B66-9D75-2808441013E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F5C0003-2256-4B66-9D75-2808441013E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69B35DFB-F4B3-4A0D-9430-4B4E3D1C2F7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69B35DFB-F4B3-4A0D-9430-4B4E3D1C2F7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69B35DFB-F4B3-4A0D-9430-4B4E3D1C2F7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69B35DFB-F4B3-4A0D-9430-4B4E3D1C2F7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
