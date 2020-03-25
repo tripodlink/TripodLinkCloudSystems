@@ -17,6 +17,9 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { UnitCodeComponent } from './dictionary/unit-code/unitCode.component';
 import { UnitCodeService } from './services/UnitCode.service';
+import { SupplierComponent } from './dictionary/supplier/supplier.component';
+import { AppSidebarMenuComponent } from './app-sidebar-menu/app-sidebar-menu.component';
+import { AppNavbarMenuComponent } from './app-navbar-menu/app-navbar-menu.component';
 import { UserAccountComponent } from './user-management/user-account/user-account.component';
 import { UserAccountService } from './services/UserAccount.service';
 import { CommonModule } from '@angular/common';
@@ -33,6 +36,9 @@ AppModule = __decorate([
             CounterComponent,
             FetchDataComponent,
             UnitCodeComponent,
+            SupplierComponent,
+            AppSidebarMenuComponent,
+            AppNavbarMenuComponent,
             UserAccountComponent
         ],
         imports: [
