@@ -38,8 +38,6 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\classes\UserAccount.ts" />
     <None Remove="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
-    <None Remove="ClientApp\src\app\services\UserAccount.service.ts" />
-    <None Remove="ClientApp\src\app\user-management\user-account\user-account.component.ts" />
   </ItemGroup>
 
   <ItemGroup>
