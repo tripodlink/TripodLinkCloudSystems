@@ -5,7 +5,7 @@ import { UnitCodeService } from '../../services/UnitCode.service';
 import { IUnitCode } from '../../classes/IUnitCode.interface';
 import { Interface } from 'readline';
 import { error } from 'protractor';
-
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'dic-unitCode',
@@ -16,7 +16,7 @@ export class UnitCodeComponent {
   message: string;    
   addForm: FormGroup;
 
-  constructor(private unitcodeService: UnitCodeService, private formBuilder: FormBuilder ) {
+  constructor(private unitcodeService: UnitCodeService, private formBuilder: FormBuilder, private toastr: ToastrService) {
     this.addForm = new FormGroup({
       Code: new FormControl(),
       Description: new FormControl(),
@@ -36,12 +36,11 @@ export class UnitCodeComponent {
   insertUnitCodes() {
     let errormessage = "Error";
     this.unitcodeService.insertUnitCodes(this.addForm.value).subscribe(data => {
-      alert("Data Saved");
+      this.toastr.success("Data Saved!", "Saved");
     },
       error => {
         errormessage = error.error;
-        alert(errormessage);
-        console.log(error.error);
+        this.toastr.error(errormessage,"Error")
       }
       );
   }

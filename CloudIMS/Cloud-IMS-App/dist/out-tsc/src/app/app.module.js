@@ -17,6 +17,9 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { UnitCodeComponent } from './dictionary/unit-code/unitCode.component';
 import { UnitCodeService } from './services/UnitCode.service';
+import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -34,6 +37,13 @@ AppModule = __decorate([
             HttpClientModule,
             FormsModule,
             ReactiveFormsModule,
+            CommonModule,
+            BrowserAnimationsModule,
+            ToastrModule.forRoot({
+                timeOut: 3000,
+                positionClass: 'toast-top-right',
+                preventDuplicates: true,
+            }),
             RouterModule.forRoot([
                 { path: '', component: HomeComponent, pathMatch: 'full' },
                 { path: 'counter', component: CounterComponent },
