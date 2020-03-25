@@ -1,0 +1,21 @@
+<table>
+  <thead>
+    <tr>
+      <td>User ID</td>
+      <td>Name</td>
+      <td>Update On</td>
+      <td>Update By</td>
+      <td>Active</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{user.userID}}</td>
+      <td>{{user.userName}}</td>
+      <td>{{user.updatedOn}}</td>
+      <td>{{user.updatedBy}}</td>
+      <td>{{user.isActive}}</td>
+    </tr>
+  </tbody>
+</table>
+

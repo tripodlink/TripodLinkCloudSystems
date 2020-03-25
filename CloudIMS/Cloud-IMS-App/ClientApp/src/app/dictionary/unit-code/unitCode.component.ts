@@ -28,9 +28,7 @@ export class UnitCodeComponent {
 
 
   ngOnInit(): void {
-    this.unitcodeService.getUnitCodes().subscribe((unitCodes) => this.unitCodes = unitCodes);
-
-   
+    this.unitcodeService.getUnitCodes().subscribe((unitCodes) => this.unitCodes = unitCodes);   
   }
   
   insertUnitCodes() {

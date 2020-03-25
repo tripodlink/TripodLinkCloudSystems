@@ -11,9 +11,11 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
-
 import { UnitCodeComponent } from './dictionary/unit-code/unitCode.component';
 import { UnitCodeService } from './services/UnitCode.service';
+
+import { UserAccountComponent } from './user-management/user-account/user-account.component';
+import { UserAccountService } from './services/UserAccount.service';
 
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,7 +29,9 @@ import { ToastrModule } from 'ngx-toastr';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    UnitCodeComponent
+    UnitCodeComponent,
+    UserAccountComponent   
+
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -46,9 +50,10 @@ import { ToastrModule } from 'ngx-toastr';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dictionary/unit-code', component: UnitCodeComponent },
+      { path: 'user-management/user-account', component: UserAccountComponent },
     ])
   ],
-  providers: [UnitCodeService, Http],
+  providers: [UnitCodeService, UserAccountService, Http],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

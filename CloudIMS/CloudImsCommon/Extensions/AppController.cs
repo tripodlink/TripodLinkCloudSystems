@@ -17,6 +17,8 @@ namespace CloudImsCommon.Extensions
             Logger = logger;
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [NonAction]
         public string GetErrorMessage(Exception ex)
         {
             var errorMessage = ex.Message;
