@@ -10,10 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { UnitCodeService } from '../../services/UnitCode.service';
+import { ToastrService } from 'ngx-toastr';
 let UnitCodeComponent = class UnitCodeComponent {
-    constructor(unitcodeService, formBuilder) {
+    constructor(unitcodeService, formBuilder, toastr) {
         this.unitcodeService = unitcodeService;
         this.formBuilder = formBuilder;
+        this.toastr = toastr;
         this.addForm = new FormGroup({
             Code: new FormControl(),
             Description: new FormControl(),
@@ -26,11 +28,10 @@ let UnitCodeComponent = class UnitCodeComponent {
     insertUnitCodes() {
         let errormessage = "Error";
         this.unitcodeService.insertUnitCodes(this.addForm.value).subscribe(data => {
-            alert("Data Saved");
+            this.toastr.success("Data Saved!", "Saved");
         }, error => {
             errormessage = error.error;
-            alert(errormessage);
-            console.log(error.error);
+            this.toastr.error(errormessage, "Error");
         });
     }
 };
@@ -39,7 +40,7 @@ UnitCodeComponent = __decorate([
         selector: 'dic-unitCode',
         templateUrl: './unitCode.component.html',
     }),
-    __metadata("design:paramtypes", [UnitCodeService, FormBuilder])
+    __metadata("design:paramtypes", [UnitCodeService, FormBuilder, ToastrService])
 ], UnitCodeComponent);
 export { UnitCodeComponent };
 //# sourceMappingURL=unitCode.component.js.map
