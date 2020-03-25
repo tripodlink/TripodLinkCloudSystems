@@ -25,6 +25,6 @@ namespace CloudImsCommon.Models
 
         [Column("uc_short_description")]
         [MaxLength(10)]
-        public String? ShortDescription { get; set; }
+        public String ShortDescription { get; set; }
     }
 }

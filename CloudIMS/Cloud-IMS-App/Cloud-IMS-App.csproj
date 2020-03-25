@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -37,6 +37,10 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Controllers\UnitCodeController.cs" />
   </ItemGroup>
 
   <ItemGroup>
