@@ -14,6 +14,10 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
 import { UnitCodeComponent } from './dictionary/unit-code/unitCode.component';
 import { UnitCodeService } from './services/UnitCode.service';
+import { SupplierComponent } from './dictionary/supplier/supplier.component';
+import { SupplierService } from './services/supplier.service';
+import { AppSidebarMenuComponent } from './app-sidebar-menu/app-sidebar-menu.component';
+import { AppNavbarMenuComponent } from './app-navbar-menu/app-navbar-menu.component';
 
 
 
@@ -24,7 +28,10 @@ import { UnitCodeService } from './services/UnitCode.service';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    UnitCodeComponent
+    UnitCodeComponent,
+    SupplierComponent,
+    AppSidebarMenuComponent,
+    AppNavbarMenuComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -35,9 +42,10 @@ import { UnitCodeService } from './services/UnitCode.service';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dictionary/unit-code', component: UnitCodeComponent },
+      { path: 'dictionary/supplier', component: SupplierComponent },
     ])
   ],
-  providers: [UnitCodeService, Http],
+  providers: [UnitCodeService,SupplierService, Http],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
