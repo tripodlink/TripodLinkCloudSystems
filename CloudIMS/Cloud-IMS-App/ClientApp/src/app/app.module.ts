@@ -36,8 +36,7 @@ import { ToastrModule } from 'ngx-toastr';
         UnitCodeComponent,
         SupplierComponent,
         AppSidebarMenuComponent,
-        AppNavbarMenuComponent
-        UnitCodeComponent,
+        AppNavbarMenuComponent,
         UserAccountComponent   
   ],
   imports: [
