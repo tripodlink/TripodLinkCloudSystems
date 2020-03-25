@@ -1,25 +1,19 @@
-<div><h1>Hello from Unit Code</h1></div>
-<br />
-<br />
-<table>
-  <thead>
-    <tr>
-      <td>Code</td>
-      <td>Description</td>
-      <td>Short Description</td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let unit of unitCodes">
-      <td>{{unit.code}}</td>
-      <td>{{unit.description}}</td>
-      <td>{{unit.shortDescription}}</td>
-    </tr>
-  </tbody>
-</table>
+<main class="app-content">
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-building-o"></i> Supplier</h1>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
+    </ul>
+  </div>
 
-
-
+  <div class="row">
+    <div class="col-md-6">
+      <div class="tile">
+        <h3 class="tile-title">Vertical Form</h3>
+        <div class="tile-body">
+          
 <form (ngSubmit)="insertUnitCodes()" [formGroup]="addForm">
   <div class="form-group">
     <input placeholder="Code" formControlName="Code" name="code" class="form-control" id="code">

@@ -37,7 +37,6 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
-    <None Remove="ClientApp\src\vali-css\all.css" />
     <None Remove="ClientApp\src\vali-css\all.min.css" />
     <None Remove="ClientApp\src\vali-css\font-awesome.min.css" />
     <None Remove="ClientApp\src\vali-css\fontawesome.css" />
