@@ -43,8 +43,8 @@ namespace CloudIms.Areas.UserAccount.Controllers
         public IActionResult Index(String ID)
         {
             var model = new ItemMasterViewModel(HttpContext);
-            model.ItemMasters = DbContext.ItemMasters.ToList();
-            model.ItemGroups = DbContext.ItemGroups.ToList();
+            model.ItemMasters = dbContext.ItemMasters.ToList();
+            model.ItemGroups = dbContext.ItemGroups.ToList();
 
         
             return View("Index", model);
@@ -55,10 +55,10 @@ namespace CloudIms.Areas.UserAccount.Controllers
         public IActionResult AddEdit(String imID, String ItemGroupDropDown, String itemname, String itemunit, String itemsup, String itemmanu)
         {
             var model = new ItemMasterViewModel(HttpContext);
-            model.ItemMasters = DbContext.ItemMasters.ToList();
+            model.ItemMasters = dbContext.ItemMasters.ToList();
             try
             {
-                var im = DbContext.ItemMasters.Find(imID);
+                var im = dbContext.ItemMasters.Find(imID);
                 if (im != null)
                 {
                     im.ItemGroup = ItemGroupDropDown;
@@ -67,8 +67,8 @@ namespace CloudIms.Areas.UserAccount.Controllers
                     im.Supplier = itemsup;
                     im.Manufacturer = itemmanu;
 
-                    DbContext.ItemMasters.Update(im);
-                    DbContext.SaveChanges();
+                    dbContext.ItemMasters.Update(im);
+                    dbContext.SaveChanges();
                     return RedirectToAction("Index", model);
                 }
                 else
@@ -80,8 +80,8 @@ namespace CloudIms.Areas.UserAccount.Controllers
                     im2.Unit = itemunit;
                     im2.Supplier = itemsup;
                     im2.Manufacturer = itemmanu;
-                    DbContext.ItemMasters.Add(im2);
-                    DbContext.SaveChanges();
+                    dbContext.ItemMasters.Add(im2);
+                    dbContext.SaveChanges();
                     return RedirectToAction("index", model);
                 }
 
@@ -98,15 +98,15 @@ namespace CloudIms.Areas.UserAccount.Controllers
         public IActionResult Delete(String ID)
         {
             var model = new ItemMasterViewModel(HttpContext);
-            model.ItemMasters = DbContext.ItemMasters.ToList();
+            model.ItemMasters = dbContext.ItemMasters.ToList();
             try
             {
-                var im = DbContext.ItemMasters.Find(ID);
+                var im = dbContext.ItemMasters.Find(ID);
 
                 if (im != null)
                 {
-                    DbContext.ItemMasters.Remove(im);
-                    DbContext.SaveChanges();
+                    dbContext.ItemMasters.Remove(im);
+                    dbContext.SaveChanges();
                     return RedirectToAction("index", model);
                 }
                 else

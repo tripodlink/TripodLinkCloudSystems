@@ -6,16 +6,13 @@ using CloudImsCommon.Database;
 using CloudImsCommon.Extensions;
 using CloudImsCommon.Models;
 using CloudImsCommon.Routing;
-using DataDictionary.Unit.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace CloudIms.Areas.UserAccount.Controllers
 {
-    [Area("inv")]
-    [Folder("user-management")]
-    [Authorize]
+    [Route("api/[controller]")]
     public class UserAccountController : AppController
     {
         public UserAccountController(AppDbContext dbContext, ILogger<UserAccountController> logger)
@@ -23,16 +20,18 @@ namespace CloudIms.Areas.UserAccount.Controllers
         {
         }
 
-        [Route("[area]/[folder]/user-account")]
-        [Route("[area]/[folder]/user-account/index")]
+        [Route("")]
+        [Route("[action]")]
         public IActionResult Index()
         {
-
-
-            var model = new UserAccountViewModel(HttpContext);
-            model.ProgramMenus = dbContext.ProgramMenus.ToList();
-
-            return View("index", model);
+            try
+            {
+               return Ok(dbContext.UserAccounts.ToList());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage (ex));
+            }
         }
 
     }

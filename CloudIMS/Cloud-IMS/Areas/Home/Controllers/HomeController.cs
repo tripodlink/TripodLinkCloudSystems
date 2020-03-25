@@ -65,28 +65,28 @@ namespace CloudIms.Areas.Home.Controllers
 
             try
             {
-                UserAccount user = DbContext.UserAccounts.Find(userID);
+                UserAccount user = dbContext.UserAccounts.Find(userID);
 
                 if (user != null)
                 {
                     if (user.Password == userPassword)
                     {
-                       var groupIdArr = DbContext.UserAccountGroups.Where(u => u.UserAccountID == "SYSAD")
+                       var groupIdArr = dbContext.UserAccountGroups.Where(u => u.UserAccountID == "SYSAD")
                             .Select(u => new { UserGroupID = u.UserGroupID })
                             .ToList();
 
 
-                        var userProgramsArr = DbContext.UserGroupPrograms
+                        var userProgramsArr = dbContext.UserGroupPrograms
                                               .Where(ugp => groupIdArr.Any(gi => gi.UserGroupID == ugp.UserGroupID))
                                               .Select(ugp => new { ProgramID = ugp.ProgramMenuID })
                                               .ToList();
 
 
-                        List<ProgramMenu> menus = DbContext.ProgramMenus
+                        List<ProgramMenu> menus = dbContext.ProgramMenus
                                                     .Where(pm => userProgramsArr.Any(up => up.ProgramID == pm.ID))
                                                     .ToList();
 
-                        List<ProgramFolder> folders = DbContext.ProgramFolders
+                        List<ProgramFolder> folders = dbContext.ProgramFolders
                                                     .Where(pf => menus.Any(pm => pm.ProgramFolderID == pf.ID))
                                                     .ToList();
 

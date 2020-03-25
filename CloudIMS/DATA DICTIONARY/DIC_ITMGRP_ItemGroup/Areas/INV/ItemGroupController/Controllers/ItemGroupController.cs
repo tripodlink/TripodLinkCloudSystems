@@ -43,7 +43,7 @@ namespace CloudIms.Areas.UserAccount.Controllers
         public IActionResult Index()
         {
             var model = new ItemGroupViewModel(HttpContext);
-            model.ItemGroups = DbContext.ItemGroups.ToList();
+            model.ItemGroups = dbContext.ItemGroups.ToList();
             return View("Index", model);
         }
 
@@ -56,8 +56,8 @@ namespace CloudIms.Areas.UserAccount.Controllers
                     ig2.ID = igID;
                     ig2.ItemGroupName = item_group_name;
                  
-                    DbContext.ItemGroups.Add(ig2);
-                    DbContext.SaveChanges();
+                    dbContext.ItemGroups.Add(ig2);
+                    dbContext.SaveChanges();
                     return GETJSON();
             }
             catch (Exception e)
@@ -74,8 +74,8 @@ namespace CloudIms.Areas.UserAccount.Controllers
                     var ig = new ItemGroup();
                     ig.ItemGroupName = item_group_name;
 
-                    DbContext.ItemGroups.Update(ig);
-                    DbContext.SaveChanges();
+                    dbContext.ItemGroups.Update(ig);
+                    dbContext.SaveChanges();
                     return GETJSON();
             }
             catch (Exception e)
@@ -91,12 +91,12 @@ namespace CloudIms.Areas.UserAccount.Controllers
         {
             try
             {
-                var im = DbContext.ItemGroups.Find(ID);
+                var im = dbContext.ItemGroups.Find(ID);
 
                 if (im != null)
                 {
-                    DbContext.ItemGroups.Remove(im);
-                    DbContext.SaveChanges();
+                    dbContext.ItemGroups.Remove(im);
+                    dbContext.SaveChanges();
                     return GETJSON();
                 }
                 else
@@ -113,7 +113,7 @@ namespace CloudIms.Areas.UserAccount.Controllers
         public JsonResult GETJSON()
         {
             var model = new ItemGroupViewModel(HttpContext);
-            model.ItemGroups = DbContext.ItemGroups.ToList();
+            model.ItemGroups = dbContext.ItemGroups.ToList();
             return Json (model);
         }
     }
