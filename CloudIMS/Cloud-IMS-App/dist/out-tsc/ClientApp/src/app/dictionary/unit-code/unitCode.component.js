@@ -8,13 +8,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { UnitCodeService } from '../../services/UnitCode.service';
+import { ToastrService } from 'ngx-toastr';
 let UnitCodeComponent = class UnitCodeComponent {
-    constructor(unitcodeService) {
+    constructor(unitcodeService, formBuilder, toastr) {
         this.unitcodeService = unitcodeService;
+        this.formBuilder = formBuilder;
+        this.toastr = toastr;
+        this.addForm = new FormGroup({
+            Code: new FormControl(),
+            Description: new FormControl(),
+            ShortDescription: new FormControl()
+        });
     }
     ngOnInit() {
         this.unitcodeService.getUnitCodes().subscribe((unitCodes) => this.unitCodes = unitCodes);
+    }
+    insertUnitCodes() {
+        let errormessage = "Error";
+        this.unitcodeService.insertUnitCodes(this.addForm.value).subscribe(data => {
+            this.toastr.success("Data Saved!", "Saved");
+            this.ngOnInit();
+        }, error => {
+            errormessage = error.error;
+            this.toastr.error(errormessage, "Error");
+        });
     }
 };
 UnitCodeComponent = __decorate([
@@ -22,7 +41,7 @@ UnitCodeComponent = __decorate([
         selector: 'dic-unitCode',
         templateUrl: './unitCode.component.html',
     }),
-    __metadata("design:paramtypes", [UnitCodeService])
+    __metadata("design:paramtypes", [UnitCodeService, FormBuilder, ToastrService])
 ], UnitCodeComponent);
 export { UnitCodeComponent };
 //# sourceMappingURL=unitCode.component.js.map

@@ -38,6 +38,35 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\classes\UserAccount.ts" />
     <None Remove="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
+    <None Remove="ClientApp\src\vali-css\all.css" />
+    <None Remove="ClientApp\src\vali-css\all.min.css" />
+    <None Remove="ClientApp\src\vali-css\font-awesome.min.css" />
+    <None Remove="ClientApp\src\vali-css\fontawesome.css" />
+    <None Remove="ClientApp\src\vali-css\fontawesome.min.css" />
+    <None Remove="ClientApp\src\vali-css\main.css" />
+    <None Remove="ClientApp\src\vali-js\bootstrap.min.js" />
+    <None Remove="ClientApp\src\vali-js\jquery-3.3.1.min.js" />
+    <None Remove="ClientApp\src\vali-js\main.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\all.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\all.min.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\bootstrap-datepicker.min.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\bootstrap-notify.min.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\bootstrap.min.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\chart.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\dataTables.bootstrap.min.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\dropzone.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\fullcalendar.min.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\jquery-ui.custom.min.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\jquery.dataTables.min.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\jquery.min.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\jquery.vmap.min.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\jquery.vmap.sampledata.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\jquery.vmap.world.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\moment.min.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\pace.min.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\select2.min.js" />
+    <None Remove="ClientApp\src\vali-js\plugins\sweetalert.min.js" />
+    <None Remove="ClientApp\src\vali-js\popper.min.js" />
   </ItemGroup>
 
   <ItemGroup>
