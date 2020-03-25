@@ -1,21 +1,63 @@
-<table>
-  <thead>
-    <tr>
-      <td>User ID</td>
-      <td>Name</td>
-      <td>Update On</td>
-      <td>Update By</td>
-      <td>Active</td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users">
-      <td>{{user.userID}}</td>
-      <td>{{user.userName}}</td>
-      <td>{{user.updatedOn}}</td>
-      <td>{{user.updatedBy}}</td>
-      <td>{{user.isActive}}</td>
-    </tr>
-  </tbody>
-</table>
+<main class="app-content">
+  <div class="app-title">
+    <div>
+      <h1><i class="far fa-user"></i> User Accounts</h1>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
+    </ul>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tile">
+        <div>
+          <h3 class="tile-title">List of Users</h3>
+          <button type="button" class="btn btn-primary">Add User</button>
+        </div>
+        <div class="tile-body">
+          <div class="table-responsive">
+
+            <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <td>User ID</td>
+                  <td>Name</td>
+                  <td>Update On</td>
+                  <td>Update By</td>
+                  <td>Active</td>
+                  <td>Action</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of users">
+                  <td>{{user.userID}}</td>
+                  <td>{{user.userName}}</td>
+                  <td>{{user.updatedOn}}</td>
+                  <td>{{user.updatedBy}}</td>
+                  <td>{{user.isActive}}</td>
+                  <td>
+                    <button type="button" class="btn btn-warning">Edit</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+          <!--<div class="tile-footer">
+
+      <button class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>Register</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel</a>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Large modal</button>
+
+    </div>-->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
 
