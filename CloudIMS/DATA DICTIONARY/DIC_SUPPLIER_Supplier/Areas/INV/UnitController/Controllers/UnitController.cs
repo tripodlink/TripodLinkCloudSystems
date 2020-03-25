@@ -42,7 +42,7 @@ namespace CloudIms.Areas.UserAccount.Controllers
         public IActionResult Index()
         {
             var model = new UnitViewModel(HttpContext);
-            model.UnitCodes = DbContext.UnitCodes.ToList();
+            model.UnitCodes = dbContext.UnitCodes.ToList();
             return View("Index", model);
         }
 
@@ -53,16 +53,16 @@ namespace CloudIms.Areas.UserAccount.Controllers
         public IActionResult AddEdit(String Code, String Desc, String ShortDesc)
         {
             var model = new UnitViewModel(HttpContext);
-            model.UnitCodes = DbContext.UnitCodes.ToList();
+            model.UnitCodes = dbContext.UnitCodes.ToList();
             try
             {
-                var uc = DbContext.UnitCodes.Find(Code);
+                var uc = dbContext.UnitCodes.Find(Code);
                 if (uc != null)
                 {
                     uc.Description = Desc;
                     uc.ShortDescription = ShortDesc;
-                    DbContext.UnitCodes.Update(uc);
-                    DbContext.SaveChanges();
+                    dbContext.UnitCodes.Update(uc);
+                    dbContext.SaveChanges();
                     return RedirectToAction("Index", model);
                 }
                 else
@@ -72,8 +72,8 @@ namespace CloudIms.Areas.UserAccount.Controllers
                     uc2.Description = Desc;
                     uc2.ShortDescription = ShortDesc;
 
-                    DbContext.UnitCodes.Add(uc2);
-                    DbContext.SaveChanges();
+                    dbContext.UnitCodes.Add(uc2);
+                    dbContext.SaveChanges();
                     return RedirectToAction("index", model);
                 }
 
@@ -93,15 +93,15 @@ namespace CloudIms.Areas.UserAccount.Controllers
         public IActionResult Delete(String ID)
         {
             var model = new UnitViewModel(HttpContext);
-            model.UnitCodes = DbContext.UnitCodes.ToList();
+            model.UnitCodes = dbContext.UnitCodes.ToList();
             try
             {
-                var uc = DbContext.UnitCodes.Find(ID);
+                var uc = dbContext.UnitCodes.Find(ID);
 
                 if (uc != null)
                 {
-                    DbContext.UnitCodes.Remove(uc);
-                    DbContext.SaveChanges();
+                    dbContext.UnitCodes.Remove(uc);
+                    dbContext.SaveChanges();
                     return RedirectToAction("index", model);
                 }
                 else

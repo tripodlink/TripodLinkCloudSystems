@@ -30,7 +30,7 @@ namespace CloudIms.Areas.UserAccount.Controllers
 
 
             var model = new UserAccountViewModel(HttpContext);
-            model.ProgramMenus = DbContext.ProgramMenus.ToList();
+            model.ProgramMenus = dbContext.ProgramMenus.ToList();
 
             return View("index", model);
         }

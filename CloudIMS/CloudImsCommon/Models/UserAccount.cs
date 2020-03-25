@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 
 namespace CloudImsCommon.Models
@@ -14,12 +11,10 @@ namespace CloudImsCommon.Models
     {
         [Key]
         [Column("ua_user_id")]
-        [MaxLength(20, ErrorMessage = "User ID cannot exceed 20 characters.")]
         public String UserID { get; set; }
 
         [Required]
         [Column("ua_user_name")]
-        [MaxLength(100, ErrorMessage = "User name cannot exceed 100 characters.")]
         public String UserName { get; set; }
 
         [Required]
@@ -30,10 +25,6 @@ namespace CloudImsCommon.Models
         [Required]
         [Column("ua_is_active", TypeName = "TINYINT")]
         public Boolean IsActive { get; set; } = true;
-
-        [Required]
-        [Column("ua_is_mb_user", TypeName = "TINYINT")]
-        public Boolean IsMbUser { get; set; } = true;
 
         [Required]
         [Column("im_created_on")]
@@ -52,5 +43,7 @@ namespace CloudImsCommon.Models
         [Column("im_updated_by")]
         [MaxLength(20)]
         public String UpdatedBy { get; set; }
+
+        public IEnumerable<UserAccountGroup> UserAccountGroups { get; set; }
     }
 }

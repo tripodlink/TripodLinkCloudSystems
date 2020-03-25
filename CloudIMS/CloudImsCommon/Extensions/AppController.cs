@@ -10,25 +10,25 @@ namespace CloudImsCommon.Extensions
 {
     public class AppController : Controller
     {
-       public  AppDbContext DbContext;
+       public  AppDbContext dbContext;
        public  ILogger<AppController> Logger;
         public AppController(AppDbContext dbContext, ILogger<AppController> logger) {
-            DbContext = dbContext;
+            this.dbContext = dbContext;
             Logger = logger;
         }
 
-        public bool IsAuthenticated() {
-            try
-            {
-                var identity = HttpContext.User.Identity;
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [NonAction]
+        public string GetErrorMessage(Exception ex)
+        {
+            var errorMessage = ex.Message;
 
-                return identity.IsAuthenticated;
-            }
-            catch (Exception)
+            if (ex.InnerException != null)
             {
-
-                return false;
+                errorMessage += "\r\nInner Exception: " + ex.InnerException.Message;
             }
+
+            return errorMessage;
         }
     }
 }

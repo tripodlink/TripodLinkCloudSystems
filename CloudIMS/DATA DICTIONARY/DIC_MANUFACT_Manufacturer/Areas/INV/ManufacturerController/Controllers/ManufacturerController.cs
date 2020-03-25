@@ -41,7 +41,7 @@ namespace CloudIms.Areas.UserAccount.Controllers
         public IActionResult Index()
         {
             var model = new ManufacturerViewModel(HttpContext);
-            model.manufacturers = DbContext.Manufacturers.ToList();
+            model.manufacturers = dbContext.Manufacturers.ToList();
             return View("Index", model);
         }
 
@@ -52,16 +52,16 @@ namespace CloudIms.Areas.UserAccount.Controllers
         public IActionResult AddEdit(String ID, String ManufactName)
         {
             var model = new ManufacturerViewModel(HttpContext);
-            model.manufacturers = DbContext.Manufacturers.ToList();
+            model.manufacturers = dbContext.Manufacturers.ToList();
             try
             {
-                var mc = DbContext.Manufacturers.Find(ID);
+                var mc = dbContext.Manufacturers.Find(ID);
                 if (mc != null)
                 {
                     mc.ID = ID;
                     mc.ManufactName = ManufactName;
-                    DbContext.Manufacturers.Update(mc);
-                    DbContext.SaveChanges();
+                    dbContext.Manufacturers.Update(mc);
+                    dbContext.SaveChanges();
                     return RedirectToAction("Index", model);
                 }
                 else
@@ -69,8 +69,8 @@ namespace CloudIms.Areas.UserAccount.Controllers
                     var mc2 = new Manufacturer();
                     mc2.ID = ID;
                     mc2.ManufactName = ManufactName;
-                    DbContext.Manufacturers.Add(mc2);
-                    DbContext.SaveChanges();
+                    dbContext.Manufacturers.Add(mc2);
+                    dbContext.SaveChanges();
                     return RedirectToAction("index", model);
                 }
 
@@ -87,15 +87,15 @@ namespace CloudIms.Areas.UserAccount.Controllers
         public JsonResult Delete(String ID)
         {
             var model = new ManufacturerViewModel(HttpContext);
-            model.manufacturers = DbContext.Manufacturers.ToList();
+            model.manufacturers = dbContext.Manufacturers.ToList();
             try
             {
-                var mc = DbContext.Manufacturers.Find(ID);
+                var mc = dbContext.Manufacturers.Find(ID);
 
                 if (mc != null)
                 {
-                    DbContext.Manufacturers.Remove(mc);
-                    DbContext.SaveChanges();
+                    dbContext.Manufacturers.Remove(mc);
+                    dbContext.SaveChanges();
                     return this.GETJSON();
                 }
                 else
@@ -113,7 +113,7 @@ namespace CloudIms.Areas.UserAccount.Controllers
         public JsonResult GETJSON()
         {
             var model = new ManufacturerViewModel(HttpContext);
-            model.manufacturers = DbContext.Manufacturers.ToList();
+            model.manufacturers = dbContext.Manufacturers.ToList();
             return Json(model);
         }
     }

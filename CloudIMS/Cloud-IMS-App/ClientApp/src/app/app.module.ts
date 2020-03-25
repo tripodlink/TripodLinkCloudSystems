@@ -11,13 +11,15 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
-
 import { UnitCodeComponent } from './dictionary/unit-code/unitCode.component';
 import { UnitCodeService } from './services/UnitCode.service';
 import { SupplierComponent } from './dictionary/supplier/supplier.component';
 import { SupplierService } from './services/supplier.service';
 import { AppSidebarMenuComponent } from './app-sidebar-menu/app-sidebar-menu.component';
 import { AppNavbarMenuComponent } from './app-navbar-menu/app-navbar-menu.component';
+
+import { UserAccountComponent } from './user-management/user-account/user-account.component';
+import { UserAccountService } from './services/UserAccount.service';
 
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,10 +33,11 @@ import { ToastrModule } from 'ngx-toastr';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    UnitCodeComponent,
-    SupplierComponent,
-    AppSidebarMenuComponent,
-    AppNavbarMenuComponent
+        UnitCodeComponent,
+        SupplierComponent,
+        AppSidebarMenuComponent,
+        AppNavbarMenuComponent,
+        UserAccountComponent   
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -53,10 +56,10 @@ import { ToastrModule } from 'ngx-toastr';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dictionary/unit-code', component: UnitCodeComponent },
-      { path: 'dictionary/supplier', component: SupplierComponent },
-    ])
+        { path: 'user-management/user-account', component: UserAccountComponent },
+   ])
   ],
-  providers: [UnitCodeService,SupplierService, Http],
+    providers: [UnitCodeService, UserAccountService, Http],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
