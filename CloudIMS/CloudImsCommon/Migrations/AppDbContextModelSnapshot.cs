@@ -295,8 +295,7 @@ namespace CloudImsCommon.Migrations
                 {
                     b.Property<string>("UserID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("ua_user_id")
-                        .HasMaxLength(20);
+                        .HasColumnName("ua_user_id");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -308,10 +307,6 @@ namespace CloudImsCommon.Migrations
 
                     b.Property<byte>("IsActive")
                         .HasColumnName("ua_is_active")
-                        .HasColumnType("TINYINT");
-
-                    b.Property<byte>("IsMbUser")
-                        .HasColumnName("ua_is_mb_user")
                         .HasColumnType("TINYINT");
 
                     b.Property<string>("Password")
@@ -329,15 +324,14 @@ namespace CloudImsCommon.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnName("ua_user_name")
-                        .HasMaxLength(100);
+                        .HasColumnName("ua_user_name");
 
                     b.HasKey("UserID");
 
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 3, 17, 9, 43, 5, 245, DateTimeKind.Local), IsActive = (byte)1, IsMbUser = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 3, 17, 9, 43, 5, 247, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 3, 26, 9, 6, 4, 108, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 3, 26, 9, 6, 4, 110, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 
@@ -424,7 +418,7 @@ namespace CloudImsCommon.Migrations
             modelBuilder.Entity("CloudImsCommon.Models.UserAccountGroup", b =>
                 {
                     b.HasOne("CloudImsCommon.Models.UserAccount", "UserAccount")
-                        .WithMany()
+                        .WithMany("UserAccountGroups")
                         .HasForeignKey("UserAccountID")
                         .OnDelete(DeleteBehavior.Cascade);
 
