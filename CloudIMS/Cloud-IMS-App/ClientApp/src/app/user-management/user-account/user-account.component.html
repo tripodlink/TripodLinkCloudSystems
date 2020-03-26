@@ -37,8 +37,8 @@
                   <td>{{user.updatedBy}}</td>
                   <td>{{user.isActive}}</td>
                   <td>
-                    <button type="button" class="btn btn-warning">Edit</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button class="btn btn-warning"><a [routerLink]="['http://localhost:54400/user-management/user-account', user.userID]"></a> Edit</button>
+                    <button class="btn btn-danger" (click)="onDeleteUser()">Delete</button>
                   </td>
                 </tr>
               </tbody>

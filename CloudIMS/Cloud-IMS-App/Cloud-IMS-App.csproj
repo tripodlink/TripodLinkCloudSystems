@@ -24,7 +24,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="3.1.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.19" />
   </ItemGroup>
 
@@ -38,6 +38,7 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\classes\UserAccount.ts" />
     <None Remove="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
+    <None Remove="ClientApp\src\app\user-management\user-account\addEdit-user-account.component.ts" />
     <None Remove="ClientApp\src\vali-css\all.css" />
     <None Remove="ClientApp\src\vali-css\all.min.css" />
     <None Remove="ClientApp\src\vali-css\font-awesome.min.css" />
@@ -81,6 +82,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\classes\UserAccount.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\UserAccount.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\user-management\user-account\addEdit-user-account.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\user-management\user-account\user-account.component.ts" />
   </ItemGroup>
 

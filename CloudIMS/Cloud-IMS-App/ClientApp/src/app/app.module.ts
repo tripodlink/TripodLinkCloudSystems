@@ -56,7 +56,8 @@ import { ToastrModule } from 'ngx-toastr';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dictionary/unit-code', component: UnitCodeComponent },
-        { path: 'user-management/user-account', component: UserAccountComponent },
+      { path: 'user-management/user-account', component: UserAccountComponent },
+      { path: 'user-management/user-account/:id', component: UserAccountComponent },
    ])
   ],
     providers: [UnitCodeService, UserAccountService, Http],
