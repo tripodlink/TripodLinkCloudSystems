@@ -1,0 +1,45 @@
+<main class="app-content">
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-building-o"></i> Item-Group</h1>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
+    </ul>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tile">
+        <h3 class="tile-title"></h3>
+        <div class="col text-right">
+        </div>
+        <br />
+        <div class="tile-body">
+          <button type="button" class="btn btn-primary" data-toggle="modal" (click)="showModal()" data-target="#itemGroupModal">Add Item Group</button>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Item Group Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let itgp of itemGroup">
+                  <td>{{itgp.id}}</td>
+                  <td>{{itgp.itemGroupName}}</td>
+                  <td><button type="button" class="btn btn-info"><i class="fa fa-pencil"></i>Edit</button> <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i>Delete</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+</main>
