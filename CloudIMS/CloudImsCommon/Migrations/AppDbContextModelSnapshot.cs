@@ -143,29 +143,29 @@ namespace CloudImsCommon.Migrations
                     b.Property<string>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("pf_folder_id")
-                        .HasMaxLength(10);
+                        .HasMaxLength(100);
 
                     b.Property<string>("Icon")
                         .HasColumnName("pf_icon")
-                        .HasMaxLength(10);
+                        .HasMaxLength(255);
 
                     b.Property<string>("IconProvider")
                         .HasColumnName("pf_icon_provider")
-                        .HasMaxLength(20);
+                        .HasMaxLength(255);
 
                     b.Property<string>("IconType")
                         .HasColumnName("pf_icon_type")
-                        .HasMaxLength(10);
+                        .HasMaxLength(255);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("pf_folder_name")
-                        .HasMaxLength(100);
+                        .HasMaxLength(255);
 
                     b.Property<string>("RouteAttribute")
                         .IsRequired()
                         .HasColumnName("pf_folder_route")
-                        .HasMaxLength(25);
+                        .HasMaxLength(255);
 
                     b.Property<int>("SequenceNo")
                         .HasColumnName("pf_seqno");
@@ -331,7 +331,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 3, 26, 9, 6, 4, 108, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 3, 26, 9, 6, 4, 110, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 3, 26, 10, 8, 5, 11, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 3, 26, 10, 8, 5, 11, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 
