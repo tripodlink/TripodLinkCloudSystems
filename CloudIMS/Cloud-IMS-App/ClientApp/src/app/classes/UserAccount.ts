@@ -1,3 +1,5 @@
+import { UserGroup } from './UserGroup';
+
 
 export class UserAccount{
   userID: string;
@@ -8,4 +10,6 @@ export class UserAccount{
   createdBy: string;
   updatedOn: Date;
   updatedBy: string;
+
+  userGroup: UserGroup[];
 }
