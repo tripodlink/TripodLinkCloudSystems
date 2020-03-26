@@ -119,11 +119,10 @@ namespace CloudImsCommon.Migrations
                 name: "user_account",
                 columns: table => new
                 {
-                    ua_user_id = table.Column<string>(maxLength: 20, nullable: false),
-                    ua_user_name = table.Column<string>(maxLength: 100, nullable: false),
+                    ua_user_id = table.Column<string>(nullable: false),
+                    ua_user_name = table.Column<string>(nullable: false),
                     ua_password = table.Column<string>(maxLength: 100, nullable: false),
                     ua_is_active = table.Column<byte>(type: "TINYINT", nullable: false),
-                    ua_is_mb_user = table.Column<byte>(type: "TINYINT", nullable: false),
                     im_created_on = table.Column<DateTime>(nullable: false),
                     im_created_by = table.Column<string>(maxLength: 20, nullable: false),
                     im_updated_on = table.Column<DateTime>(nullable: false),
@@ -253,8 +252,8 @@ namespace CloudImsCommon.Migrations
 
             migrationBuilder.InsertData(
                 table: "user_account",
-                columns: new[] { "ua_user_id", "im_created_by", "im_created_on", "ua_is_active", "ua_is_mb_user", "ua_password", "im_updated_by", "im_updated_on", "ua_user_name" },
-                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 3, 17, 9, 43, 5, 245, DateTimeKind.Local), (byte)1, (byte)1, ".00000", "SYSTEM", new DateTime(2020, 3, 17, 9, 43, 5, 247, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
+                columns: new[] { "ua_user_id", "im_created_by", "im_created_on", "ua_is_active", "ua_password", "im_updated_by", "im_updated_on", "ua_user_name" },
+                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 3, 26, 9, 6, 4, 108, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 3, 26, 9, 6, 4, 110, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "user_group",

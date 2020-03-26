@@ -17,4 +17,9 @@ export class UserAccountComponent {
   ngOnInit(): void {
     this.userAccountService.getAllUsers().subscribe((users) => this.users = users);
   }
+
+  onDeleteUser(): void {
+    alert("Delete button was clicked.");
+  }
+
 }
