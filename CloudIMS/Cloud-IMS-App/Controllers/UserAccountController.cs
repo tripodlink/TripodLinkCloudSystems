@@ -1,6 +1,8 @@
-﻿using CloudImsCommon.Database;
+﻿using Cloud_IMS_App.Controllers;
+using CloudImsCommon.Database;
 using CloudImsCommon.Extensions;
 using CloudImsCommon.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -36,13 +38,20 @@ namespace Cloud_IMS_Api.Controllers
         {
             try
             {
-                return Ok(dbContext.UserAccounts.Find(id));
+                UserAccount user = dbContext.UserAccounts.Find(id);
+
+                user.UserGroups = dbContext.UserGroups.Where(ug =>
+                    dbContext.UserAccountGroups.Where(uag => uag.UserAccountID == id).Select(x => new { GroupID = x.UserGroupID }).Any(uag => uag.GroupID == ug.ID)
+                ).ToList();
+                
+                return Ok(user);
             }
             catch (Exception ex)
             {
                 return BadRequest(GetErrorMessage(ex));
             }
         }
+
 
         [Route("[action]")]
         public IActionResult FindByIdOrName(string search_key)
@@ -52,7 +61,8 @@ namespace Cloud_IMS_Api.Controllers
                 var search_id = search_key.ToUpper();
                 var search_name = search_key.ToUpper().Replace("*", "%");
 
-                if (!search_key.StartsWith("%")) {
+                if (!search_key.StartsWith("%"))
+                {
                     search_name = "%" + search_name;
                 }
 
@@ -62,7 +72,7 @@ namespace Cloud_IMS_Api.Controllers
                 }
 
                 return Ok(dbContext.UserAccounts
-                    .Where(u => EF.Functions.Like (u.UserID, search_id ) || EF.Functions.Like(u.UserName, search_name))
+                    .Where(u => EF.Functions.Like(u.UserID, search_id) || EF.Functions.Like(u.UserName, search_name))
                     .ToList());
             }
             catch (Exception ex)
@@ -70,6 +80,7 @@ namespace Cloud_IMS_Api.Controllers
                 return BadRequest(GetErrorMessage(ex));
             }
         }
+
 
 
         [Route("")]
