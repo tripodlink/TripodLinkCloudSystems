@@ -8,13 +8,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 import { UnitCodeService } from '../../services/UnitCode.service';
 import { ToastrService } from 'ngx-toastr';
 let UnitCodeComponent = class UnitCodeComponent {
-    constructor(unitcodeService, formBuilder, toastr) {
+    constructor(unitcodeService, toastr) {
         this.unitcodeService = unitcodeService;
-        this.formBuilder = formBuilder;
         this.toastr = toastr;
         this.CreateForm();
     }
@@ -49,7 +48,7 @@ UnitCodeComponent = __decorate([
         selector: 'dic-unitCode',
         templateUrl: './unitCode.component.html',
     }),
-    __metadata("design:paramtypes", [UnitCodeService, FormBuilder, ToastrService])
+    __metadata("design:paramtypes", [UnitCodeService, ToastrService])
 ], UnitCodeComponent);
 export { UnitCodeComponent };
 //# sourceMappingURL=unitCode.component.js.map
