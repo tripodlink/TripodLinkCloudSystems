@@ -15,7 +15,6 @@ namespace CloudImsCommon.Models
         [MaxLength(20)]
         [Required]
         public String UserGroupID { get; set; }
-        public UserGroup UserGroup { get; set; }
 
 
         [Key]
@@ -23,7 +22,6 @@ namespace CloudImsCommon.Models
         [MaxLength(20)]
         [Required]
         public String ProgramMenuID { get; set; }
-        public ProgramMenu ProgramMenu { get; set; }
 
     }
 }

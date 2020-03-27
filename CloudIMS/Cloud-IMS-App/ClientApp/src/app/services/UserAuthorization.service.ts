@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserAccount } from 'src/app/classes/UserAccount'
-import { UserAccountService } from 'src/app/services/UserAccount.service'
+import { UserAccount } from './../classes/UserAccount'
+import { UserAccountService } from './../services/UserAccount.service'
 
 @Injectable()
 export class UserAuthorizationService {
