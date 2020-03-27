@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 
 import { UnitCodeService } from '../../services/UnitCode.service';
@@ -6,6 +6,7 @@ import { IUnitCode } from '../../classes/IUnitCode.interface';
 import { Interface } from 'readline';
 import { error } from 'protractor';
 import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'dic-unitCode',
@@ -36,12 +37,14 @@ export class UnitCodeComponent {
   reloadData() {
     this.unitcodeService.getUnitCodes().subscribe((unitCodes) => this.unitCodes = unitCodes);
   }
+
   insertUnitCodes() {
     let errormessage = "Error";
     this.unitcodeService.insertUnitCodes(this.addForm.value).subscribe(data => {
 
       this.toastr.success("Data Saved", "Saved");
       this.reloadData();
+    
       this.addForm.reset();
 
     },
@@ -53,5 +56,6 @@ export class UnitCodeComponent {
     );
 
   }
+
 
 }

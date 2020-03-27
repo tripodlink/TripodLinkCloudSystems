@@ -22,10 +22,15 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/assets"],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./src/assets/bootstrap.min.js",
+              "./src/assets/jquery-3.3.1.min.js",
+              "./src/assets/main.js",
+              "./src/assets/popper.min.js",
+              "./src/assets/pace.min.js"
+            ]
           },
           "configurations": {
             "production": {
