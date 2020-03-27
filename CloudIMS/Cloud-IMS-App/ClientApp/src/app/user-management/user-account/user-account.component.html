@@ -13,7 +13,7 @@
       <div class="tile">
         <div>
           <h3 class="tile-title">List of Users</h3>
-          <button type="button" class="btn btn-primary">Add User</button>
+          <button type="button" style="width:100px; margin-bottom:5px" class="btn btn-primary" [routerLink]="'/user-management/user-account/add'">Add User</button>
         </div>
         <div class="tile-body">
           <div class="table-responsive">
@@ -30,15 +30,15 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let user of users">
+                <tr *ngFor="let user of users" [attr.name]="user.userID" [id]="user.userID">
                   <td>{{user.userID}}</td>
                   <td>{{user.userName}}</td>
                   <td>{{user.updatedOn}}</td>
                   <td>{{user.updatedBy}}</td>
                   <td>{{user.isActive}}</td>
                   <td>
-                    <button class="btn btn-warning"><a [routerLink]="['http://localhost:54400/user-management/user-account', user.userID]"></a> Edit</button>
-                    <button class="btn btn-danger" (click)="onDeleteUser()">Delete</button>
+                    <button class="btn btn-warning" style="width:80px" [routerLink]="'/user-management/user-account/edit/' + user.userID"><a class="fa fa-edit"></a>Edit</button> &nbsp;
+                    <button class="btn btn-danger" style="width:80px" [name]="user.userID" (click)="onDeleteUser($event)" [disabled]="user.userID == 'SYSAD'">Delete</button>
                   </td>
                 </tr>
               </tbody>

@@ -91,6 +91,25 @@ namespace CloudImsCommon.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "program_menu",
+                columns: table => new
+                {
+                    pm_id = table.Column<string>(maxLength: 20, nullable: false),
+                    pm_name = table.Column<string>(maxLength: 100, nullable: false),
+                    pm_folder = table.Column<string>(maxLength: 10, nullable: false),
+                    pm_controller_route = table.Column<string>(maxLength: 25, nullable: false),
+                    pm_action_route = table.Column<string>(maxLength: 25, nullable: false),
+                    pm_icon_type = table.Column<string>(maxLength: 10, nullable: true),
+                    pm_icon_provider = table.Column<string>(maxLength: 20, nullable: true),
+                    pm_icon_name = table.Column<string>(maxLength: 100, nullable: true),
+                    pm_seqno = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_program_menu", x => x.pm_id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "supplier",
                 columns: table => new
                 {
@@ -134,43 +153,6 @@ namespace CloudImsCommon.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "user_group",
-                columns: table => new
-                {
-                    ug_id = table.Column<string>(maxLength: 20, nullable: false),
-                    ug_name = table.Column<string>(maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_user_group", x => x.ug_id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "program_menu",
-                columns: table => new
-                {
-                    pm_id = table.Column<string>(maxLength: 20, nullable: false),
-                    pm_name = table.Column<string>(maxLength: 100, nullable: false),
-                    pm_folder = table.Column<string>(maxLength: 10, nullable: false),
-                    pm_controller_route = table.Column<string>(maxLength: 25, nullable: false),
-                    pm_action_route = table.Column<string>(maxLength: 25, nullable: false),
-                    pm_icon_type = table.Column<string>(maxLength: 10, nullable: true),
-                    pm_icon_provider = table.Column<string>(maxLength: 20, nullable: true),
-                    pm_icon_name = table.Column<string>(maxLength: 100, nullable: true),
-                    pm_seqno = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_program_menu", x => x.pm_id);
-                    table.ForeignKey(
-                        name: "FK_program_menu_program_folder_pm_folder",
-                        column: x => x.pm_folder,
-                        principalTable: "program_folder",
-                        principalColumn: "pf_folder_id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "user_account_group",
                 columns: table => new
                 {
@@ -180,18 +162,18 @@ namespace CloudImsCommon.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_user_account_group", x => new { x.uag_user_id, x.uag_group_id });
-                    table.ForeignKey(
-                        name: "FK_user_account_group_user_account_uag_user_id",
-                        column: x => x.uag_user_id,
-                        principalTable: "user_account",
-                        principalColumn: "ua_user_id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_user_account_group_user_group_uag_group_id",
-                        column: x => x.uag_group_id,
-                        principalTable: "user_group",
-                        principalColumn: "ug_id",
-                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "user_group",
+                columns: table => new
+                {
+                    ug_id = table.Column<string>(maxLength: 20, nullable: false),
+                    ug_name = table.Column<string>(maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_group", x => x.ug_id);
                 });
 
             migrationBuilder.CreateTable(
@@ -205,18 +187,6 @@ namespace CloudImsCommon.Migrations
                 {
                     table.PrimaryKey("PK_user_group_program", x => new { x.ugp_user_group, x.ugp_program_id });
                     table.UniqueConstraint("AK_user_group_program_ugp_program_id_ugp_user_group", x => new { x.ugp_program_id, x.ugp_user_group });
-                    table.ForeignKey(
-                        name: "FK_user_group_program_program_menu_ugp_program_id",
-                        column: x => x.ugp_program_id,
-                        principalTable: "program_menu",
-                        principalColumn: "pm_id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_user_group_program_user_group_ugp_user_group",
-                        column: x => x.ugp_user_group,
-                        principalTable: "user_group",
-                        principalColumn: "ug_id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -241,6 +211,23 @@ namespace CloudImsCommon.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "program_menu",
+                columns: new[] { "pm_id", "pm_action_route", "pm_controller_route", "pm_icon_name", "pm_icon_provider", "pm_icon_type", "pm_name", "pm_folder", "pm_seqno" },
+                values: new object[,]
+                {
+                    { "UM_USERGRP", "index", "user-group", null, null, null, "User Group", "UM", 20 },
+                    { "UM_USERACC", "index", "user-account", null, null, null, "User Account", "UM", 10 },
+                    { "DIC_ITEMGRP", "index", "item-group", null, null, null, "Item Group", "DIC", 50 },
+                    { "DIC_ITEM", "index", "item-master", null, null, null, "Item Master", "DIC", 40 },
+                    { "UM_USERPROF", "index", "user-profile", null, null, null, "User Profile", "UM", 30 },
+                    { "DIC_SUP", "index", "supplier", null, null, null, "Supplier", "DIC", 20 },
+                    { "DIC_UNIT", "index", "unit", null, null, null, "Unit", "DIC", 10 },
+                    { "IVM_OUT", "index", "inventory-out", null, null, null, "Inventory Out", "IVM", 20 },
+                    { "IVM_IN", "index", "inventory-in", null, null, null, "Inventory In", "IVM", 10 },
+                    { "DIC_MANU", "index", "manufacturer", null, null, null, "Manufacturer", "DIC", 30 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "unit_code",
                 columns: new[] { "uc_code", "uc_description", "uc_short_description" },
                 values: new object[,]
@@ -253,34 +240,17 @@ namespace CloudImsCommon.Migrations
             migrationBuilder.InsertData(
                 table: "user_account",
                 columns: new[] { "ua_user_id", "im_created_by", "im_created_on", "ua_is_active", "ua_password", "im_updated_by", "im_updated_on", "ua_user_name" },
-                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 3, 26, 9, 6, 4, 108, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 3, 26, 9, 6, 4, 110, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
-
-            migrationBuilder.InsertData(
-                table: "user_group",
-                columns: new[] { "ug_id", "ug_name" },
-                values: new object[] { "ADMIN", "SYSTEM ADMINISTRATORS" });
-
-            migrationBuilder.InsertData(
-                table: "program_menu",
-                columns: new[] { "pm_id", "pm_action_route", "pm_controller_route", "pm_icon_name", "pm_icon_provider", "pm_icon_type", "pm_name", "pm_folder", "pm_seqno" },
-                values: new object[,]
-                {
-                    { "IVM_IN", "index", "inventory-in", null, null, null, "Inventory In", "IVM", 10 },
-                    { "IVM_OUT", "index", "inventory-out", null, null, null, "Inventory Out", "IVM", 20 },
-                    { "DIC_UNIT", "index", "unit", null, null, null, "Unit", "DIC", 10 },
-                    { "DIC_SUP", "index", "supplier", null, null, null, "Supplier", "DIC", 20 },
-                    { "DIC_MANU", "index", "manufacturer", null, null, null, "Manufacturer", "DIC", 30 },
-                    { "DIC_ITEM", "index", "item-master", null, null, null, "Item Master", "DIC", 40 },
-                    { "DIC_ITEMGRP", "index", "item-group", null, null, null, "Item Group", "DIC", 50 },
-                    { "UM_USERACC", "index", "user-account", null, null, null, "User Account", "UM", 10 },
-                    { "UM_USERGRP", "index", "user-group", null, null, null, "User Group", "UM", 20 },
-                    { "UM_USERPROF", "index", "user-profile", null, null, null, "User Profile", "UM", 30 }
-                });
+                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 3, 27, 18, 6, 41, 194, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 3, 27, 18, 6, 41, 195, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "user_account_group",
                 columns: new[] { "uag_user_id", "uag_group_id" },
                 values: new object[] { "SYSAD", "ADMIN" });
+
+            migrationBuilder.InsertData(
+                table: "user_group",
+                columns: new[] { "ug_id", "ug_name" },
+                values: new object[] { "ADMIN", "SYSTEM ADMINISTRATORS" });
 
             migrationBuilder.InsertData(
                 table: "user_group_program",
@@ -300,19 +270,9 @@ namespace CloudImsCommon.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_program_menu_pm_folder",
-                table: "program_menu",
-                column: "pm_folder");
-
-            migrationBuilder.CreateIndex(
                 name: "IDX_DESCRIPTION",
                 table: "unit_code",
                 column: "uc_description");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_user_account_group_uag_group_id",
-                table: "user_account_group",
-                column: "uag_group_id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -333,28 +293,28 @@ namespace CloudImsCommon.Migrations
                 name: "manufacturer");
 
             migrationBuilder.DropTable(
+                name: "program_folder");
+
+            migrationBuilder.DropTable(
+                name: "program_menu");
+
+            migrationBuilder.DropTable(
                 name: "supplier");
 
             migrationBuilder.DropTable(
                 name: "unit_code");
 
             migrationBuilder.DropTable(
-                name: "user_account_group");
-
-            migrationBuilder.DropTable(
-                name: "user_group_program");
-
-            migrationBuilder.DropTable(
                 name: "user_account");
 
             migrationBuilder.DropTable(
-                name: "program_menu");
+                name: "user_account_group");
 
             migrationBuilder.DropTable(
                 name: "user_group");
 
             migrationBuilder.DropTable(
-                name: "program_folder");
+                name: "user_group_program");
         }
     }
 }

@@ -27,7 +27,6 @@ namespace CloudImsCommon.Models
         [MaxLength(10)]
         [Required]
         public String ProgramFolderID { get; set; }
-        public ProgramFolder ProgramFolder { get; set; }
 
 
         [Column("pm_controller_route")]
