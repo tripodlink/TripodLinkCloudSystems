@@ -9,6 +9,6 @@
   </div>
   <ul class="app-menu">
     <li *ngFor="let pf of pf_folders">
-    <a class="app-menu__item active" [routerLink]="['/dictionary/supplier']"><i class="app-menu__icon {{ pf.icon }}"></i><span class="app-menu__label">{{ pf.name }}</span></a></li>
+    <a class="app-menu__item active" routerLink="{{ pf.routeAttribute }}"><i class="app-menu__icon {{ pf.icon }}"></i><span class="app-menu__label">{{ pf.name }}</span></a></li>
   </ul>
 </aside>

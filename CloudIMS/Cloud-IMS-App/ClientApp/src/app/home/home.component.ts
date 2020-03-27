@@ -7,13 +7,13 @@ import { IHome } from '../classes/IHome.interface';
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
-  pm_menus: IHome[];
-  message: string;
+  //pm_menus: IHome[];
+  //message: string;
 
-  constructor(private homeService: HomeService) {
-  }
+  //constructor(private homeService: HomeService) {
+  //}
 
-  ngOnInit(): void {
-    this.homeService.getProgramMenu().subscribe((pm_menus) => this.pm_menus = pm_menus)
-  }
+  //ngOnInit(): void {
+  //  this.homeService.getProgramMenu().subscribe((pm_menus) => this.pm_menus = pm_menus)
+  //}
 }

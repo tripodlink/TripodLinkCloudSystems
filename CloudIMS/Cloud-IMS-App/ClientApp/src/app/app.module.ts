@@ -8,8 +8,6 @@ import { Http } from '@angular/http';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
 import { UnitCodeComponent } from './dictionary/unit-code/unitCode.component';
 import { UnitCodeService } from './services/UnitCode.service';
@@ -27,19 +25,27 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { SideBarService } from './services/SideBar.service';
 import { HomeService } from './services/home.service';
+import { DictionaryComponent } from './dictionary/dictionary.component';
+import { DictionaryService } from './services/dictionary.service';
+import { InventoryManagementComponent } from './inventory-management/inventory-management.component';
+import { InventoryOutComponent } from './inventory-management/inventory-out/inventory-out.component';
+import { InventoryInComponent } from './inventory-management/inventory-in/inventory-in.component';
+import { InventoryService } from './services/inventory.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
         UnitCodeComponent,
         SupplierComponent,
         AppSidebarMenuComponent,
         AppNavbarMenuComponent,
-        UserAccountComponent
+        UserAccountComponent,
+        DictionaryComponent,
+        InventoryManagementComponent,
+        InventoryOutComponent,
+        InventoryInComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -55,16 +61,16 @@ import { HomeService } from './services/home.service';
     }),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'app-sidebar/sidebar-menu', component: AppSidebarMenuComponent },
-      { path: 'dictionary/unit-code', component: UnitCodeComponent },
-      { path: 'dictionary/supplier', component: SupplierComponent },
+      { path: 'data-dictionary', component: DictionaryComponent },
+      { path: 'inventory-management', component: InventoryManagementComponent },
+      { path: 'data-dictionary/unit-code', component: UnitCodeComponent },
+      { path: 'data-dictionary/supplier', component: SupplierComponent },
       { path: 'user-management/user-account', component: UserAccountComponent },
       { path: 'user-management/user-account/:id', component: UserAccountComponent },
    ])
   ],
-    providers: [SideBarService,HomeService,UnitCodeService, SupplierService,UserAccountService, Http],
+    providers: [SideBarService,HomeService,DictionaryService,InventoryService,UnitCodeService, SupplierService,UserAccountService, Http],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

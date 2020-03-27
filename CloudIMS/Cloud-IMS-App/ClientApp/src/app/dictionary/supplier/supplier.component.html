@@ -11,34 +11,58 @@
   <div class="row">
     <div class="col-md-6">
       <div class="tile">
-        <h3 class="tile-title">Vertical Form</h3>
         <div class="tile-body">
-          <div class="table-responsive">
-            <table class="table table-hover table-bordered">
-              <thead>
-                <tr>
-                  <th>id</th>
-                  <th>Name</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let sup of suppliers">
-                  <td>{{sup.id}}</td>
-                  <td>{{sup.name}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="tile-footer">
-            <button class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>Register</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel</a>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Large modal</button>
-
-          </div>
+          <h3 class="tile-title">Supplier Info</h3>
+          <input ng-model='input' type="text" placeholder="Choose" />
+          <form (ngSubmit)="insertSupplier()" [formGroup]="addForm">
+            <div class="form-group">
+              <input placeholder="Supplier ID" formControlName="id" name="code" class="form-control" id="code">
+            </div>
+            <div class="form-group">
+              <input placeholder="Supplier Name" formControlName="Name" name="unit_desc" class="form-control" id="unit_desc">
+            </div>
+            <div class="tile-footer">
+              <button class="btn btn-primary"><i class="fa fa-save"></i>Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+    <div class="tile">
+      <div class="tile-body">
+        <h3 class="tile-title">List of Supplier</h3>
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>Name</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sup of suppliers">
+                <td>{{sup.id}}</td>
+                <td>{{sup.name}}</td>
+                <td>
+                  <button class="btn btn-info" (click)="onUpdate(sup.id)"><i class="fa fa-edit"></i> Edit</button>
+                  <button class="btn btn-danger"(click)="onDelete(sup.id)"><i class="fa fa-trash"></i> Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tile-footer">
         </div>
       </div>
     </div>
   </div>
+  </div>
+
 </main>
+
+
 <!-- Large modal -->
 
 <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

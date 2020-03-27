@@ -1,7 +1,8 @@
 import { Component } from "@angular/core";
-import { UserAccount } from 'src/app/classes/UserAccount';
-import { UserAccountService } from 'src/app/services/UserAccount.service';
+
 import { ToastrService } from 'ngx-toastr';
+import { UserAccount } from "../../classes/UserAccount";
+import { UserAccountService } from "../../services/UserAccount.service";
 
 @Component({
   selector: "user-account",

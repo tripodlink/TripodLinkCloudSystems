@@ -11,23 +11,22 @@ namespace Cloud_IMS_Api.Controllers
 {
    
     [Route("api/[controller]")]
-    public class HomeController : ControllerBase
+    public class DictionaryController : ControllerBase
     {
         private AppDbContext dbContext;
 
-        public HomeController(AppDbContext dbContext)
+        public DictionaryController(AppDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
-
-
        
         [Route("")]
         [Route("[action]")]
         [HttpGet]
         public IEnumerable<ProgramMenu> Index()
-        { 
-            var pm_Menu = dbContext.ProgramMenus.ToList();
+        {
+            
+            var pm_Menu = dbContext.ProgramMenus.Where(pm => pm.ProgramFolderID == "DIC").ToList();
             return pm_Menu;
         }
     }
