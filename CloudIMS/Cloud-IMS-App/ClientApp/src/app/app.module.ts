@@ -20,11 +20,14 @@ import { AppNavbarMenuComponent } from './app-navbar-menu/app-navbar-menu.compon
 
 import { UserAccountComponent } from './user-management/user-account/user-account.component';
 import { UserAccountService } from './services/UserAccount.service';
+import { ItemGroupServices } from './services/itemgroup.service';
 
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
+import { ItemGroupComponent } from './dictionary/item-group/item-group.component';
+
 
 @NgModule({
   declarations: [
@@ -37,7 +40,8 @@ import { ToastrModule } from 'ngx-toastr';
         SupplierComponent,
         AppSidebarMenuComponent,
         AppNavbarMenuComponent,
-        UserAccountComponent   
+        UserAccountComponent,
+        ItemGroupComponent   
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -57,10 +61,10 @@ import { ToastrModule } from 'ngx-toastr';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dictionary/unit-code', component: UnitCodeComponent },
       { path: 'user-management/user-account', component: UserAccountComponent },
-      { path: 'user-management/user-account/:id', component: UserAccountComponent },
+      { path: 'dictionary/item-group', component: ItemGroupComponent },
    ])
   ],
-    providers: [UnitCodeService, UserAccountService, Http],
+  providers: [UnitCodeService, UserAccountService, ItemGroupServices, Http],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
