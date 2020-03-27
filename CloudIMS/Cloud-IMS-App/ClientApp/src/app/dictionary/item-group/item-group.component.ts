@@ -18,6 +18,7 @@ export class ItemGroupComponent{
   Status: string;
   icon: string;
   isAdd: boolean;
+
   idInput: string;
   itemGroupInput: string;
   

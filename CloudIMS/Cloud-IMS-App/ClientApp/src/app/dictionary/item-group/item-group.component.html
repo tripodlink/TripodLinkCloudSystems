@@ -30,8 +30,10 @@
                 <tr *ngFor="let itgp of itemGroup" [id]="itgp.id">
                   <td>{{itgp.id}}</td>
                   <td>{{itgp.itemGroupName}}</td>
-                  <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" (click)="PassData(itgp.id, itgp.itemGroupName)"><i class="fa fa-pencil"></i>Edit</button>
-                  &nbsp;<button type="button" class="btn btn-danger" (click)="deleteItemGroup(itgp.id)"><i class="fa fa-trash" ></i>Delete</button></td>
+                  <td>
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" (click)="PassData(itgp.id, itgp.itemGroupName)"><i class="fa fa-pencil"></i>Edit</button>
+                    &nbsp;<button type="button" class="btn btn-danger" (click)="deleteItemGroup(itgp.id)"><i class="fa fa-trash"></i>Delete</button>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -57,7 +59,7 @@
 
               <div class="form-group">
                 <label for="itemid">Item ID</label>
-                <input formControlName="id" [value]="idInput" name="id"  class="form-control" #itemid id="itemid">
+                <input formControlName="id" [value]="idInput" name="id" class="form-control" #itemid id="itemid">
               </div>
               <div class="form-group">
                 <label for="itemgroupnametext">Item Group Description</label>
@@ -70,11 +72,10 @@
             </div>
           </form>
         </div>
-        
+
       </div>
     </div>
 
   </div>
-
 </main>
 
