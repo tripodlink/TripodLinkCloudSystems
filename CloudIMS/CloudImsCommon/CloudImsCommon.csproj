@@ -17,8 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Migrations\20200326020805_Change_MaxLength_of_ProgramFolders.cs" />
-    <Compile Include="Migrations\20200326020805_Change_MaxLength_of_ProgramFolders.Designer.cs" />
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
   </ItemGroup>
 
