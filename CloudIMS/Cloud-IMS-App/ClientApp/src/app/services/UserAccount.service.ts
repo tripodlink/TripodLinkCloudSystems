@@ -18,7 +18,7 @@ export class UserAccountService {
   findUserById(id: string): Observable<UserAccount> {
     let params = new HttpParams().set('id', id);
 
-    return this._http.get<UserAccount[]>(this.url + "/findUserById", { params: params });
+    return this._http.get<UserAccount>(this.url + "/findUserById", { params: params });
   }
 
   findUserByIdOrName(search_key: string): Observable<UserAccount[]> {

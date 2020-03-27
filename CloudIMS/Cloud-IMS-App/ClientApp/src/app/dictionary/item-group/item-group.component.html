@@ -13,9 +13,10 @@
         <h3 class="tile-title"></h3>
         <div class="col text-right">
         </div>
+        <button type="button" class="btn btn-primary" (click)="ClickAdd()" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Add Item Group</button>
+        <br />
         <br />
         <div class="tile-body">
-          <button type="button" class="btn btn-primary" data-toggle="modal" (click)="showModal()" data-target="#itemGroupModal">Add Item Group</button>
           <div class="table-responsive">
             <table class="table table-hover table-bordered">
               <thead>
@@ -26,10 +27,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let itgp of itemGroup">
+                <tr *ngFor="let itgp of itemGroup" [id]="itgp.id">
                   <td>{{itgp.id}}</td>
                   <td>{{itgp.itemGroupName}}</td>
-                  <td><button type="button" class="btn btn-info"><i class="fa fa-pencil"></i>Edit</button> <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i>Delete</button></td>
+                  <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" (click)="PassData(itgp.id, itgp.itemGroupName)"><i class="fa fa-pencil"></i>Edit</button>
+                  &nbsp;<button type="button" class="btn btn-danger" (click)="deleteItemGroup(itgp.id)"><i class="fa fa-trash" ></i>Delete</button></td>
                 </tr>
               </tbody>
             </table>
@@ -39,7 +41,40 @@
     </div>
   </div>
 
+  <div class="container">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
 
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Add Item Group</h4>
+          </div>
 
+          <form (ngSubmit)="verifyProcess()" [formGroup]="addItemGroupForm">
+            <div class="modal-body">
+
+              <div class="form-group">
+                <label for="itemid">Item ID</label>
+                <input formControlName="id" [value]="idInput" name="id"  class="form-control" #itemid id="itemid">
+              </div>
+              <div class="form-group">
+                <label for="itemgroupnametext">Item Group Description</label>
+                <input formControlName="itemGroupName" [value]="itemGroupInput" name="itemGroupName" #itemgroupnametext class="form-control" id="itemgroupnametext">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="closeModal" #closeModal class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
+              <button class="btn btn-primary"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+            </div>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+
+  </div>
 
 </main>
+

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CloudImsCommon.Database;
+using CloudImsCommon.Extensions;
 using CloudImsCommon.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,11 +12,10 @@ namespace Cloud_IMS_Api.Controllers
 {
 
     [Route("api/[controller]")]   
-    public class ItemGroupController : Controller
+    public class ItemGroupController : AppController
     {   
-        private AppDbContext dbContext;
-
-        public ItemGroupController(AppDbContext dbContext)
+        public ItemGroupController(AppDbContext dbContext, ILogger<ItemGroupController>logger)
+            :base(dbContext,logger)
         {
             this.dbContext = dbContext;
         }
@@ -30,25 +30,72 @@ namespace Cloud_IMS_Api.Controllers
 
         [Route("[action]")]
         [HttpPost]
-        public IActionResult Add([FromBody] UnitCode unit)
+        public IActionResult Add([FromBody] ItemGroup itemg)
         {
-            var unitcode = new UnitCode();
+            var itemgroup = new ItemGroup();
             try
             {
-               
-                dbContext.UnitCodes.Add(unit);
+                dbContext.ItemGroups.Add(itemg);
                 dbContext.SaveChanges();
-                return Ok(unitcode);
+                return Ok(itemgroup);
             }
             catch (Exception ex)
             {
-                var message = ex.Message;
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
+        [Route("")]
+        [Route("[action]")]
+        [HttpPost]
+        public IActionResult Update([FromBody] ItemGroup itemg)
+        {
+            try
+            {
+                ItemGroup itemGroup = dbContext.ItemGroups.Find(itemg.ID);
 
-                if (ex.InnerException != null) {
-                    message += "\r\n Message: " + ex.InnerException.Message;
+                if (itemGroup != null)
+                {
+                    itemGroup.ID = itemg.ID;
+                    itemGroup.ItemGroupName = itemg.ItemGroupName;
+
+                    dbContext.ItemGroups.Update(itemGroup);
+                    dbContext.SaveChanges();
+
+                    return Ok(itemg);
                 }
+                else
+                {
+                    throw new Exception($"User Not found with a user ID of '{itemg.ID}'.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
+        [Route("[action]")]
+        [HttpDelete]
+        public IActionResult Delete(string id)
+        {
+            try
+            {
+                ItemGroup itemg = dbContext.ItemGroups.Find(id);
 
-                return BadRequest(message);
+                if (itemg != null)
+                {
+                    dbContext.ItemGroups.Remove(itemg);
+                    dbContext.SaveChanges();
+
+                    return Ok(id);
+                }
+                else
+                {
+                    throw new Exception($"User Not found with a user ID of '{id}'.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
             }
         }
     }
