@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 
 import { UnitCodeService } from '../../services/UnitCode.service';
-import { IUnitCode } from '../../classes/IUnitCode.interface';
+import { IUnitCode } from '../../classes/data-dictionary/UnitCode/IUnitCode.interface';
 import { Interface } from 'readline';
 import { error } from 'protractor';
 import { ToastrService } from 'ngx-toastr';

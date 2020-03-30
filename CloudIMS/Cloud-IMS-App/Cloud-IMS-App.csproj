@@ -36,6 +36,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\classes\data-dictionary\ItemMaster\IitemMasterClass.ts" />
+    <None Remove="ClientApp\src\app\classes\IitemGroupClass.ts" />
     <None Remove="ClientApp\src\app\classes\UserAccount.ts" />
     <None Remove="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
     <None Remove="ClientApp\src\app\user-management\user-account\addEdit-user-account.component.ts" />
@@ -79,6 +81,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\ItemGroup\IitemGroupClass.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\ItemMaster\IitemMasterClass.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\classes\UserAccount.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\UserAccount.service.ts" />

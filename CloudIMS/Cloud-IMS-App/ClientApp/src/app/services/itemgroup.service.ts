@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IiTemGroup } from '../classes/IitemGroup.interface';
+import { IiTemGroup } from '../classes/data-dictionary/ItemGroup/IitemGroup.interface';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 @Injectable()
 export class ItemGroupServices {

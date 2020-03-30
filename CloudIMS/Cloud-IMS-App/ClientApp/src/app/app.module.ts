@@ -21,12 +21,15 @@ import { AppNavbarMenuComponent } from './app-navbar-menu/app-navbar-menu.compon
 import { UserAccountComponent } from './user-management/user-account/user-account.component';
 import { UserAccountService } from './services/UserAccount.service';
 import { ItemGroupServices } from './services/itemgroup.service';
+import { ItemMasterServices } from './services/itemmaster.service';
+
 
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
 import { ItemGroupComponent } from './dictionary/item-group/item-group.component';
+import { ItemMasterComponent } from './dictionary/item-master/item-master.component';
 
 
 @NgModule({
@@ -41,7 +44,8 @@ import { ItemGroupComponent } from './dictionary/item-group/item-group.component
         AppSidebarMenuComponent,
         AppNavbarMenuComponent,
         UserAccountComponent,
-        ItemGroupComponent   
+        ItemGroupComponent,
+        ItemMasterComponent   
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -61,10 +65,11 @@ import { ItemGroupComponent } from './dictionary/item-group/item-group.component
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dictionary/unit-code', component: UnitCodeComponent },
       { path: 'user-management/user-account', component: UserAccountComponent },
-      { path: 'dictionary/item-group', component: ItemGroupComponent },
+      { path: 'data-dictionary/item-group', component: ItemGroupComponent },
+      { path: 'data-dictionary/item-master', component: ItemMasterComponent }
    ])
   ],
-  providers: [UnitCodeService, UserAccountService, ItemGroupServices, Http],
+  providers: [UnitCodeService, UserAccountService, ItemGroupServices, ItemMasterServices,Http],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

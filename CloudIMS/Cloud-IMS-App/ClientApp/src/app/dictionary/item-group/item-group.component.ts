@@ -1,9 +1,11 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import {  ItemGroupServices } from '../../services/itemgroup.service';
-import { IiTemGroup } from '../../classes/IitemGroup.interface';
+import { ItemGroupServices } from '../../services/itemgroup.service';
+import { IiTemGroup } from '../../classes/data-dictionary/ItemGroup/IitemGroup.interface';
+import { IitemGroupClass } from '../../classes/data-dictionary/ItemGroup/IitemGroupClass'
 import { ViewChild, ElementRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-item-group',
@@ -12,17 +14,24 @@ import { ViewChild, ElementRef } from '@angular/core';
 
 
 export class ItemGroupComponent{
+
+  @ViewChild('itemid', { static: true }) private itemid: ElementRef;
+  @ViewChild('itemgroupnametext', { static: true }) private itemgroupnametext: ElementRef;
+
+
+
   itemGroup: IiTemGroup[];
   addItemGroupForm: FormGroup;
-  @ViewChild('closeModal', { static: true }) closeModal;
   Status: string;
   icon: string;
   isAdd: boolean;
+  modalStatus: string;
 
   idInput: string;
   itemGroupInput: string;
   
-  constructor(private itemgroupService: ItemGroupServices, private toastr: ToastrService) {
+  constructor(private itemgroupService: ItemGroupServices, private toastr: ToastrService, private builder: FormBuilder,
+  public el: ElementRef) {
     this.CreateForm();
   }
 
@@ -31,33 +40,32 @@ export class ItemGroupComponent{
   }
 
   private CreateForm() {
-    this.addItemGroupForm = new FormGroup({
+    this.addItemGroupForm = this.builder.group({
       id: new FormControl(),
       itemGroupName: new FormControl()
     })
+
+  
   }
 
   private PassData(id, itemGroupName) {
-    this.idInput = id;
+
+    this.idInput = id
     this.itemGroupInput = itemGroupName;
-    this.CreateForm();
-    this.Status = "Edit Changes";
-    this.icon = "pencil";
+
+    this.itemid.nativeElement.value = id;
+    this.itemgroupnametext.nativeElement.value = itemGroupName;
+      this.Status = "Edit Changes";
+      this.icon = "pencil";
     this.isAdd = false;
+  this.modalStatus = "Edit Item Group";
+    
   }
 
   LoadData() {
     this.itemgroupService.getItemGroupData().subscribe((itemGroup) => this.itemGroup = itemGroup);
   }
-  private verifyProcess() {
 
-    if (this.isAdd == true) {
-      this.insertItemGroup();
-    } else {
-      this.updateItemGroup();
-    }
-
-  }
   private insertItemGroup() {
     let errormessage = "Error";
     this.itemgroupService.insertItemGroup(this.addItemGroupForm.value).subscribe(data => {
@@ -70,13 +78,27 @@ export class ItemGroupComponent{
         this.toastr.error(errormessage, "Error");
         });
     this.ResetForm();
-   this.closeModal.nativeElement.click();
   }
 
   private updateItemGroup() {
-   
+
+    let dataToUpdate = document.getElementsByClassName('itemgrouptextfield');
+
+    let itemgroup: IiTemGroup = new IitemGroupClass();
+
+    Array.from(dataToUpdate).forEach((element: HTMLInputElement) => {
+
+      if (element.id == "itemid") {
+        itemgroup.id = element.value;
+      }
+      if (element.id == "itemgroupnametext") {
+        itemgroup.itemgroupname = element.value;
+      }
+      
+     
+    });
     let errormessage = "Error";
-    this.itemgroupService.updateItemGroup(this.addItemGroupForm.value).subscribe(data => {
+    this.itemgroupService.updateItemGroup(itemgroup).subscribe(data => {
       this.toastr.info("Data Edited", "Edited");
       this.LoadData();
     },
@@ -85,6 +107,7 @@ export class ItemGroupComponent{
         errormessage = error.error;
         this.toastr.error(errormessage, "Error");
       });
+   
   }
 
   private deleteItemGroup(id) {
@@ -104,10 +127,11 @@ export class ItemGroupComponent{
 
 
   private ClickAdd() {
-    this.addItemGroupForm.reset();
+    this.ResetForm();
     this.Status = "Save Changes";
     this.icon = "floppy-o";
     this.isAdd = true;
+    this.modalStatus = "Add Item Group";
     this.idInput = "";
     this.itemGroupInput = "";
   }
