@@ -1,0 +1,73 @@
+<main class="app-content">
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-user"></i> Add/Edit User</h1>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
+    </ul>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <form (ngSubmit)="saveUserDetails()" [formGroup]="addEditForm">
+        <div class="tile">
+          <div>
+            <h5>User Details</h5>
+          </div>
+          <div class="form-group row">
+            <label for="'userID" class="col-md-2 col-sm-4 col-form-label">User ID</label>
+            <div class="col-md-4 col-sm-10">
+              <input formControlName="userID" class="form-control text-uppercase" [readonly]="!isNewUser" [value]="user.userID">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="userName" class="col-md-2 col-sm-4 col-form-label">User Name</label>
+            <div class="col-md-4 col-sm-10">
+              <input formControlName="userName" class="form-control" [value]="user.userName">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="password" class="col-md-2 col-sm-4 col-form-label">Password</label>
+            <div class="col-md-4 col-sm-10">
+              <input type="password" autocomplete="off" formControlName="password" class="form-control" [value]="user.password">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="activeCb" class="col-md-2 col-sm-4 col-form-label">Active</label>
+            <div class="col-md-4 col-sm-10">
+              <input type="checkbox" class="is-active-user-checkbox" style="margin-top:12px" name="activeCb" id="activeCb" [checked]="user.isActive">
+            </div>
+          </div>
+        </div>
+
+        <div class="tile">
+          <div>
+            <h5>List of User Groups</h5>
+          </div>
+
+          <ng-container *ngFor="let group of userGroups">
+            <div class="form-check">
+              <label class="form-check-label" [for]="'user-group' + group.id">
+                <input class="form-check-input user-group-input-checkbox" type="checkbox"
+                       [id]="'user-group' + group.id"
+                       [checked]="isGrantedUserGroup(group.id)"
+                       [value]="group.id"
+                       [name]="'user-group' + group.id">  {{group.name}}
+              </label>
+            </div>
+          </ng-container>
+        </div>
+
+        <div>
+          <button class="btn btn-primary btn-lg">Save</button> &nbsp;
+        </div>
+      </form>
+
+      <button class="btn btn-secondary btn-lg" [routerLink]="'/user-management/user-account/add'">Clear</button>
+    </div>
+  </div>
+</main>
+
+
