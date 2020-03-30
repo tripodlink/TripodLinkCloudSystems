@@ -1,5 +1,5 @@
 
 export class UserGroup {
-  ID: string;
-  Name: string;
+  id: string;
+  name: string;
 }

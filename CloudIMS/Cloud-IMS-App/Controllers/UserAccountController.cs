@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Cloud_IMS_Api.Controllers
@@ -17,6 +18,7 @@ namespace Cloud_IMS_Api.Controllers
         public UserAccountController(AppDbContext dbContext, ILogger<UserAccountController> logger)
             : base(dbContext, logger)
         {
+            
         }
 
         [Route("")]
@@ -83,94 +85,159 @@ namespace Cloud_IMS_Api.Controllers
 
 
 
-        [Route("")]
         [Route("[action]")]
         [HttpPost]
         public IActionResult Add([FromBody] UserAccount user)
         {
-            try
+            using (var transaction = dbContext.Database.BeginTransaction())
             {
-                UserAccount userToAdd = new UserAccount()
+                try
                 {
-                    UserID = user.UserID,
-                    UserName = user.UserName,
-                    Password = user.Password,
-                    IsActive = user.IsActive,
-                    CreatedOn = DateTime.Now,
-                    CreatedBy = user.CreatedBy,
-                    UpdatedOn = DateTime.Now,
-                    UpdatedBy = user.UpdatedBy
-                };
+                    UserAccount userToAdd = new UserAccount()
+                    {
+                        UserID = user.UserID,
+                        UserName = user.UserName,
+                        Password = user.Password,
+                        IsActive = user.IsActive,
+                        CreatedOn = DateTime.Now,
+                        CreatedBy = user.CreatedBy,
+                        UpdatedOn = DateTime.Now,
+                        UpdatedBy = user.UpdatedBy
+                    };
 
-                dbContext.UserAccounts.Add(userToAdd);
-                dbContext.SaveChanges();
+                    dbContext.UserAccounts.Add(userToAdd);
+                    dbContext.SaveChanges();
 
-                return Ok(user);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(GetErrorMessage(ex));
-            }
+                    foreach (UserGroup ug in user.UserGroups)
+                    {
+                        int count = dbContext.UserAccountGroups.Where(x => x.UserAccountID == user.UserID && x.UserGroupID == ug.ID).Count();
+
+                        if (count == 0)
+                        {
+                            UserAccountGroup uag = new UserAccountGroup();
+                            uag.UserAccountID = user.UserID;
+                            uag.UserGroupID = ug.ID;
+
+                            dbContext.UserAccountGroups.Add(uag);
+                            dbContext.SaveChanges();
+                        }
+                    }
+
+                    transaction.Commit();
+
+                    return Ok(user);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    return BadRequest(GetErrorMessage(ex));
+                }
+            }            
         }
 
 
-        [Route("")]
         [Route("[action]")]
         [HttpPost]
         public IActionResult Update([FromBody] UserAccount user)
         {
-            try
+
+            using (var transaction = dbContext.Database.BeginTransaction())
             {
-                UserAccount userForUpdate = dbContext.UserAccounts.Find(user.UserID);
-
-                if (userForUpdate != null)
+                try
                 {
-                    userForUpdate.UserName = user.UserName;
-                    userForUpdate.Password = user.Password;
-                    userForUpdate.IsActive = user.IsActive;
-                    userForUpdate.UpdatedBy = user.UpdatedBy;
-                    userForUpdate.UpdatedOn = DateTime.Now;
+                    UserAccount userForUpdate = dbContext.UserAccounts.Find(user.UserID);
 
-                    dbContext.SaveChanges();
+                    if (userForUpdate != null)
+                    {
+                        userForUpdate.UserName = user.UserName;
+                        userForUpdate.Password = user.Password;
+                        userForUpdate.IsActive = user.IsActive;
+                        userForUpdate.UpdatedBy = user.UpdatedBy;
+                        userForUpdate.UpdatedOn = DateTime.Now;
 
-                    return Ok(user);
+                        dbContext.SaveChanges();
+
+                        
+                       List<UserAccountGroup> uagToDelete = dbContext.UserAccountGroups
+                            .Where(uag => uag.UserAccountID == user.UserID && !user.UserGroups.Any(ug => ug.ID == uag.UserGroupID))
+                            .ToList();
+
+                        if (uagToDelete != null && uagToDelete.Count > 0)
+                        {
+                            dbContext.UserAccountGroups.RemoveRange(uagToDelete);
+                            dbContext.SaveChanges();
+                        }
+
+                        foreach (UserGroup ug in user.UserGroups)
+                        {
+                            int count = dbContext.UserAccountGroups.Where(x => x.UserAccountID == user.UserID && x.UserGroupID == ug.ID).Count();
+
+                            if(count == 0) { 
+                                UserAccountGroup uag = new UserAccountGroup();
+                                uag.UserAccountID = user.UserID;
+                                uag.UserGroupID = ug.ID;
+
+                                dbContext.UserAccountGroups.Add(uag);
+                                dbContext.SaveChanges();
+                            }
+                        }
+
+                        transaction.Commit();
+
+                        return Ok(user);
+                    }
+                    else
+                    {
+                        throw new Exception($"User Not found with a user ID of '{user.UserID}'.");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    throw new Exception($"User Not found with a user ID of '{user.UserID}'.");
+                    transaction.Rollback();
+                    return BadRequest(GetErrorMessage(ex));
                 }
             }
-            catch (Exception ex)
-            {
-                return BadRequest(GetErrorMessage(ex));
-            }
+
         }
 
-        [Route("")]
+
         [Route("[action]")]
-        [HttpPost]
+        [HttpDelete]
         public IActionResult Delete(string id)
         {
-            try
-            {
-                UserAccount userForUpdate = dbContext.UserAccounts.Find(id);
 
-                if (userForUpdate != null)
-                {
-                    dbContext.UserAccounts.Remove(userForUpdate);
-                    dbContext.SaveChanges();
-
-                    return Ok(id);
-                }
-                else
-                {
-                    throw new Exception($"User Not found with a user ID of '{id}'.");
-                }
-            }
-            catch (Exception ex)
+            using (var transaction = dbContext.Database.BeginTransaction())
             {
-                return BadRequest(GetErrorMessage(ex));
-            }
+                try
+                {
+                    UserAccount userToDelete = dbContext.UserAccounts.Find(id);
+
+                    if (userToDelete != null)
+                    {
+                        dbContext.UserAccounts.Remove(userToDelete);
+
+                        var userAccountGroups = dbContext.UserAccountGroups.Where(uag => uag.UserAccountID == id).ToList();
+                        dbContext.UserAccountGroups.RemoveRange(userAccountGroups);
+
+                        dbContext.SaveChanges();
+
+                        transaction.Rollback();
+
+                        return Ok(id);
+                    }
+                    else
+                    {
+                        throw new Exception($"User Not found with a user ID of '{id}'.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    return BadRequest(GetErrorMessage(ex));
+                }
+            }                
         }
     }
 }

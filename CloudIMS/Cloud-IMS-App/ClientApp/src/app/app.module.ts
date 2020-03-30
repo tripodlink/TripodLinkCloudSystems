@@ -16,8 +16,13 @@ import { AppSidebarMenuComponent } from './app-sidebar-menu/app-sidebar-menu.com
 import { AppNavbarMenuComponent } from './app-navbar-menu/app-navbar-menu.component';
 
 import { UserAccountComponent } from './user-management/user-account/user-account.component';
+import { AddEditUserAccountComponent } from './user-management/user-account/addEdit-user-account.component';
 import { UserAccountService } from './services/UserAccount.service';
+import { UserGroupService } from './services/UserGroup.service';
+import { UserAuthorizationService } from './services/UserAuthorization.service';
 import { ItemGroupServices } from './services/itemgroup.service';
+import { ItemMasterServices } from './services/itemmaster.service';
+
 
 
 import { CommonModule } from '@angular/common';
@@ -33,8 +38,10 @@ import { InventoryOutComponent } from './inventory-management/inventory-out/inve
 import { InventoryInComponent } from './inventory-management/inventory-in/inventory-in.component';
 import { InventoryService } from './services/inventory.service';
 import { ItemGroupComponent } from './dictionary/item-group/item-group.component';
+import { ItemMasterComponent } from './dictionary/item-master/item-master.component';
+
 @NgModule({
-  declarations: [
+    declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
@@ -42,13 +49,15 @@ import { ItemGroupComponent } from './dictionary/item-group/item-group.component
         SupplierComponent,
         AppSidebarMenuComponent,
         AppNavbarMenuComponent,
-       
         UserAccountComponent,
         DictionaryComponent,
         InventoryManagementComponent,
         InventoryOutComponent,
-        InventoryInComponent,
-        ItemGroupComponent   
+        InventoryInComponent,  
+        ItemGroupComponent,
+        ItemMasterComponent,
+       AddEditUserAccountComponent,
+
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -69,11 +78,16 @@ import { ItemGroupComponent } from './dictionary/item-group/item-group.component
         { path: 'inventory-management', component: InventoryManagementComponent },
         { path: 'data-dictionary/unit-code', component: UnitCodeComponent },
         { path: 'data-dictionary/supplier', component: SupplierComponent },
-      { path: 'user-management/user-account', component: UserAccountComponent },
-      { path: 'data-dictionary/item-group', component: ItemGroupComponent },
-   ])
+        { path: 'user-management/user-account', component: UserAccountComponent },
+        { path: 'data-dictionary/item-group', component: ItemGroupComponent },
+        { path: 'data-dictionary/item-master', component: ItemMasterComponent },
+        { path: 'user-management/user-account/add', component: AddEditUserAccountComponent },
+        { path: 'user-management/user-account/edit/:id', component: AddEditUserAccountComponent }
+   ]) 
   ],
-    providers: [SideBarService, HomeService, DictionaryService, InventoryService, ItemGroupServices,UnitCodeService, SupplierService, UserAccountService, Http],
+  providers: [SideBarService, HomeService, DictionaryService, InventoryService, 
+              ItemGroupServices,ItemMasterServices,UnitCodeService, SupplierService, 
+              UserAccountService,UserAccountService,UserGroupService,UserAuthorizationService Http],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

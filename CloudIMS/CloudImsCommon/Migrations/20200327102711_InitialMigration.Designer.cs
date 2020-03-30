@@ -3,14 +3,16 @@ using System;
 using CloudImsCommon.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CloudImsCommon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200327102711_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,29 +145,29 @@ namespace CloudImsCommon.Migrations
                     b.Property<string>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("pf_folder_id")
-                        .HasMaxLength(100);
+                        .HasMaxLength(10);
 
                     b.Property<string>("Icon")
                         .HasColumnName("pf_icon")
-                        .HasMaxLength(255);
+                        .HasMaxLength(10);
 
                     b.Property<string>("IconProvider")
                         .HasColumnName("pf_icon_provider")
-                        .HasMaxLength(255);
+                        .HasMaxLength(20);
 
                     b.Property<string>("IconType")
                         .HasColumnName("pf_icon_type")
-                        .HasMaxLength(255);
+                        .HasMaxLength(10);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("pf_folder_name")
-                        .HasMaxLength(255);
+                        .HasMaxLength(100);
 
                     b.Property<string>("RouteAttribute")
                         .IsRequired()
                         .HasColumnName("pf_folder_route")
-                        .HasMaxLength(255);
+                        .HasMaxLength(25);
 
                     b.Property<int>("SequenceNo")
                         .HasColumnName("pf_seqno");
