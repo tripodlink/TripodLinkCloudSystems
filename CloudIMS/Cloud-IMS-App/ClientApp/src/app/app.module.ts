@@ -33,8 +33,6 @@ import { InventoryOutComponent } from './inventory-management/inventory-out/inve
 import { InventoryInComponent } from './inventory-management/inventory-in/inventory-in.component';
 import { InventoryService } from './services/inventory.service';
 import { ItemGroupComponent } from './dictionary/item-group/item-group.component';
-import { SideBarService } from './services/SideBar.service';
-import { HomeService } from './services/home.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,7 +70,7 @@ import { HomeService } from './services/home.service';
         { path: 'data-dictionary/unit-code', component: UnitCodeComponent },
         { path: 'data-dictionary/supplier', component: SupplierComponent },
       { path: 'user-management/user-account', component: UserAccountComponent },
-      { path: 'dictionary/item-group', component: ItemGroupComponent },
+      { path: 'data-dictionary/item-group', component: ItemGroupComponent },
    ])
   ],
     providers: [SideBarService, HomeService, DictionaryService, InventoryService, ItemGroupServices,UnitCodeService, SupplierService, UserAccountService, Http],
