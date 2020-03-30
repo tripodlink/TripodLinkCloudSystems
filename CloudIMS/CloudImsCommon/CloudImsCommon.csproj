@@ -10,19 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\**" />
-    <Content Remove="Migrations\**" />
-    <EmbeddedResource Remove="Migrations\**" />
-    <None Remove="Migrations\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Migrations\20200326020805_Change_MaxLength_of_ProgramFolders.cs" />
-    <Compile Include="Migrations\20200326020805_Change_MaxLength_of_ProgramFolders.Designer.cs" />
-    <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.8">

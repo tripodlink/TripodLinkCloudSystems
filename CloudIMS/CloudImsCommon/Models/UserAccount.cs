@@ -44,6 +44,10 @@ namespace CloudImsCommon.Models
         [MaxLength(20)]
         public String UpdatedBy { get; set; }
 
+        [NotMapped]
         public IEnumerable<UserAccountGroup> UserAccountGroups { get; set; }
+
+        [NotMapped]
+        public IEnumerable<UserGroup> UserGroups { get; set; }
     }
 }

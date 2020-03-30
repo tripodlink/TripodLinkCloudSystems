@@ -21,5 +21,8 @@ namespace CloudImsCommon.Models
         [MaxLength(100)]
         [Required]
         public String Name { get; set; }
+
+        [NotMapped]
+        IEnumerable<ProgramFolder> ProgramFolders { get; set; }
     }
 }
