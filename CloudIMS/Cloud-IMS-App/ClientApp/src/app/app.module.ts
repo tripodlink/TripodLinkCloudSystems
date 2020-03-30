@@ -19,7 +19,10 @@ import { AppSidebarMenuComponent } from './app-sidebar-menu/app-sidebar-menu.com
 import { AppNavbarMenuComponent } from './app-navbar-menu/app-navbar-menu.component';
 
 import { UserAccountComponent } from './user-management/user-account/user-account.component';
+import { AddEditUserAccountComponent } from './user-management/user-account/addEdit-user-account.component';
 import { UserAccountService } from './services/UserAccount.service';
+import { UserGroupService } from './services/UserGroup.service';
+import { UserAuthorizationService } from './services/UserAuthorization.service';
 import { ItemGroupServices } from './services/itemgroup.service';
 import { ItemMasterServices } from './services/itemmaster.service';
 
@@ -33,7 +36,7 @@ import { ItemMasterComponent } from './dictionary/item-master/item-master.compon
 
 
 @NgModule({
-  declarations: [
+    declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
@@ -66,10 +69,11 @@ import { ItemMasterComponent } from './dictionary/item-master/item-master.compon
       { path: 'dictionary/unit-code', component: UnitCodeComponent },
       { path: 'user-management/user-account', component: UserAccountComponent },
       { path: 'data-dictionary/item-group', component: ItemGroupComponent },
-      { path: 'data-dictionary/item-master', component: ItemMasterComponent }
+      { path: 'data-dictionary/item-master', component: ItemMasterComponent },
+      { path: 'user-management/user-account/add', component: AddEditUserAccountComponent },
+      { path: 'user-management/user-account/edit/:id', component: AddEditUserAccountComponent }
    ])
   ],
-  providers: [UnitCodeService, UserAccountService, ItemGroupServices, ItemMasterServices,Http],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

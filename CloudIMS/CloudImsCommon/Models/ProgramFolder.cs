@@ -47,6 +47,7 @@ namespace CloudImsCommon.Models
         [Required]
         public int SequenceNo { get; set; }
         
+        [NotMapped]
         IEnumerable<ProgramMenu> ProgramMenus { get; set; }
 
     }

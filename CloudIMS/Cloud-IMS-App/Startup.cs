@@ -33,23 +33,8 @@ namespace Cloud_IMS_App
                     .AllowAnyHeader());
             });
 
-            services.AddMvc()
+            services.AddMvc();
 
-                //AP Assemblies
-                //.AddApplicationPart(typeof(ApLandingPageController).Assembly)
-                //.AddApplicationPart(typeof(BlockAndSlideController).Assembly)
-                //.AddApplicationPart(typeof(ApSampleReceptionController).Assembly)
-                //    //.AddApplicationPart(typeof(ApResultEntryController).Assembly)
-                //.AddApplicationPart(typeof(PapSmearResultEntryController).Assembly)
-
-                //Blood Bank Assemblies
-                //.AddApplicationPart(typeof(BbLandingPageController).Assembly)
-                //.AddApplicationPart(typeof(RegisterDonorController).Assembly)
-                //.AddApplicationPart(typeof(BloodBankResultEntryController).Assembly)
-
-                //Add all controllers
-                .AddControllersAsServices();
-           
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

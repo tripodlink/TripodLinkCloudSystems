@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CloudImsCommon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200326015727_InitialMigration")]
+    [Migration("20200327102711_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -228,8 +228,6 @@ namespace CloudImsCommon.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ProgramFolderID");
-
                     b.ToTable("program_menu");
 
                     b.HasData(
@@ -333,7 +331,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 3, 26, 9, 57, 26, 876, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 3, 26, 9, 57, 26, 877, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 3, 27, 18, 27, 11, 230, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 3, 27, 18, 27, 11, 231, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 
@@ -348,8 +346,6 @@ namespace CloudImsCommon.Migrations
                         .HasMaxLength(20);
 
                     b.HasKey("UserAccountID", "UserGroupID");
-
-                    b.HasIndex("UserGroupID");
 
                     b.ToTable("user_account_group");
 
@@ -407,40 +403,6 @@ namespace CloudImsCommon.Migrations
                         new { UserGroupID = "ADMIN", ProgramMenuID = "UM_USERGRP" },
                         new { UserGroupID = "ADMIN", ProgramMenuID = "UM_USERPROF" }
                     );
-                });
-
-            modelBuilder.Entity("CloudImsCommon.Models.ProgramMenu", b =>
-                {
-                    b.HasOne("CloudImsCommon.Models.ProgramFolder", "ProgramFolder")
-                        .WithMany()
-                        .HasForeignKey("ProgramFolderID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("CloudImsCommon.Models.UserAccountGroup", b =>
-                {
-                    b.HasOne("CloudImsCommon.Models.UserAccount", "UserAccount")
-                        .WithMany("UserAccountGroups")
-                        .HasForeignKey("UserAccountID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CloudImsCommon.Models.UserGroup", "UserGroup")
-                        .WithMany()
-                        .HasForeignKey("UserGroupID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("CloudImsCommon.Models.UserGroupProgram", b =>
-                {
-                    b.HasOne("CloudImsCommon.Models.ProgramMenu", "ProgramMenu")
-                        .WithMany()
-                        .HasForeignKey("ProgramMenuID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CloudImsCommon.Models.UserGroup", "UserGroup")
-                        .WithMany()
-                        .HasForeignKey("UserGroupID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

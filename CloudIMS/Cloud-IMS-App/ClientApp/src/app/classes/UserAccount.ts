@@ -1,11 +1,15 @@
+import { UserGroup } from './UserGroup';
+
 
 export class UserAccount{
-  userID: string;
-  userName: string;
-  password: string;
-  isActive: boolean;
+  userID: string = "";
+  userName: string = "";
+  password: string = "";
+  isActive: boolean = true;
   createdOn: Date;
-  createdBy: string;
+  createdBy: string = "";
   updatedOn: Date;
-  updatedBy: string;
+  updatedBy: string = "";
+
+  userGroups: UserGroup[] = new Array();
 }
