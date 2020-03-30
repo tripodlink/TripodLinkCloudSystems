@@ -8,9 +8,6 @@ import { Http } from '@angular/http';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
-
 import { UnitCodeComponent } from './dictionary/unit-code/unitCode.component';
 import { UnitCodeService } from './services/UnitCode.service';
 import { SupplierComponent } from './dictionary/supplier/supplier.component';
@@ -40,8 +37,6 @@ import { ItemMasterComponent } from './dictionary/item-master/item-master.compon
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
         UnitCodeComponent,
         SupplierComponent,
         AppSidebarMenuComponent,
@@ -64,8 +59,6 @@ import { ItemMasterComponent } from './dictionary/item-master/item-master.compon
     }),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dictionary/unit-code', component: UnitCodeComponent },
       { path: 'user-management/user-account', component: UserAccountComponent },
       { path: 'data-dictionary/item-group', component: ItemGroupComponent },
