@@ -143,29 +143,29 @@ namespace CloudImsCommon.Migrations
                     b.Property<string>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("pf_folder_id")
-                        .HasMaxLength(10);
+                        .HasMaxLength(100);
 
                     b.Property<string>("Icon")
                         .HasColumnName("pf_icon")
-                        .HasMaxLength(10);
+                        .HasMaxLength(255);
 
                     b.Property<string>("IconProvider")
                         .HasColumnName("pf_icon_provider")
-                        .HasMaxLength(20);
+                        .HasMaxLength(255);
 
                     b.Property<string>("IconType")
                         .HasColumnName("pf_icon_type")
-                        .HasMaxLength(10);
+                        .HasMaxLength(255);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("pf_folder_name")
-                        .HasMaxLength(100);
+                        .HasMaxLength(255);
 
                     b.Property<string>("RouteAttribute")
                         .IsRequired()
                         .HasColumnName("pf_folder_route")
-                        .HasMaxLength(25);
+                        .HasMaxLength(255);
 
                     b.Property<int>("SequenceNo")
                         .HasColumnName("pf_seqno");
