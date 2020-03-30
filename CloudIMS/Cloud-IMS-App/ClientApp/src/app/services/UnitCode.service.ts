@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IUnitCode } from '../classes/IUnitCode.interface'
+import { IUnitCode } from '../classes/data-dictionary/UnitCode/IUnitCode.interface'
 import { HttpHeaders } from '@angular/common/http';
 import { map, filter, switchMap } from 'rxjs/operators';
 
