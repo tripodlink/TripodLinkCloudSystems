@@ -39,7 +39,7 @@ namespace CloudImsCommon.Models
 
 
         [Column("pf_icon")]
-        [MaxLength(10)]
+        [MaxLength(100)]
         public String Icon { get; set; }
 
 
@@ -48,7 +48,7 @@ namespace CloudImsCommon.Models
         public int SequenceNo { get; set; }
         
         [NotMapped]
-        IEnumerable<ProgramMenu> ProgramMenus { get; set; }
+       public  IEnumerable<ProgramMenu> ProgramMenus { get; set; }
 
     }
 }

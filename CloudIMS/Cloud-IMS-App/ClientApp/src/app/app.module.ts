@@ -22,6 +22,7 @@ import { UserAccountComponent } from './user-management/user-account/user-accoun
 import { AddEditUserAccountComponent } from './user-management/user-account/addEdit-user-account.component';
 import { UserAccountService } from './services/UserAccount.service';
 import { UserGroupService } from './services/UserGroup.service';
+import { UserGroupComponent } from './user-management/user-group/user-group.component';
 import { UserAuthorizationService } from './services/UserAuthorization.service';
 import { ItemGroupServices } from './services/itemgroup.service';
 
@@ -45,6 +46,7 @@ import { ItemGroupComponent } from './dictionary/item-group/item-group.component
     AppNavbarMenuComponent,
     UserAccountComponent,
     AddEditUserAccountComponent,
+    UserGroupComponent,
     ItemGroupComponent
   ],
   imports: [
@@ -67,7 +69,8 @@ import { ItemGroupComponent } from './dictionary/item-group/item-group.component
       { path: 'user-management/user-account', component: UserAccountComponent },
       { path: 'user-management/user-account/add', component: AddEditUserAccountComponent },
       { path: 'user-management/user-account/edit/:id', component: AddEditUserAccountComponent },
-      { path: 'dictionary/item-group', component: ItemGroupComponent },
+      { path: 'user-management/user-group', component: UserGroupComponent },
+      { path: 'dictionary/item-group', component: ItemGroupComponent }
    ])
   ],
     providers: [UnitCodeService, UserAccountService, UserAuthorizationService, UserGroupService, ItemGroupServices, Http],

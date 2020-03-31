@@ -24,7 +24,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="3.1.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.19" />
   </ItemGroup>
 
@@ -36,10 +36,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\classes\ProgramFolder.ts" />
+    <None Remove="ClientApp\src\app\classes\ProgramMenu.ts" />
     <None Remove="ClientApp\src\app\classes\UserAccount.ts" />
     <None Remove="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
+    <None Remove="ClientApp\src\app\services\ProgramMenu.service.ts" />
     <None Remove="ClientApp\src\app\services\UserAuthorization.service.ts" />
     <None Remove="ClientApp\src\app\services\UserGroup.service.ts" />
+    <None Remove="ClientApp\src\app\user-management\user-profile\userGroup.component.ts" />
     <None Remove="ClientApp\src\vali-css\all.css" />
     <None Remove="ClientApp\src\vali-css\all.min.css" />
     <None Remove="ClientApp\src\vali-css\font-awesome.min.css" />
@@ -80,17 +84,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\classes\ProgramFolder.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\classes\ProgramMenu.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\UserAccount.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\ProgramMenu.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\UserAccount.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\UserAuthorization.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\UserGroup.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\user-management\user-account\user-account.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\user-management\user-group\user-group.component.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="ClientApp\src\app\user-management\user-profile\" />
-    <Folder Include="ClientApp\src\app\user-management\user-group\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
