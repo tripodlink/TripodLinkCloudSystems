@@ -25,11 +25,26 @@
               "src/styles.css"
             ],
             "scripts": [
-              "./src/assets/bootstrap.min.js",
               "./src/assets/jquery-3.3.1.min.js",
+              "./src/assets/bootstrap.min.js",
               "./src/assets/main.js",
               "./src/assets/popper.min.js",
-              "./src/assets/pace.min.js"
+              "./src/assets/pace.min.js",
+              "./src/assets/plugins/bootstrap-datepicker.min.js",
+              "./src/assets/plugins/bootstrap-notify.min.js",
+              "./src/assets/plugins/chart.js",
+              "./src/assets/plugins/dataTables.bootstrap.min.js",
+              "./src/assets/plugins/dropzone.js",
+              "./src/assets/plugins/fullcalendar.min.js",
+              "./src/assets/plugins/jquery.dataTables.min.js",
+              "./src/assets/plugins/jquery.vmap.min.js",
+              "./src/assets/plugins/jquery.vmap.sampledata.js",
+              "./src/assets/plugins/jquery.vmap.world.js",
+              "./src/assets/plugins/jquery-ui.custom.min.js",
+              "./src/assets/plugins/moment.min.js",
+              "./src/assets/plugins/pace.min.js",
+              "./src/assets/plugins/select2.min.js",
+              "./src/assets/plugins/sweetalert.min.js"
             ]
           },
           "configurations": {
