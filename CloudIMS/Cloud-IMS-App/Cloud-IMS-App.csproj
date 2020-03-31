@@ -36,8 +36,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\classes\data-dictionary\IitemGroupClass.ts" />
     <None Remove="ClientApp\src\app\classes\data-dictionary\ItemMaster\IitemMasterClass.ts" />
-    <None Remove="ClientApp\src\app\classes\IitemGroupClass.ts" />
+    <None Remove="ClientApp\src\app\classes\data-dictionary\Manufacturer\IManufacturerClass.ts" />
+    <None Remove="ClientApp\src\app\classes\ISupplierClass.ts" />
     <None Remove="ClientApp\src\app\classes\UserAccount.ts" />
     <None Remove="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
     <None Remove="ClientApp\src\app\services\UserAuthorization.service.ts" />
@@ -82,6 +84,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\Manufacturer\IManufacturerClass.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\Supplier\ISupplierClass.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\ItemGroup\IitemGroupClass.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\ItemMaster\IitemMasterClass.ts">
       <SubType>Code</SubType>
