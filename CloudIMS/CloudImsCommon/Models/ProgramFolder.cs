@@ -13,33 +13,33 @@ namespace CloudImsCommon.Models
     {
         [Key]
         [Column("pf_folder_id")]
-        [MaxLength(100)]
+        [MaxLength(10)]
         public String ID { get; set; }
 
 
         [Column("pf_folder_name")]
-        [MaxLength(255)]
+        [MaxLength(100)]
         [Required]
         public String Name { get; set; }
 
                            
         [Column("pf_folder_route")]
-        [MaxLength(255)]
+        [MaxLength(25)]
         [Required]
         public String RouteAttribute { get; set; }
 
         [Column("pf_icon_type")]
-        [MaxLength(255)]
+        [MaxLength(10)]
         public String IconType { get; set; }
 
 
         [Column("pf_icon_provider")]
-        [MaxLength(255)]
+        [MaxLength(20)]
         public String IconProvider { get; set; }
 
 
         [Column("pf_icon")]
-        [MaxLength(255)]
+        [MaxLength(100)]
         public String Icon { get; set; }
 
 
@@ -48,7 +48,7 @@ namespace CloudImsCommon.Models
         public int SequenceNo { get; set; }
         
         [NotMapped]
-        IEnumerable<ProgramMenu> ProgramMenus { get; set; }
+       public  IEnumerable<ProgramMenu> ProgramMenus { get; set; }
 
     }
 }

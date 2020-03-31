@@ -19,6 +19,7 @@ import { UserAccountComponent } from './user-management/user-account/user-accoun
 import { AddEditUserAccountComponent } from './user-management/user-account/addEdit-user-account.component';
 import { UserAccountService } from './services/UserAccount.service';
 import { UserGroupService } from './services/UserGroup.service';
+import { UserGroupComponent } from './user-management/user-group/user-group.component';
 import { UserAuthorizationService } from './services/UserAuthorization.service';
 import { ItemGroupServices } from './services/itemgroup.service';
 import { ItemMasterServices } from './services/itemmaster.service';
@@ -45,19 +46,19 @@ import { ItemMasterComponent } from './dictionary/item-master/item-master.compon
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-        UnitCodeComponent,
-        SupplierComponent,
-        AppSidebarMenuComponent,
-        AppNavbarMenuComponent,
+    UnitCodeComponent,
+    SupplierComponent,
+    AppSidebarMenuComponent,
+    AppNavbarMenuComponent,
         UserAccountComponent,
+        UserGroupComponent,
+        AddEditUserAccountComponent,
         DictionaryComponent,
         InventoryManagementComponent,
         InventoryOutComponent,
-        InventoryInComponent,  
+        InventoryInComponent,
         ItemGroupComponent,
-        ItemMasterComponent,
-       AddEditUserAccountComponent,
-
+        ItemMasterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -82,12 +83,13 @@ import { ItemMasterComponent } from './dictionary/item-master/item-master.compon
         { path: 'data-dictionary/item-group', component: ItemGroupComponent },
         { path: 'data-dictionary/item-master', component: ItemMasterComponent },
         { path: 'user-management/user-account/add', component: AddEditUserAccountComponent },
-        { path: 'user-management/user-account/edit/:id', component: AddEditUserAccountComponent }
+        { path: 'user-management/user-account/edit/:id', component: AddEditUserAccountComponent },
+        { path: 'user-management/user-group', component: UserGroupComponent },
    ]) 
   ],
   providers: [SideBarService, HomeService, DictionaryService, InventoryService, 
               ItemGroupServices,ItemMasterServices,UnitCodeService, SupplierService, 
-              UserAccountService,UserAccountService,UserGroupService,UserAuthorizationService Http],
+              UserAccountService,UserAccountService,UserGroupService,UserAuthorizationService, Http],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

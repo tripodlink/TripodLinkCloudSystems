@@ -10,7 +10,6 @@
 
   <div class="row">
     <div class="col-md-12">
-
       <form (ngSubmit)="saveUserDetails()" [formGroup]="addEditForm">
         <div class="tile">
           <div>
@@ -19,7 +18,7 @@
           <div class="form-group row">
             <label for="'userID" class="col-md-2 col-sm-4 col-form-label">User ID</label>
             <div class="col-md-4 col-sm-10">
-              <input formControlName="userID" class="form-control text-uppercase" [readonly]="!isNewUser" [value]="user.userID">
+              <input formControlName="userId" class="form-control text-uppercase" [readonly]="!isNewUser" [value]="user.userID">
             </div>
           </div>
           <div class="form-group row">

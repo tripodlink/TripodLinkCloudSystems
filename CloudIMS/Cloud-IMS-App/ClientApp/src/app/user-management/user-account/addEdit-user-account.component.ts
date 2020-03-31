@@ -33,7 +33,7 @@ export class AddEditUserAccountComponent {
 
   private createForm() {
     this.addEditForm = this.formBuilder.group({
-      userID: new FormControl(),
+      userId: new FormControl(),
       userName: new FormControl(),
       password: new FormControl()
     });
