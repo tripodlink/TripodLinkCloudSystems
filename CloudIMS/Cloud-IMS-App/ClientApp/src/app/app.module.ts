@@ -89,7 +89,7 @@ import { ItemMasterComponent } from './dictionary/item-master/item-master.compon
   ],
   providers: [SideBarService, HomeService, DictionaryService, InventoryService, 
               ItemGroupServices,ItemMasterServices,UnitCodeService, SupplierService, 
-              UserAccountService,UserAccountService,UserGroupService,UserAuthorizationService Http],
+              UserAccountService,UserAccountService,UserGroupService,UserAuthorizationService, Http],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
