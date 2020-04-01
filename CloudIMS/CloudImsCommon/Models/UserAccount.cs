@@ -49,5 +49,11 @@ namespace CloudImsCommon.Models
 
         [NotMapped]
         public IEnumerable<UserGroup> UserGroups { get; set; }
+
+        [NotMapped]
+        public IEnumerable<ProgramFolder> ProgramFolders { get; set; }
+
+        [NotMapped]
+        public IEnumerable<ProgramMenu> ProgramMenus { get; set; }
     }
 }

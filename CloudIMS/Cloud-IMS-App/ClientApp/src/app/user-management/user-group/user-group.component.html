@@ -11,9 +11,9 @@
   <div class="row">
     <!-- User Group Table -->
     <div class="col-md-4">
-      <div class="tile">
+      <div class="tile" style="border-radius: 10px 10px">
         <div>
-          <div class="tile-title">User Group</div>
+          <div class="tile-title">List of User Groups</div>
           <!--<button type="button" style="width:100px; margin-bottom:5px" class="btn btn-primary" [routerLink]="'/user-management/user-account/add'">Add User</button>-->
         </div>
 
@@ -22,16 +22,16 @@
           {{userGroups.value | json}}
 
           <table class="table table-hover table-bordered">
-            <thead class="thead-dark">
-              <tr>
-                <td class="text-primary">GROUP ID</td>
-                <td class="text-primary">GROUP NAME</td>
+            <thead class="btn-dark">
+              <tr class="text-center">
+                <td>Group ID</td>
+                <td>Group Name</td>
               </tr>
             </thead>
 
             <tbody>
               <tr *ngFor="let ug of userGroups; let i = index;" (click)="displayUserGroupDetails(ug.id)">
-                <td>{{ug.id}}</td>
+                <td class="text-center">{{ug.id}}</td>
                 <td [class]="'user-group-name-td-' + ug.id">{{ug.name}}</td>
               </tr>
             </tbody>
@@ -44,23 +44,24 @@
 
     <!-- Program Menu Tree -->
     <div class="col-md-8">
-      <div class="tile">
+      <div class="tile" style="border-radius: 10px 10px">
         <div class="tile-title">User Group Details</div>
 
         <form (ngSubmit)="saveUserGroupDetails()" [formGroup]="addEditUserGroupForm">
-
           <div class="row">
             <div class="col-md-4">
               <div class="form-group">
                 <label for="groupId">Group ID:</label>
-                <input formControlName="groupId" type="text" class="form-control text-uppercase" [readonly]="!isNewUserGroup">
+                <input formControlName="groupId" type="text" class="form-control text-uppercase" [readonly]="!isNewUserGroup"
+                       [class.is-invalid]="addEditUserGroupForm.controls['groupId'].touched  && addEditUserGroupForm.controls['groupId'].value.trim() == ''">
               </div>
             </div>
 
             <div class="col-md-8">
               <div class="form-group">
                 <label for="groupName">Group Name:</label>
-                <input formControlName="groupName" type="text" class="form-control">
+                <input formControlName="groupName" type="text" class="form-control"
+                       [class.is-invalid]="addEditUserGroupForm.controls['groupName'].touched && addEditUserGroupForm.controls['groupName'].value.trim() == ''">
               </div>
             </div>
           </div>
@@ -122,9 +123,12 @@
           </div>
 
           <div class="form-control" style="border:hidden; margin:0px; margin-top:10px; padding:0px">
-            <button class="btn btn-primary" style="width:70px">Save</button> &nbsp;
-            <button type="submit" class="btn btn-warning" style="width:70px" (click)="clearEntry()">Clear</button> &nbsp;
-            <button type="submit" class="btn btn-danger" style="width:70px" [disabled]="isNewUserGroup" (click)="deleteUserGroup()">Delete</button>
+            <button class="btn btn-primary" style="width:100px"
+                    [disabled]="addEditUserGroupForm.controls['groupId'].value.trim() == '' || addEditUserGroupForm.controls['groupName'].value.trim() == ''">
+              <i class="fa fa-save"></i> Save
+            </button> &nbsp;
+            <button type="submit" class="btn btn-warning" style="width:100px" (click)="clearEntry()"><i class="fa fa-eraser"></i> Clear</button> &nbsp;
+            <button type="submit" class="btn btn-danger" style="width:100px" [disabled]="isNewUserGroup" (click)="deleteUserGroup()"><i class="fa fa-trash"></i> Delete</button>
           </div>
         </form>
 
