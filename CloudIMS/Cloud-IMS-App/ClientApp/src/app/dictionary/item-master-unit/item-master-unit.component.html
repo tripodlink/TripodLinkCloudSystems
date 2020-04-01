@@ -1,0 +1,107 @@
+<main class="app-content">
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-building-o"></i>Data-Dictionary/Item-Master-Unit</h1>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
+    </ul>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tile">
+        <h3 class="tile-title"></h3>
+        <div class="col text-right">
+        </div>
+
+        <div class="col-md-3">
+          <label for="itemGroupNameDropdown">Select Item</label>
+          <select formControlName="itemSelect" class="form-control" #itemSelect id="itemSelect" (change)="itemChanges()">
+            <option value=""></option>
+            <option *ngFor="let itemG of ItemMasterUnitSelectArray" [value]="item.id">{{item.name}}</option>
+          </select>
+
+          <br />
+          <button type="button" class="btn btn-primary" (click)="ClickAdd()" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Add Item Master Unit</button>
+        </div>
+            <br />
+          <br />
+          <div class="tile-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered" id="table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Unit</th>
+                    <th>Conversion Factor</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let itmU of ItemMasterUnitArray" [id]="itmU.id">
+                    <td>{{itmU.id}}</td>
+                    <td>{{itmU.itemMasterUnitUnit}}</td>
+                    <td>{{itmU.itemMasterUnitConversion}}</td>
+                    <td>
+                      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" (click)="PassData(itgp.id, itgp.itemGroupName)"><i class="fa fa-pencil"></i>Edit</button>
+                      &nbsp;<button type="button" class="btn btn-danger" (click)="deleteItemGroup(itgp.id)"><i class="fa fa-trash"></i>Delete</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{modalStatus}}</h4>
+          </div>
+          <form [formGroup]="addItemGroupForm">
+            <div class="modal-body">
+
+              <div class="form-group">
+                <label for="itemMasterUnitID">Item ID</label>
+                <input formControlName="id" [readonly]="!isAdd" class="form-control itemMasterUnitClass" [name]="itemMasterUnitIDName" #itemMasterUnitID id="itemMasterUnitID">
+              </div>
+              <div class="form-group">
+                <label for="itemMasterUnitUnit">Item Master Unit</label>
+                <input formControlName="itemMasterUnitUnit" class="form-control itemMasterUnitClass" [name]="itemMasterUnitUnitName" #itemMasterUnitUnit id="itemMasterUnitUnit">
+              </div>
+              <div class="form-group">
+                <label for="itemMasterUnitConversionID">Item Master Conversion</label>
+                <input formControlName="itemMasterUnitConversion" class="form-control itemMasterUnitClass" [name]="itemMasterUnitConversionName" #itemMasterUnitConversionID id="itemMasterUnitConversionID">
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <ng-template *ngIf="isAdd; then add; else update">
+
+              </ng-template>
+
+              <ng-template #add>
+                <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
+                <button class="btn btn-primary" (click)="insertItemGroup()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+              </ng-template>
+
+              <ng-template #update>
+                <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
+                <button class="btn btn-primary" (click)="updateItemGroup()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+              </ng-template>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+

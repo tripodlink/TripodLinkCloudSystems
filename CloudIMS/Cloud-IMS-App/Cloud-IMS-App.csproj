@@ -36,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\classes\data-dictionary\ItemMasterUnit\IitemMasterClass.ts" />
     <None Remove="ClientApp\src\app\classes\data-dictionary\ItemMaster\IitemMasterClass.ts" />
     <None Remove="ClientApp\src\app\classes\IitemGroupClass.ts" />
     <None Remove="ClientApp\src\app\classes\UserAccount.ts" />
@@ -83,6 +84,9 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\ItemGroup\IitemGroupClass.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\ItemMasterUnit\IitemMasterClass.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\ItemMaster\IitemMasterClass.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>

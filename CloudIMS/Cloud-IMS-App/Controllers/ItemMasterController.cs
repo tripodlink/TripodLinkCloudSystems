@@ -55,15 +55,14 @@ namespace Cloud_IMS_Api.Controllers
 
                 if (itemM != null)
                 {
-                    itemM.ID = itemM.ID;
-                    itemM.ItemGroup = itemM.ItemGroup;
-                    itemM.ItemName = itemM.ItemName;
-                    itemM.Unit = itemM.Unit;
-                    itemM.Supplier = itemM.Supplier;
-                    itemM.Manufacturer = itemM.Manufacturer;
+                    itemM.ItemGroup = itemMaster.ItemGroup;
+                    itemM.ItemName = itemMaster.ItemName;
+                    itemM.Unit = itemMaster.Unit;
+                    itemM.Supplier = itemMaster.Supplier;
+                    itemM.Manufacturer = itemMaster.Manufacturer;
         
 
-                    dbContext.ItemMasters.Update(itemMaster);
+                //    dbContext.ItemMasters.Update(itemMaster);
                     dbContext.SaveChanges();
 
                     return Ok(itemM);

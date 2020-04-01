@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ItemGroupServices } from '../../services/itemgroup.service';
 import { IiTemGroup } from '../../classes/data-dictionary/ItemGroup/IitemGroup.interface';
-import { IitemGroupClass } from '../../classes/data-dictionary/ItemGroup/IitemGroupClass'
+import { IitemGroupClass } from '../../classes/data-dictionary/ItemGroup/IitemGroupClass';
 import { ViewChild, ElementRef } from '@angular/core';
 
 
@@ -110,7 +110,7 @@ export class ItemGroupComponent{
    
   }
 
-  private deleteItemGroup(id) {
+  private deleteItemGroup(id: string) {
     if (confirm("Are you sure to delete" + " " + id)) {
       let errormessage = "Error";
       this.itemgroupService.deleteItemGroup(id).subscribe(data => {

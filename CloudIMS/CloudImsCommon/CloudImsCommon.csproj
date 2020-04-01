@@ -17,6 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Migrations\20200331080524_InitalMigration.cs" />
+    <Compile Include="Migrations\20200331080524_InitalMigration.Designer.cs" />
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
   </ItemGroup>
 

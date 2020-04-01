@@ -39,6 +39,8 @@ import { InventoryInComponent } from './inventory-management/inventory-in/invent
 import { InventoryService } from './services/inventory.service';
 import { ItemGroupComponent } from './dictionary/item-group/item-group.component';
 import { ItemMasterComponent } from './dictionary/item-master/item-master.component';
+import { ItemMasterUnitServices } from '../app/services/itemmasterUnit.service';
+import { ItemMasterUnitComponent } from './dictionary/item-master-unit/item-master-unit.component';
 
 @NgModule({
     declarations: [
@@ -57,6 +59,7 @@ import { ItemMasterComponent } from './dictionary/item-master/item-master.compon
         ItemGroupComponent,
         ItemMasterComponent,
        AddEditUserAccountComponent,
+       ItemMasterUnitComponent,
 
   ],
   imports: [
@@ -82,12 +85,13 @@ import { ItemMasterComponent } from './dictionary/item-master/item-master.compon
         { path: 'data-dictionary/item-group', component: ItemGroupComponent },
         { path: 'data-dictionary/item-master', component: ItemMasterComponent },
         { path: 'user-management/user-account/add', component: AddEditUserAccountComponent },
-        { path: 'user-management/user-account/edit/:id', component: AddEditUserAccountComponent }
+        { path: 'user-management/user-account/edit/:id', component: AddEditUserAccountComponent },
+      { path: 'data-dictionary/item-master-unit', component: ItemMasterUnitComponent }
    ]) 
   ],
   providers: [SideBarService, HomeService, DictionaryService, InventoryService, 
               ItemGroupServices,ItemMasterServices,UnitCodeService, SupplierService, 
-              UserAccountService,UserAccountService,UserGroupService,UserAuthorizationService Http],
+    UserAccountService, UserAccountService, UserGroupService, UserAuthorizationService, ItemMasterUnitServices ,Http],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

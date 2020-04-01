@@ -86,7 +86,7 @@ namespace Cloud_IMS_Api.Controllers
                     dbContext.ItemGroups.Remove(itemg);
                     dbContext.SaveChanges();
 
-                    return Ok(id);
+                    return Json(id);
                 }
                 else
                 {
