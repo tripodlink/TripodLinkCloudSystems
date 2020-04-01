@@ -19,6 +19,7 @@ import { AppSidebarMenuComponent } from './app-sidebar-menu/app-sidebar-menu.com
 import { AppNavbarMenuComponent } from './app-navbar-menu/app-navbar-menu.component';
 import { SideBarService } from './services/SideBar.service';
 import { LoginModule } from './LoginPage/login.module';
+import { UserAuthorizationService } from './services/UserAuthorization.service';
 
 
 @NgModule({
@@ -51,7 +52,7 @@ import { LoginModule } from './LoginPage/login.module';
 
     RouterModule.forRoot([ ])
   ],
-    providers: [ SideBarService, Http],
+  providers: [SideBarService, UserAuthorizationService ,Http],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { UserAuthorizationService } from '../../services/UserAuthorization.service';
 import { UserGroupComponent } from './user-group.component';
 import { UserGroupService } from '../../services/UserGroup.service';
 
@@ -20,6 +19,6 @@ import { UserGroupService } from '../../services/UserGroup.service';
       { path: 'user-management/user-group', component: UserGroupComponent }
     ])
   ],
-  providers: [UserAuthorizationService, UserGroupService]
+  providers: [ UserGroupService]
 })
 export class UserGroupModule { }

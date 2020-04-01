@@ -23,11 +23,35 @@ namespace Cloud_IMS_Api.Controllers
         [Route("")]
         [Route("[action]")]
         [HttpGet]
-        public IEnumerable<ProgramMenu> Index()
+        public ActionResult<ProgramMenu> Index()
         {
-            
-            var pm_Menu = dbContext.ProgramMenus.Where(pm => pm.ProgramFolderID == "DIC").ToList();
-            return pm_Menu;
+
+            var id = "SYSAD";
+            UserAccount user = dbContext.UserAccounts.Find(id);
+
+            var userGroupIdList = dbContext.UserAccountGroups
+                .Where(uag => uag.UserAccountID == id)
+                .Select(uag => new { GoupID = uag.UserGroupID })
+                .ToList();
+
+            user.UserGroups = dbContext.UserGroups
+                .Where(ug => userGroupIdList.Any(ugL => ugL.GoupID == ug.ID))
+                .ToList();
+
+            var programIdList = dbContext.UserGroupPrograms
+                .Where(ugp => user.UserGroups.Any(ug => ug.ID == ugp.UserGroupID))
+                .Distinct()
+                .Select(ugp => new { ProgramID = ugp.ProgramMenuID })
+                .ToList();
+
+            user.ProgramMenus = dbContext.ProgramMenus
+                .Where(pm => programIdList.Any(pmL => pmL.ProgramID == pm.ID))
+                .Where(pm=> pm.ProgramFolderID=="DIC")
+                .ToList();
+
+            return Ok(user.ProgramMenus);
+
+
         }
     }
 }

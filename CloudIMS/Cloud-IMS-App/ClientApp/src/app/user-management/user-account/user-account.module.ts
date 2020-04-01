@@ -25,6 +25,6 @@ import { UserGroupService } from '../../services/UserGroup.service';
       { path: 'user-management/user-account/edit/:id', component: AddEditUserAccountComponent }
     ])
   ],
-  providers: [UserAuthorizationService, UserAccountService, UserGroupService]
+  providers: [ UserAccountService, UserGroupService]
 })
 export class UserAccountModule { }
