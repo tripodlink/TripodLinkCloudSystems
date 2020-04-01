@@ -5,7 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { ISupplier } from '../../classes/data-dictionary/Supplier/ISupplier.interface';
 import { ISupplierClass } from '../../classes/data-dictionary/Supplier/ISupplierClass';
 
-
 @Component({
   selector: 'app-supplier',
   templateUrl: './supplier.component.html',
