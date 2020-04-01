@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IInventory } from '../classes/IInventory.interface';
+import { IInventory } from '../classes/inventory-management/IInventory.interface';
 
 @Injectable()
 export class InventoryService {

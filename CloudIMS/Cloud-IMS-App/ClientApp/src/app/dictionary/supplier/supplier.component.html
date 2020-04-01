@@ -1,7 +1,7 @@
 <main class="app-content">
   <div class="app-title">
     <div>
-      <h1><i class="fa fa-building-o"></i> Supplier</h1>
+      <h1><i class="fa fa-building-o"></i> Data-Dictionary/Supplier</h1>
     </div>
     <ul class="app-breadcrumb breadcrumb">
       <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
@@ -10,9 +10,10 @@
     <div class="col-md-12">
       <div class="tile">
         <div class="tile-body">
-          <h3 class="tile-title">List of Supplier</h3>
-          <button type="button" class="btn btn-primary" (click)="ClickAdd()" data-toggle="modal" data-target="#myModal">Add Supplier</button>
-          <div class="table-responsive">
+          
+            <button type="button" class="btn btn-success" (click)="ClickAdd()" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>Add Supplier</button><br />
+           <br /><br />
+           <div class="table-responsive">
             <table class="table table-hover table-bordered" id="sampletable">
               <thead>
                 <tr>
@@ -26,7 +27,7 @@
                   <td>{{sup.id}}</td>
                   <td>{{sup.name}}</td>
                   <td>
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" (click)="PassData(sup.id, sup.name)"><i class="fa fa-edit"></i> Edit</button>
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" (click)="PassData(sup.id, sup.name)"><i class="fa fa-edit"></i> Edit</button>&nbsp;
                     <button class="btn btn-danger" (click)="deleteSupplier(sup.id)"><i class="fa fa-trash"></i> Delete</button>
                   </td>
                 </tr>
@@ -51,24 +52,35 @@
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Add Supplier</h4>
+          <h4 class="modal-title">{{modalStatus}}</h4>
         </div>
 
-        <form (ngSubmit)="verifyProcess()" [formGroup]="addSupplierForm">
+        <form [formGroup]="addSupplierFormGroup">
           <div class="modal-body">
 
             <div class="form-group">
               <label for="supplierID">Supplier  ID</label>
-              <input formControlName="id" [value]="idInput" name="id" class="form-control" #supplierID id="supplierID">
+              <input type="text" formControlName="ID" [readonly]="!isAdd" class="form-control suppliertextfield" [name]="idInput" #supplierID id="supplierID">
             </div>
             <div class="form-group">
               <label for="supplierNametext">Supplier Name</label>
-              <input formControlName="Name" [value]="SupplierInput" name="SupplierName" #supplierNametext class="form-control" id="supplierNametext">
+              <input type="text" formControlName="Name" class="form-control suppliertextfield" [name]="supplierInput" #supplierNametext id="supplierNametext">
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" id="closeModal" #closeModal class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
-            <button class="btn btn-primary"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+            <ng-template *ngIf="isAdd; then add; else update">
+
+            </ng-template>
+            <ng-template #add>
+              <button type="button" id="closeModal" #closeModal class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
+              <button class="btn btn-primary" (click)="insertSupplier()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+            </ng-template>
+
+            <ng-template #update>
+              <button type="button" id="closeModal" #closeModal class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
+              <button class="btn btn-primary" (click)="updateSupplier()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+            </ng-template>
+            
           </div>
         </form>
       </div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ISideBar } from '../classes/ISideBar.interface';
+import { ISideBar } from '../classes/app-sidebar-menu/ISideBar.interface';
 
 @Injectable()
 export class SideBarService {

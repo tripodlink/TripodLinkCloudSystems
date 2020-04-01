@@ -147,7 +147,7 @@ namespace CloudImsCommon.Migrations
 
                     b.Property<string>("Icon")
                         .HasColumnName("pf_icon")
-                        .HasMaxLength(10);
+                        .HasMaxLength(100);
 
                     b.Property<string>("IconProvider")
                         .HasColumnName("pf_icon_provider")
@@ -324,7 +324,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 3, 27, 20, 22, 19, 743, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 3, 27, 20, 22, 19, 744, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 1, 10, 27, 3, 199, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 1, 10, 27, 3, 200, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 

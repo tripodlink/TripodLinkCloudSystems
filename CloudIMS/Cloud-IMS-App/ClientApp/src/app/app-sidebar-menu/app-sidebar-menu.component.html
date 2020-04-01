@@ -9,8 +9,16 @@
     </div>
     <ul class="app-menu">
       <li *ngFor="let pf of pf_folders">
-        <a class="app-menu__item active" routerLink="{{ pf.routeAttribute }}"><i class="app-menu__icon {{ pf.icon }}"></i><span class="app-menu__label">{{ pf.name }}</span></a>
-      </li>
+        <ng-template *ngIf="button_isActive; then active; else not_active">
+
+        </ng-template>
+        <ng-template #active>
+          <a class="app-menu__item {{button_status}}" routerLink="{{ pf.routeAttribute }}" (click)="IsButtonActive()"><i class="app-menu__icon {{ pf.icon }}"></i><span class="app-menu__label">{{ pf.name }}</span></a>
+        </ng-template>
+        <ng-template #not_active>
+          <a class="app-menu__item" routerLink="{{ pf.routeAttribute }}"><i class="app-menu__icon {{ pf.icon }}"></i><span class="app-menu__label">{{ pf.name }}</span></a>
+        </ng-template>
+        </li>
     </ul>
   </aside>
 
