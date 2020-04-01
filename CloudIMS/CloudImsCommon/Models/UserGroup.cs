@@ -23,6 +23,9 @@ namespace CloudImsCommon.Models
         public String Name { get; set; }
 
         [NotMapped]
-        IEnumerable<ProgramFolder> ProgramFolders { get; set; }
+        public IEnumerable<ProgramFolder> ProgramFolders { get; set; }
+
+        [NotMapped]
+        public IEnumerable<ProgramMenu> ProgramMenus { get; set; }
     }
 }

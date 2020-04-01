@@ -40,13 +40,13 @@ namespace Cloud_IMS_Api.Controllers
         {
             try
             {
-                UserAccount user = dbContext.UserAccounts.Find(id);
+                //UserAccount user = dbContext.UserAccounts.Find(id);
 
-                user.UserGroups = dbContext.UserGroups.Where(ug =>
-                    dbContext.UserAccountGroups.Where(uag => uag.UserAccountID == id).Select(x => new { GroupID = x.UserGroupID }).Any(uag => uag.GroupID == ug.ID)
-                ).ToList();
+                //user.UserGroups = dbContext.UserGroups.Where(ug =>
+                //    dbContext.UserAccountGroups.Where(uag => uag.UserAccountID == id).Select(x => new { GroupID = x.UserGroupID }).Any(uag => uag.GroupID == ug.ID)
+                //).ToList();
                 
-                return Ok(user);
+                return Ok("");
             }
             catch (Exception ex)
             {

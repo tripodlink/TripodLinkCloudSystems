@@ -7,94 +7,72 @@
       <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
     </ul>
   </div>
-
-  <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
       <div class="tile">
-        <h3 class="tile-title">Vertical Form</h3>
         <div class="tile-body">
+          <h3 class="tile-title">List of Supplier</h3>
+          <button type="button" class="btn btn-primary" (click)="ClickAdd()" data-toggle="modal" data-target="#myModal">Add Supplier</button>
           <div class="table-responsive">
-            <table class="table table-hover table-bordered">
+            <table class="table table-hover table-bordered" id="sampletable">
               <thead>
                 <tr>
                   <th>id</th>
                   <th>Name</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let sup of suppliers">
+                <tr *ngFor="let sup of suppliers" [id]="sup.id">
                   <td>{{sup.id}}</td>
                   <td>{{sup.name}}</td>
+                  <td>
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" (click)="PassData(sup.id, sup.name)"><i class="fa fa-edit"></i> Edit</button>
+                    <button class="btn btn-danger" (click)="deleteSupplier(sup.id)"><i class="fa fa-trash"></i> Delete</button>
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="tile-footer">
-            <button class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>Register</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel</a>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Large modal</button>
 
           </div>
         </div>
       </div>
     </div>
-  </div>
 </main>
-<!-- Large modal -->
 
-<div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label class="control-label">Name</label>
-            <input class="form-control" type="text" placeholder="Enter full name">
-          </div>
-          <div class="form-group">
-            <label class="control-label">Email</label>
-            <input class="form-control" type="email" placeholder="Enter email address">
-          </div>
-          <div class="form-group">
-            <label class="control-label">Address</label>
-            <textarea class="form-control" rows="4" placeholder="Enter your address"></textarea>
-          </div>
-          <div class="form-group">
-            <label class="control-label">Gender</label>
-            <div class="form-check">
-              <label class="form-check-label">
-                <input class="form-check-input" type="radio" name="gender">Male
-              </label>
+
+<!-- Large modal -->
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Add Supplier</h4>
+        </div>
+
+        <form (ngSubmit)="verifyProcess()" [formGroup]="addSupplierForm">
+          <div class="modal-body">
+
+            <div class="form-group">
+              <label for="supplierID">Supplier  ID</label>
+              <input formControlName="id" [value]="idInput" name="id" class="form-control" #supplierID id="supplierID">
             </div>
-            <div class="form-check">
-              <label class="form-check-label">
-                <input class="form-check-input" type="radio" name="gender">Female
-              </label>
+            <div class="form-group">
+              <label for="supplierNametext">Supplier Name</label>
+              <input formControlName="Name" [value]="SupplierInput" name="SupplierName" #supplierNametext class="form-control" id="supplierNametext">
             </div>
           </div>
-          <div class="form-group">
-            <label class="control-label">Identity Proof</label>
-            <input class="form-control" type="file">
-          </div>
-          <div class="form-group">
-            <div class="form-check">
-              <label class="form-check-label">
-                <input class="form-check-input" type="checkbox">I accept the terms and conditions
-              </label>
-            </div>
+          <div class="modal-footer">
+            <button type="button" id="closeModal" #closeModal class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
+            <button class="btn btn-primary"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
-      </div>
-    </div>
+     </div>
   </div>
 </div>
 
