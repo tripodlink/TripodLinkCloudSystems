@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { IUserManagement } from '../classes/user-management/IUserManagement.interface';
-import { UserManagementService } from '../services/UserManagement.service';
+import { ProgramMenu } from '../classes/ProgramMenu';
+import { UserAuthorizationService } from '../services/UserAuthorization.service';
 
 @Component({
   selector: 'app-user-management',
   templateUrl: './user-management.component.html'
 })
 export class UserManagementComponent implements OnInit {
-  um_pg_menus: IUserManagement[];
+  um_pg_menus: ProgramMenu[];
   message: string;
 
-  constructor(private UserManagementService: UserManagementService) {
+  constructor(private _userAuthorizationService: UserAuthorizationService) {
   }
 
   ngOnInit(): void {
-    this.UserManagementService.getProgramMenu().subscribe((um_pg_menus) => this.um_pg_menus = um_pg_menus)
+    this.um_pg_menus = this._userAuthorizationService.currentUser.programMenus.filter(pm => pm.programFolderID == "UM");
   }
 }

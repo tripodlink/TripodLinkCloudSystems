@@ -11,7 +11,8 @@ export class UserAuthorizationService {
   constructor(private _userAccountService: UserAccountService) {
     this._userAccountService.findUserById("SYSAD").subscribe(userdata =>
     {
-      this.currentUser = userdata
+      this.currentUser = userdata;
+      console.log(userdata);
     }, error => {
         console.log(error.error);
     });

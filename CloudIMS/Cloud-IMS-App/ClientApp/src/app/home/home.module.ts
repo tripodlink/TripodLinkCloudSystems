@@ -14,7 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     CommonModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' }
+      { path: 'dashboard', component: HomeComponent }
     ])
   ],
   providers: [HomeService]

@@ -6,4 +6,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  isLogin: boolean;
+  ngOnInit(): void {
+   
+  }
+  public notLogin() {
+    this.isLogin = false;
+  }
 }

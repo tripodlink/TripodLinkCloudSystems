@@ -1,24 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LoginComponent } from './login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { UserGroupComponent } from './user-group.component';
-import { UserGroupService } from '../../services/UserGroup.service';
 
 
 
 @NgModule({
-  declarations: [
-    UserGroupComponent,    
-  ],
+  declarations: [LoginComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: 'user-management/user-group', component: UserGroupComponent }
+      { path: '', component: LoginComponent, pathMatch: 'full'}
     ])
-  ],
-  providers: [ UserGroupService]
+  ]
 })
-export class UserGroupModule { }
+export class LoginModule { }
