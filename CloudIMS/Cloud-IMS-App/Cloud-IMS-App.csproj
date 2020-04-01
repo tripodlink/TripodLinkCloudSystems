@@ -40,7 +40,6 @@
     <None Remove="ClientApp\src\app\classes\data-dictionary\ItemMaster\IitemMasterClass.ts" />
     <None Remove="ClientApp\src\app\classes\data-dictionary\Manufacturer\IManufacturerClass.ts" />
     <None Remove="ClientApp\src\app\classes\ISupplierClass.ts" />
-    <None Remove="ClientApp\src\app\classes\UserAccount.ts" />
     <None Remove="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
     <None Remove="ClientApp\src\app\services\ProgramMenu.service.ts" />
     <None Remove="ClientApp\src\app\services\UserAuthorization.service.ts" />
@@ -104,9 +103,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\app\classes\user-management\user-profile\" />
-    <Folder Include="ClientApp\src\app\classes\user-management\user-group\" />
     <Folder Include="ClientApp\src\app\classes\user-management\user-account\" />
+    <Folder Include="ClientApp\src\app\classes\user-management\user-group\" />
+    <Folder Include="ClientApp\src\app\classes\user-management\user-profile\" />
     <Folder Include="ClientApp\src\app\user-management\user-profile\" />
   </ItemGroup>
 
