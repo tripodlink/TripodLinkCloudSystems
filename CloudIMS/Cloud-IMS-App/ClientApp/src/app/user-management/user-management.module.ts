@@ -5,7 +5,7 @@ import { UserManagementComponent } from './user-management.component';
 import { RouterModule } from '@angular/router';
 import { UserAccountModule } from './user-account/user-account.module';
 import { UserManagementService } from '../services/UserManagement.service';
-
+import { UserGroupModule } from './user-group/user-group.module'
 
 
 @NgModule({
@@ -16,6 +16,7 @@ import { UserManagementService } from '../services/UserManagement.service';
     ReactiveFormsModule,
 
     UserAccountModule,
+    UserGroupModule,
 
     RouterModule.forRoot([
       {path: 'user-management',component: UserManagementComponent}
