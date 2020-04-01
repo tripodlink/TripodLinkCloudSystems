@@ -27,23 +27,23 @@ export class UserGroupComponent {
 
   createForm(): void {
     this.addEditUserGroupForm = this._formBuilder.group({
-      groupId: new FormControl(),
-      groupName: new FormControl(),
+      groupId: [''],
+      groupName: [''],
       programFolders: new FormArray([])
     });
   }
 
   createFoldersForm(pf: ProgramFolder): FormGroup {
     let pfForm: FormGroup = this._formBuilder.group({
-      id: new FormControl(),
-      name: new FormControl(),
-      checked: new FormControl(),
+      id: [pf.id],
+      name: [pf.name],
+      checked: false,
       programMenus: new FormArray([]),
     });
 
-    (pfForm.controls.id as FormControl).setValue(pf.id);
-    (pfForm.controls.name as FormControl).setValue(pf.name);
-    (pfForm.controls.checked as FormControl).setValue(false);
+    //(pfForm.controls.id as FormControl).setValue(pf.id);
+    //(pfForm.controls.name as FormControl).setValue(pf.name);
+    //(pfForm.controls.checked as FormControl).setValue(false);
 
     pf.programMenus.forEach((pm) => {
       let pmArray = pfForm.controls.programMenus as FormArray;
@@ -57,15 +57,15 @@ export class UserGroupComponent {
 
   createProgramForm(pm: ProgramMenu, pfForm: FormGroup): FormGroup {
     let pmForm: FormGroup = this._formBuilder.group({
-      id: new FormControl(),
-      name: new FormControl,
-      checked: new FormControl
+      id: [pm.id],
+      name: [pm.name],
+      checked: [false]
 
     });
 
-    (pmForm.controls.id as FormControl).setValue(pm.id);
-    (pmForm.controls.name as FormControl).setValue(pm.name);
-    (pmForm.controls.checked as FormControl).setValue(false);
+    //(pmForm.controls.id as FormControl).setValue(pm.id);
+    //(pmForm.controls.name as FormControl).setValue(pm.name);
+    //(pmForm.controls.checked as FormControl).setValue(false);
 
     return pmForm;
   }
@@ -241,13 +241,13 @@ export class UserGroupComponent {
   }
 
   deleteUserGroup(): boolean {
-    if (confirm("Do you want to delte '" + this.selectedUserGroup.name + "'. Are you sure?")) {
+    if (confirm("Do you want to delete user group '" + this.selectedUserGroup.name + "'. Are you sure?")) {
       this._userGroupService.deleteUserGroup(this.selectedUserGroup.id).subscribe(data => {
 
         let index: number = this.userGroups.findIndex(ug => ug.id == this.selectedUserGroup.id);
 
         if (index > -1) {
-          this.userGroups.splice(index);
+          this.userGroups.splice(index, 1);
         }
 
         this.clearEntry();

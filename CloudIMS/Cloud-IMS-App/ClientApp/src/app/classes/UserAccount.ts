@@ -1,4 +1,6 @@
 import { UserGroup } from './UserGroup';
+import { ProgramFolder } from './ProgramFolder';
+import { ProgramMenu } from './ProgramMenu';
 
 
 export class UserAccount{
@@ -12,4 +14,6 @@ export class UserAccount{
   updatedBy: string = "";
 
   userGroups: UserGroup[] = new Array();
+  programFolders: ProgramFolder[] = new Array();
+  programMenus: ProgramMenu[] = new Array();
 }
