@@ -18,6 +18,7 @@ import { AppComponent } from './app.component';
 import { AppSidebarMenuComponent } from './app-sidebar-menu/app-sidebar-menu.component';
 import { AppNavbarMenuComponent } from './app-navbar-menu/app-navbar-menu.component';
 import { SideBarService } from './services/SideBar.service';
+import { LoginModule } from './LoginPage/login.module';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { SideBarService } from './services/SideBar.service';
       preventDuplicates: true,
     }),
 
+    LoginModule,
     HomeModule,
     DictionaryModule,
     InventoryManagementModule,
