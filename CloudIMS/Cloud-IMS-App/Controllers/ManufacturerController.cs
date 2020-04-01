@@ -12,11 +12,11 @@ namespace Cloud_IMS_Api.Controllers
 {
 
     [Route("api/[controller]")]
-    public class SupplierController : AppController
+    public class ManufacturerController : AppController
     {
         
 
-        public SupplierController(AppDbContext dbContext, ILogger<SupplierController> logger)
+        public ManufacturerController(AppDbContext dbContext, ILogger<SupplierController> logger)
              : base(dbContext, logger)
         {
             this.dbContext = dbContext;
@@ -26,24 +26,24 @@ namespace Cloud_IMS_Api.Controllers
         [Route("")]
         [Route("[action]")]
         [HttpGet]
-        public IEnumerable<Supplier> Index()
+        public IEnumerable<Manufacturer> Index()
         {
-            var supplier = dbContext.Suppliers.ToList();
-            return supplier;
+            var manufacturers = dbContext.Manufacturers.ToList();
+            return manufacturers;
         }
 
 
         [Route("[action]")]
         [HttpPost]
-        public IActionResult Add([FromBody] Supplier supplier)
+        public IActionResult Add([FromBody] Manufacturer manufacturer)
         {
-            var suppliers = new Supplier();
+            var manufacturers = new Manufacturer();
             try
             {
 
-                dbContext.Suppliers.Add(supplier);
+                dbContext.Manufacturers.Add(manufacturer);
                 dbContext.SaveChanges();
-                return Json(suppliers);
+                return Json(manufacturers);
             }
             catch (Exception ex)
             {
@@ -54,25 +54,25 @@ namespace Cloud_IMS_Api.Controllers
         [Route("")]
         [Route("[action]")]
         [HttpPost]
-        public IActionResult Update([FromBody] Supplier supId)
+        public IActionResult Update([FromBody] Manufacturer manufact)
         {
             try
             {
-                Supplier supplier = dbContext.Suppliers.Find(supId.ID);
+                Manufacturer manufacturer = dbContext.Manufacturers.Find(manufact.ID);
 
-                if (supplier != null)
+                if (manufacturer != null)
                 {
-                    supplier.ID = supId.ID;
-                    supplier.Name = supId.Name;
+                    manufacturer.ID = manufact.ID;
+                    manufacturer.ManufactName = manufact.ManufactName;
 
-                    dbContext.Suppliers.Update(supplier);
+                    dbContext.Manufacturers.Update(manufacturer);
                     dbContext.SaveChanges();
 
-                    return Json(supId);
+                    return Json(manufact);
                 }
                 else
                 {
-                    throw new Exception($"User Not found with a user ID of '{supId.ID}'.");
+                    throw new Exception($"User Not found with a user ID of '{manufact.ID}'.");
                 }
             }
             catch (Exception ex)
@@ -88,11 +88,11 @@ namespace Cloud_IMS_Api.Controllers
         {
             try
             {
-                Supplier supplier = dbContext.Suppliers.Find(id);
-                if (supplier != null)
+                Manufacturer manufact = dbContext.Manufacturers.Find(id);
+                if (manufact != null)
                 {
 
-                    dbContext.Suppliers.Remove(supplier);
+                    dbContext.Manufacturers.Remove(manufact);
                     dbContext.SaveChanges();
 
                     return Json(id);
