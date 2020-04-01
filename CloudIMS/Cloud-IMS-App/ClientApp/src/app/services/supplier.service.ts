@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ISupplier } from '../classes/ISupplier.interface';
+import { ISupplier } from '../classes/data-dictionary/Supplier/ISupplier.interface';
 
 @Injectable()
 export class SupplierService {
@@ -29,7 +29,7 @@ export class SupplierService {
   }
 
   deleteSupplier(id: string):Observable<string> {
-    let params = new HttpParams().set('id', id);
-    return this._http.delete<string>(this.url+"/Update", {params:params});
+    let params = new HttpParams().set('id', id.toString());
+    return this._http.delete<string>(this.url+"/Delete", {params:params});
   }
 }

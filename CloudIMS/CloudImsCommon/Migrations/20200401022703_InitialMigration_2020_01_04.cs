@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CloudImsCommon.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialMigration_2020_01_04 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -82,7 +82,7 @@ namespace CloudImsCommon.Migrations
                     pf_folder_route = table.Column<string>(maxLength: 25, nullable: false),
                     pf_icon_type = table.Column<string>(maxLength: 10, nullable: true),
                     pf_icon_provider = table.Column<string>(maxLength: 20, nullable: true),
-                    pf_icon = table.Column<string>(maxLength: 10, nullable: true),
+                    pf_icon = table.Column<string>(maxLength: 100, nullable: true),
                     pf_seqno = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -239,7 +239,7 @@ namespace CloudImsCommon.Migrations
             migrationBuilder.InsertData(
                 table: "user_account",
                 columns: new[] { "ua_user_id", "im_created_by", "im_created_on", "ua_is_active", "ua_password", "im_updated_by", "im_updated_on", "ua_user_name" },
-                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 3, 27, 20, 22, 19, 743, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 3, 27, 20, 22, 19, 744, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
+                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 4, 1, 10, 27, 3, 199, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 4, 1, 10, 27, 3, 200, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "user_account_group",

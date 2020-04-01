@@ -1,5 +1,5 @@
 
-export interface IInventory {
+export interface IUserManagement {
   id: string;
   name: string;
   folder_id: string;

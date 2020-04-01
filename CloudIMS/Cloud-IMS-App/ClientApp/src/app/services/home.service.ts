@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IHome } from '../classes/IHome.interface';
+import { IHome } from '../classes/home/IHome.interface';
 
 @Injectable()
 export class HomeService {

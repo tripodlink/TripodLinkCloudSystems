@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IInventory } from '../classes/IInventory.interface';
 import { InventoryService } from '../services/inventory.service';
+import { IInventory } from '../classes/inventory-management/IInventory.interface';
 
 @Component({
   selector: 'app-inventory-management',
@@ -17,5 +17,4 @@ export class InventoryManagementComponent implements OnInit {
   ngOnInit(): void {
     this.inventoryService.getProgramMenu().subscribe((inv_pg_menus) => this.inv_pg_menus = inv_pg_menus)
   }
-
 }

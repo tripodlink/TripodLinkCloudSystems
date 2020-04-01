@@ -1,63 +1,58 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ISupplier } from '../../classes/ISupplier.interface';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SupplierService } from '../../services/supplier.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { ISupplier } from '../../classes/data-dictionary/Supplier/ISupplier.interface';
+import { ISupplierClass } from '../../classes/data-dictionary/Supplier/ISupplierClass';
 
 @Component({
   selector: 'app-supplier',
   templateUrl: './supplier.component.html',
 })
-export class SupplierComponent implements OnInit {
+export class SupplierComponent{
+
+  @ViewChild('supplierID', { static: true }) private supplierID: ElementRef;
+  @ViewChild('supplierNametext', { static: true }) private supplierNametext: ElementRef;
+
   suppliers: ISupplier[];
-  addSupplierForm: FormGroup;
-  @ViewChild('closeModal', { static: true }) closeModal;
+  addSupplierFormGroup: FormGroup;
   Status: string;
   icon: string;
   isAdd: boolean;
+  modalStatus: string;
 
   idInput: string;
-  SupplierInput: string;
+  supplierInput: string;
 
-  constructor(private supplierService: SupplierService, private toastr: ToastrService) {
-    this.CreateForm()
+  constructor(private supplierService: SupplierService, private toastr: ToastrService, private builder: FormBuilder, public el: ElementRef) {
+    this.CreateForm();
   }
-
+  ngOnInit(): void {
+    this.getSupplier();
+  }
   private CreateForm() {
-    this.addSupplierForm = new FormGroup({
-      id: new FormControl(),
+    this.addSupplierFormGroup = this.builder.group({
+      ID: new FormControl(),
       Name: new FormControl()
     })
   }
-  private PassData(id, SupplierName) {
-    this.idInput = id;
-    this.SupplierInput = SupplierName;
-    this.CreateForm();
+
+  private PassData(ID, Name) {
+
+    this.supplierID.nativeElement.value = ID;
+    this.supplierNametext.nativeElement.value = Name;
     this.Status = "Edit Changes";
     this.icon = "pencil";
     this.isAdd = false;
+    this.modalStatus = "Edit Supplier";
   }
 
   getSupplier() {
     this.supplierService.getSupplier().subscribe((suppliers) => this.suppliers = suppliers)
   }
-
-  private verifyProcess() {
-
-    if (this.isAdd == true) {
-      this.insertSupplier();
-    } else {
-      this.updateSupplier();
-    }
-
-  }
-
-  ngOnInit(): void {
-    this.getSupplier();
-  }
   private insertSupplier() {
     let errormessage = "Error";
-    this.supplierService.insertSupplier(this.addSupplierForm.value).subscribe(data => {
+    this.supplierService.insertSupplier(this.addSupplierFormGroup.value).subscribe(data => {
 
       this.toastr.success("Data Saved", "Saved");
       this.getSupplier();
@@ -69,12 +64,25 @@ export class SupplierComponent implements OnInit {
         this.toastr.error(errormessage, "Error");
       });
     this.ResetForm();
-    this.closeModal.nativeElement.click();
   }
   private updateSupplier() {
 
+    let dataToUpdate = document.getElementsByClassName('suppliertextfield');
+    let supplier: ISupplier = new ISupplierClass();
+
+    Array.from(dataToUpdate).forEach((element: HTMLInputElement) => {
+
+      if (element.id == "supplierID") {
+        supplier.ID = element.value;
+      }
+      if (element.id == "supplierNametext") {
+        supplier.Name = element.value;
+      }
+    });
+
+
     let errormessage = "Error";
-    this.supplierService.updateSupplier(this.addSupplierForm.value).subscribe(data => {
+    this.supplierService.updateSupplier(supplier).subscribe(data => {
       this.toastr.info("Data Edited", "Edited");
       this.getSupplier();
     },
@@ -86,25 +94,29 @@ export class SupplierComponent implements OnInit {
   }
 
   private deleteSupplier(id) {
-    var ans = confirm("Do you want to delete supplier with Id: " + id);
-    if (ans) {
-      this.supplierService.deleteSupplier(id).subscribe((data) => {
-        this.getSupplier();
-        this.toastr.info("Successfully Deleted");
+    if (confirm("Are you sure do you want to delete this Supplier" + " " + id)) {
+      let errormessage = "Error";
+      this.supplierService.deleteSupplier(id).subscribe(data => {
+        this.toastr.info("Data" + " " + id + " " + "Successfully Deleted", "Deleted");
         document.getElementById(id).remove();
-      }, error => console.error(error))
+      },
+        error => {
+          errormessage = error.error;
+          this.toastr.error(errormessage, "Error");
+        });
     }
   }
   private ClickAdd() {
-    this.addSupplierForm.reset();
+    this.ResetForm();
     this.Status = "Save Changes";
     this.icon = "floppy-o";
     this.isAdd = true;
+    this.modalStatus = "Add Supplier"
     this.idInput = "";
-    this.SupplierInput = "";
+    this.supplierInput = "";
   }
 
   private ResetForm() {
-    this.addSupplierForm.reset();
+    this.addSupplierFormGroup.reset();
   }
 }
