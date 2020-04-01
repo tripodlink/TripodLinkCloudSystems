@@ -9,7 +9,12 @@ export class UserAuthorizationService {
   currentUser: UserAccount;
 
   constructor(private _userAccountService: UserAccountService) {
-    this._userAccountService.findUserById("SYSAD").subscribe(userdata => { this.currentUser = userdata });
+    this._userAccountService.findUserById("SYSAD").subscribe(userdata =>
+    {
+      this.currentUser = userdata
+    }, error => {
+        console.log(error.error);
+    });
 
     if (this.currentUser == null) {
       this.currentUser = new UserAccount();

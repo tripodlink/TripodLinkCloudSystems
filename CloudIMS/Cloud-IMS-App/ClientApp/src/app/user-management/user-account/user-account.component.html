@@ -1,7 +1,7 @@
 <main class="app-content">
   <div class="app-title">
     <div>
-      <h1><i class="far fa-user"></i> User Accounts</h1>
+      <h1><i class="fa fa-users"></i> User Accounts</h1>
     </div>
     <ul class="app-breadcrumb breadcrumb">
       <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
@@ -13,14 +13,14 @@
       <div class="tile">
         <div>
           <h3 class="tile-title">List of Users</h3>
-          <button type="button" style="width:100px; margin-bottom:5px" class="btn btn-primary" [routerLink]="'/user-management/user-account/add'">Add User</button>
+          <button type="button" style="margin-bottom:5px" class="btn btn-primary" [routerLink]="['/user-management/user-account/add']"><i class="fa fa-user-plus"></i> Add User</button>
         </div>
         <div class="tile-body">
           <div class="table-responsive">
 
             <table class="table table-hover table-bordered">
-              <thead>
-                <tr>
+              <thead class="btn-dark">
+                <tr class="text-center">
                   <td>User ID</td>
                   <td>Name</td>
                   <td>Update On</td>
@@ -30,28 +30,21 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let user of users" [attr.name]="user.userID" [id]="user.userID">
+                <tr class="text-center" *ngFor="let user of users" [attr.name]="user.userID" [id]="user.userID">
                   <td>{{user.userID}}</td>
-                  <td>{{user.userName}}</td>
-                  <td>{{user.updatedOn}}</td>
+                  <td class="text-left">{{user.userName}}</td>
+                  <td>{{user.updatedOn | date : 'shortDate' }} {{user.updatedOn | date : 'shortTime' }}</td>
                   <td>{{user.updatedBy}}</td>
-                  <td>{{user.isActive}}</td>
-                  <td>
-                    <button class="btn btn-warning" style="width:80px" [routerLink]="'/user-management/user-account/edit/' + user.userID"><a class="fa fa-edit"></a>Edit</button> &nbsp;
-                    <button class="btn btn-danger" style="width:80px" [name]="user.userID" (click)="onDeleteUser($event)" [disabled]="user.userID == 'SYSAD'">Delete</button>
+                  <td [class.text-danger]="!user.isActive">{{user.isActive? 'Yes' : 'No'}}</td>
+                  <td style="width:1px; white-space:nowrap">
+                    <button class="btn btn-warning" style="width:100px" [routerLink]="'/user-management/user-account/edit/' + user.userID"><i class="fa fa-edit"></i>Edit</button> &nbsp;
+                    <button class="btn btn-danger" style="width:100px" [name]="user.userID" (click)="onDeleteUser($event)" [disabled]="user.userID == 'SYSAD'"><i class="fa fa-trash"></i> Delete</button>
                   </td>
                 </tr>
               </tbody>
             </table>
 
           </div>
-
-          <!--<div class="tile-footer">
-
-      <button class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>Register</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel</a>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Large modal</button>
-
-    </div>-->
 
         </div>
       </div>

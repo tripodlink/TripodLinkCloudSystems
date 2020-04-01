@@ -41,7 +41,6 @@
     <None Remove="ClientApp\src\app\classes\data-dictionary\Manufacturer\IManufacturerClass.ts" />
     <None Remove="ClientApp\src\app\classes\ISupplierClass.ts" />
     <None Remove="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
-    <None Remove="ClientApp\src\app\services\ProgramMenu.service.ts" />
     <None Remove="ClientApp\src\app\services\UserAuthorization.service.ts" />
     <None Remove="ClientApp\src\app\services\UserGroup.service.ts" />
     <None Remove="ClientApp\src\app\user-management\user-profile\userGroup.component.ts" />
