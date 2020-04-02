@@ -1,27 +1,39 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UserManagementComponent } from './user-management.component';
 import { RouterModule } from '@angular/router';
-import { UserAccountModule } from './user-account/user-account.module';
+
+
+// user management folder and services
 import { UserManagementService } from '../services/UserManagement.service';
-import { UserGroupModule } from './user-group/user-group.module'
+import { UserManagementComponent } from './user-management.component';
+
+// user account components and services
+import { UserAccountService } from '../services/UserAccount.service';
+import { UserAccountComponent } from './user-account/user-account.component';
+import { AddEditUserAccountComponent } from './user-account/addEdit-user-account.component';
+
+// user group components and services
+import { UserGroupService } from '../services/UserGroup.service';
+import { UserGroupComponent } from './user-group/user-group.component';
+
+
 
 
 @NgModule({
-  declarations: [UserManagementComponent],
+  declarations: [
+    UserManagementComponent,
+    UserAccountComponent,
+    AddEditUserAccountComponent,
+    UserGroupComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
 
-    UserAccountModule,
-    UserGroupModule,
-
-    RouterModule.forRoot([
-      {path: 'user-management',component: UserManagementComponent}
-    ])
+    RouterModule.forRoot([])
   ],
-  providers:[UserManagementService]
+  providers: [UserManagementService, UserAccountService, UserGroupService]
 })
 export class UserManagementModule { }

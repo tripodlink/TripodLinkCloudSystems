@@ -1,7 +1,9 @@
 ﻿using Cloud_IMS_App.Controllers;
+using CloudImsCommon.Authentication;
 using CloudImsCommon.Database;
 using CloudImsCommon.Extensions;
 using CloudImsCommon.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +17,11 @@ namespace Cloud_IMS_Api.Controllers
     [Route("api/[controller]")]
     public class UserAccountController : AppController
     {
-        public UserAccountController(AppDbContext dbContext, ILogger<UserAccountController> logger)
+        private readonly IAppAuthenticationService appAuthenticationService;
+        public UserAccountController(AppDbContext dbContext, ILogger<UserAccountController> logger, IAppAuthenticationService appAuthenticationService)
             : base(dbContext, logger)
         {
-            
+            this.appAuthenticationService = appAuthenticationService;
         }
 
         [Route("")]
@@ -265,6 +268,33 @@ namespace Cloud_IMS_Api.Controllers
                     return BadRequest(GetErrorMessage(ex));
                 }
             }                
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate([FromBody]UserAccount model)
+        {
+            var user = this.appAuthenticationService.Authenticate(model.UserID, model.Password);
+
+            if (user == null)
+            {
+                return BadRequest(new { message = "Incorrect user ID or password." });
+            }
+            else if(! user.IsActive)
+            {
+                return BadRequest(new { message = "User is not active." });
+            }
+
+            return Ok(user);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("validate-user-token")]
+        public IActionResult ValidateUserToken([FromBody]UserAccount model)
+        {
+            var isValid = this.appAuthenticationService.ValidateUserToken(model.UserID, model.Token);
+            return Ok(isValid);
         }
     }
 }

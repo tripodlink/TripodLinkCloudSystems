@@ -55,5 +55,9 @@ namespace CloudImsCommon.Models
 
         [NotMapped]
         public IEnumerable<ProgramMenu> ProgramMenus { get; set; }
+
+        // Token to for authentication
+        [NotMapped]
+        public string Token { get; set; }
     }
 }

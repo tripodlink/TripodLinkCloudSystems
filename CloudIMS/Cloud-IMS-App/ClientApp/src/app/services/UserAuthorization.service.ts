@@ -2,72 +2,111 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserAccount } from './../classes/UserAccount'
-import { UserAccountService } from './../services/UserAccount.service'
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { promise } from 'protractor';
+
 
 @Injectable()
 export class UserAuthorizationService {
   private currentUser: UserAccount;
   private loginErrorMessage: string = "";
+  private userAccountUrl: string = 'api/useraccount';
 
-  constructor(private _userAccountService: UserAccountService,
-    private toastr: ToastrService,
-    private router: Router
-    private jwt: j) {
+  constructor(private toastr: ToastrService,
+    private router: Router,
+    private _http: HttpClient) {
   }
 
-  getCurrentUser() {
+  setCurrentUser(user: UserAccount): void {
+    this.currentUser = user;
+  }
+
+  getCurrentUser(_component: string) {
     if (this.currentUser == null) {
-      this._getCurrentUser();
+      let userId: string = localStorage.getItem('userId');
+
+      this._getCurrentUser(userId, _component);
     }
 
     return this.currentUser;
   }
 
-  private async _getCurrentUser(): Promise<UserAccount> {
-    let userId: string = 'SYSAD'
+  private async _getCurrentUser(userId: string, _component: string) {
 
+    let params = new HttpParams().set('id', 'SYSAD');
 
-    return await this._userAccountService.findUserById(userId)
-      .toPromise()
-      .then(userData => this.currentUser = userData)
+    await this._http.get<UserAccount>(this.userAccountUrl + "/Find", { params: params })
+      .subscribe(userData => {
+        this.currentUser = userData;
+
+        console.log({ module: "Get User", caller: _component, user: this.currentUser })
+      }, error => {
+          this.currentUser = null;
+          this.loginErrorMessage = error.error;
+
+          console.log({ module: "Get User", caller: _component, error: error})
+      });
+
+  }
+
+  private async isValidUserToken(userId: string, token: string): Promise<boolean> {
+
+    let user = { userID: userId, token: token }
+
+    await this._http.post<UserAccount>(this.userAccountUrl + "/validate-user-token", user)
+      .subscribe(userData => {
+        this.currentUser = userData;
+        this.loginErrorMessage = "";
+
+        localStorage.setItem('userId', this.currentUser.userID)
+        localStorage.setItem('token', this.currentUser.token)
+
+        console.log({ module: "Validate Token", user: this.currentUser });
+
+      }, error => {
+        this.currentUser = null;
+        this.loginErrorMessage = error.error;
+
+          console.log({ module: "Validate Token", error: error })
+      })
+
+    return false;
+  }
+
+  setLoginErrorMessage(message: string): void {
+    this.loginErrorMessage = message;
   }
 
   getLoginErrorMessage(): string {
     return this.loginErrorMessage;
   }
 
-  doLogin(userId: string, password: string): void {
-    this._userAccountService.findUserById(userId).subscribe(user => {
-      if (user == null) {
-        this.loginErrorMessage = "Invalid username or password"
-      } else if (user.password !== password) {
-        this.loginErrorMessage = "Invalid username or password"
-      } else {
-        console.log({ module: "Auth", user : user });
+  getUserToken() {
+    return null;
+  }
 
-        this.currentUser = user;
-        this.loginErrorMessage = ""
-
-        this.router.navigateByUrl("/dashboard")
-      }
-    }, error => {
-      this.toastr.error(error.erro)
-        this.loginErrorMessage = "Server error."
-    })
+  doLogin(userId: string, password: string): Observable<UserAccount> {
+    let user = { userID: userId, password: password }
+    return this._http.post<UserAccount>(this.userAccountUrl + "/authenticate", user);
   }
 
   doLogout(): void {
     this.currentUser = null
     this.loginErrorMessage = ''
+
+    localStorage.removeItem('userId')
+    localStorage.removeItem('token')
   }
 
   isLoggedIn(): boolean {
-    if (this.getCurrentUser() != null) {
-      return true
-    } else {
+    let userId: string = localStorage.getItem('userId');
+    let token: string = localStorage.getItem('token');
+
+    if (userId == null || token == null) {
       return false
     }
+
+    return true;
   }
 }

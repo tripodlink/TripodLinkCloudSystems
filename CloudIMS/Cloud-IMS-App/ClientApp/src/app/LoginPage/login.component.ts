@@ -28,8 +28,6 @@ export class LoginComponent implements OnInit {
 
     this.loginForm.controls.userId.valueChanges.subscribe(value => this.onUsernameAndPasswordValueChanged())
     this.loginForm.controls.password.valueChanges.subscribe(value => this.onUsernameAndPasswordValueChanged())
-
-    console.log({ module: "Before Login", user: auth.getCurrentUser() })
   }
 
   onUsernameAndPasswordValueChanged() {
@@ -39,11 +37,28 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  public onBtnLoginClick2() {
+  onBtnLoginClick2() {
     let userId = (this.loginForm.controls.userId.value as string).trim().toUpperCase()
     let password = (this.loginForm.controls.password.value as string)
 
-    this.auth.doLogin(userId, password)
+    this.auth.doLogin(userId, password).subscribe(userData => {
+      let user: UserAccount = userData;
+
+      this.auth.setCurrentUser(user);
+      this.auth.setLoginErrorMessage("")
+
+      localStorage.setItem('userId', user.userID)
+      localStorage.setItem('token', user.token)
+
+      console.log({ module: "Authenticate", user: user });
+
+      this.router.navigateByUrl("/dashboard")
+    }, error => {
+        this.auth.setCurrentUser(null);
+        this.auth.setLoginErrorMessage(error.error);
+
+        console.log({ module: "Authenticate", error: error })
+    })
 
     return false
   }
