@@ -10,16 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\**" />
-    <Content Remove="Migrations\**" />
-    <EmbeddedResource Remove="Migrations\**" />
-    <None Remove="Migrations\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Migrations\20200331080524_InitalMigration.cs" />
-    <Compile Include="Migrations\20200331080524_InitalMigration.Designer.cs" />
-    <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
+    <Compile Remove="Migrations\20200401022703_InitialMigration_2020_01_04.cs" />
+    <Compile Remove="Migrations\20200401022703_InitialMigration_2020_01_04.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

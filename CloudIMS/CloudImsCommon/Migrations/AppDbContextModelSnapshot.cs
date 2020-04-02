@@ -121,25 +121,6 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("item_master");
                 });
 
-            modelBuilder.Entity("CloudImsCommon.Models.ItemMasterUnit", b =>
-                {
-                    b.Property<string>("ID")
-                        .HasColumnName("imu_id")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("itemMasterUnitUnit")
-                        .HasColumnName("imu_unit")
-                        .HasMaxLength(250);
-
-                    b.Property<string>("itemMasterUnitConversion")
-                        .HasColumnName("im_item_conversion")
-                        .HasMaxLength(250);
-
-                    b.HasKey("ID", "itemMasterUnitUnit");
-
-                    b.ToTable("item_master_unit");
-                });
-
             modelBuilder.Entity("CloudImsCommon.Models.Manufacturer", b =>
                 {
                     b.Property<string>("ID")
@@ -162,29 +143,29 @@ namespace CloudImsCommon.Migrations
                     b.Property<string>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("pf_folder_id")
-                        .HasMaxLength(100);
+                        .HasMaxLength(10);
 
                     b.Property<string>("Icon")
                         .HasColumnName("pf_icon")
-                        .HasMaxLength(255);
+                        .HasMaxLength(100);
 
                     b.Property<string>("IconProvider")
                         .HasColumnName("pf_icon_provider")
-                        .HasMaxLength(255);
+                        .HasMaxLength(20);
 
                     b.Property<string>("IconType")
                         .HasColumnName("pf_icon_type")
-                        .HasMaxLength(255);
+                        .HasMaxLength(10);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("pf_folder_name")
-                        .HasMaxLength(255);
+                        .HasMaxLength(100);
 
                     b.Property<string>("RouteAttribute")
                         .IsRequired()
                         .HasColumnName("pf_folder_route")
-                        .HasMaxLength(255);
+                        .HasMaxLength(25);
 
                     b.Property<int>("SequenceNo")
                         .HasColumnName("pf_seqno");
@@ -208,16 +189,6 @@ namespace CloudImsCommon.Migrations
                         .HasColumnName("pm_id")
                         .HasMaxLength(20);
 
-                    b.Property<string>("ActionRouteAttribute")
-                        .IsRequired()
-                        .HasColumnName("pm_action_route")
-                        .HasMaxLength(25);
-
-                    b.Property<string>("ControllerRouteAttribute")
-                        .IsRequired()
-                        .HasColumnName("pm_controller_route")
-                        .HasMaxLength(25);
-
                     b.Property<string>("IconName")
                         .HasColumnName("pm_icon_name")
                         .HasMaxLength(100);
@@ -240,6 +211,11 @@ namespace CloudImsCommon.Migrations
                         .HasColumnName("pm_folder")
                         .HasMaxLength(10);
 
+                    b.Property<string>("RouteAttribute")
+                        .IsRequired()
+                        .HasColumnName("pm_route")
+                        .HasMaxLength(25);
+
                     b.Property<int>("SequenceNo")
                         .HasColumnName("pm_seqno");
 
@@ -248,16 +224,16 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("program_menu");
 
                     b.HasData(
-                        new { ID = "IVM_IN", ActionRouteAttribute = "index", ControllerRouteAttribute = "inventory-in", Name = "Inventory In", ProgramFolderID = "IVM", SequenceNo = 10 },
-                        new { ID = "IVM_OUT", ActionRouteAttribute = "index", ControllerRouteAttribute = "inventory-out", Name = "Inventory Out", ProgramFolderID = "IVM", SequenceNo = 20 },
-                        new { ID = "DIC_UNIT", ActionRouteAttribute = "index", ControllerRouteAttribute = "unit", Name = "Unit", ProgramFolderID = "DIC", SequenceNo = 10 },
-                        new { ID = "DIC_SUP", ActionRouteAttribute = "index", ControllerRouteAttribute = "supplier", Name = "Supplier", ProgramFolderID = "DIC", SequenceNo = 20 },
-                        new { ID = "DIC_MANU", ActionRouteAttribute = "index", ControllerRouteAttribute = "manufacturer", Name = "Manufacturer", ProgramFolderID = "DIC", SequenceNo = 30 },
-                        new { ID = "DIC_ITEM", ActionRouteAttribute = "index", ControllerRouteAttribute = "item-master", Name = "Item Master", ProgramFolderID = "DIC", SequenceNo = 40 },
-                        new { ID = "DIC_ITEMGRP", ActionRouteAttribute = "index", ControllerRouteAttribute = "item-group", Name = "Item Group", ProgramFolderID = "DIC", SequenceNo = 50 },
-                        new { ID = "UM_USERACC", ActionRouteAttribute = "index", ControllerRouteAttribute = "user-account", Name = "User Account", ProgramFolderID = "UM", SequenceNo = 10 },
-                        new { ID = "UM_USERGRP", ActionRouteAttribute = "index", ControllerRouteAttribute = "user-group", Name = "User Group", ProgramFolderID = "UM", SequenceNo = 20 },
-                        new { ID = "UM_USERPROF", ActionRouteAttribute = "index", ControllerRouteAttribute = "user-profile", Name = "User Profile", ProgramFolderID = "UM", SequenceNo = 30 }
+                        new { ID = "IVM_IN", Name = "Inventory In", ProgramFolderID = "IVM", RouteAttribute = "inventory-in", SequenceNo = 10 },
+                        new { ID = "IVM_OUT", Name = "Inventory Out", ProgramFolderID = "IVM", RouteAttribute = "inventory-out", SequenceNo = 20 },
+                        new { ID = "DIC_UNIT", Name = "Unit", ProgramFolderID = "DIC", RouteAttribute = "unit", SequenceNo = 10 },
+                        new { ID = "DIC_SUP", Name = "Supplier", ProgramFolderID = "DIC", RouteAttribute = "supplier", SequenceNo = 20 },
+                        new { ID = "DIC_MANU", Name = "Manufacturer", ProgramFolderID = "DIC", RouteAttribute = "manufacturer", SequenceNo = 30 },
+                        new { ID = "DIC_ITEM", Name = "Item Master", ProgramFolderID = "DIC", RouteAttribute = "item-master", SequenceNo = 40 },
+                        new { ID = "DIC_ITEMGRP", Name = "Item Group", ProgramFolderID = "DIC", RouteAttribute = "item-group", SequenceNo = 50 },
+                        new { ID = "UM_USERACC", Name = "User Account", ProgramFolderID = "UM", RouteAttribute = "user-account", SequenceNo = 10 },
+                        new { ID = "UM_USERGRP", Name = "User Group", ProgramFolderID = "UM", RouteAttribute = "user-group", SequenceNo = 20 },
+                        new { ID = "UM_USERPROF", Name = "User Profile", ProgramFolderID = "UM", RouteAttribute = "user-profile", SequenceNo = 30 }
                     );
                 });
 
@@ -348,7 +324,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 3, 31, 16, 5, 24, 46, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 3, 31, 16, 5, 24, 48, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 2, 9, 38, 27, 848, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 2, 9, 38, 27, 850, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 
