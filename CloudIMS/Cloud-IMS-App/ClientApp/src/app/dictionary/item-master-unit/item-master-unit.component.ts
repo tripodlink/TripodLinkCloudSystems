@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ViewChild, ElementRef } from '@angular/core';
-import { IiTemMasterUnit } from '../../classes/data-dictionary/ItemMasterUnit/IitemMaster.interface';
-import { IitemMasterUnitClass } from '../../classes/data-dictionary/ItemMasterUnit/IitemMasterClass';
+import { IiTemMasterUnit } from '../../classes/data-dictionary/ItemMasterUnit/IitemMasterUnit.interface';
+import { IitemMasterUnitClass } from '../../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitClass';
 import { ItemMasterUnitServices } from '../../services/itemmasterUnit.service';
 import { error } from '@angular/compiler/src/util';
 

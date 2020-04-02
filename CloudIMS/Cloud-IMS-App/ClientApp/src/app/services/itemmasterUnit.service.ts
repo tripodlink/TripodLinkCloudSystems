@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IiTemMasterUnit } from '../classes/data-dictionary/ItemMasterUnit/IitemMaster.interface';
+import { IiTemMasterUnit } from '../classes/data-dictionary/ItemMasterUnit/IitemMasterUnit.interface';
 
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';

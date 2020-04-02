@@ -41,11 +41,25 @@ namespace Cloud_IMS_Api.Controllers
             var itemMulist = dbContext.itemMasterUnits.ToList();
             try
             {
+               //IEnumerable<ItemMasterUnit> imuList =  dbContext.itemMasterUnits.Where(imu => imu.ID == id).ToList();
+
+               // //var x= dbContext.itemMasterUnits.Where(imu => imu.ID == id).ToList().Join<>
+
                 var itemMu = dbContext.itemMasterUnits.Where(data => data.ID == id).ToList();
 
-                if (itemMu != null)
+                var itemMasterUnitJoinUnitCode = from ItemMasterUnit in dbContext.itemMasterUnits
+                                                 join UnitCode in dbContext.UnitCodes on ItemMasterUnit.itemMasterUnitUnit
+                                                 equals UnitCode.Code
+                                                 where ItemMasterUnit.ID == id
+                                                 select new { ItemMasterUnit = ItemMasterUnit.ID, 
+                                                     UnitCode = UnitCode.Code, 
+                                                     UnitDescription = UnitCode.Description, 
+                                                     ConversionFactor = ItemMasterUnit.itemMasterUnitConversion };
+
+
+                if (itemMasterUnitJoinUnitCode != null)
                 {
-                    return Ok(itemMu);
+                    return Json(itemMasterUnitJoinUnitCode.ToList());;
                 }
                 else
                 {
@@ -62,12 +76,11 @@ namespace Cloud_IMS_Api.Controllers
         [HttpPost]
         public IActionResult Add([FromBody] ItemMasterUnit itemMasterUnit)
         {
-            var itemMu = new ItemMasterUnit();
             try
             {
                 dbContext.itemMasterUnits.Add(itemMasterUnit);
                 dbContext.SaveChanges();
-                return Ok(itemMu);
+                return Ok(itemMasterUnit);
             }
             catch (Exception ex)
             {
@@ -80,7 +93,7 @@ namespace Cloud_IMS_Api.Controllers
         {
             try
             {
-                ItemMasterUnit itemMu = dbContext.itemMasterUnits.Find(itemMasterUnit.ID);
+                ItemMasterUnit itemMu = dbContext.itemMasterUnits.Find(itemMasterUnit.ID,itemMasterUnit.itemMasterUnitUnit);
 
                 if (itemMu != null)
                 {
@@ -103,18 +116,44 @@ namespace Cloud_IMS_Api.Controllers
         }
         [Route("[action]")]
         [HttpDelete]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(string id,string unit)
         {
             try
             {
-                ItemMasterUnit itemMu = dbContext.itemMasterUnits.Find(id);
+                ItemMasterUnit itemMu = dbContext.itemMasterUnits.Find(id, unit);
 
                 if (itemMu != null)
                 {
                     dbContext.itemMasterUnits.Remove(itemMu);
                     dbContext.SaveChanges();
 
-                    return Ok(id);
+                    return Json(id);
+                }
+                else
+                {
+                    throw new Exception($"User Not found with a user ID of '{id}'.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
+        [Route("[action]")]
+        [HttpDelete]
+        public IActionResult DeleteAll(string id)
+        {
+            try
+            {
+                IEnumerable<ItemMasterUnit> itemMulist = dbContext.itemMasterUnits.Where(data => data.ID == id).ToList();
+
+
+                if (itemMulist != null)
+                {  
+                    dbContext.itemMasterUnits.RemoveRange(itemMulist);
+                    dbContext.SaveChanges();
+
+                    return Json(id);
                 }
                 else
                 {

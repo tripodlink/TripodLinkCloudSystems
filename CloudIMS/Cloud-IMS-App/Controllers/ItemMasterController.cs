@@ -90,7 +90,7 @@ namespace Cloud_IMS_Api.Controllers
                     dbContext.ItemMasters.Remove(itemM);
                     dbContext.SaveChanges();
 
-                    return Ok(id);
+                    return Json(id);
                 }
                 else
                 {

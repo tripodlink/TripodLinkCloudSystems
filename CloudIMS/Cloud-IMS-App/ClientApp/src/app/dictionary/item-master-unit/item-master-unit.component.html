@@ -18,7 +18,7 @@
           <label for="itemGroupNameDropdown">Select Item</label>
           <select formControlName="itemSelect" class="form-control" #itemSelect id="itemSelect" (change)="itemChanges()">
             <option value=""></option>
-            <option *ngFor="let itemG of ItemMasterUnitSelectArray" [value]="item.id">{{item.name}}</option>
+            <option *ngFor="let itemG of ItemMasterUnitSelectArray" [value]="itemG.id">{{itemG.name}}</option>
           </select>
 
           <br />

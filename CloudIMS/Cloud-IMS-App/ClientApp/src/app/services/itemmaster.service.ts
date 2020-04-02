@@ -3,7 +3,8 @@ import { Observable } from 'rxjs';
 import { IiTemMaster } from '../classes/data-dictionary/ItemMaster/IitemMaster.interface';
 import { IiTemGroup } from '../classes/data-dictionary/ItemGroup/IitemGroup.interface';
 import { IUnitCode } from '../classes/data-dictionary/UnitCode/IUnitCode.interface';
-import { IiTemMasterUnit } from '../classes/data-dictionary/ItemMasterUnit/IitemMaster.interface';
+import { IiTemMasterUnit } from '../classes/data-dictionary/ItemMasterUnit/IitemMasterUnit.interface';
+import { IiTemMasterUnitJoinUnit } from '../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitJoinUnit.interface';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
@@ -35,9 +36,9 @@ export class ItemMasterServices {
     return this._http.get<IUnitCode[]>(this.urluc);
   }
 
-  getItemMasterUnitByID(id: string): Observable<IiTemMasterUnit[]> {
+  getItemMasterUnitByID(id: string): Observable<IiTemMasterUnitJoinUnit[]> {
     let params = new HttpParams().set('id', id);
-    return this._http.get<IiTemMasterUnit[]>(this.urlitmu + "/FindID", { params: params });
+    return this._http.get<IiTemMasterUnitJoinUnit[]>(this.urlitmu + "/FindID", { params: params });
 
   }
 
@@ -69,15 +70,30 @@ export class ItemMasterServices {
 
   }
 
+  updateItemMasterUnit(itemMasterUnit: IiTemMasterUnit) {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    });
+    return this._http.post<IiTemMaster>(this.urlitmu + "/Update", JSON.stringify(itemMasterUnit), { headers: headers });
+
+  }
+
   deleteItemMaster(id: string): Observable<string> {
     let params = new HttpParams().set('id', id);
     return this._http.delete<string>(this.url + "/Delete" , { params: params });
 
   }
 
-  deleteItemMasterUnit(id: string): Observable<string> {
-    let params = new HttpParams().set('id', id);
+  deleteItemMasterUnit(id: string,unit: string): Observable<string> {
+    let params = new HttpParams().set('id', id).set('unit', unit);
     return this._http.delete<string>(this.urlitmu + "/Delete", { params: params });
-
   }
+
+
+  deleteAllItemMasterUnit(id: string): Observable<string> {
+    let params = new HttpParams().set('id', id);
+    return this._http.delete<string>(this.urlitmu + "/DeleteAll", { params: params });
+  }
+
 }

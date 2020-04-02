@@ -3,14 +3,15 @@ import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ItemMasterServices } from '../../services/itemmaster.service';
 import { IiTemMaster } from '../../classes/data-dictionary/ItemMaster/IitemMaster.interface';
-import { IiTemMasterUnit } from '../../classes/data-dictionary/ItemMasterUnit/IitemMaster.interface';
+import { IiTemMasterUnit } from '../../classes/data-dictionary/ItemMasterUnit/IitemMasterUnit.interface';
 import { IiTemGroup } from '../../classes/data-dictionary/ItemGroup/IitemGroup.interface';
 import { IUnitCode } from '../../classes/data-dictionary/UnitCode/IUnitCode.interface';
 import { IitemMasterClass } from '../../classes/data-dictionary/ItemMaster/IitemMasterClass';
-import { IitemMasterUnitClass } from '../../classes/data-dictionary/ItemMasterUnit/IitemMasterClass';
+import { IitemMasterUnitClass } from '../../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitClass';
 import { ViewChild, ElementRef } from '@angular/core';
 import { ItemMasterUnitServices } from '../../services/itemmasterUnit.service';
-import { error } from '@angular/compiler/src/util';
+
+import { IiTemMasterUnitJoinUnit} from '../../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitJoinUnit.interface';
 
 
 
@@ -27,12 +28,15 @@ export class ItemMasterComponent implements OnInit {
   @ViewChild('itemUnitInput', { static: true }) private itemUnitInput: ElementRef;
   @ViewChild('itemSupplierInput', { static: true }) private itemSupplierInput: ElementRef;
   @ViewChild('itemManufacturerInput', { static: true }) private itemManufacturerInput: ElementRef;
+  @ViewChild('itemMasterUnitUnit', { static: true }) private itemMasterUnitUnit: ElementRef;
+  @ViewChild('itemMasterUnitConversionID', { static: true }) private itemMasterUnitConversionID: ElementRef;
+
 
 
   ItemMasterArray: IiTemMaster[];
   itemGroupArray: IiTemGroup[];
   unitCodeArray: IUnitCode[];
-  ItemMasterUnitArray: IiTemMasterUnit[];
+  ItemMasterUnitArray: IiTemMasterUnitJoinUnit[];
 
   UnitCodeSelectArray: IUnitCode[];
 
@@ -53,8 +57,10 @@ export class ItemMasterComponent implements OnInit {
 
   ItemMasterUnitName: string;
   itemMasterUnitID: string;
+  isITMUAdd: boolean;
+  deleteUnit: string;
 
-  constructor(private itemMasterService: ItemMasterServices,private toastr: ToastrService, private builder: FormBuilder) {
+  constructor(private itemMasterService: ItemMasterServices, private toastr: ToastrService, private builder: FormBuilder) {
     this.createForm();
     this.createFormItemMasterUnit();
   }
@@ -70,7 +76,8 @@ export class ItemMasterComponent implements OnInit {
       ItemName: new FormControl(),
       Unit: new FormControl(),
       Supplier: new FormControl(),
-      Manufacturer: new FormControl()});
+      Manufacturer: new FormControl()
+    });
   }
 
   private createFormItemMasterUnit() {
@@ -103,7 +110,7 @@ export class ItemMasterComponent implements OnInit {
   private insertItemMaster() {
     let errormessage = "Error";
 
-    let itemMasterData= document.getElementsByClassName('itemGroupByClass');
+    let itemMasterData = document.getElementsByClassName('itemGroupByClass');
 
     let itemMaster: IiTemMaster = new IitemMasterClass();
 
@@ -130,12 +137,12 @@ export class ItemMasterComponent implements OnInit {
     });
 
     this.itemMasterService.insertItemMaster(itemMaster).subscribe(data => {
-      this.toastr.success("Data Saved", "Saved");
+      this.toastr.success("New Item Master Saved", "Saved");
       this.LoadData();
     },
       error => {
         errormessage = error.error;
-        this.toastr.error(errormessage, "Error");
+        this.toastr.error(errormessage, "Item Master Error");
       });
     this.insertItemMasterUnits();
     this.resetForm();
@@ -145,12 +152,13 @@ export class ItemMasterComponent implements OnInit {
     if (confirm("Are you sure to delete" + " " + id)) {
       let errormessage = "Error";
       this.itemMasterService.deleteItemMaster(id).subscribe(data => {
-        this.toastr.info("Data" + " " + id + " " + "Successfully Deleted", "Deleted");
+        this.toastr.info("Item Master" + " " + id + " " + "Successfully Deleted", "Deleted");
+        this.itemMasterService.deleteAllItemMasterUnit(id).subscribe();
         document.getElementById(id).remove();
       },
         error => {
           errormessage = error.error;
-          this.toastr.error(errormessage, "Error");
+          this.toastr.error(errormessage, "Item Master Error");
         });
     }
   }
@@ -171,16 +179,17 @@ export class ItemMasterComponent implements OnInit {
       }
 
     });
-  
+
     itemMasterUnit.itemMasterUnitConversion = "1";
     let errormessage = "Error";
+
     this.itemMasterService.insertItemMasterUnit(itemMasterUnit).subscribe(data => {
-      this.toastr.success("Data Saved", "Saved");
+      this.toastr.success("New Item Master Unit", "Saved");
     },
       error => {
-      errormessage = error.error;
-    this.toastr.error(errormessage, "Error");
-  });
+        errormessage = error.error;
+        this.toastr.error(errormessage, "Item Master Unit Error Insert");
+      });
   }
 
   private PassData(id, itemGroup, itemName, unit, supplier, manufacturer) {
@@ -232,7 +241,9 @@ export class ItemMasterComponent implements OnInit {
     let errormessage = "Error";
 
     this.itemMasterService.updateItemMaster(itemMaster).subscribe(data => {
-      this.toastr.info("Data Edited", "Edited");
+      this.toastr.info("Item Master Data Updated", "Edited");
+      this.itemMasterService.deleteAllItemMasterUnit(itemMaster.id).subscribe();
+      this.insertItemMasterUnits();
       this.LoadData();
     },
 
@@ -240,16 +251,20 @@ export class ItemMasterComponent implements OnInit {
         errormessage = error.error;
         this.toastr.error(errormessage, "Error");
       });
+  
   }
-  private passDataItemMaster(name,itemId) {
+
+  private passDataItemMaster(name, itemId, itemUnit) {
     this.ItemMasterUnitName = name;
 
     this.itemMasterUnitID = itemId;
 
     this.loadItemMasterUnit();
 
+    this.isITMUAdd = true;
+
     this.itemMasterService.getItemMasterUnitByID(itemId).subscribe((data => this.ItemMasterUnitArray = data));
-   
+
   }
 
   private loadItemMasterUnit() {
@@ -275,30 +290,76 @@ export class ItemMasterComponent implements OnInit {
 
     itemMasterUnit.id = this.itemMasterUnitID;
     this.itemMasterService.insertItemMasterUnit(itemMasterUnit).subscribe(data => {
-      this.toastr.info("Data Saved", "Saved");
+      this.toastr.info("New Item Master Saved", "Saved");
       this.itemMasterService.getItemMasterUnitByID(this.itemMasterUnitID).subscribe((data => this.ItemMasterUnitArray = data));
     },
       error => {
         errormessage = error.error;
-        this.toastr.error(errormessage, "Error");
+        this.toastr.error(errormessage, "Item Master Error");
       });
- 
+
     this.addItemMasterUnitForm.reset();
-   
+
   }
 
-  deleteItemMasterUnit() {
+  deleteItemMasterUnit(unit) {
     if (confirm("Are you sure to delete" + " " + this.itemMasterUnitID)) {
       let errormessage = "Error";
-      this.itemMasterService.deleteItemMasterUnit(this.itemMasterUnitID).subscribe(data => {
-        this.toastr.info("Data" + " " + this.itemMasterUnitID + " " + "Successfully Deleted", "Deleted");
-        document.getElementById(this.itemMasterUnitID).remove();
+      this.itemMasterService.deleteItemMasterUnit(this.itemMasterUnitID, unit).subscribe(data => {
+        this.toastr.info("Item Master Unit" + " " + this.itemMasterUnitID + " " + "Successfully Deleted", "Deleted");
+        document.getElementById(unit).remove();
       },
         error => {
           errormessage = error.error;
-          this.toastr.error(errormessage, "Error");
+          this.toastr.error(errormessage, "Item Master Unit Error");
         });
     }
   }
+  passDataItemMasterUnit(unit, conversion) {
 
+    this.isITMUAdd = false;
+
+    this.itemMasterUnitUnit.nativeElement.value = unit;
+
+    this.itemMasterUnitConversionID.nativeElement.value = conversion;
+
+    this.itemMasterUnitUnit.nativeElement.dispatchEvent(new Event('change'));
+  }
+
+  updateItemMasterUnit() {
+    let itemMasterUnitData = document.getElementsByClassName('itemMasterUnitClass');
+
+    let itemMasterUnit: IiTemMasterUnit = new IitemMasterUnitClass();
+
+    Array.from(itemMasterUnitData).forEach((element: HTMLInputElement) => {
+
+      if (element.id == "itemMasterUnitUnit") {
+        itemMasterUnit.itemMasterUnitUnit = element.value;
+      }
+      if (element.id == "itemMasterUnitConversionID") {
+        itemMasterUnit.itemMasterUnitConversion = element.value;
+      }
+    })
+
+    let errormessage = "Error";
+
+    itemMasterUnit.id = this.itemMasterUnitID;
+
+    this.itemMasterService.updateItemMasterUnit(itemMasterUnit).subscribe(data => {
+      this.toastr.info("Item Master Unit Successfully", "Updated");
+      this.itemMasterService.getItemMasterUnitByID(this.itemMasterUnitID).subscribe((data => this.ItemMasterUnitArray = data));
+      this.addItemMasterUnitForm.reset();
+      this.isITMUAdd = true;
+    },
+      error => {
+        errormessage = error.error;
+        this.toastr.error(errormessage, "Item Master Unit Error");
+      });
+
+   
+  }
+  clearItemMasterUnit() {
+    this.isITMUAdd = true;
+    this.addItemMasterUnitForm.reset();
+  }
 }

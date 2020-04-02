@@ -1,3 +1,7 @@
+
+
+ <!--    ITEM MASTER TABLE   -->
+
 <main class="app-content">
   <div class="app-title">
     <div>
@@ -39,7 +43,7 @@
                   <td>{{itemM.supplier}}</td>
                   <td>{{itemM.manufacturer}}</td>
                   <td>
-                    <button type="button" class="btn btn-primary" (click)="passDataItemMaster(itemM.itemName,itemM.id,itemM.unit)" data-toggle="modal" data-target="#AddItemUnitsModal"><i class="fa fa-plus-square-o"></i>Add Unit</button>&nbsp;
+                    <button type="button" class="btn btn-primary" (click)="passDataItemMaster(itemM.itemName,itemM.id)" data-toggle="modal" data-target="#AddItemUnitsModal"><i class="fa fa-plus-square-o"></i>Add Unit</button>&nbsp;
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal"
                             (click)="PassData(itemM.id, itemM.itemGroup,itemM.itemName,itemM.unit,itemM.supplier,itemM.manufacturer)">
                       <i class="fa fa-pencil"></i>Edit
@@ -54,6 +58,15 @@
       </div>
     </div>
   </div>
+
+
+
+
+
+  <!--    ITEM MASTER MODAL    -->
+
+
+
 
   <div class="container">
     <!-- Modal -->
@@ -88,14 +101,14 @@
 
               <div class="form-group">
                 <label for="itemUnitInput">Item Minimum Unit</label>
-                <select formControlName="Unit" class="form-control itemGroupByClass"  #itemUnitInput id="itemUnitInput">
+                <select formControlName="Unit" class="form-control itemGroupByClass" #itemUnitInput id="itemUnitInput">
                   <option *ngFor="let unitC of unitCodeArray" value="{{unitC.code}}">{{unitC.description}}</option>
                 </select>
               </div>
 
               <div class="form-group">
                 <label for="itemSupplierInput">Item Supplier</label>
-                <select formControlName="Supplier" class="form-control itemGroupByClass"  #itemSupplierInput id="itemSupplierInput">
+                <select formControlName="Supplier" class="form-control itemGroupByClass" #itemSupplierInput id="itemSupplierInput">
                   <option value="suppname">suppname</option>
                 </select>
               </div>
@@ -131,6 +144,10 @@
 
   </div>
 
+
+
+  <!--    ITEM MASTER UNIT MODAL    -->
+
   <div class="container">
     <!-- Modal AddItemUnitsModal -->
     <div class="modal fade" id="AddItemUnitsModal" role="dialog">
@@ -153,50 +170,67 @@
                 </select>
               </div>
 
-              <div class="form-group col-md-5">
+              <div class="form-group col-md-4">
                 <label for="itemMasterUnitConversionID">Item Master Conversion</label>
                 <input formControlName="itemMasterUnitConversion" class="form-control itemMasterUnitClass" [name]="itemMasterUnitConversionName" #itemMasterUnitConversionID id="itemMasterUnitConversionID">
               </div>
 
               <div class="form-group align-self-end">
                 <br />
-                <button class="btn btn-primary" (click)="saveItemMasterUnit()"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+
+                <ng-template *ngIf="isITMUAdd; then additemUnitMaster; else updateItemUnitMaster">
+                </ng-template>
+
+                <ng-template #additemUnitMaster>
+                  <button class="btn btn-primary" (click)="saveItemMasterUnit()"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                </ng-template>
+
+                <ng-template #updateItemUnitMaster>
+                  <button class="btn btn-primary" (click)="updateItemMasterUnit()"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</button>
+                  &nbsp;
+                  <button class="btn btn-secondary" (click)="clearItemMasterUnit()"><i class="fa fa-eraser" aria-hidden="true"></i>Clear</button>
+                </ng-template>
+
               </div>
             </div>
-              <div class="form-group col-md-12">
-                <div class="tile-body">
-                  <div class="table-responsive">
-                    <table class="table table-hover table-bordered" id="table">
-                      <thead>
-                        <tr>
-                          <th>Unit</th>
-                          <th>Conversion Factor</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let itmU of ItemMasterUnitArray" [id]="itmU.id">
-                          <td>{{itmU.itemMasterUnitUnit}}</td>
-                          <td>{{itmU.itemMasterUnitConversion}}</td>
-                          <td>
-                            <button type="button" class="btn btn-warning" (click)="PassData(itgp.id, itgp.itemGroupName)"><i class="fa fa-pencil"></i>Edit</button>
-                            &nbsp;<button type="button" class="btn btn-danger" (click)="deleteItemMasterUnit()"><i class="fa fa-trash"></i>Delete</button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+
+
+            <!--    ITEM MASTER UNIT TABLE    -->
+
+            <div class="form-group col-md-12">
+              <div class="tile-body">
+                <div class="table-responsive">
+                  <table class="table table-hover table-bordered" id="table">
+                    <thead>
+                      <tr>
+                        <th>Unit</th>
+                        <th>Conversion Factor</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let itmU of ItemMasterUnitArray" [id]="itmU.itemMasterUnit">
+                        <td id="itmU.unitCode">{{itmU.unitDescription}}</td>
+                        <td>{{itmU.conversionFactor}}</td>
+                        <td>
+                          <button type="button" class="btn btn-warning" [disabled]="itmU.conversionFactor == 1" (click)="passDataItemMasterUnit(itmU.unitCode, itmU.conversionFactor)"><i class="fa fa-pencil"></i>Edit</button>
+                          &nbsp;<button type="button" class="btn btn-danger" [disabled]="itmU.conversionFactor == 1" (click)="deleteItemMasterUnit(itmU.itmU.unitCode)"><i class="fa fa-trash"></i>Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
+            </div>
 
-              <div class="modal-footer">
-                <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
-              </div>
-</form>
+            <div class="modal-footer">
+              <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
+            </div>
+          </form>
         </div>
       </div>
     </div>
 
   </div>
 </main>
-  
+

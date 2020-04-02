@@ -1,4 +1,4 @@
-import { IiTemMasterUnit } from "../ItemMasterUnit/IitemMaster.interface";
+import { IiTemMasterUnit } from "../ItemMasterUnit/IitemMasterUnit.interface";
 
 export class IitemMasterUnitClass implements IiTemMasterUnit{
   id: string;
