@@ -6,28 +6,36 @@
     <h1>Inventory Management System</h1>
   </div>
   <div class="login-box">
-    <form class="login-form" action="index.html">
+    <form class="login-form" [formGroup]="loginForm">
       <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>SIGN IN</h3>
       <div class="form-group">
-        <label class="control-label">USERNAME</label>
-        <input class="form-control" type="text" placeholder="Email" autofocus>
+        <label for="userId" class="control-label">USERNAME</label>
+        <input formControlName="userId" class="form-control"
+               [class.text-uppercase]="loginForm.get('userId').value != ''"
+               [class.is-invalid]="auth.getLoginErrorMessage() != ''"
+               placeholder="Email" autofocus>
       </div>
       <div class="form-group">
-        <label class="control-label">PASSWORD</label>
-        <input class="form-control" type="password" placeholder="Password">
+        <label for="password" class="control-label">PASSWORD</label>
+        <input formControlName="password" class="form-control" type="password"
+               [class.is-invalid]="auth.getLoginErrorMessage() != ''"
+               placeholder="Password">
       </div>
       <div class="form-group">
         <div class="utility">
           <div class="animated-checkbox">
             <label>
-              <input type="checkbox"><span class="label-text">Stay Signed in</span>
+              <input formControlName="isStaySignedIn" type="checkbox"><span class="label-text">Stay Signed in</span>
             </label>
           </div>
           <p class="semibold-text mb-2"><a href="#" data-toggle="flip">Forgot Password ?</a></p>
         </div>
       </div>
       <div class="form-group btn-container">
-        <button class="btn btn-primary btn-block" [routerLink]="['dashboard']" (click)="btn_login_click()"><i class="fa fa-sign-in fa-lg fa-fw"></i>SIGN IN</button>
+        <button type="submit" class="btn btn-primary btn-block" (click)="onBtnLoginClick2()"><i class="fa fa-sign-in fa-lg fa-fw"></i>SIGN IN</button>
+      </div>
+      <div class="form-group btn-container">
+        <p class="text-center text-danger">{{auth.getLoginErrorMessage()}}</p>
       </div>
     </form>
   </div>

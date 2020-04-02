@@ -12,6 +12,7 @@ export class UserAccount{
   createdBy: string = "";
   updatedOn: Date;
   updatedBy: string = "";
+  token: string = "";
 
   userGroups: UserGroup[] = new Array();
   programFolders: ProgramFolder[] = new Array();

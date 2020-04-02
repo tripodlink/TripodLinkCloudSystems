@@ -36,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\app.routing.ts" />
     <None Remove="ClientApp\src\app\classes\data-dictionary\IitemGroupClass.ts" />
     <None Remove="ClientApp\src\app\classes\data-dictionary\ItemMaster\IitemMasterClass.ts" />
     <None Remove="ClientApp\src\app\classes\data-dictionary\Manufacturer\IManufacturerClass.ts" />
@@ -44,6 +45,7 @@
     <None Remove="ClientApp\src\app\services\UserAuthorization.service.ts" />
     <None Remove="ClientApp\src\app\services\UserGroup.service.ts" />
     <None Remove="ClientApp\src\app\user-management\user-profile\userGroup.component.ts" />
+    <None Remove="ClientApp\src\app\_helpers\auth.guard.ts" />
     <None Remove="ClientApp\src\vali-css\all.css" />
     <None Remove="ClientApp\src\vali-css\all.min.css" />
     <None Remove="ClientApp\src\vali-css\font-awesome.min.css" />
@@ -84,6 +86,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\app.routing.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\Manufacturer\IManufacturerClass.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\Supplier\ISupplierClass.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\ItemGroup\IitemGroupClass.ts" />
@@ -99,6 +102,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\services\UserGroup.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\user-management\user-account\user-account.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\user-management\user-group\user-group.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_helpers\auth.guard.ts" />
   </ItemGroup>
 
   <ItemGroup>

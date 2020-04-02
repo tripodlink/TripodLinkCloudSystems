@@ -1,13 +1,7 @@
-<ng-template *ngIf="isLogin;then is_Login;else not_login">
-</ng-template>
-
-<ng-template #not_login>
+<ng-container *ngIf="auth.isLoggedIn()">
   <app-app-navbar-menu></app-app-navbar-menu>
   <app-app-sidebar-menu></app-app-sidebar-menu>
-  <router-outlet></router-outlet>
-</ng-template>
+</ng-container>
 
-<ng-template #is_Login>
-  <router-outlet></router-outlet>
-</ng-template>
+<router-outlet></router-outlet>
 

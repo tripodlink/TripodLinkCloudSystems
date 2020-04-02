@@ -13,9 +13,8 @@ import { InventoryService } from '../services/inventory.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot([
-      { path: 'inventory-management', component: InventoryManagementComponent },
-    ])
+
+    RouterModule.forRoot([])
   ],
   providers: [InventoryService]
 })

@@ -1,18 +1,15 @@
 import { Component } from '@angular/core';
 import { HomeService } from '../services/home.service';
+import { ProgramMenu } from '../classes/ProgramMenu';
+import { UserAuthorizationService } from '../services/UserAuthorization.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
-  //pm_menus: IHome[];
-  //message: string;
 
-  //constructor(private homeService: HomeService) {
-  //}
+  constructor(private homeService: HomeService, private auth: UserAuthorizationService) {
+  }
 
-  //ngOnInit(): void {
-  //  this.homeService.getProgramMenu().subscribe((pm_menus) => this.pm_menus = pm_menus)
-  //}
 }
