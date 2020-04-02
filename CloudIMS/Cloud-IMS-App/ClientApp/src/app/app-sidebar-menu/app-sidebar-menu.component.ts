@@ -1,24 +1,28 @@
-import { Component} from '@angular/core';
-import { SideBarService } from '../services/SideBar.service';
+import { Component, OnInit} from '@angular/core';
 import { UserAuthorizationService } from '../services/UserAuthorization.service';
-import { ProgramFolder } from '../classes/ProgramFolder';
+import { UserAccount } from '../classes/UserAccount';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-app-sidebar-menu',
   templateUrl: './app-sidebar-menu.component.html'
 })
-export class AppSidebarMenuComponent{
-
-  pf_folders: ProgramFolder[];
+export class AppSidebarMenuComponent implements OnInit {
+  user: UserAccount;
   message: string;
   button_status: string;
   button_isActive: boolean;
-  
-  constructor(private sidebarS: SideBarService, private _userAuthorizationService: UserAuthorizationService) {
+
+  constructor(private auth: UserAuthorizationService, private router: Router) {
+    console.log({ module: "Sidebar", user: this.auth.getCurrentUser() })
   }
 
   ngOnInit(): void {
-    this.pf_folders = this._userAuthorizationService.currentUser.programFolders;
+    this.user = this.auth.getCurrentUser();
+  }
 
+  navigate(url: string): void {
+    this.router.navigateByUrl(url)
   }
 
   private IsButtonActive() {

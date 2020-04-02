@@ -118,8 +118,8 @@ export class AddEditUserAccountComponent {
     this.user.userName = this.addEditForm.controls["userName"].value;
     this.user.password = this.addEditForm.controls["password"].value;
     this.user.isActive = this.addEditForm.controls["isActive"].value;
-    this.user.createdBy = this._userAuthorizationService.currentUser.userID;
-    this.user.updatedBy = this._userAuthorizationService.currentUser.userID;
+    this.user.createdBy = this._userAuthorizationService.getCurrentUser().userID;
+    this.user.updatedBy = this._userAuthorizationService.getCurrentUser().userID;
     this.user.userGroups = this.getSelectedUserGroups();
 
     if (this.isNewUser) {

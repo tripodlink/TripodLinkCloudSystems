@@ -1,15 +1,12 @@
 import { Component } from '@angular/core';
-import { AppComponent } from '../app.component';
+import { UserAuthorizationService } from '../services/UserAuthorization.service';
 
 @Component({
   selector: 'app-app-navbar-menu',
   templateUrl: './app-navbar-menu.component.html'
 })
 export class AppNavbarMenuComponent {
-  constructor(public login: AppComponent) {
-
-  }
-  public btn_logout_click() {
-    this.login.isLogin = true;
+  constructor(private auth: UserAuthorizationService) {
+    console.log({ module: "Nav Bar", user: auth.getCurrentUser() })
   }
 }

@@ -14,6 +14,6 @@ export class UserManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.um_pg_menus = this._userAuthorizationService.currentUser.programMenus.filter(pm => pm.programFolderID == "UM");
+    this.um_pg_menus = this._userAuthorizationService.getCurrentUser().programMenus.filter(pm => pm.programFolderID == "UM");
   }
 }

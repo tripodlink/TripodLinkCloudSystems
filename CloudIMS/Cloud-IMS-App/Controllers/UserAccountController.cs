@@ -43,32 +43,36 @@ namespace Cloud_IMS_Api.Controllers
                 //find the user
                 UserAccount user = dbContext.UserAccounts.Find(id);
 
-                var userGroupIdList = dbContext.UserAccountGroups
+                if (user != null)
+                {
+                    var userGroupIdList = dbContext.UserAccountGroups
                     .Where(uag => uag.UserAccountID == id)
                     .Select(uag => new { GoupID = uag.UserGroupID })
                     .ToList();
 
-                //get user's user group list
-                user.UserGroups = dbContext.UserGroups
-                    .Where(ug => userGroupIdList.Any(ugL => ugL.GoupID == ug.ID))
-                    .ToList();
+                    //get user's user group list
+                    user.UserGroups = dbContext.UserGroups
+                        .Where(ug => userGroupIdList.Any(ugL => ugL.GoupID == ug.ID))
+                        .ToList();
 
-                var programIdList = dbContext.UserGroupPrograms
-                    .Where(ugp => user.UserGroups.Any(ug => ug.ID == ugp.UserGroupID))
-                    .Distinct()
-                    .Select(ugp => new { ProgramID = ugp.ProgramMenuID })
-                    .ToList();
+                    var programIdList = dbContext.UserGroupPrograms
+                        .Where(ugp => user.UserGroups.Any(ug => ug.ID == ugp.UserGroupID))
+                        .Distinct()
+                        .Select(ugp => new { ProgramID = ugp.ProgramMenuID })
+                        .ToList();
 
-                //get all the granted programs to the user
-                user.ProgramMenus = dbContext.ProgramMenus
-                    .Where(pm => programIdList.Any(pmL => pmL.ProgramID == pm.ID))
-                    .ToList();
+                    //get all the granted programs to the user
+                    user.ProgramMenus = dbContext.ProgramMenus
+                        .Where(pm => programIdList.Any(pmL => pmL.ProgramID == pm.ID))
+                        .ToList();
 
-                //get all the granted program folders base on it's granted program menus
-                user.ProgramFolders = dbContext.ProgramFolders
-                    .Where(pf => user.ProgramMenus.Any(pm => pm.ProgramFolderID == pf.ID))
-                    .ToList();
+                    //get all the granted program folders base on it's granted program menus
+                    user.ProgramFolders = dbContext.ProgramFolders
+                        .Where(pf => user.ProgramMenus.Any(pm => pm.ProgramFolderID == pf.ID))
+                        .ToList();
+                }                
 
+                //user is null if not found
                 return Ok(user);
             }
             catch (Exception ex)

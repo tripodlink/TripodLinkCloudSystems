@@ -17,6 +17,6 @@ export class InventoryManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.inv_pg_menus = this._userAuthorizationService.currentUser.programMenus.filter(pm => pm.programFolderID == "IVM");
+    this.inv_pg_menus = this._userAuthorizationService.getCurrentUser().programMenus.filter(pm => pm.programFolderID == "IVM");
   }
 }

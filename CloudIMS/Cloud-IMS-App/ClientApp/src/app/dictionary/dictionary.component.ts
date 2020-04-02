@@ -16,6 +16,6 @@ export class DictionaryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dic_pg_menus = this._userAuthorizationService.currentUser.programMenus.filter(pm => pm.programFolderID == "DIC");
+    this.dic_pg_menus = this._userAuthorizationService.getCurrentUser().programMenus.filter(pm => pm.programFolderID == "DIC");
   }
 }
