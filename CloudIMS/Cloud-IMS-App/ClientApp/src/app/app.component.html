@@ -1,4 +1,13 @@
- <app-app-navbar-menu></app-app-navbar-menu>
+<ng-template *ngIf="isLogin;then is_Login;else not_login">
+</ng-template>
+
+<ng-template #not_login>
+  <app-app-navbar-menu></app-app-navbar-menu>
   <app-app-sidebar-menu></app-app-sidebar-menu>
   <router-outlet></router-outlet>
+</ng-template>
+
+<ng-template #is_Login>
+  <router-outlet></router-outlet>
+</ng-template>
 

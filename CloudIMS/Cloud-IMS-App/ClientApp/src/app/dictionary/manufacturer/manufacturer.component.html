@@ -1,0 +1,90 @@
+<main class="app-content">
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-building-o"></i> Data-Dictionary/Manufacturer</h1>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
+    </ul>
+  </div>
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+
+        <button type="button" class="btn btn-success" (click)="ClickAdd()" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>Add Manufacturer</button><br />
+        <br /><br />
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered" id="sampletable">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>Name</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let manufact of manufacturer" [id]="manufact.id">
+                <td>{{manufact.id}}</td>
+                <td>{{manufact.manufactName}}</td>
+                <td>
+                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" (click)="PassData(manufact.id, manufact.manufactName)"><i class="fa fa-edit"></i> Edit</button>&nbsp;
+                  <button class="btn btn-danger" (click)="deleteManufacturer(manufact.id)"><i class="fa fa-trash"></i> Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tile-footer">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+<!-- Large modal -->
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{modalStatus}}</h4>
+        </div>
+
+        <form [formGroup]="addManufacturerFormGroup">
+          <div class="modal-body">
+
+            <div class="form-group">
+              <label for="manufactID">Manufacturer  ID</label>
+              <input type="text" formControlName="ID" [readonly]="!isAdd" class="form-control manufacturertextfield" [name]="idInput" #manufactID id="manufactID">
+            </div>
+            <div class="form-group">
+              <label for="manufactNametext">Manufacturer Name</label>
+              <input type="text" formControlName="ManufactName" class="form-control manufacturertextfield" [name]="manufacturerInput" #manufactNametext id="manufactNametext">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <ng-template *ngIf="isAdd; then add; else update">
+
+            </ng-template>
+            <ng-template #add>
+              <button type="button" id="closeModal" #closeModal class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
+              <button class="btn btn-primary" (click)="insertManufacturer()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+            </ng-template>
+
+            <ng-template #update>
+              <button type="button" id="closeModal" #closeModal class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
+              <button class="btn btn-primary" (click)="updateManufacturer()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+            </ng-template>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

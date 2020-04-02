@@ -10,11 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200401022703_InitialMigration_2020_01_04.cs" />
-    <Compile Remove="Migrations\20200401022703_InitialMigration_2020_01_04.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.8">

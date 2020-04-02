@@ -29,16 +29,10 @@ namespace CloudImsCommon.Models
         public String ProgramFolderID { get; set; }
 
 
-        [Column("pm_controller_route")]
+        [Column("pm_route")]
         [MaxLength(25)]
         [Required]
-        public String ControllerRouteAttribute { get; set; }
-
-
-        [Column("pm_action_route")]
-        [MaxLength(25)]
-        [Required]
-        public String ActionRouteAttribute { get; set; }
+        public String RouteAttribute { get; set; }
 
 
         [Column("pm_icon_type")]

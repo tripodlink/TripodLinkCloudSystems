@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IDictionary } from '../classes/IDictionary.interface';
+import { IDictionary } from '../classes/data-dictionary/IDictionary.interface';
 
 @Injectable()
 export class DictionaryService {

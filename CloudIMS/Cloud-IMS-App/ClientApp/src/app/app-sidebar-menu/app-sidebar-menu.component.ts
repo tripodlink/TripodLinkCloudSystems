@@ -1,20 +1,29 @@
 import { Component} from '@angular/core';
 import { SideBarService } from '../services/SideBar.service';
-import { ISideBar } from '../classes/ISideBar.interface';
+import { UserAuthorizationService } from '../services/UserAuthorization.service';
+import { ProgramFolder } from '../classes/ProgramFolder';
 @Component({
   selector: 'app-app-sidebar-menu',
   templateUrl: './app-sidebar-menu.component.html'
 })
 export class AppSidebarMenuComponent{
 
-  pf_folders: ISideBar[];
+  pf_folders: ProgramFolder[];
   message: string;
-
-  constructor(private sidebarS: SideBarService) {
+  button_status: string;
+  button_isActive: boolean;
+  
+  constructor(private sidebarS: SideBarService, private _userAuthorizationService: UserAuthorizationService) {
   }
 
   ngOnInit(): void {
-    this.sidebarS.getSideBar().subscribe((pf_folders) => this.pf_folders = pf_folders); 
+    this.pf_folders = this._userAuthorizationService.currentUser.programFolders;
+
+  }
+
+  private IsButtonActive() {
+    this.button_status = "active";
+    this.button_isActive = true;
   }
 
 }

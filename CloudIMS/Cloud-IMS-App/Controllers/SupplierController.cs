@@ -43,18 +43,11 @@ namespace Cloud_IMS_Api.Controllers
 
                 dbContext.Suppliers.Add(supplier);
                 dbContext.SaveChanges();
-                return Ok(suppliers);
+                return Json(suppliers);
             }
             catch (Exception ex)
             {
-                var message = ex.Message;
-
-                if (ex.InnerException != null)
-                {
-                    message += "\r\n Message: " + ex.InnerException.Message;
-                }
-
-                return BadRequest(message);
+                return BadRequest(GetErrorMessage(ex));
             }
         }
 
@@ -75,7 +68,7 @@ namespace Cloud_IMS_Api.Controllers
                     dbContext.Suppliers.Update(supplier);
                     dbContext.SaveChanges();
 
-                    return Ok(supId);
+                    return Json(supId);
                 }
                 else
                 {
@@ -90,19 +83,29 @@ namespace Cloud_IMS_Api.Controllers
 
 
         [Route("[action]")]
-        [HttpDelete("{id}")]
-        public IActionResult DeleteSupplier(string id)
+        [HttpDelete]
+        public IActionResult Delete(string id)
         {
-            Supplier supplier = dbContext.Suppliers.Find(id);
-            if (supplier == null)
+            try
             {
-                return NotFound();
+                Supplier supplier = dbContext.Suppliers.Find(id);
+                if (supplier != null)
+                {
+
+                    dbContext.Suppliers.Remove(supplier);
+                    dbContext.SaveChanges();
+
+                    return Json(id);
+                }
+                else
+                {
+                    throw new Exception($"User Not found with a user ID of '{id}'.");
+                }
             }
-
-            dbContext.Suppliers.Remove(supplier);
-            dbContext.SaveChanges();
-
-            return Ok(id);
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
         }
     }
 }

@@ -1,0 +1,140 @@
+<main class="app-content">
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-users"></i> User Groups</h1>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
+    </ul>
+  </div>
+
+  <div class="row">
+    <!-- User Group Table -->
+    <div class="col-md-4">
+      <div class="tile" style="border-radius: 10px 10px">
+        <div>
+          <div class="tile-title">List of User Groups</div>
+          <!--<button type="button" style="width:100px; margin-bottom:5px" class="btn btn-primary" [routerLink]="'/user-management/user-account/add'">Add User</button>-->
+        </div>
+
+        <form>
+          <br />
+          {{userGroups.value | json}}
+
+          <table class="table table-hover table-bordered">
+            <thead class="btn-dark">
+              <tr class="text-center">
+                <td>Group ID</td>
+                <td>Group Name</td>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let ug of userGroups; let i = index;" (click)="displayUserGroupDetails(ug.id)">
+                <td class="text-center">{{ug.id}}</td>
+                <td [class]="'user-group-name-td-' + ug.id">{{ug.name}}</td>
+              </tr>
+            </tbody>
+
+          </table>
+        </form>
+      </div>
+    </div>
+
+
+    <!-- Program Menu Tree -->
+    <div class="col-md-8">
+      <div class="tile" style="border-radius: 10px 10px">
+        <div class="tile-title">User Group Details</div>
+
+        <form (ngSubmit)="saveUserGroupDetails()" [formGroup]="addEditUserGroupForm">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="groupId">Group ID:</label>
+                <input formControlName="groupId" type="text" class="form-control text-uppercase" [readonly]="!isNewUserGroup"
+                       [class.is-invalid]="addEditUserGroupForm.controls['groupId'].touched  && addEditUserGroupForm.controls['groupId'].value.trim() == ''">
+              </div>
+            </div>
+
+            <div class="col-md-8">
+              <div class="form-group">
+                <label for="groupName">Group Name:</label>
+                <input formControlName="groupName" type="text" class="form-control"
+                       [class.is-invalid]="addEditUserGroupForm.controls['groupName'].touched && addEditUserGroupForm.controls['groupName'].value.trim() == ''">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12" style="margin-top:20px;">
+              <div style="border:groove; border-radius:15px 15px 15px 15px">
+
+                <div class="text-primary h5" style="margin-left:15px; margin-top:15px">
+                  Program Menus
+                </div>
+
+                <div class="col-md-12">
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div formArrayName="programFolders">
+                        <div *ngFor="let pfForm of addEditUserGroupForm.get('programFolders').controls; let i=index">
+                          <div [formGroupName]="i">
+                            <input formControlName="id" hidden readonly />
+                            <input formControlName="name" hidden readonly />
+                            <div class="form-group form-check">
+                              <label class="form-check-label">
+                                <input formControlName="checked" type="checkbox" (click)="onProgramFolderCheckChanged(pfForm)" />
+                                {{pfForm.get('name').value}}
+                              </label>
+                            </div>
+                            <div class="container">
+                              <div class="row">
+                                <div class="col-md-11 offset-md-1">
+                                  <div formArrayName="programMenus">
+                                    <div *ngFor="let pmForm of pfForm.get('programMenus').controls; let j=index">
+                                      <div [formGroupName]="j">
+                                        <input formControlName="id" hidden readonly />
+                                        <input formControlName="name" hidden readonly />
+                                        <div class="form-group form-check">
+                                          <label class="form-check-label">
+                                            <input formControlName="checked" type="checkbox" (click)="onProgramMenuCheckChanged(pmForm, pfForm)" />
+                                            {{pmForm.get('name').value}}
+                                          </label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="form-control" style="border:hidden; margin:0px; margin-top:10px; padding:0px">
+            <button class="btn btn-primary" style="width:100px"
+                    [disabled]="addEditUserGroupForm.controls['groupId'].value.trim() == '' || addEditUserGroupForm.controls['groupName'].value.trim() == ''">
+              <i class="fa fa-save"></i> Save
+            </button> &nbsp;
+            <button type="submit" class="btn btn-warning" style="width:100px" (click)="clearEntry()"><i class="fa fa-eraser"></i> Clear</button> &nbsp;
+            <button type="submit" class="btn btn-danger" style="width:100px" [disabled]="isNewUserGroup" (click)="deleteUserGroup()"><i class="fa fa-trash"></i> Delete</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+
+  </div>
+</main>

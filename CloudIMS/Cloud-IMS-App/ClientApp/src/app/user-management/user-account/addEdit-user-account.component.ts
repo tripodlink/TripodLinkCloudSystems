@@ -33,9 +33,41 @@ export class AddEditUserAccountComponent {
 
   private createForm() {
     this.addEditForm = this.formBuilder.group({
-      userID: new FormControl(),
-      userName: new FormControl(),
-      password: new FormControl()
+      userId: [''],
+      userName: [''],
+      password: [''],
+      isActive: [true],
+      userGroups: new FormArray([])
+    });
+  }
+
+  private createAndAddUserGroupsForm(ugList: UserGroup[]): void {
+    ugList.forEach(ug =>
+      this.addUserGroupForm(ug)
+    );
+  }
+
+  private addUserGroupForm(ug: UserGroup): void {
+    let ugForm = this.formBuilder.group({
+      id: [ug.id],
+      name: [ug.name],
+      isSelected: [false]
+    });
+
+    (this.addEditForm.controls.userGroups as FormArray).push(ugForm);
+  }
+
+  checkUserGroupsFormList(ugList: UserGroup[]): void {
+    ugList.forEach(ug => {
+      this.checkUserGroupForm(ug.id);
+    });
+  }
+
+  checkUserGroupForm(ugId: string): void {
+    (this.addEditForm.controls.userGroups as FormArray).controls.forEach((ugForm: FormGroup) => {
+      if (ugForm.controls.id.value == ugId) {
+        ugForm.controls.isSelected.setValue(true);
+      }
     });
   }
 
@@ -50,14 +82,15 @@ export class AddEditUserAccountComponent {
           this.user = userData;
           this.isNewUser = false;
 
-          this.addEditForm.get('userID').setValue(this.user.userID);
+          this.addEditForm.get('userId').setValue(this.user.userID);
           this.addEditForm.get('userName').setValue(this.user.userName);
           this.addEditForm.get('password').setValue(this.user.password);
+          this.addEditForm.get('isActive').setValue(this.user.isActive);
 
+          this.checkUserGroupsFormList(this.user.userGroups);
         }
           , error => {
             this._toastr.error(error.error, "Error");
-            this._toastr.clear();
           }
         );
     }
@@ -67,7 +100,7 @@ export class AddEditUserAccountComponent {
     this._userGroupService.getAllUserGroups().subscribe(userGroupData => {
       this.userGroups = userGroupData;
 
-      //this.addUserGroupCheckboxes();
+      this.createAndAddUserGroupsForm(this.userGroups);
     }, error => {
       this._toastr.error(error.error, "Error");
       this._toastr.clear();
@@ -75,49 +108,44 @@ export class AddEditUserAccountComponent {
 
   }
   
-
-  private addUserGroupCheckboxes() {
-    if (this.userGroups != null) {
-      this.userGroups.forEach((o, i) => {
-        const control = new FormControl(false); // if first item set to true, else false
-        (this.addEditForm.controls.userGroupArray as FormArray).push(control);
-      });
-    }
-  }
   
   saveUserDetails(): void {
-    let userid: string = this.addEditForm.controls["userID"].value;
+    let userid: string = this.addEditForm.controls["userId"].value;
     userid = userid.toUpperCase();
 
+    this.addEditForm.controls["userId"].valid
     this.user.userID = userid;
     this.user.userName = this.addEditForm.controls["userName"].value;
     this.user.password = this.addEditForm.controls["password"].value;
-
-    let isActiveEl = document.getElementsByClassName("is-active-user-checkbox").item(0) as HTMLInputElement;
-    this.user.isActive = isActiveEl.checked;
-
+    this.user.isActive = this.addEditForm.controls["isActive"].value;
     this.user.createdBy = this._userAuthorizationService.currentUser.userID;
     this.user.updatedBy = this._userAuthorizationService.currentUser.userID;
-    this.user.userGroups = [];
-
-    let ugElements = document.getElementsByClassName("user-group-input-checkbox");
-
-    Array.from(ugElements).forEach((element: HTMLInputElement) => {
-      let groupId: string = element.value;
-      let isChecked: boolean = element.checked;
-
-      if (isChecked) {
-        if (isChecked) {
-          this.addUserGroup(groupId);
-        }
-      }
-    });
+    this.user.userGroups = this.getSelectedUserGroups();
 
     if (this.isNewUser) {
       this.addUser(this.user);
     } else {
       this.updateUser(this.user);
     }
+
+  }
+
+  getSelectedUserGroups(): UserGroup[] {
+    let ugList: UserGroup[] = new Array();
+
+    (this.addEditForm.controls.userGroups as FormArray).controls.forEach((ugForm: FormGroup) => {
+
+      if ((ugForm.controls.isSelected.value as boolean) == true) {
+        let ug = new UserGroup();
+        ug.id = ugForm.controls.id.value;
+        ug.name = ugForm.controls.name.value
+
+        ugList.push(ug);
+      }
+
+    });
+
+    return ugList;
   }
 
   addUser(user: UserAccount): void {
@@ -138,14 +166,6 @@ export class AddEditUserAccountComponent {
     });
   }
 
-  private addUserGroup(groupId: string): void  {
-    let ug = this.userGroups.find(ug => ug.id == groupId);
-
-    this.user.userGroups.push(ug);
-  }
-
-  
-
 
   isGrantedUserGroup(groupId: string): boolean {
     let index: number = this.user.userGroups.findIndex(ug => ug.id == groupId);
@@ -157,8 +177,36 @@ export class AddEditUserAccountComponent {
     }
   }
 
+  deleteUser(): boolean {
+    this._userAccountService.deleteUser(this.user.userID).subscribe(data =>
+    {
+      this.clearEntry();
+      this._toastr.info("User deleted successfully.", "Delete")
+    }, error =>
+      {
+        this._toastr.error(error.error);
+    });
+
+    return false;
+  }
+
+  clearEntry(): boolean {
+    if (!this.isNewUser) {
+      return true;
+    } else {
+      this.user = new UserAccount();
+
+      this.addEditForm.controls.userId.setValue("");
+      this.addEditForm.controls.userName.setValue("");
+      this.addEditForm.controls.password.setValue("");
+      this.addEditForm.controls.isActive.setValue(true);
+
+      (this.addEditForm.controls.userGroups as FormArray).controls.forEach((ugForm: FormGroup) => {
+        ugForm.controls.isSelected.setValue(false);
+      });
+
+      return false;
+    }
+  }
 }
 
-class MyUserFormGroup extends FormGroup {
-  userGroupCheckBoxes: FormControl[];
-}
