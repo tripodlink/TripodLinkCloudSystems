@@ -5,8 +5,6 @@ import { RouterModule } from '@angular/router';
 import { SideBarService } from '../services/SideBar.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from '../app.component';
-import { AppNavbarMenuModule } from '../app-navbar-menu/app-navbar-menu.module';
-
 
 
 @NgModule({

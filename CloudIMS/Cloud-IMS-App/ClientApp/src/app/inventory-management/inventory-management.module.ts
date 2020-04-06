@@ -4,11 +4,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { InventoryManagementComponent } from './inventory-management.component';
 import { InventoryService } from '../services/inventory.service';
+import { InventoryInComponent } from './inventory-in/inventory-in.component';
+import { InventoryOutComponent } from './inventory-out/inventory-out.component';
 
 
 
 @NgModule({
-  declarations: [InventoryManagementComponent],
+  declarations: [
+    InventoryManagementComponent,
+    InventoryInComponent,
+    InventoryOutComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,

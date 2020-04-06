@@ -30,8 +30,12 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\assets\jquery\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\assets\jquery\**" />
+    <EmbeddedResource Remove="ClientApp\src\assets\jquery\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\assets\jquery\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
@@ -47,6 +51,7 @@
     <None Remove="ClientApp\src\app\services\UserGroup.service.ts" />
     <None Remove="ClientApp\src\app\user-management\user-profile\userGroup.component.ts" />
     <None Remove="ClientApp\src\app\_helpers\auth.guard.ts" />
+    <None Remove="ClientApp\src\assets\bootstrap.min.js" />
     <None Remove="ClientApp\src\vali-css\all.css" />
     <None Remove="ClientApp\src\vali-css\all.min.css" />
     <None Remove="ClientApp\src\vali-css\font-awesome.min.css" />
@@ -105,6 +110,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\user-management\user-account\user-account.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\user-management\user-group\user-group.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\_helpers\auth.guard.ts" />
+    <TypeScriptCompile Include="ClientApp\src\assets\bootstrap.min.js" />
   </ItemGroup>
 
   <ItemGroup>
