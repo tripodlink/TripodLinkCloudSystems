@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CloudImsCommon.Migrations
 {
-    public partial class InitialMigration_2020_01_04 : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,6 +59,19 @@ namespace CloudImsCommon.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_item_master", x => x.im_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "item_master_unit",
+                columns: table => new
+                {
+                    imu_id = table.Column<string>(maxLength: 100, nullable: false),
+                    imu_unit = table.Column<string>(maxLength: 250, nullable: false),
+                    im_item_conversion = table.Column<string>(maxLength: 250, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_item_master_unit", x => new { x.imu_id, x.imu_unit });
                 });
 
             migrationBuilder.CreateTable(
@@ -239,7 +252,7 @@ namespace CloudImsCommon.Migrations
             migrationBuilder.InsertData(
                 table: "user_account",
                 columns: new[] { "ua_user_id", "im_created_by", "im_created_on", "ua_is_active", "ua_password", "im_updated_by", "im_updated_on", "ua_user_name" },
-                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 4, 1, 10, 27, 3, 199, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 4, 1, 10, 27, 3, 200, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
+                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 4, 2, 9, 53, 27, 547, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 4, 2, 9, 53, 27, 547, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "user_account_group",
@@ -287,6 +300,9 @@ namespace CloudImsCommon.Migrations
 
             migrationBuilder.DropTable(
                 name: "item_master");
+
+            migrationBuilder.DropTable(
+                name: "item_master_unit");
 
             migrationBuilder.DropTable(
                 name: "manufacturer");

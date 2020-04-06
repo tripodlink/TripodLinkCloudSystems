@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CloudImsCommon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200401022703_InitialMigration_2020_01_04")]
-    partial class InitialMigration_2020_01_04
+    [Migration("20200402015327_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -121,6 +121,25 @@ namespace CloudImsCommon.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("item_master");
+                });
+
+            modelBuilder.Entity("CloudImsCommon.Models.ItemMasterUnit", b =>
+                {
+                    b.Property<string>("ID")
+                        .HasColumnName("imu_id")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("itemMasterUnitUnit")
+                        .HasColumnName("imu_unit")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("itemMasterUnitConversion")
+                        .HasColumnName("im_item_conversion")
+                        .HasMaxLength(250);
+
+                    b.HasKey("ID", "itemMasterUnitUnit");
+
+                    b.ToTable("item_master_unit");
                 });
 
             modelBuilder.Entity("CloudImsCommon.Models.Manufacturer", b =>
@@ -326,7 +345,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 1, 10, 27, 3, 199, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 1, 10, 27, 3, 200, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 2, 9, 53, 27, 547, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 2, 9, 53, 27, 547, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 

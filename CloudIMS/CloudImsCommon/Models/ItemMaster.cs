@@ -41,5 +41,9 @@ namespace CloudImsCommon.Models
         [Column("im_manufact")]
         [MaxLength(100, ErrorMessage = "Manufacturer name cannot exceed 100 characters.")]
         public String Manufacturer { get; set; }
+
+
+        [NotMapped]
+        public IEnumerable<ItemMasterUnit> itemMasterUnits { get; set; }
     }
 }

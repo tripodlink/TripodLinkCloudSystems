@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CloudImsCommon.Database;
+using CloudImsCommon.Extensions;
 using CloudImsCommon.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,11 +12,11 @@ namespace Cloud_IMS_Api.Controllers
 {
 
     [Route("api/[controller]")]   
-    public class UnitCodeController : Controller
+    public class UnitCodeController : AppController
     {   
-        private AppDbContext dbContext;
-
-        public UnitCodeController(AppDbContext dbContext)
+      
+        public UnitCodeController(AppDbContext dbContext, ILogger<UnitCodeController>logger)
+            :base(dbContext,logger)
         {
             this.dbContext = dbContext;
         }
@@ -35,20 +36,69 @@ namespace Cloud_IMS_Api.Controllers
             var unitcode = new UnitCode();
             try
             {
-               
+
                 dbContext.UnitCodes.Add(unit);
                 dbContext.SaveChanges();
                 return Ok(unitcode);
             }
             catch (Exception ex)
             {
-                var message = ex.Message;
+                return BadRequest(GetErrorMessage(ex));
+            }
+         }
+        [Route("[action]")]
+        [HttpPost]
+        public IActionResult Update([FromBody] UnitCode unitCode)
+        {
+            try
+            {
+                UnitCode unitC = dbContext.UnitCodes.Find(unitCode.Code);
 
-                if (ex.InnerException != null) {
-                    message += "\r\n Message: " + ex.InnerException.Message;
+                if (unitC != null)
+                {
+                    unitC.Code = unitCode.Code;
+                    unitC.Description = unitCode.Description;
+                    unitC.ShortDescription = unitCode.ShortDescription;
+                 
+
+                    dbContext.UnitCodes.Update(unitC);
+                    dbContext.SaveChanges();
+
+                    return Ok(unitC);
                 }
+                else
+                {
+                    throw new Exception($"User Not found with a user ID of '{unitC.Code}'.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
+        [Route("[action]")]
+        [HttpDelete]
+        public IActionResult Delete(string id)
+        {
+            try
+            {
+                UnitCode unitC = dbContext.UnitCodes.Find(id);
 
-                return BadRequest(message);
+                if (unitC != null)
+                {
+                    dbContext.UnitCodes.Remove(unitC);
+                    dbContext.SaveChanges();
+
+                    return Json(id);
+                }
+                else
+                {
+                    throw new Exception($"User Not found with a user ID of '{id}'.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
             }
         }
     }
