@@ -35,17 +35,17 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let itemM of ItemMasterArray" [id]="itemM.id">
-                  <td>{{itemM.id}}</td>
-                  <td>{{itemM.itemGroup}}</td>
-                  <td>{{itemM.itemName}}</td>
-                  <td>{{itemM.unit}}</td>
-                  <td>{{itemM.supplier}}</td>
-                  <td>{{itemM.manufacturer}}</td>
+                <tr *ngFor="let showD of showAllDataDic" [id]="showD.itemMasterID">
+                  <td>{{showD.itemMasterID}}</td>
+                  <td id="{{showD.itemGroupID}}">{{showD.itemgroupname}}</td>
+                  <td>{{showD.itemName}}</td>
+                  <td id="{{showD.code}}">{{showD.description}}</td>
+                  <td id="{{showD.suppID}}">{{showD.suppName}}</td>
+                  <td id="{{showD.mauFactID}}">{{showD.manufactName}}</td>
                   <td>
-                    <button type="button" class="btn btn-primary" (click)="passDataItemMaster(itemM.itemName,itemM.id)" data-toggle="modal" data-target="#AddItemUnitsModal"><i class="fa fa-plus-square-o"></i>Add Unit</button>&nbsp;
+                    <button type="button" class="btn btn-primary" (click)="passDataItemMaster(showD.itemName,showD.itemMasterID)" data-toggle="modal" data-target="#AddItemUnitsModal"><i class="fa fa-plus-square-o"></i>Add Unit</button>&nbsp;
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal"
-                            (click)="PassData(itemM.id, itemM.itemGroup,itemM.itemName,itemM.unit,itemM.supplier,itemM.manufacturer)">
+                            (click)="PassData(showD.itemMasterID, showD.itemGroupID, showD.itemName, showD.code,showD.suppID, showD.mauFactID)">
                       <i class="fa fa-pencil"></i>Edit
                     </button>&nbsp;
                     &nbsp;<button type="button" class="btn btn-danger" (click)="deleteItemMaster(itemM.id)"><i class="fa fa-trash"></i>Delete</button>
@@ -84,39 +84,49 @@
 
               <div class="form-group">
                 <label for="id">Item ID</label>
-                <input formControlName="id" [readonly]="!isAdd" class="form-control">
+                <input formControlName="id" [readonly]="!isAdd" class="form-control"
+                       [class.is-invalid]="this.addItemMasterForm.controls.id.touched && this.addItemMasterForm.controls.id.value == ''" required>
               </div>
 
               <div class="form-group">
-                <label for="itemGroupNameDropdown">Item Group Name</label>
-                <select formControlName="ItemGroup" class="form-control">
+                <label for="ItemGroup">Item Group Name</label>
+                <select formControlName="ItemGroup" class="form-control"
+                        [class.is-invalid]="this.addItemMasterForm.controls.ItemGroup.touched && this.addItemMasterForm.controls.ItemGroup.value == ''" required>
+                  <option value=""></option>
                   <option *ngFor="let itemG of itemGroupArray" value="{{itemG.id}}">{{itemG.itemGroupName}}</option>
                 </select>
               </div>
 
               <div class="form-group">
-                <label for="itemNameInput">Item Name</label>
-                <input formControlName="ItemName" class="form-control itemGroupByClass">
+                <label for="ItemName">Item Name</label>
+                <input formControlName="ItemName" class="form-control itemGroupByClass"
+                       [class.is-invalid]="this.addItemMasterForm.controls.ItemName.touched && this.addItemMasterForm.controls.ItemName.value == ''" required>
               </div>
 
               <div class="form-group">
-                <label for="itemUnitInput">Item Minimum Unit</label>
-                <select formControlName="Unit" class="form-control itemGroupByClass">
+                <label for="Unit">Item Minimum Unit</label>
+                <select formControlName="Unit" class="form-control"
+                        [class.is-invalid]="this.addItemMasterForm.controls.Unit.touched && this.addItemMasterForm.controls.Unit.value == ''" required>
+                  <option value=""></option>
                   <option *ngFor="let unitC of unitCodeArray" value="{{unitC.code}}">{{unitC.description}}</option>
                 </select>
               </div>
 
               <div class="form-group">
-                <label for="itemSupplierInput">Item Supplier</label>
-                <select formControlName="Supplier" class="form-control itemGroupByClass">
-                  <option value="suppname">suppname</option>
+                <label for="Supplier">Item Supplier</label>
+                <select formControlName="Supplier" class="form-control"
+                        [class.is-invalid]="this.addItemMasterForm.controls.Supplier.touched && this.addItemMasterForm.controls.Supplier.value == ''" required>
+                  <option value=""></option>
+                  <option *ngFor="let suppD of supplierDataArray" value="{{suppD.id}}">{{suppD.name}}</option>
                 </select>
               </div>
 
               <div class="form-group">
-                <label for="itemManufacturerInput">Item Manufacturer</label>
-                <select formControlName="Manufacturer" class="form-control itemGroupByClass">
-                  <option value="manuname">manuname</option>
+                <label for="Manufacturer">Item Manufacturer</label>
+                <select formControlName="Manufacturer" class="form-control"
+                        [class.is-invalid]="this.addItemMasterForm.controls.Manufacturer.touched && this.addItemMasterForm.controls.Manufacturer.value == ''" required>
+                  <option value=""></option>
+                  <option *ngFor="let manuD of manufactDataArray" value="{{manuD.id}}">{{manuD.manufactName}}</option>
                 </select>
               </div>
 
@@ -129,12 +139,12 @@
 
               <ng-template #add>
                 <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
-                <button class="btn btn-primary" (click)="insertItemMaster()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+                <button class="btn btn-primary" [disabled]="!addItemMasterForm.touched || !addItemMasterForm.valid" (click)="insertItemMaster()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
               </ng-template>
 
               <ng-template #update>
                 <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
-                <button class="btn btn-primary" (click)="updateItemMaster()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+                <button class="btn btn-primary" [disabled]="!addItemMasterForm.touched || !addItemMasterForm.valid" (click)="updateItemMaster()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
               </ng-template>
             </div>
           </form>

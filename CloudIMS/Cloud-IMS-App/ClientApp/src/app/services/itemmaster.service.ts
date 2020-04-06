@@ -5,6 +5,9 @@ import { IiTemGroup } from '../classes/data-dictionary/ItemGroup/IitemGroup.inte
 import { IUnitCode } from '../classes/data-dictionary/UnitCode/IUnitCode.interface';
 import { IiTemMasterUnit } from '../classes/data-dictionary/ItemMasterUnit/IitemMasterUnit.interface';
 import { IiTemMasterUnitJoinUnit } from '../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitJoinUnit.interface';
+import { IAllDataDictionaryJoin } from '../classes/data-dictionary/alldatadictionary/alldatadictionaryjoin.interface';
+import { ISupplier } from '../classes/data-dictionary/Supplier/ISupplier.interface';
+import { IManufacturer } from '../classes/data-dictionary/Manufacturer/IManufacturer.interface';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
@@ -17,7 +20,9 @@ export class ItemMasterServices {
 
   urluc: string = 'api/unitcode';
 
-  urlsup: string = 'api/supplier';
+  urlsupp: string = 'api/supplier';
+
+  urlmanu: string = 'api/manufacturer';
 
   urlitmu: string = 'api/itemmasterunit';
 
@@ -28,6 +33,11 @@ export class ItemMasterServices {
     return this._http.get<IiTemMaster[]>(this.url);
   }
 
+
+  getAllDataDic(): Observable<IAllDataDictionaryJoin[]> {
+    return this._http.get<IAllDataDictionaryJoin[]>(this.url + "/JoinAllDic");
+  }
+
   getItemGroupData(): Observable<IiTemGroup[]> {
     return this._http.get<IiTemGroup[]>(this.urlig);
   }
@@ -35,6 +45,15 @@ export class ItemMasterServices {
   getUnitCodeData(): Observable<IUnitCode[]> {
     return this._http.get<IUnitCode[]>(this.urluc);
   }
+
+  getSupplierData(): Observable<ISupplier[]> {
+    return this._http.get<ISupplier[]>(this.urlsupp);
+  }
+
+  getManuData(): Observable<IManufacturer[]> {
+    return this._http.get<IManufacturer[]>(this.urlmanu);
+  }
+
 
   getItemMasterUnitByID(id: string): Observable<IiTemMasterUnitJoinUnit[]> {
     let params = new HttpParams().set('id', id);

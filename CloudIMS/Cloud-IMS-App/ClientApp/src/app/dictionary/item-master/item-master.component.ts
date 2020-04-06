@@ -11,6 +11,9 @@ import { IitemMasterUnitClass } from '../../classes/data-dictionary/ItemMasterUn
 import { ViewChild, ElementRef } from '@angular/core';
 import { ItemMasterUnitServices } from '../../services/itemmasterUnit.service';
 import { IiTemMasterUnitJoinUnit} from '../../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitJoinUnit.interface';
+import { IAllDataDictionaryJoin} from '../../classes/data-dictionary/alldatadictionary/alldatadictionaryjoin.interface';
+import { ISupplier} from '../../classes/data-dictionary/Supplier/ISupplier.interface';
+import { IManufacturer} from '../../classes/data-dictionary/Manufacturer/IManufacturer.interface';
 
 @Component({
   selector: 'app-item-master',
@@ -27,6 +30,11 @@ export class ItemMasterComponent implements OnInit {
 
   ItemMasterUnitArray: IiTemMasterUnitJoinUnit[];
   ItemMasterUnitForm: IiTemMasterUnit = new IitemMasterUnitClass();
+
+  supplierDataArray: ISupplier[];
+  manufactDataArray: IManufacturer[];
+
+  showAllDataDic: IAllDataDictionaryJoin[];
 
   addItemMasterForm: FormGroup;
   addItemMasterUnitForm: FormGroup;
@@ -60,12 +68,12 @@ export class ItemMasterComponent implements OnInit {
   }
   private createForm() {
     this.addItemMasterForm = this.builder.group({
-      id: new FormControl(),
-      ItemGroup: new FormControl(),
-      ItemName: new FormControl(),
-      Unit: new FormControl(),
-      Supplier: new FormControl(),
-      Manufacturer: new FormControl()
+      id: [Validators.required],
+      ItemGroup: [Validators.required],
+      ItemName: [Validators.required],
+      Unit: [Validators.required],
+      Supplier: [Validators.required],
+      Manufacturer: [Validators.required]
     });
   }
 
@@ -78,9 +86,12 @@ export class ItemMasterComponent implements OnInit {
   }
 
   private LoadData() {
-    this.itemMasterService.getItemMasterData().subscribe((itemMaster) => this.ItemMasterArray = itemMaster);
+    //this.itemMasterService.getItemMasterData().subscribe((itemMaster) => this.ItemMasterArray = itemMaster);
+    this.itemMasterService.getAllDataDic().subscribe((dataDic) => this.showAllDataDic = dataDic);
     this.itemMasterService.getItemGroupData().subscribe((itemGroup) => this.itemGroupArray = itemGroup);
     this.itemMasterService.getUnitCodeData().subscribe((unitCode) => this.unitCodeArray = unitCode);
+    this.itemMasterService.getSupplierData().subscribe((suppData) => this.supplierDataArray = suppData);
+    this.itemMasterService.getManuData().subscribe((manuData) => this.manufactDataArray = manuData);
 
   }
 
