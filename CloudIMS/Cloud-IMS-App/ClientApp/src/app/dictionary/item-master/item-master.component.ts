@@ -10,10 +10,7 @@ import { IitemMasterClass } from '../../classes/data-dictionary/ItemMaster/Iitem
 import { IitemMasterUnitClass } from '../../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitClass';
 import { ViewChild, ElementRef } from '@angular/core';
 import { ItemMasterUnitServices } from '../../services/itemmasterUnit.service';
-
 import { IiTemMasterUnitJoinUnit} from '../../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitJoinUnit.interface';
-
-
 
 @Component({
   selector: 'app-item-master',
@@ -21,24 +18,15 @@ import { IiTemMasterUnitJoinUnit} from '../../classes/data-dictionary/ItemMaster
   styleUrls: ['./item-master.component.css']
 })
 export class ItemMasterComponent implements OnInit {
-
-  @ViewChild('itemid', { static: true }) private itemid: ElementRef;
-  @ViewChild('itemGroupNameDropdown', { static: true }) private itemGroupNameDropdown: ElementRef;
-  @ViewChild('itemNameInput', { static: true }) private itemNameInput: ElementRef;
-  @ViewChild('itemUnitInput', { static: true }) private itemUnitInput: ElementRef;
-  @ViewChild('itemSupplierInput', { static: true }) private itemSupplierInput: ElementRef;
-  @ViewChild('itemManufacturerInput', { static: true }) private itemManufacturerInput: ElementRef;
-  @ViewChild('itemMasterUnitUnit', { static: true }) private itemMasterUnitUnit: ElementRef;
-  @ViewChild('itemMasterUnitConversionID', { static: true }) private itemMasterUnitConversionID: ElementRef;
-
-
-
   ItemMasterArray: IiTemMaster[];
+  ItemMasterForm: IiTemMaster = new IitemMasterClass();
+
   itemGroupArray: IiTemGroup[];
   unitCodeArray: IUnitCode[];
-  ItemMasterUnitArray: IiTemMasterUnitJoinUnit[];
-
   UnitCodeSelectArray: IUnitCode[];
+
+  ItemMasterUnitArray: IiTemMasterUnitJoinUnit[];
+  ItemMasterUnitForm: IiTemMasterUnit = new IitemMasterUnitClass();
 
   addItemMasterForm: FormGroup;
   addItemMasterUnitForm: FormGroup;
@@ -48,7 +36,6 @@ export class ItemMasterComponent implements OnInit {
   isAdd: boolean;
   modalStatus: string;
 
-  idInputName: string;
   itemGroupInputName: string;
   itemNameInputName: string;
   itemUnitInputName: string;
@@ -60,6 +47,9 @@ export class ItemMasterComponent implements OnInit {
   isITMUAdd: boolean;
   deleteUnit: string;
 
+  isButtonDisabled: boolean;
+  isEditItemUnit: boolean;
+
   constructor(private itemMasterService: ItemMasterServices, private toastr: ToastrService, private builder: FormBuilder) {
     this.createForm();
     this.createFormItemMasterUnit();
@@ -68,7 +58,6 @@ export class ItemMasterComponent implements OnInit {
   ngOnInit() {
     this.LoadData();
   }
-
   private createForm() {
     this.addItemMasterForm = this.builder.group({
       id: new FormControl(),
@@ -83,8 +72,8 @@ export class ItemMasterComponent implements OnInit {
   private createFormItemMasterUnit() {
     this.addItemMasterUnitForm = this.builder.group({
       id: new FormControl(),
-      itemMasterUnitUnit: new FormControl(),
-      itemMasterUnitConversion: new FormControl()
+      itemMasterUnitUnit: [{disabled: this.isEditItemUnit }, Validators.required],
+      itemMasterUnitConversion: [Validators.required]
     });
   }
 
@@ -93,6 +82,23 @@ export class ItemMasterComponent implements OnInit {
     this.itemMasterService.getItemGroupData().subscribe((itemGroup) => this.itemGroupArray = itemGroup);
     this.itemMasterService.getUnitCodeData().subscribe((unitCode) => this.unitCodeArray = unitCode);
 
+  }
+
+  itemChanges() {
+    let dropDownValue = (<HTMLSelectElement>document.getElementById('itemMasterUnitUnit')).value;
+   
+    if (dropDownValue == "") {
+      this.isButtonDisabled = true;
+    }
+    else {
+      this.isButtonDisabled = false;
+    }
+
+    if (this.isEditItemUnit == true) {
+      this.addItemMasterUnitForm.controls.itemMasterUnitUnit.disabled;
+    } else {
+      this.addItemMasterUnitForm.controls.itemMasterUnitUnit.enabled;
+    }
   }
 
   private clickAddItemMaster() {
@@ -110,33 +116,14 @@ export class ItemMasterComponent implements OnInit {
   private insertItemMaster() {
     let errormessage = "Error";
 
-    let itemMasterData = document.getElementsByClassName('itemGroupByClass');
+    this.ItemMasterForm.id = this.addItemMasterForm.controls.id.value;
+    this.ItemMasterForm.ItemGroup = this.addItemMasterForm.controls.ItemGroup.value;
+    this.ItemMasterForm.ItemName = this.addItemMasterForm.controls.ItemName.value;
+    this.ItemMasterForm.Unit = this.addItemMasterForm.controls.Unit.value;
+    this.ItemMasterForm.Supplier = this.addItemMasterForm.controls.Supplier.value;
+    this.ItemMasterForm.Manufacturer = this.addItemMasterForm.controls.Manufacturer.value;
 
-    let itemMaster: IiTemMaster = new IitemMasterClass();
-
-    Array.from(itemMasterData).forEach((element: HTMLInputElement) => {
-
-      if (element.id == "itemid") {
-        itemMaster.id = element.value;
-      }
-      if (element.id == "itemGroupNameDropdown") {
-        itemMaster.ItemGroup = element.value;
-      }
-      if (element.id == "itemNameInput") {
-        itemMaster.ItemName = element.value;
-      }
-      if (element.id == "itemUnitInput") {
-        itemMaster.Unit = element.value;
-      }
-      if (element.id == "itemSupplierInput") {
-        itemMaster.Supplier = element.value;
-      }
-      if (element.id == "itemManufacturerInput") {
-        itemMaster.Manufacturer = element.value;
-      }
-    });
-
-    this.itemMasterService.insertItemMaster(itemMaster).subscribe(data => {
+    this.itemMasterService.insertItemMaster(this.ItemMasterForm).subscribe(data => {
       this.toastr.success("New Item Master Saved", "Saved");
       this.LoadData();
     },
@@ -162,87 +149,34 @@ export class ItemMasterComponent implements OnInit {
         });
     }
   }
-
-  private insertItemMasterUnits() {
-
-    let itemMasterUnitData = document.getElementsByClassName('itemGroupByClass');
-
-    let itemMasterUnit: IiTemMasterUnit = new IitemMasterUnitClass();
-
-    Array.from(itemMasterUnitData).forEach((element: HTMLInputElement) => {
-
-      if (element.id == "itemid") {
-        itemMasterUnit.id = element.value;
-      }
-      if (element.id == "itemUnitInput") {
-        itemMasterUnit.itemMasterUnitUnit = element.value;
-      }
-
-    });
-
-    itemMasterUnit.itemMasterUnitConversion = "1";
-    let errormessage = "Error";
-
-    this.itemMasterService.insertItemMasterUnit(itemMasterUnit).subscribe(data => {
-      this.toastr.success("New Item Master Unit", "Saved");
-    },
-      error => {
-        errormessage = error.error;
-        this.toastr.error(errormessage, "Item Master Unit Error Insert");
-      });
-  }
-
   private PassData(id, itemGroup, itemName, unit, supplier, manufacturer) {
     this.Status = "Edit Changes";
     this.icon = "pencil";
     this.isAdd = false;
     this.modalStatus = "Edit Item Group";
 
-    this.itemid.nativeElement.value = id;
-    this.itemGroupNameDropdown.nativeElement.value = itemGroup;
-    this.itemNameInput.nativeElement.value = itemName;
-    this.itemUnitInput.nativeElement.value = unit;
-    this.itemSupplierInput.nativeElement.value = supplier;
-    this.itemManufacturerInput.nativeElement.value = manufacturer;
-
-    this.itemGroupNameDropdown.nativeElement.dispatchEvent(new Event('change'));
-    this.itemUnitInput.nativeElement.dispatchEvent(new Event('change'));
-    this.itemSupplierInput.nativeElement.dispatchEvent(new Event('change'));
-    this.itemManufacturerInput.nativeElement.dispatchEvent(new Event('change'));
-
+    this.addItemMasterForm.controls.id.setValue(id);
+    this.addItemMasterForm.controls.ItemGroup.setValue(itemGroup);
+    this.addItemMasterForm.controls.ItemName.setValue(itemName);
+    this.addItemMasterForm.controls.Unit.setValue(unit);
+    this.addItemMasterForm.controls.Supplier.setValue(supplier);
+    this.addItemMasterForm.controls.Manufacturer.setValue(manufacturer);
   }
+
   private updateItemMaster() {
-    let formDatatoUpdate = document.getElementsByClassName('itemGroupByClass');
 
-    let itemMaster: IiTemMaster = new IitemMasterClass();
-
-    Array.from(formDatatoUpdate).forEach((element: HTMLInputElement) => {
-
-      if (element.id == "itemid") {
-        itemMaster.id = element.value;
-      }
-      if (element.id == "itemGroupNameDropdown") {
-        itemMaster.ItemGroup = element.value;
-      }
-      if (element.id == "itemNameInput") {
-        itemMaster.ItemName = element.value;
-      }
-      if (element.id == "itemUnitInput") {
-        itemMaster.Unit = element.value;
-      }
-      if (element.id == "itemSupplierInput") {
-        itemMaster.Supplier = element.value;
-      }
-      if (element.id == "itemManufacturerInput") {
-        itemMaster.Manufacturer = element.value;
-      }
-    });
+    this.ItemMasterForm.id = this.addItemMasterForm.controls.id.value;
+    this.ItemMasterForm.ItemGroup = this.addItemMasterForm.controls.ItemGroup.value;
+    this.ItemMasterForm.ItemName = this.addItemMasterForm.controls.ItemName.value;
+    this.ItemMasterForm.Unit = this.addItemMasterForm.controls.Unit.value;
+    this.ItemMasterForm.Supplier = this.addItemMasterForm.controls.Supplier.value;
+    this.ItemMasterForm.Manufacturer = this.addItemMasterForm.controls.Manufacturer.value;
 
     let errormessage = "Error";
 
-    this.itemMasterService.updateItemMaster(itemMaster).subscribe(data => {
+    this.itemMasterService.updateItemMaster(this.ItemMasterForm).subscribe(data => {
       this.toastr.info("Item Master Data Updated", "Edited");
-      this.itemMasterService.deleteAllItemMasterUnit(itemMaster.id).subscribe();
+      this.itemMasterService.deleteAllItemMasterUnit(this.ItemMasterForm.id).subscribe();
       this.insertItemMasterUnits();
       this.LoadData();
     },
@@ -254,15 +188,12 @@ export class ItemMasterComponent implements OnInit {
   
   }
 
-  private passDataItemMaster(name, itemId, itemUnit) {
+  private passDataItemMaster(name, itemId) {
     this.ItemMasterUnitName = name;
-
     this.itemMasterUnitID = itemId;
-
     this.loadItemMasterUnit();
-
     this.isITMUAdd = true;
-
+    this.addItemMasterUnitForm.reset();
     this.itemMasterService.getItemMasterUnitByID(itemId).subscribe((data => this.ItemMasterUnitArray = data));
 
   }
@@ -271,31 +202,41 @@ export class ItemMasterComponent implements OnInit {
     this.itemMasterService.getUnitCodeData().subscribe((unitCode) => this.UnitCodeSelectArray = unitCode);
   }
 
-  private saveItemMasterUnit() {
-    let itemMasterUnitData = document.getElementsByClassName('itemMasterUnitClass');
+  private insertItemMasterUnits() {
 
-    let itemMasterUnit: IiTemMasterUnit = new IitemMasterUnitClass();
-
-    Array.from(itemMasterUnitData).forEach((element: HTMLInputElement) => {
-
-      if (element.id == "itemMasterUnitUnit") {
-        itemMasterUnit.itemMasterUnitUnit = element.value;
-      }
-      if (element.id == "itemMasterUnitConversionID") {
-        itemMasterUnit.itemMasterUnitConversion = element.value;
-      }
-    })
+    this.ItemMasterUnitForm.id = this.addItemMasterForm.controls.id.value;
+    this.ItemMasterUnitForm.itemMasterUnitUnit = this.addItemMasterForm.controls.Unit.value;
+    this.ItemMasterUnitForm.itemMasterUnitConversion = "1";
 
     let errormessage = "Error";
 
-    itemMasterUnit.id = this.itemMasterUnitID;
-    this.itemMasterService.insertItemMasterUnit(itemMasterUnit).subscribe(data => {
-      this.toastr.info("New Item Master Saved", "Saved");
+    this.itemMasterService.insertItemMasterUnit(this.ItemMasterUnitForm).subscribe(data => {
+      this.toastr.success("New Item Master Unit", "Saved");
+    },
+      error => {
+        errormessage = error.error;
+        this.toastr.error(errormessage, "Item Master Unit Error Insert");
+      });
+  }
+
+  private saveItemMasterUnit() {
+  
+    var conversion = this.addItemMasterUnitForm.controls.itemMasterUnitConversion.value;
+    let convertString = String(conversion);
+
+    this.ItemMasterUnitForm.id = this.itemMasterUnitID;
+    this.ItemMasterUnitForm.itemMasterUnitUnit = this.addItemMasterUnitForm.controls.itemMasterUnitUnit.value;
+    this.ItemMasterUnitForm.itemMasterUnitConversion = convertString;
+
+    let errormessage = "Error";
+
+    this.itemMasterService.insertItemMasterUnit(this.ItemMasterUnitForm).subscribe(data => {
+      this.toastr.info("New Item Master Unit Saved", "Saved");
       this.itemMasterService.getItemMasterUnitByID(this.itemMasterUnitID).subscribe((data => this.ItemMasterUnitArray = data));
     },
       error => {
         errormessage = error.error;
-        this.toastr.error(errormessage, "Item Master Error");
+        this.toastr.error(errormessage, "Item Master Unit Error");
       });
 
     this.addItemMasterUnitForm.reset();
@@ -318,38 +259,30 @@ export class ItemMasterComponent implements OnInit {
   passDataItemMasterUnit(unit, conversion) {
 
     this.isITMUAdd = false;
+    this.addItemMasterUnitForm.controls.itemMasterUnitUnit.setValue(unit);
+    this.addItemMasterUnitForm.controls.itemMasterUnitConversion.setValue(conversion);
 
-    this.itemMasterUnitUnit.nativeElement.value = unit;
-
-    this.itemMasterUnitConversionID.nativeElement.value = conversion;
-
-    this.itemMasterUnitUnit.nativeElement.dispatchEvent(new Event('change'));
+    this.isEditItemUnit = true;
+    //this.createFormItemMasterUnit();
   }
 
   updateItemMasterUnit() {
-    let itemMasterUnitData = document.getElementsByClassName('itemMasterUnitClass');
+    var conversion = this.addItemMasterUnitForm.controls.itemMasterUnitConversion.value;
+    let convertString = String(conversion);
 
-    let itemMasterUnit: IiTemMasterUnit = new IitemMasterUnitClass();
-
-    Array.from(itemMasterUnitData).forEach((element: HTMLInputElement) => {
-
-      if (element.id == "itemMasterUnitUnit") {
-        itemMasterUnit.itemMasterUnitUnit = element.value;
-      }
-      if (element.id == "itemMasterUnitConversionID") {
-        itemMasterUnit.itemMasterUnitConversion = element.value;
-      }
-    })
+    this.ItemMasterUnitForm.id = this.itemMasterUnitID;
+    this.ItemMasterUnitForm.itemMasterUnitUnit = this.addItemMasterUnitForm.controls.itemMasterUnitUnit.value;
+    this.ItemMasterUnitForm.itemMasterUnitConversion = convertString;
 
     let errormessage = "Error";
 
-    itemMasterUnit.id = this.itemMasterUnitID;
-
-    this.itemMasterService.updateItemMasterUnit(itemMasterUnit).subscribe(data => {
+   
+    this.itemMasterService.updateItemMasterUnit(this.ItemMasterUnitForm).subscribe(data => {
       this.toastr.info("Item Master Unit Successfully", "Updated");
       this.itemMasterService.getItemMasterUnitByID(this.itemMasterUnitID).subscribe((data => this.ItemMasterUnitArray = data));
       this.addItemMasterUnitForm.reset();
       this.isITMUAdd = true;
+      this.isEditItemUnit = false;
     },
       error => {
         errormessage = error.error;
@@ -360,6 +293,8 @@ export class ItemMasterComponent implements OnInit {
   }
   clearItemMasterUnit() {
     this.isITMUAdd = true;
+    this.isButtonDisabled = false;
     this.addItemMasterUnitForm.reset();
+    this.isEditItemUnit = false;
   }
 }

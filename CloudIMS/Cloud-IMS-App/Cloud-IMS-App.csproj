@@ -39,6 +39,7 @@
     <None Remove="ClientApp\src\app\classes\data-dictionary\IitemGroupClass.ts" />
     <None Remove="ClientApp\src\app\classes\data-dictionary\ItemMaster\IitemMasterClass.ts" />
     <None Remove="ClientApp\src\app\classes\data-dictionary\Manufacturer\IManufacturerClass.ts" />
+    <None Remove="ClientApp\src\app\classes\data-dictionary\UnitCode\IUnitCodeClass.ts" />
     <None Remove="ClientApp\src\app\classes\ISupplierClass.ts" />
     <None Remove="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
     <None Remove="ClientApp\src\app\services\UserAuthorization.service.ts" />
@@ -90,6 +91,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\ItemMaster\IitemMasterClass.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\UnitCode\IUnitCodeClass.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\ProgramFolder.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\ProgramMenu.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\UserAccount.ts" />

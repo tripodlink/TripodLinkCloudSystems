@@ -83,39 +83,39 @@
             <div class="modal-body">
 
               <div class="form-group">
-                <label for="itemid">Item ID</label>
-                <input formControlName="id" [readonly]="!isAdd" class="form-control itemGroupByClass" [name]="idInputName" #itemid id="itemid">
+                <label for="id">Item ID</label>
+                <input formControlName="id" [readonly]="!isAdd" class="form-control">
               </div>
 
               <div class="form-group">
                 <label for="itemGroupNameDropdown">Item Group Name</label>
-                <select formControlName="ItemGroup" class="form-control itemGroupByClass" #itemGroupNameDropdown id="itemGroupNameDropdown">
+                <select formControlName="ItemGroup" class="form-control">
                   <option *ngFor="let itemG of itemGroupArray" value="{{itemG.id}}">{{itemG.itemGroupName}}</option>
                 </select>
               </div>
 
               <div class="form-group">
                 <label for="itemNameInput">Item Name</label>
-                <input formControlName="ItemName" class="form-control itemGroupByClass" [name]="itemNameInputName" #itemNameInput id="itemNameInput">
+                <input formControlName="ItemName" class="form-control itemGroupByClass">
               </div>
 
               <div class="form-group">
                 <label for="itemUnitInput">Item Minimum Unit</label>
-                <select formControlName="Unit" class="form-control itemGroupByClass" #itemUnitInput id="itemUnitInput">
+                <select formControlName="Unit" class="form-control itemGroupByClass">
                   <option *ngFor="let unitC of unitCodeArray" value="{{unitC.code}}">{{unitC.description}}</option>
                 </select>
               </div>
 
               <div class="form-group">
                 <label for="itemSupplierInput">Item Supplier</label>
-                <select formControlName="Supplier" class="form-control itemGroupByClass" #itemSupplierInput id="itemSupplierInput">
+                <select formControlName="Supplier" class="form-control itemGroupByClass">
                   <option value="suppname">suppname</option>
                 </select>
               </div>
 
               <div class="form-group">
                 <label for="itemManufacturerInput">Item Manufacturer</label>
-                <select formControlName="Manufacturer" class="form-control itemGroupByClass" [name]="manuname" #itemManufacturerInput id="itemManufacturerInput">
+                <select formControlName="Manufacturer" class="form-control itemGroupByClass">
                   <option value="manuname">manuname</option>
                 </select>
               </div>
@@ -156,37 +156,49 @@
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Item Unit for {{ItemMasterUnitName}}</h4>
+            <h4 class="modal-title">Item Unit for <strong>{{ItemMasterUnitName}}</strong></h4>
           </div>
 
-          <form [formGroup]="addItemMasterUnitForm">
+          <form class="form" [formGroup]="addItemMasterUnitForm">
             <div class="modal-body row">
 
               <div class="form-group col-md-5">
-                <label for="itemMasterUnitUnit">Select Unit</label>
-                <select formControlName="itemMasterUnitUnit" class="form-control itemMasterUnitClass" #itemMasterUnitUnit id="itemMasterUnitUnit">
+                <strong><label for="itemMasterUnitUnit">Select Unit</label></strong>
+                <select formControlName="itemMasterUnitUnit" (change)="itemChanges()" class="form-control itemMasterUnitClass" id="itemMasterUnitDropdown"
+                                [class.is-invalid]="this.addItemMasterUnitForm.controls.itemMasterUnitUnit.touched && this.addItemMasterUnitForm.controls.itemMasterUnitUnit.value == ''" required>
                   <option value=""></option>
                   <option *ngFor="let unitC of UnitCodeSelectArray" value="{{unitC.code}}">{{unitC.description}}</option>
                 </select>
+                <span class="text-danger" style="text-align:center"
+                      *ngIf="(this.addItemMasterUnitForm.controls.itemMasterUnitUnit.touched && this.addItemMasterUnitForm.controls.itemMasterUnitUnit.value == '')">
+
+                  &nbsp;  &nbsp;Please Select an Item
+                </span>
               </div>
 
               <div class="form-group col-md-4">
-                <label for="itemMasterUnitConversionID">Item Master Conversion</label>
-                <input formControlName="itemMasterUnitConversion" class="form-control itemMasterUnitClass" [name]="itemMasterUnitConversionName" #itemMasterUnitConversionID id="itemMasterUnitConversionID">
+                <label for="itemMasterUnitConversion">Item Master Conversion</label>
+                <input formControlName="itemMasterUnitConversion" type="number" class="form-control itemMasterUnitClass"
+                       [class.is-invalid]="this.addItemMasterUnitForm.controls.itemMasterUnitConversion.touched && this.addItemMasterUnitForm.controls.itemMasterUnitConversion.value == ''" required>
+                <span class="text-danger" style="text-align:center"
+                      *ngIf="(this.addItemMasterUnitForm.controls.itemMasterUnitConversion.touched && this.addItemMasterUnitForm.controls.itemMasterUnitConversion.value == '')">
+
+                  &nbsp;  &nbsp;Conversion Factor is required
+                </span>
               </div>
 
-              <div class="form-group align-self-end">
+              <div class="form-group">
                 <br />
 
                 <ng-template *ngIf="isITMUAdd; then additemUnitMaster; else updateItemUnitMaster">
                 </ng-template>
 
                 <ng-template #additemUnitMaster>
-                  <button class="btn btn-primary" (click)="saveItemMasterUnit()"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+                  <button class="btn btn-primary" #itemMasterUnitSaveButton [disabled]="isButtonDisabled || !addItemMasterUnitForm.dirty || !addItemMasterUnitForm.valid" id="itemMasterUnitSaveButton" (click)="saveItemMasterUnit()"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
                 </ng-template>
 
                 <ng-template #updateItemUnitMaster>
-                  <button class="btn btn-primary" (click)="updateItemMasterUnit()"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</button>
+                  <button class="btn btn-primary" [disabled]="isButtonDisabled || !addItemMasterUnitForm.valid" (click)="updateItemMasterUnit()"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</button>
                   &nbsp;
                   <button class="btn btn-secondary" (click)="clearItemMasterUnit()"><i class="fa fa-eraser" aria-hidden="true"></i>Clear</button>
                 </ng-template>
@@ -209,12 +221,12 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let itmU of ItemMasterUnitArray" [id]="itmU.itemMasterUnit">
+                      <tr *ngFor="let itmU of ItemMasterUnitArray" [id]="itmU.unitCode">
                         <td id="itmU.unitCode">{{itmU.unitDescription}}</td>
                         <td>{{itmU.conversionFactor}}</td>
                         <td>
                           <button type="button" class="btn btn-warning" [disabled]="itmU.conversionFactor == 1" (click)="passDataItemMasterUnit(itmU.unitCode, itmU.conversionFactor)"><i class="fa fa-pencil"></i>Edit</button>
-                          &nbsp;<button type="button" class="btn btn-danger" [disabled]="itmU.conversionFactor == 1" (click)="deleteItemMasterUnit(itmU.itmU.unitCode)"><i class="fa fa-trash"></i>Delete</button>
+                          &nbsp;<button type="button" class="btn btn-danger" [disabled]="itmU.conversionFactor == 1" (click)="deleteItemMasterUnit(itmU.unitCode)"><i class="fa fa-trash"></i>Delete</button>
                         </td>
                       </tr>
                     </tbody>
@@ -222,7 +234,6 @@
                 </div>
               </div>
             </div>
-
             <div class="modal-footer">
               <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
             </div>
@@ -230,7 +241,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </main>
 

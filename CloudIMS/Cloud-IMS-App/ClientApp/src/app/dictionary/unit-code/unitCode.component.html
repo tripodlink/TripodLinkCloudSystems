@@ -1,29 +1,100 @@
 <main class="app-content">
   <div class="app-title">
     <div>
-      <h1><i class="fa fa-building-o"></i> Supplier</h1>
+      <h1><i class="fa fa-building-o"></i>&nbsp;-Dictionary/Unit-Codes</h1>
     </div>
     <ul class="app-breadcrumb breadcrumb">
       <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
     </ul>
   </div>
-
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
       <div class="tile">
-        <h3 class="tile-title">Vertical Form</h3>
+        <h3 class="tile-title"></h3>
+        <div class="col text-right">
+        </div>
+        <button type="button" class="btn btn-primary" (click)="onClickAddButton()" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>Add Unit Code</button>
+        <br />
+        <br />
         <div class="tile-body">
-          
-<form (ngSubmit)="insertUnitCodes()" [formGroup]="addForm">
-  <div class="form-group">
-    <input placeholder="Code" formControlName="Code" name="code" class="form-control" id="code">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Description</th>
+                  <th>Short Description</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let unitC of unitCodes" [id]="unitC.code">
+                  <td>{{unitC.code}}</td>
+                  <td>{{unitC.description}}</td>
+                  <td>{{unitC.shortDescription}}</td>
+                  <td>
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" (click)="onPassData(unitC.code, unitC.description, unitC.shortDescription)"><i class="fa fa-pencil"></i>Edit</button>
+                    &nbsp;<button type="button" class="btn btn-danger" (click)="deleteUnitCode(unitC.code)"><i class="fa fa-trash"></i>Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="form-group">
-    <input placeholder="Description" formControlName="Description" name="unit_desc" class="form-control" id="unit_desc">
-  </div>
-  <div class="form-group">
-    <input placeholder="Short Description" formControlName="ShortDescription" name="unit_short_desc" class="form-control" id="unit_short_desc">
-  </div>
-  <button class="btn-primary">Click Me!</button>
+  <div class="container">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{modalStatus}}</h4>
+          </div>
+          <form [formGroup]="addUnitCodeForm">
+            <p>{{addUnitCodeForm.value | json}}</p>
+            <div class="modal-body">
 
-</form>
+              <div class="form-group">
+                <label for="Code">Unit Code</label>
+                <input formControlName="Code" [readonly]="!isAdd" class="form-control"
+                       [class.is-invalid]="this.addUnitCodeForm.controls.Code.touched && this.addUnitCodeForm.controls.Code.value == ''">
+              </div>
+
+              <div class="form-group">
+                <label for="Description">Unit Description</label>
+                <input formControlName="Description" class="form-control"
+                       [class.is-invalid]="this.addUnitCodeForm.controls.Description.touched && this.addUnitCodeForm.controls.Description.value == ''">
+              </div>
+
+              <div class="form-group">
+                <label for="ShortDescription">Unit Short Description</label>
+                <input formControlName="ShortDescription" class="form-control"
+                       [class.is-invalid]="this.addUnitCodeForm.controls.ShortDescription.touched && this.addUnitCodeForm.controls.ShortDescription.value == ''">
+              </div>
+
+            </div>
+
+            <div class="modal-footer">
+              <ng-template *ngIf="isAdd; then add; else update">
+
+              </ng-template>
+
+              <ng-template #add>
+                <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
+                <button class="btn btn-primary" [disabled]="!addUnitCodeForm.dirty" (click)="insertUnitCodes()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+              </ng-template>
+
+              <ng-template #update>
+                <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
+                <button class="btn btn-primary" [disabled]="!addUnitCodeForm.dirty" (click)="updateUnitCodes()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+              </ng-template>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

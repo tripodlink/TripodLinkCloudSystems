@@ -44,7 +44,6 @@ namespace Cloud_IMS_Api.Controllers
                 return BadRequest(GetErrorMessage(ex));
             }
         }
-        [Route("")]
         [Route("[action]")]
         [HttpPost]
         public IActionResult Update([FromBody] ItemGroup itemg)
