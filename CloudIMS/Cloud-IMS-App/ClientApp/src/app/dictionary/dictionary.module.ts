@@ -1,31 +1,44 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SupplierModule } from './supplier/supplier.module';
-import { ManufacturerModule } from './manufacturer/manufacturer.module';
 import { DictionaryComponent } from './dictionary.component';
 import { DictionaryService } from '../services/dictionary.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ItemGroupModule } from './item-group/item-group.module';
-import { ItemMasterModule } from './item-master/item-master.module';
-import { UnitCodeModule } from './unit-code/unitCode.module';
 import { RouterModule } from '@angular/router';
+import { ItemGroupComponent } from './item-group/item-group.component';
+import { ItemMasterComponent } from './item-master/item-master.component';
+import { ManufacturerComponent } from './manufacturer/manufacturer.component';
+import { SupplierComponent } from './supplier/supplier.component';
+import { UnitCodeComponent } from './unit-code/unitCode.component';
+import { ItemGroupServices } from '../services/itemgroup.service';
+import { ItemMasterServices } from '../services/itemmaster.service';
+import { SupplierService } from '../services/supplier.service';
+import { ManufacturerService } from '../services/Manufacturer.service';
+import { UnitCodeService } from '../services/UnitCode.service';
 
 
 @NgModule({
-  declarations: [DictionaryComponent],
+  declarations: [
+    DictionaryComponent,
+    ItemGroupComponent,
+    ItemMasterComponent,
+    ManufacturerComponent,
+    SupplierComponent,
+    UnitCodeComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
 
-    ItemMasterModule,
-    ItemGroupModule,
-    UnitCodeModule,
-    SupplierModule,
-    ManufacturerModule,
-
     RouterModule.forRoot([])
   ],
-  providers: [DictionaryService]
+  providers: [
+    DictionaryService,
+    ItemGroupServices,
+    ItemMasterServices,
+    ManufacturerService,
+    SupplierService,
+    UnitCodeService
+  ]
 })
 export class DictionaryModule {  }

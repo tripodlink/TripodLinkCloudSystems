@@ -11,13 +11,12 @@ import { IManufacturerClass } from '../../classes/data-dictionary/Manufacturer/I
 })
 export class ManufacturerComponent implements OnInit {
 
-  @ViewChild('manufactID', { static: true }) private manufactID: ElementRef;
-  @ViewChild('manufactNametext', { static: true }) private manufactNametext: ElementRef;
-
-  manufacturer: IManufacturer[];
+  imanufact: IManufacturerClass = new IManufacturerClass();
+  manufacturer: IManufacturer[] = new Array();
   addManufacturerFormGroup: FormGroup;
   Status: string;
   icon: string;
+  iconHeaderTextModal: string;
   isAdd: boolean;
   modalStatus: string;
 
@@ -36,53 +35,59 @@ export class ManufacturerComponent implements OnInit {
   }
   private CreateForm() {
     this.addManufacturerFormGroup = this.builder.group({
-      ID: new FormControl(),
-      ManufactName: new FormControl()
+      ID: [''],
+      ManufactName: ['']
     })
   }
 
   private PassData(ID, ManufactName) {
 
-    this.manufactID.nativeElement.value = ID;
-    this.manufactNametext.nativeElement.value = ManufactName;
+    this.addManufacturerFormGroup.controls.ID.setValue(ID)
+    this.addManufacturerFormGroup.controls.ManufactName.setValue(ManufactName)
     this.Status = "Edit Changes";
     this.icon = "pencil";
     this.isAdd = false;
     this.modalStatus = "Edit Manufacturer";
+    this.iconHeaderTextModal = "fa fa-pencil-square";
   }
 
   private insertManufacturer() {
     let errormessage = "Error";
-    this.manufacturerService.insertManufacturer(this.addManufacturerFormGroup.value).subscribe(data => {
 
-      this.toastr.success("Data Saved", "Saved");
-      this.getManufacturer();
-    },
-      error => {
-        errormessage = error.error;
-        this.toastr.error(errormessage, "Error");
-      });
-    this.ResetForm();
+    let manufactID = this.addManufacturerFormGroup.controls.ID.value
+    let manufactName = this.addManufacturerFormGroup.controls.ManufactName.value
+
+    if (manufactID == null || manufactName == null || manufactID == '' || manufactName == '') {
+
+    }
+    else {
+      this.imanufact.ID = manufactID;
+      this.imanufact.ManufactName = manufactName;
+
+      this.manufacturerService.insertManufacturer(this.imanufact).subscribe(data => {
+
+        this.toastr.success("Data Saved", "Saved");
+        this.getManufacturer();
+      },
+        error => {
+          errormessage = error.error;
+          this.toastr.error(errormessage, "Error");
+        });
+      this.ResetForm();
+    }
   }
 
   private updateManufacturer() {
 
-    let dataToUpdate = document.getElementsByClassName('manufacturertextfield');
-    let manufact: IManufacturer = new IManufacturerClass();
-
-    Array.from(dataToUpdate).forEach((element: HTMLInputElement) => {
-
-      if (element.id == "manufactID") {
-        manufact.ID = element.value;
-      }
-      if (element.id == "manufactNametext") {
-        manufact.ManufactName = element.value;
-      }
-    });
-
-
     let errormessage = "Error";
-    this.manufacturerService.updateManufacturer(manufact).subscribe(data => {
+
+    let manufactID = this.addManufacturerFormGroup.controls.ID.value
+    let manufactName = this.addManufacturerFormGroup.controls.ManufactName.value
+
+    this.imanufact.ID = manufactID;
+    this.imanufact.ManufactName = manufactName;
+
+    this.manufacturerService.updateManufacturer(this.imanufact).subscribe(data => {
       this.toastr.info("Data Edited", "Edited");
       this.getManufacturer();
     },
@@ -113,6 +118,7 @@ export class ManufacturerComponent implements OnInit {
     this.modalStatus = "Add Manufacturer"
     this.idInput = "";
     this.manufacturerInput = "";
+    this.iconHeaderTextModal = "fa fa-plus-square";
   }
   private ResetForm() {
     this.addManufacturerFormGroup.reset();

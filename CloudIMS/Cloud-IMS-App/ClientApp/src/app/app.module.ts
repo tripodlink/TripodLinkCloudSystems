@@ -14,7 +14,6 @@ import { UserManagementModule } from './user-management/user-management.module';
 //--------IMPORTS COMPONENTS-----------------------------------------------------------------------
 import { AppComponent } from './app.component';
 import { AppSidebarMenuComponent } from './app-sidebar-menu/app-sidebar-menu.component';
-import { AppNavbarMenuComponent } from './app-navbar-menu/app-navbar-menu.component';
 import { SideBarService } from './services/SideBar.service';
 import { LoginModule } from './LoginPage/login.module';
 import { UserAuthorizationService } from './services/UserAuthorization.service';
@@ -26,7 +25,6 @@ import { AppRoutingModule } from './app.routing';
 
     declarations: [
     AppComponent,
-    AppNavbarMenuComponent,
     AppSidebarMenuComponent,
   ],
 
