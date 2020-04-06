@@ -1,16 +1,11 @@
 import { Component } from '@angular/core';
+import { UserAuthorizationService } from './services/UserAuthorization.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  title = 'app';
-  isLogin: boolean;
-  ngOnInit(): void {
-   
-  }
-  public notLogin() {
-    this.isLogin = false;
+  constructor(private auth: UserAuthorizationService) {
   }
 }

@@ -1,24 +1,33 @@
-  <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-  <aside class="app-sidebar">
-    <div class="app-sidebar__user">
-      <img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image">
-      <div>
-        <p class="app-sidebar__user-name">John Doe</p>
-        <p class="app-sidebar__user-designation">Frontend Developer</p>
-      </div>
+<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+<aside class="app-sidebar">
+  <div class="app-sidebar__user">
+    <img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image">
+    <div>
+      <ng-container *ngIf="user != null">
+        <p class="app-sidebar__user-name">{{user.userID}}</p>
+        <p class="app-sidebar__user-designation">{{user.userName}}</p>
+      </ng-container>
     </div>
-    <ul class="app-menu">
-      <li *ngFor="let pf of pf_folders">
+  </div>
+  <div *ngIf="user != null">
+    {{user.programFolders | json}}
+  </div><br />
+  <ul class="app-menu">
+    <ng-container *ngIf="user != null">
+
+      <li *ngFor="let pf of user.programFolders">
         <ng-template *ngIf="button_isActive; then active; else not_active">
 
         </ng-template>
         <ng-template #active>
-          <a class="app-menu__item {{button_status}}" routerLink="{{ pf.routeAttribute }}" (click)="IsButtonActive()"><i class="app-menu__icon {{ pf.icon }}"></i><span class="app-menu__label">{{ pf.name }}</span></a>
+          <a class="app-menu__item {{button_status}}" [routerLink]="pf.routeAttribute" (click)="IsButtonActive()"><i class="app-menu__icon {{ pf.icon }}"></i><span class="app-menu__label">{{ pf.name }}</span></a>
         </ng-template>
         <ng-template #not_active>
-          <a class="app-menu__item" routerLink="{{ pf.routeAttribute }}"><i class="app-menu__icon {{ pf.icon }}"></i><span class="app-menu__label">{{ pf.name }}</span></a>
+          <a class="app-menu__item" [routerLink]="pf.routeAttribute"><i class="app-menu__icon {{ pf.icon }}"></i><span class="app-menu__label">{{ pf.name }}</span></a>
         </ng-template>
-        </li>
-    </ul>
-  </aside>
+      </li>
+
+    </ng-container>
+  </ul>
+</aside>
 

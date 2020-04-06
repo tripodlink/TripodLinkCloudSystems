@@ -1,4 +1,7 @@
+using CloudImsCommon.Authentication;
 using CloudImsCommon.Database;
+using CloudImsCommon.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -6,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System.IO;
+using System.Text;
 
 namespace Cloud_IMS_App
 {
@@ -26,15 +32,53 @@ namespace Cloud_IMS_App
             services.AddDbContextPool<AppDbContext>(
                 options => options.UseMySQL(AppDbContext.GetConnectionString()));
 
-            services.AddCors(options => {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
-            });
+            //services.AddCors(options => {
+            //    options.AddPolicy("CorsPolicy",
+            //        builder => builder.AllowAnyOrigin()
+            //        .AllowAnyMethod()
+            //        .AllowAnyHeader());
+            //});
 
+            services.AddCors();
             services.AddMvc();
 
+
+            // load configuration file from CloudImsCommon
+            var projectDirectory = Directory.GetCurrentDirectory();
+            var executableDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+            IConfigurationRoot appConfiguration = new ConfigurationBuilder()
+                .SetBasePath(executableDirectory)
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            // configure strongly typed settings objects
+            var appSettingsSection = appConfiguration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            // configure jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
+            // configure DI for application services
+            services.AddScoped<IAppAuthenticationService, AppAuthenticationService>();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -58,8 +102,6 @@ namespace Cloud_IMS_App
             //ensure that database is in-sync with models
             dbContext.Database.Migrate();
 
-            app.UseCors("CorsPolicy");
-
             app.UseStaticFiles();
             if (!env.IsDevelopment())
             {
@@ -67,7 +109,17 @@ namespace Cloud_IMS_App
             }
 
             app.UseRouting();
-             
+
+
+            //app.UseCors("CorsPolicy");
+
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
+                         
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

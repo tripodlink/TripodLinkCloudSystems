@@ -2,8 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-import { Http } from '@angular/http';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -20,6 +18,8 @@ import { AppNavbarMenuComponent } from './app-navbar-menu/app-navbar-menu.compon
 import { SideBarService } from './services/SideBar.service';
 import { LoginModule } from './LoginPage/login.module';
 import { UserAuthorizationService } from './services/UserAuthorization.service';
+import { AuthGuard } from './_helpers/auth.guard';
+import { AppRoutingModule } from './app.routing';
 
 
 @NgModule({
@@ -28,7 +28,6 @@ import { UserAuthorizationService } from './services/UserAuthorization.service';
     AppComponent,
     AppNavbarMenuComponent,
     AppSidebarMenuComponent,
-
   ],
 
   imports: [
@@ -50,9 +49,9 @@ import { UserAuthorizationService } from './services/UserAuthorization.service';
     InventoryManagementModule,
     UserManagementModule,
 
-    RouterModule.forRoot([ ])
+    AppRoutingModule
   ],
-  providers: [SideBarService, UserAuthorizationService ,Http],
+  providers: [SideBarService, UserAuthorizationService, AuthGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
