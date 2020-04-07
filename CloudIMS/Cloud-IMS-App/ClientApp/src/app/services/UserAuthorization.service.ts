@@ -62,6 +62,9 @@ export class UserAuthorizationService {
         localStorage.setItem('userId', this.currentUser.userID)
         localStorage.setItem('token', this.currentUser.token)
 
+        sessionStorage.setItem('userId', this.currentUser.userID)
+        sessionStorage.setItem('token', this.currentUser.token)
+        
         console.log({ module: "Validate Token", user: this.currentUser });
 
       }, error => {

@@ -289,6 +289,7 @@ namespace Cloud_IMS_Api.Controllers
             return Ok(user);
         }
 
+
         [AllowAnonymous]
         [HttpPost("validate-user-token")]
         public IActionResult ValidateUserToken([FromBody]UserAccount model)

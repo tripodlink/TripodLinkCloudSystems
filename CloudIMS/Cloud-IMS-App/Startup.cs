@@ -32,19 +32,11 @@ namespace Cloud_IMS_App
             services.AddDbContextPool<AppDbContext>(
                 options => options.UseMySQL(AppDbContext.GetConnectionString()));
 
-            //services.AddCors(options => {
-            //    options.AddPolicy("CorsPolicy",
-            //        builder => builder.AllowAnyOrigin()
-            //        .AllowAnyMethod()
-            //        .AllowAnyHeader());
-            //});
-
             services.AddCors();
             services.AddMvc();
 
 
             // load configuration file from CloudImsCommon
-            var projectDirectory = Directory.GetCurrentDirectory();
             var executableDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
             IConfigurationRoot appConfiguration = new ConfigurationBuilder()
