@@ -47,17 +47,16 @@ export class LoginComponent implements OnInit {
       this.auth.setCurrentUser(user);
       this.auth.setLoginErrorMessage("")
 
+
       localStorage.setItem('userId', user.userID)
       localStorage.setItem('token', user.token)
 
-      console.log({ module: "Authenticate", user: user });
 
       this.router.navigateByUrl("/dashboard")
     }, error => {
         this.auth.setCurrentUser(null);
         this.auth.setLoginErrorMessage(error.error);
 
-        console.log({ module: "Authenticate", error: error })
     })
 
     return false

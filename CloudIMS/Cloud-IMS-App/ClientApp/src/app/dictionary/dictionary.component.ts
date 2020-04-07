@@ -18,10 +18,12 @@ export class DictionaryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let user: UserAccount = this._userAuthorizationService.getCurrentUser("Dictionary");
-
-    if (user != null) {
-      this.dic_pg_menus = user.programMenus.filter(pm => pm.programFolderID == "DIC");
-    }
+    this._userAuthorizationService.getCurrentUser()
+      .then(user => {
+        this.dic_pg_menus = user.programMenus.filter(pm => pm.programFolderID == "DIC");
+      })
+      .catch((error) => {
+        //error while retrieving user data
+      })
   }
 }

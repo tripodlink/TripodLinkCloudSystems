@@ -16,7 +16,13 @@ export class AppSidebarMenuComponent implements OnInit {
   constructor(private auth: UserAuthorizationService, private router: Router) {  }
 
   ngOnInit(): void {
-    this.user = this.auth.getCurrentUser("SideBar");
+    this.auth.getCurrentUser()
+      .then(userdata => {
+        this.user = userdata;
+      })
+      .catch((error) => {
+        this.user = null;
+      })
   }
 
   navigate(url: string): void {

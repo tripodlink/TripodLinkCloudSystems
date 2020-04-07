@@ -15,10 +15,12 @@ export class UserManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let user: UserAccount = this._userAuthorizationService.getCurrentUser("User Management");
-
-    if (user != null) {
-      this.um_pg_menus = user.programMenus.filter(pm => pm.programFolderID == "UM");
-    }
+    this._userAuthorizationService.getCurrentUser()
+      .then(user => {
+        this.um_pg_menus = user.programMenus.filter(pm => pm.programFolderID == "UM");
+      })
+      .catch((error) => {
+        // error while retrieving user data
+      })
   }
 }
