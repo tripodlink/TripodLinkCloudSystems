@@ -5,6 +5,7 @@ import { UserAccount } from './../classes/UserAccount'
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { promise } from 'protractor';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Injectable()
@@ -15,7 +16,8 @@ export class UserAuthorizationService {
 
   constructor(private toastr: ToastrService,
     private router: Router,
-    private _http: HttpClient) {
+    private _http: HttpClient,
+    private cookieService: CookieService) {
   }
 
 
@@ -28,12 +30,13 @@ export class UserAuthorizationService {
     let _user = this.currentUser;
     let _http = this._http;
     let _url = this.userAccountUrl;
+    let _cookieService = this.cookieService;
 
     return new Promise(function (resolve, reject) {
       if (_user) {
         resolve(_user);
       } else {
-        let userId: string = localStorage.getItem('userId');
+        let userId: string = _cookieService.get('userId');
         let params = new HttpParams().set('id', userId);
 
         return _http.get<UserAccount>(_url + "/Find", { params: params })
@@ -46,33 +49,6 @@ export class UserAuthorizationService {
     });
   }
 
-
-  private async isValidUserToken(userId: string, token: string): Promise<boolean> {
-
-    let user = { userID: userId, token: token }
-
-    await this._http.post<UserAccount>(this.userAccountUrl + "/validate-user-token", user)
-      .subscribe(userData => {
-        this.currentUser = userData;
-        this.loginErrorMessage = "";
-
-        localStorage.setItem('userId', this.currentUser.userID)
-        localStorage.setItem('token', this.currentUser.token)
-
-        sessionStorage.setItem('userId', this.currentUser.userID)
-        sessionStorage.setItem('token', this.currentUser.token)
-        
-        console.log({ module: "Validate Token", user: this.currentUser });
-
-      }, error => {
-        this.currentUser = null;
-        this.loginErrorMessage = error.error;
-
-          console.log({ module: "Validate Token", error: error })
-      })
-
-    return false;
-  }
 
   setLoginErrorMessage(message: string): void {
     this.loginErrorMessage = message;
@@ -91,22 +67,62 @@ export class UserAuthorizationService {
     return this._http.post<UserAccount>(this.userAccountUrl + "/authenticate", user);
   }
 
+  setLoginCookieValue(userId: string, token: string) {
+    this.cookieService.set('userId', userId);
+    this.cookieService.set('token', token);
+  }
+
   doLogout(): void {
     this.currentUser = null
     this.loginErrorMessage = ''
 
-    localStorage.removeItem('userId')
-    localStorage.removeItem('token')
+    this.cookieService.delete('userId');
+    this.cookieService.delete('token');
   }
 
   isLoggedIn(): boolean {
-    let userId: string = localStorage.getItem('userId');
-    let token: string = localStorage.getItem('token');
+    let cookieUserId: string = this.cookieService.get('userId');
+    let cookieToken: string = this.cookieService.get('token');
 
-    if (userId == null || token == null) {
-      return false
+    if (cookieUserId && cookieToken) {
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    return true;
+  isAuthenticated(): Promise<boolean> {
+    let cookieUserId: string = this.cookieService.get('userId');
+    let cookieToken: string = this.cookieService.get('token');
+
+    let _auth = this;
+
+    return new Promise(function (resolve, reject) {
+      if (cookieUserId == null || cookieToken == null) {
+        // there are no user or token in Cookie
+        resolve(false);
+      }
+
+      if (_auth.currentUser && _auth.currentUser.userID === cookieUserId && _auth.currentUser.token === cookieToken) {
+        // the user ID and token in cookie matches the current user -> valid login
+        resolve(true)
+      }
+
+      if (cookieUserId && cookieToken) {
+        // re-authenticate user
+        let userToAuthenticate = { userId: cookieUserId, token: cookieToken };
+
+        _auth._http.post<UserAccount>(_auth.userAccountUrl + "/reauthenticate-user", userToAuthenticate)
+          .subscribe(userData => {
+            _auth.currentUser = userData;
+            _auth.loginErrorMessage = "";
+
+            _auth.setLoginCookieValue(userData.userID, userData.token);
+          }, error => {
+              _auth.loginErrorMessage = error.message;
+              resolve(false);
+          });
+      }
+    });
   }
 }

@@ -20,6 +20,9 @@ import { UserAuthorizationService } from './services/UserAuthorization.service';
 import { AuthGuard } from './_helpers/auth.guard';
 import { AppRoutingModule } from './app.routing';
 
+import { CookieService } from 'ngx-cookie-service';
+
+
 
 @NgModule({
 
@@ -49,7 +52,7 @@ import { AppRoutingModule } from './app.routing';
 
     AppRoutingModule
   ],
-  providers: [SideBarService, UserAuthorizationService, AuthGuard],
+  providers: [SideBarService, UserAuthorizationService, AuthGuard, CookieService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
