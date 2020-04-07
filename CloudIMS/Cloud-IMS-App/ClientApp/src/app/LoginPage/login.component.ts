@@ -5,6 +5,7 @@ import { UserAuthorizationService } from '../services/UserAuthorization.service'
 import { Router } from '@angular/router';
 import { UserAccount } from '../classes/UserAccount';
 import { ToastrService } from 'ngx-toastr';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private auth: UserAuthorizationService,
     private router: Router,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+    private cookieService: CookieService) {
 
     this.loginForm = this.fb.group({
       userId: [''],
@@ -37,7 +39,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  onBtnLoginClick2() {
+  onBtnLoginClick() {
     let userId = (this.loginForm.controls.userId.value as string).trim().toUpperCase()
     let password = (this.loginForm.controls.password.value as string)
 
@@ -47,10 +49,7 @@ export class LoginComponent implements OnInit {
       this.auth.setCurrentUser(user);
       this.auth.setLoginErrorMessage("")
 
-
-      localStorage.setItem('userId', user.userID)
-      localStorage.setItem('token', user.token)
-
+      this.auth.setLoginCookieValue(user.userID, user.token);
 
       this.router.navigateByUrl("/dashboard")
     }, error => {

@@ -16,7 +16,8 @@ namespace CloudImsCommon.Authentication
 {
     public interface IAppAuthenticationService
     {
-        UserAccount Authenticate(string username, string password);
+        UserAccount Authenticate(string userId, string password);
+        UserAccount ReAuthenticateUser(string userId, string token);
         Boolean ValidateUserToken(string userId, string token);
     }
 
@@ -31,14 +32,21 @@ namespace CloudImsCommon.Authentication
             this.dbContext = dbContext;
         }
 
-        public UserAccount Authenticate(string username, string password)
+        public UserAccount Authenticate(string userId, string password)
         {
-            var user = dbContext.UserAccounts.SingleOrDefault(x => x.UserID == username && x.Password == password);
+            var user = dbContext.UserAccounts.SingleOrDefault(x => x.UserID == userId && x.Password == password);
             
             // return null if user not found
             if (user == null)
                 return null;
 
+            user.Token = _GenerateToken(user);
+
+            return user;
+        }
+
+        private string _GenerateToken(UserAccount user)
+        {
             // remove password to prevent security breach
             user.Password = "";
 
@@ -57,9 +65,27 @@ namespace CloudImsCommon.Authentication
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            user.Token = tokenHandler.WriteToken(token);
+            return  tokenHandler.WriteToken(token);
+        }
 
-            return user;
+        public UserAccount ReAuthenticateUser(string userId, string token)
+        {
+            if (ValidateUserToken(userId, token))
+            {
+                var user = dbContext.UserAccounts.SingleOrDefault(x => x.UserID == userId);
+
+                // return null if user not found
+                if (user == null)
+                    return null;
+
+                user.Token = _GenerateToken(user);
+
+                return user;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public bool ValidateUserToken(string userId, string token)
