@@ -20,7 +20,7 @@ export class InventoryManagementComponent implements OnInit {
   ngOnInit(): void {
     this._userAuthorizationService.getCurrentUser()
       .then(user => {
-        this.inv_pg_menus = user.programMenus.filter(pm => pm.programFolderID == "UM");
+        this.inv_pg_menus = user.programMenus.filter(pm => pm.programFolderID == "IVM");
       })
       .catch((error) => {
         // error while retrieving user data
