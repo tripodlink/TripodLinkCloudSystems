@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SupplierService } from '../../services/supplier.service';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ISupplier } from '../../classes/data-dictionary/Supplier/ISupplier.interface';
 import { ISupplierClass } from '../../classes/data-dictionary/Supplier/ISupplierClass';
@@ -11,13 +11,12 @@ import { ISupplierClass } from '../../classes/data-dictionary/Supplier/ISupplier
 })
 export class SupplierComponent{
 
-  @ViewChild('supplierID', { static: true }) private supplierID: ElementRef;
-  @ViewChild('supplierNametext', { static: true }) private supplierNametext: ElementRef;
-
-  suppliers: ISupplier[];
+  isupplier: ISupplier = new ISupplierClass();
+  suppliers: ISupplier[] = new Array();
   addSupplierFormGroup: FormGroup;
   Status: string;
   icon: string;
+  iconHeaderTextModal: string;
   isAdd: boolean;
   modalStatus: string;
 
@@ -32,19 +31,20 @@ export class SupplierComponent{
   }
   private CreateForm() {
     this.addSupplierFormGroup = this.builder.group({
-      ID: new FormControl(),
-      Name: new FormControl()
+      ID: ['',Validators.required],
+      Name: ['',Validators.required]
     })
   }
 
   private PassData(ID, Name) {
 
-    this.supplierID.nativeElement.value = ID;
-    this.supplierNametext.nativeElement.value = Name;
+    this.addSupplierFormGroup.controls.ID.setValue(ID);
+    this.addSupplierFormGroup.controls.Name.setValue(Name);
     this.Status = "Edit Changes";
     this.icon = "pencil";
     this.isAdd = false;
     this.modalStatus = "Edit Supplier";
+    this.iconHeaderTextModal = "fa fa-pencil-square";
   }
 
   getSupplier() {
@@ -52,37 +52,37 @@ export class SupplierComponent{
   }
   private insertSupplier() {
     let errormessage = "Error";
-    this.supplierService.insertSupplier(this.addSupplierFormGroup.value).subscribe(data => {
 
-      this.toastr.success("Data Saved", "Saved");
-      this.getSupplier();
-     
+    let supId = this.addSupplierFormGroup.controls.ID.value
+    let supName = this.addSupplierFormGroup.controls.Name.value
 
-    },
-      error => {
-        errormessage = error.error;
-        this.toastr.error(errormessage, "Error");
-      });
-    this.ResetForm();
+    if (supId == null || supName == null || supId == '' || supName == ''){
+
+    }else {
+      this.isupplier.ID = supId
+      this.isupplier.Name = supName
+
+      this.supplierService.insertSupplier(this.isupplier).subscribe(data => {
+
+        this.toastr.success("Data Saved", "Saved");
+        this.getSupplier();
+
+
+      },
+        error => {
+          errormessage = error.error;
+          this.toastr.error(errormessage, "Error");
+        });
+      this.ResetForm();
+    }
   }
   private updateSupplier() {
 
-    let dataToUpdate = document.getElementsByClassName('suppliertextfield');
-    let supplier: ISupplier = new ISupplierClass();
-
-    Array.from(dataToUpdate).forEach((element: HTMLInputElement) => {
-
-      if (element.id == "supplierID") {
-        supplier.ID = element.value;
-      }
-      if (element.id == "supplierNametext") {
-        supplier.Name = element.value;
-      }
-    });
-
-
+    this.isupplier.ID = this.addSupplierFormGroup.controls.ID.value
+    this.isupplier.Name = this.addSupplierFormGroup.controls.Name.value
+  
     let errormessage = "Error";
-    this.supplierService.updateSupplier(supplier).subscribe(data => {
+    this.supplierService.updateSupplier(this.isupplier).subscribe(data => {
       this.toastr.info("Data Edited", "Edited");
       this.getSupplier();
     },
@@ -114,6 +114,7 @@ export class SupplierComponent{
     this.modalStatus = "Add Supplier"
     this.idInput = "";
     this.supplierInput = "";
+    this.iconHeaderTextModal ="fa fa-plus-square"
   }
 
   private ResetForm() {

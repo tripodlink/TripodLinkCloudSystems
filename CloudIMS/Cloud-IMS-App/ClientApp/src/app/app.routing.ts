@@ -9,7 +9,11 @@ import { LoginComponent } from './LoginPage/login.component';
 
 // dictionary components
 import { DictionaryComponent } from './dictionary/dictionary.component';
-
+import { ItemGroupComponent } from './dictionary/item-group/item-group.component';
+import { ItemMasterComponent } from './dictionary/item-master/item-master.component';
+import { ManufacturerComponent } from './dictionary/manufacturer/manufacturer.component';
+import { SupplierComponent } from './dictionary/supplier/supplier.component';
+import { UnitCodeComponent } from './dictionary/unit-code/unitCode.component';
 
 // inventory managment components
 import { InventoryManagementComponent } from './inventory-management/inventory-management.component';
@@ -36,7 +40,11 @@ const routes: Routes = [
 
   // data dictionary routes
   { path: 'data-dictionary', component: DictionaryComponent, canActivate: [AuthGuard] },
-
+  { path: 'data-dictionary/item-group', component: ItemGroupComponent, canActivate: [AuthGuard] },
+  { path: 'data-dictionary/item-master', component: ItemMasterComponent, canActivate: [AuthGuard] },
+  { path: 'data-dictionary/manufacturer', component: ManufacturerComponent, canActivate: [AuthGuard] },
+  { path: 'data-dictionary/supplier', component: SupplierComponent, canActivate: [AuthGuard] },
+  { path: 'data-dictionary/unit-code', component: UnitCodeComponent, canActivate: [AuthGuard] },
 
   // inventory management routes
   { path: 'inventory-management', component: InventoryManagementComponent, canActivate: [AuthGuard] },

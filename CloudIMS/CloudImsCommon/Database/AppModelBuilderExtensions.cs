@@ -32,7 +32,12 @@ namespace CloudImsCommon.Database
 
             //User Group Seeds
             modelBuilder.Entity<UserGroupProgram>().HasKey(c => new {c.UserGroupID, c.ProgramMenuID });
+
+            modelBuilder.Entity<ItemMasterUnit>().HasKey(itm => new { itm.ID, itm.itemMasterUnitUnit });
+
             CreateSystemAdminGroupWithUserPrograms(modelBuilder);
+
+          
 
         }
         private static void SeedCompany(ModelBuilder modelBuilder)

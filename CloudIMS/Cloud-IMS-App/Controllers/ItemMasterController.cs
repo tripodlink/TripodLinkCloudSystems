@@ -27,7 +27,45 @@ namespace Cloud_IMS_Api.Controllers
                 var itemM = dbContext.ItemMasters.ToList();
                 return itemM;
         }
+        [Route("[action]")]
+        public IActionResult JoinAllDic()
+        {
+            try
+            {
+                var getAllDic = from itemMaster in dbContext.ItemMasters
+                                join itemGroup in dbContext.ItemGroups on itemMaster.ItemGroup equals itemGroup.ID
+                                join unitCode in dbContext.UnitCodes on itemMaster.Unit equals unitCode.Code
+                                join supplierData in dbContext.Suppliers on itemMaster.Supplier equals supplierData.ID
+                                join manufactData in dbContext.Manufacturers on itemMaster.Manufacturer equals manufactData.ID
+                                select new
+                                {
+                                    itemMasterID = itemMaster.ID,
+                                    itemGroupID = itemGroup.ID,
+                                    itemgroupname = itemGroup.ItemGroupName,
+                                    ItemName = itemMaster.ItemName,
+                                    code = unitCode.Code,
+                                    description = unitCode.Description,
+                                    suppID = supplierData.ID,
+                                    SuppName = supplierData.Name,
+                                    mauFactID = manufactData.ID,
+                                    ManufactName = manufactData.ManufactName,
 
+                                };
+                if (getAllDic != null)
+                {
+                    return Json(getAllDic.ToList()); ;
+                }
+                else
+                {
+
+                    throw new Exception($"No Data Found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
         [Route("[action]")]
         [HttpPost]
         public IActionResult Add([FromBody] ItemMaster itemMaster)
@@ -55,15 +93,14 @@ namespace Cloud_IMS_Api.Controllers
 
                 if (itemM != null)
                 {
-                    itemM.ID = itemM.ID;
-                    itemM.ItemGroup = itemM.ItemGroup;
-                    itemM.ItemName = itemM.ItemName;
-                    itemM.Unit = itemM.Unit;
-                    itemM.Supplier = itemM.Supplier;
-                    itemM.Manufacturer = itemM.Manufacturer;
+                    itemM.ItemGroup = itemMaster.ItemGroup;
+                    itemM.ItemName = itemMaster.ItemName;
+                    itemM.Unit = itemMaster.Unit;
+                    itemM.Supplier = itemMaster.Supplier;
+                    itemM.Manufacturer = itemMaster.Manufacturer;
         
 
-                    dbContext.ItemMasters.Update(itemMaster);
+                //    dbContext.ItemMasters.Update(itemMaster);
                     dbContext.SaveChanges();
 
                     return Ok(itemM);
@@ -91,7 +128,7 @@ namespace Cloud_IMS_Api.Controllers
                     dbContext.ItemMasters.Remove(itemM);
                     dbContext.SaveChanges();
 
-                    return Ok(id);
+                    return Json(id);
                 }
                 else
                 {

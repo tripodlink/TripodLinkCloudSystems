@@ -52,7 +52,7 @@
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">{{modalStatus}}</h4>
+          <h4 class="modal-title"><i class="{{iconHeaderTextModal}}"></i> {{modalStatus}}</h4>
         </div>
 
         <form [formGroup]="addManufacturerFormGroup">
@@ -60,11 +60,19 @@
 
             <div class="form-group">
               <label for="manufactID">Manufacturer  ID</label>
-              <input type="text" formControlName="ID" [readonly]="!isAdd" class="form-control manufacturertextfield" [name]="idInput" #manufactID id="manufactID">
+              <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-key"></i></span></div>
+                <input type="text" formControlName="ID" [readonly]="!isAdd" class="form-control"
+                       [class.is-invalid]="addManufacturerFormGroup.controls['ID'].touched && addManufacturerFormGroup.controls['ID'].value.trim() == ''" required autofocus>
+              </div>
             </div>
             <div class="form-group">
               <label for="manufactNametext">Manufacturer Name</label>
-              <input type="text" formControlName="ManufactName" class="form-control manufacturertextfield" [name]="manufacturerInput" #manufactNametext id="manufactNametext">
+              <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-adn"></i></span></div>
+                <input type="text" formControlName="ManufactName" class="form-control"
+                       [class.is-invalid]="addManufacturerFormGroup.controls['ManufactName'].touched && addManufacturerFormGroup.controls['ManufactName'].value.trim() == ''" required autofocus>
+              </div>
             </div>
           </div>
           <div class="modal-footer">
@@ -73,7 +81,9 @@
             </ng-template>
             <ng-template #add>
               <button type="button" id="closeModal" #closeModal class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
-              <button class="btn btn-primary" (click)="insertManufacturer()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+              <button class="btn btn-primary" (click)="insertManufacturer()"
+                      [disabled]="!addManufacturerFormGroup.touched || !addManufacturerFormGroup.valid ">
+                      <i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
             </ng-template>
 
             <ng-template #update>

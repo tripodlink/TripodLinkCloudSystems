@@ -34,7 +34,7 @@ export class ItemGroupServices {
 
 
   deleteItemGroup(id: string): Observable<string> {
-    let params = new HttpParams().set('id', id);
+    let params = new HttpParams().set("id", id);
     return this._http.delete<string>(this.url + "/Delete" , { params: params });
 
   }

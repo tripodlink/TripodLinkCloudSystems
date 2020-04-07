@@ -7,39 +7,42 @@
       <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
     </ul>
   </div>
-    <div class="col-md-12">
-      <div class="tile">
-        <div class="tile-body">
-          
-            <button type="button" class="btn btn-success" (click)="ClickAdd()" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>Add Supplier</button><br />
-           <br /><br />
-           <div class="table-responsive">
-            <table class="table table-hover table-bordered" id="sampletable">
-              <thead>
-                <tr>
-                  <th>id</th>
-                  <th>Name</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let sup of suppliers" [id]="sup.id">
-                  <td>{{sup.id}}</td>
-                  <td>{{sup.name}}</td>
-                  <td>
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" (click)="PassData(sup.id, sup.name)"><i class="fa fa-edit"></i> Edit</button>&nbsp;
-                    <button class="btn btn-danger" (click)="deleteSupplier(sup.id)"><i class="fa fa-trash"></i> Delete</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="tile-footer">
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
 
-          </div>
+        <button type="button" class="btn btn-success" (click)="ClickAdd()" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>Add Supplier</button><br />
+        <br /><br />
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered" id="sampletable">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>Name</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sup of suppliers" [id]="sup.id">
+                <td>{{sup.id}}</td>
+                <td>{{sup.name}}</td>
+                <td>
+                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" (click)="PassData(sup.id, sup.name)"><i class="fa fa-edit"></i> Edit</button>&nbsp;
+                  <button class="btn btn-danger" (click)="deleteSupplier(sup.id)"><i class="fa fa-trash"></i> Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tile-footer">
+
         </div>
       </div>
     </div>
+  </div>
+  <script src="assets/plugins/jquery.dataTables.min.js"></script>
+  <script src="assets/plugins/dataTables.bootstrap.min.js"></script>
+  <script type="text/javascript">$('#sampletable').DataTable();</script>
 </main>
 
 
@@ -52,7 +55,7 @@
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">{{modalStatus}}</h4>
+          <h4 class="modal-title"><i class="{{iconHeaderTextModal}}"></i> {{modalStatus}}</h4>
         </div>
 
         <form [formGroup]="addSupplierFormGroup">
@@ -60,11 +63,19 @@
 
             <div class="form-group">
               <label for="supplierID">Supplier  ID</label>
-              <input type="text" formControlName="ID" [readonly]="!isAdd" class="form-control suppliertextfield" [name]="idInput" #supplierID id="supplierID">
+              <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-key"></i></span></div>
+                <input type="text" formControlName="ID" [readonly]="!isAdd" class="form-control"
+                       [class.is-invalid]="addSupplierFormGroup.controls['ID'].touched && addSupplierFormGroup.controls['ID'].value.trim() == ''" required autofocus>
+              </div>
             </div>
             <div class="form-group">
               <label for="supplierNametext">Supplier Name</label>
-              <input type="text" formControlName="Name" class="form-control suppliertextfield" [name]="supplierInput" #supplierNametext id="supplierNametext">
+              <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-adn"></i></span></div>
+                <input type="text" formControlName="Name" class="form-control"
+                       [class.is-invalid]="addSupplierFormGroup.controls['Name'].touched && addSupplierFormGroup.controls['Name'].value.trim() == ''" required autofocus>
+              </div>
             </div>
           </div>
           <div class="modal-footer">
@@ -73,18 +84,22 @@
             </ng-template>
             <ng-template #add>
               <button type="button" id="closeModal" #closeModal class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
-              <button class="btn btn-primary" (click)="insertSupplier()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+              <button type="submit" class="btn btn-primary"
+                      (click)="insertSupplier()"
+                      [disabled]="!addSupplierFormGroup.touched || !addSupplierFormGroup.valid ">
+
+                <i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}
+              </button>
             </ng-template>
 
             <ng-template #update>
               <button type="button" id="closeModal" #closeModal class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
-              <button class="btn btn-primary" (click)="updateSupplier()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+              <button type="submit" class="btn btn-primary" (click)="updateSupplier()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
             </ng-template>
-            
+
           </div>
         </form>
       </div>
-     </div>
+    </div>
   </div>
 </div>
-

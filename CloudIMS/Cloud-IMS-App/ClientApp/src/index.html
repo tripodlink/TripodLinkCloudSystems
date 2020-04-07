@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -7,33 +7,47 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="assets/css/main.css">
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body class="app sidebar-mini">
 
   <app-root><center>Loading.....</center></app-root>
 
-  <script src="assets/bootstrap.min.js"></script>
-  <script src="assets/jquery-3.3.1.min.js"></script>
-  <script src="assets/main.js"></script>
-  <script src="assets/popper.min.js"></script>
-  <script src="assets/pace.min.js"></script>
-  <script src="assets/plugins/bootstrap-datepicker.min.js"></script>
-  <script src="assets/plugins/bootstrap-notify.min.js"></script>
-  <script src="assets/plugins/chart.js"></script>
-  <script src="assets/plugins/dataTables.bootstrap.min.js"></script>
-  <script src="assets/plugins/dropzone.js"></script>
-  <script src="assets/plugins/fullcalendar.min.js"></script>
-  <script src="assets/plugins/jquery.dataTables.min.js"></script>
-  <script src="assets/plugins/jquery.vmap.min.js"></script>
-  <script src="assets/plugins/jquery.vmap.sampledata.js"></script>
-  <script src="assets/plugins/jquery.vmap.world.js"></script>
-  <script src="assets/plugins/jquery-ui.custom.min.js"></script>
-  <script src="assets/plugins/moment.min.js"></script>
-  <script src="assets/plugins/pace.min.js"></script>
-  <script src="assets/plugins/select2.min.js"></script>
-  <script src="assets/plugins/sweetalert.min.js"></script>
-  <script>$('#sampletable').DataTable();</script>
+  <script type="text/javascript" src="assets/jquery/dist/core.js"></script>
+  <script type="text/javascript" src="assets/jquery/dist/jquery.js"></script>
+  <script type="text/javascript" src="assets/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="assets/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="assets/popper.min.js"></script>
+  <script type="text/javascript" src="assets/bootstrap.min.js"></script>
+  <script type="text/javascript" src="assets/main.js"></script>
+  <script type="text/javascript" src="assets/pace.min.js"></script>
+
+  <!--javascript for datatables-->
+  <script type="text/javascript" src="assets/plugins/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="assets/plugins/dataTables.bootstrap.min.js"></script>
+  <!--javascript for calendar-->
+  <script type="text/javascript" src="assets/plugins/moment.min.js"></script>
+  <script type="text/javascript" src="assets/plugins/jquery-ui.custom.min.js"></script>
+  <script type="text/javascript" src="assets/plugins/fullcalendar.min.js"></script>
+  <script type="text/javascript" src="assets/plugins/bootstrap-datepicker.min.js"></script>
+
+  <script type="text/javascript" src="assets/plugins/jquery.vmap.min.js"></script>
+  <script type="text/javascript" src="assets/plugins/jquery.vmap.sampledata.js"></script>
+  <script type="text/javascript" src="assets/plugins/jquery.vmap.world.js"></script>
+
+
+  <script type="text/javascript" src="assets/plugins/bootstrap-notify.min.js"></script>
+  <script type="text/javascript" src="assets/plugins/chart.js"></script>
+
+  <script type="text/javascript" src="assets/plugins/dropzone.js"></script>
+  <script type="text/javascript" src="assets/plugins/pace.min.js"></script>
+  <script type="text/javascript" src="assets/plugins/select2.min.js"></script>
+  <script type="text/javascript" src="assets/plugins/sweetalert.min.js"></script>
+
+
+
+  <script type="text/javascript">$('#sampletable').DataTable();</script>
 
   <script type="text/javascript">
     var data = {
@@ -76,11 +90,7 @@
       }
     ]
 
-    var ctxl = $("#lineChartDemo").get(0).getContext("2d");
-    var lineChart = new Chart(ctxl).Line(data);
 
-    var ctxp = $("#pieChartDemo").get(0).getContext("2d");
-    var pieChart = new Chart(ctxp).Pie(pdata);
   </script>
   <!-- Google analytics script-->
   <script type="text/javascript">
