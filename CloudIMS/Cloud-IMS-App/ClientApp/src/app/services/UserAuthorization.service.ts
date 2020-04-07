@@ -18,37 +18,34 @@ export class UserAuthorizationService {
     private _http: HttpClient) {
   }
 
+
   setCurrentUser(user: UserAccount): void {
     this.currentUser = user;
   }
 
-  getCurrentUser(_component: string) {
-    if (this.currentUser == null) {
-      let userId: string = localStorage.getItem('userId');
 
-      this._getCurrentUser(userId, _component);
-    }
+  getCurrentUser(): Promise<UserAccount> {
+    let _user = this.currentUser;
+    let _http = this._http;
+    let _url = this.userAccountUrl;
 
-    return this.currentUser;
+    return new Promise(function (resolve, reject) {
+      if (_user) {
+        resolve(_user);
+      } else {
+        let userId: string = localStorage.getItem('userId');
+        let params = new HttpParams().set('id', userId);
+
+        return _http.get<UserAccount>(_url + "/Find", { params: params })
+          .subscribe(userdata => {
+            resolve(userdata);
+          }, error => {
+              reject(error);
+          });
+      }
+    });
   }
 
-  private async _getCurrentUser(userId: string, _component: string) {
-
-    let params = new HttpParams().set('id', 'SYSAD');
-
-    await this._http.get<UserAccount>(this.userAccountUrl + "/Find", { params: params })
-      .subscribe(userData => {
-        this.currentUser = userData;
-
-        console.log({ module: "Get User", caller: _component, user: this.currentUser })
-      }, error => {
-          this.currentUser = null;
-          this.loginErrorMessage = error.error;
-
-          console.log({ module: "Get User", caller: _component, error: error})
-      });
-
-  }
 
   private async isValidUserToken(userId: string, token: string): Promise<boolean> {
 

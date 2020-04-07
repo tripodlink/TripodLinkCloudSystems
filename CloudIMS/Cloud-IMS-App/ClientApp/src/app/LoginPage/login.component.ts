@@ -51,16 +51,12 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('userId', user.userID)
       localStorage.setItem('token', user.token)
 
-      sessionStorage.setItem('userId', user.userID)
-      sessionStorage.setItem('token', user.token)
-
 
       this.router.navigateByUrl("/dashboard")
     }, error => {
         this.auth.setCurrentUser(null);
         this.auth.setLoginErrorMessage(error.error);
 
-        console.log({ module: "Authenticate", error: error })
     })
 
     return false
