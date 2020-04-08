@@ -47,7 +47,7 @@ const routes: Routes = [
   { path: 'data-dictionary/unit-code', component: UnitCodeComponent, canActivate: [AuthGuard] },
 
   // inventory management routes
-  { path: 'inventory-management', component: InventoryManagementComponent, canActivate: [AuthGuard] },
+  { path: 'inventory-management', component: InventoryManagementComponent, canActivate: [AuthGuard] }, 
 
 
   //user management folder
