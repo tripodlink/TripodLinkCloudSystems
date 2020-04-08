@@ -18,10 +18,12 @@ export class InventoryManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let user: UserAccount = this._userAuthorizationService.getCurrentUser("Inventory Management");
-
-    if (user != null) {
-      this.inv_pg_menus = user.programMenus.filter(pm => pm.programFolderID == "IVM");
-    }
+    this._userAuthorizationService.getCurrentUser()
+      .then(user => {
+        this.inv_pg_menus = user.programMenus.filter(pm => pm.programFolderID == "IVM");
+      })
+      .catch((error) => {
+        // error while retrieving user data
+      })
   }
 }

@@ -13,6 +13,7 @@ import { UserAuthorizationService } from './../../services/UserAuthorization.ser
   templateUrl: "./addEdit-user-account.component.html"
 })
 export class AddEditUserAccountComponent {
+  private _currentUser: UserAccount;
   isNewUser: boolean = true;
   user: UserAccount = new UserAccount();
   addEditForm: FormGroup;
@@ -72,6 +73,15 @@ export class AddEditUserAccountComponent {
   }
 
   ngOnInit() {
+    this._userAuthorizationService.getCurrentUser()
+      .then(user => {
+        this._currentUser = user;
+      })
+      .catch((error) => {
+        // error while retrieving user data
+
+      })
+
     this.getAllUserGroups();
 
     let id: string = this._activatedRoute.snapshot.params["id"];
@@ -118,8 +128,8 @@ export class AddEditUserAccountComponent {
     this.user.userName = this.addEditForm.get("userName").value;
     this.user.password = this.addEditForm.controls.password.value;
     this.user.isActive = this.addEditForm.controls["isActive"].value;
-    this.user.createdBy = this._userAuthorizationService.getCurrentUser("User Account").userID;
-    this.user.updatedBy = this._userAuthorizationService.getCurrentUser("USer Account").userID;
+    this.user.createdBy = this._currentUser.userID;
+    this.user.updatedBy = this._currentUser.userID;
     this.user.userGroups = this.getSelectedUserGroups();
 
     if (this.isNewUser) {
