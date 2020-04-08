@@ -3,5 +3,3 @@
 /* Provide sufficient contrast against white background */
 @import "../node_modules/ngx-toastr/toastr.css";
 @import "./assets/css/main.css";
-
-@import '../node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css';
