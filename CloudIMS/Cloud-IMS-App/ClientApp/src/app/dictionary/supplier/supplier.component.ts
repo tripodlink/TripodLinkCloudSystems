@@ -13,6 +13,7 @@ import { ISupplierClass } from '../../classes/data-dictionary/Supplier/ISupplier
 
 export class SupplierComponent{
 
+
   isupplier: ISupplier = new ISupplierClass();
   suppliers: ISupplier[] = new Array();
   addSupplierFormGroup: FormGroup;

@@ -19,16 +19,15 @@ import { LoginModule } from './LoginPage/login.module';
 import { UserAuthorizationService } from './services/UserAuthorization.service';
 import { AuthGuard } from './_helpers/auth.guard';
 import { AppRoutingModule } from './app.routing';
-
+import { DataTablesModule } from 'angular-datatables';
 import { CookieService } from 'ngx-cookie-service';
-
-
 
 @NgModule({
 
     declarations: [
     AppComponent,
     AppSidebarMenuComponent,
+
   ],
 
   imports: [
@@ -49,8 +48,10 @@ import { CookieService } from 'ngx-cookie-service';
     DictionaryModule,
     InventoryManagementModule,
     UserManagementModule,
+    DataTablesModule,
 
     AppRoutingModule
+
   ],
   providers: [SideBarService, UserAuthorizationService, AuthGuard, CookieService],
     bootstrap: [AppComponent]
