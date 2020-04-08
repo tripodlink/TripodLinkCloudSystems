@@ -43,16 +43,12 @@ export class ItemGroupComponent{
 
   private PassData(id, itemGroupName) {
 
-    this.CreateForm();
     this.addItemGroupForm.controls.id.setValue(id);
     this.addItemGroupForm.controls.itemGroupName.setValue(itemGroupName);
-
-    this.addItemGroupForm.controls.id.markAsPending;
-    this.addItemGroupForm.controls.itemGroupName.markAsPending;
       this.Status = "Edit Changes";
       this.icon = "pencil";
     this.isAdd = false;
-    this.modalStatus = "Edit Item Group for" + " " + "(" +itemGroupName + ")";
+  this.modalStatus = "Edit Item Group";
     
   }
 
@@ -62,41 +58,37 @@ export class ItemGroupComponent{
 
   private insertItemGroup() {
 
-    this.itemGroupForm.id = this.addItemGroupForm.controls.id.value.trim();
-    this.itemGroupForm.itemgroupname = this.addItemGroupForm.controls.itemGroupName.value.trim();
+    this.itemGroupForm.id = this.addItemGroupForm.controls.id.value;
+    this.itemGroupForm.itemgroupname = this.addItemGroupForm.controls.itemGroupName.value;
 
-    if (this.addItemGroupForm.controls.id.value.trim() != "" || this.addItemGroupForm.controls.itemGroupName.value.trim() != "") {
-      let errormessage = "Error";
-      this.itemgroupService.insertItemGroup(this.itemGroupForm).subscribe(data => {
-        this.toastr.success("Data Saved", "Saved");
-        this.LoadData();
-
-      },
-        error => {
-          errormessage = error.error;
-          this.toastr.error(errormessage, "Error");
+    let errormessage = "Error";
+    this.itemgroupService.insertItemGroup(this.itemGroupForm).subscribe(data => {
+      this.toastr.success("Data Saved", "Saved");
+      this.LoadData();
+      
+    },
+      error => {
+        errormessage = error.error;
+        this.toastr.error(errormessage, "Error");
         });
-      this.ResetForm();
-    }
-  
+    this.ResetForm();
   }
 
   private updateItemGroup() {
-    if (this.addItemGroupForm.controls.itemGroupName.value.trim() != "") {
-      this.itemGroupForm.id = this.addItemGroupForm.controls.id.value.trim();
-      this.itemGroupForm.itemgroupname = this.addItemGroupForm.controls.itemGroupName.value.trim();
+    this.itemGroupForm.id = this.addItemGroupForm.controls.id.value;
+    this.itemGroupForm.itemgroupname = this.addItemGroupForm.controls.itemGroupName.value;
 
-      let errormessage = "Error";
-      this.itemgroupService.updateItemGroup(this.itemGroupForm).subscribe(data => {
-        this.toastr.info("Item Group Data Edited", "Edited");
-        this.LoadData();
-      },
+    let errormessage = "Error";
+    this.itemgroupService.updateItemGroup(this.itemGroupForm).subscribe(data => {
+      this.toastr.info("Item Group Data Edited", "Edited");
+      this.LoadData();
+    },
 
-        error => {
-          errormessage = error.error;
-          this.toastr.error(errormessage, "Error");
-        });
-    }
+      error => {
+        errormessage = error.error;
+        this.toastr.error(errormessage, "Error");
+      });
+   
   }
 
   private deleteItemGroup(id: string) {
