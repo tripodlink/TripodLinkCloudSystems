@@ -7,7 +7,6 @@ import { IUnitCodeClass } from '../../classes/data-dictionary/UnitCode/IUnitCode
 import { ToastrService } from 'ngx-toastr';
 import { error } from 'protractor';
 
-
 @Component({
   selector: 'dic-unitCode',
   templateUrl: './unitCode.component.html',
@@ -25,6 +24,7 @@ export class UnitCodeComponent {
 
   constructor(private unitcodeService: UnitCodeService, private formBuilder: FormBuilder, private toastr: ToastrService) {
     this.CreateForm();
+
   }
 
 
@@ -46,23 +46,24 @@ export class UnitCodeComponent {
 
   private insertUnitCodes() {
 
-    this.unitCodesForm.code = this.addUnitCodeForm.get('Code').value;
-    this.unitCodesForm.description = this.addUnitCodeForm.controls.Description.value;
-    this.unitCodesForm.shortDescription = this.addUnitCodeForm.controls.ShortDescription.value;
+    if (this.addUnitCodeForm.controls.Code.value.trim() != "") {
+      this.unitCodesForm.code = this.addUnitCodeForm.controls.Code.value.trim();
+      this.unitCodesForm.description = this.addUnitCodeForm.controls.Description.value.trim();
+      this.unitCodesForm.shortDescription = this.addUnitCodeForm.controls.ShortDescription.value.trim();
 
-    let errormessage = "Error";
-    this.unitcodeService.insertUnitCodes(this.unitCodesForm).subscribe(data => {
-      this.toastr.success("New Unit Code Inserted", "Saved");
-      this.loadData();
-      this.resetForm();
-    },
-      error => {  
-        errormessage = error.error;
-        this.toastr.error(errormessage, "Error");
+      let errormessage = "Error";
+      this.unitcodeService.insertUnitCodes(this.unitCodesForm).subscribe(data => {
+        this.toastr.success("New Unit Code Inserted", "Saved");
+        this.loadData();
+        this.resetForm();
+      },
+        error => {
+          errormessage = error.error;
+          this.toastr.error(errormessage, "Error");
 
-      }
-    );
-
+        }
+      );
+    }
   }
 
   private onClickAddButton() {
@@ -94,6 +95,8 @@ export class UnitCodeComponent {
 
   private onPassData(code, desc, shortdesc) {
 
+    this.CreateForm();
+
     this.addUnitCodeForm.controls.Code.setValue(code);
     this.addUnitCodeForm.controls.Description.setValue(desc);
     this.addUnitCodeForm.controls.ShortDescription.setValue(shortdesc);
@@ -101,25 +104,24 @@ export class UnitCodeComponent {
     this.Status = "Edit Changes";
     this.icon = "pencil";
     this.isAdd = false;
-    this.modalStatus = "Edit Item Group";
+    this.modalStatus = "Edit Item Group for" + " " + "(" +  desc + ")";
   }
 
 
   private updateUnitCodes() {
+      this.unitCodesForm.code = this.addUnitCodeForm.controls.Code.value.trim();
+      this.unitCodesForm.description = this.addUnitCodeForm.controls.Description.value.trim();
+      this.unitCodesForm.shortDescription = this.addUnitCodeForm.controls.ShortDescription.value.trim();
 
-    this.unitCodesForm.code = this.addUnitCodeForm.controls.Code.value;
-    this.unitCodesForm.description = this.addUnitCodeForm.controls.Description.value;
-    this.unitCodesForm.shortDescription = this.addUnitCodeForm.controls.ShortDescription.value;
-
-    let errormessage = "Error";
-    this.unitcodeService.updateUnitCodes(this.unitCodesForm).subscribe(data => {
-      this.toastr.info("Item Group Data Edited", "Edited");
-      this.loadData();
-    },
-      error => {
-        errormessage = error.error;
-        this.toastr.error(errormessage, "Error");
-      }
-    );
-  }
+      let errormessage = "Error";
+      this.unitcodeService.updateUnitCodes(this.unitCodesForm).subscribe(data => {
+        this.toastr.info("Item Group Data Edited", "Edited");
+        this.loadData();
+      },
+        error => {
+          errormessage = error.error;
+          this.toastr.error(errormessage, "Error");
+        }
+      );
+    }
 }
