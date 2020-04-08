@@ -59,19 +59,19 @@
               <div class="form-group">
                 <label for="Code">Unit Code</label>
                 <input formControlName="Code" [readonly]="!isAdd" class="form-control"
-                       [class.is-invalid]="this.addUnitCodeForm.controls.Code.touched && this.addUnitCodeForm.controls.Code.value.trim() == ''" required>
+                       [class.is-invalid]="this.addUnitCodeForm.controls.Code.touched && this.addUnitCodeForm.controls.Code.value == ''" required>
               </div>
 
               <div class="form-group">
                 <label for="Description">Unit Description</label>
                 <input formControlName="Description" class="form-control"
-                       [class.is-invalid]="this.addUnitCodeForm.controls.Description.touched && this.addUnitCodeForm.controls.Description.value.trim() == ''" required>
+                       [class.is-invalid]="this.addUnitCodeForm.controls.Description.touched && this.addUnitCodeForm.controls.Description.value == ''" required>
               </div>
 
               <div class="form-group">
                 <label for="ShortDescription">Unit Short Description</label>
                 <input formControlName="ShortDescription" class="form-control"
-                       [class.is-invalid]="this.addUnitCodeForm.controls.ShortDescription.touched && this.addUnitCodeForm.controls.ShortDescription.value.trim() == ''" required>
+                       [class.is-invalid]="this.addUnitCodeForm.controls.ShortDescription.touched && this.addUnitCodeForm.controls.ShortDescription.value == ''" required>
               </div>
 
             </div>
@@ -83,12 +83,12 @@
 
               <ng-template #add>
                 <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
-                <button class="btn btn-primary" [disabled]="!addUnitCodeForm.valid" (click)="insertUnitCodes()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+                <button class="btn btn-primary" [disabled]="!addUnitCodeForm.touched || !addUnitCodeForm.valid" (click)="insertUnitCodes()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
               </ng-template>
 
               <ng-template #update>
                 <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
-                <button class="btn btn-primary" [disabled]="!addUnitCodeForm.dirty || !addUnitCodeForm.valid" (click)="updateUnitCodes()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+                <button class="btn btn-primary" [disabled]="!addUnitCodeForm.touched || !addUnitCodeForm.valid" (click)="updateUnitCodes()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
               </ng-template>
             </div>
           </form>
@@ -97,8 +97,3 @@
     </div>
   </div>
 </main>
-<script type="text/javascript" src="assets/jquery/dist/core.js"></script>
-<script type="text/javascript" src="assets/jquery/dist/jquery.js"></script>
-<script type="text/javascript" src="assets/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="assets/plugins/jquery.dataTables.min.js"></script>
-

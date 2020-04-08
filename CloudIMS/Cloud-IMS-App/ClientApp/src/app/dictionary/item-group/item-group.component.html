@@ -59,13 +59,13 @@
                 <div class="form-group">
                   <label for="id">Item ID</label>
                   <input formControlName="id" [readonly]="!isAdd" class="form-control"
-                         [class.is-invalid]="this.addItemGroupForm.controls.id.touched && this.addItemGroupForm.controls.id.value.trim() == ''" required>
+                         [class.is-invalid]="this.addItemGroupForm.controls.id.touched && this.addItemGroupForm.controls.id.value == ''" required>
                 </div>
 
               <div class="form-group">
                 <label for="itemGroupName">Item Group Name</label>
                 <input formControlName="itemGroupName" class="form-control"
-                           [class.is-invalid]="this.addItemGroupForm.controls.itemGroupName.touched && this.addItemGroupForm.controls.itemGroupName.value.trim() == ''" required>
+                           [class.is-invalid]="this.addItemGroupForm.controls.itemGroupName.touched && this.addItemGroupForm.controls.itemGroupName.value == ''" required>
               </div>
 
 
@@ -78,12 +78,12 @@
 
               <ng-template #add>
                 <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
-                <button class="btn btn-primary" [disabled]="!addItemGroupForm.valid" (click)="insertItemGroup()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+                <button class="btn btn-primary" [disabled]="!addItemGroupForm.touched || !addItemGroupForm.valid" (click)="insertItemGroup()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
               </ng-template>
 
               <ng-template #update>
                 <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
-                <button class="btn btn-primary" [disabled]="!addItemGroupForm.dirty || !addItemGroupForm.valid" (click)="updateItemGroup()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+                <button class="btn btn-primary" [disabled]="!addItemGroupForm.touched || !addItemGroupForm.valid" (click)="updateItemGroup()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
               </ng-template>
             </div>
           </form>

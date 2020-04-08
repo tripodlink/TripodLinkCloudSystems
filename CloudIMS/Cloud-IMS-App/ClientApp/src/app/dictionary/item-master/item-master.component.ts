@@ -125,28 +125,25 @@ export class ItemMasterComponent implements OnInit {
   }
 
   private insertItemMaster() {
+    let errormessage = "Error";
 
-    this.ItemMasterForm.id = this.addItemMasterForm.controls.id.value.trim();
-    this.ItemMasterForm.ItemGroup = this.addItemMasterForm.controls.ItemGroup.value.trim();
-    this.ItemMasterForm.ItemName = this.addItemMasterForm.controls.ItemName.value.trim();
-    this.ItemMasterForm.Unit = this.addItemMasterForm.controls.Unit.value.trim();
-    this.ItemMasterForm.Supplier = this.addItemMasterForm.controls.Supplier.value.trim();
-    this.ItemMasterForm.Manufacturer = this.addItemMasterForm.controls.Manufacturer.value.trim();
+    this.ItemMasterForm.id = this.addItemMasterForm.controls.id.value;
+    this.ItemMasterForm.ItemGroup = this.addItemMasterForm.controls.ItemGroup.value;
+    this.ItemMasterForm.ItemName = this.addItemMasterForm.controls.ItemName.value;
+    this.ItemMasterForm.Unit = this.addItemMasterForm.controls.Unit.value;
+    this.ItemMasterForm.Supplier = this.addItemMasterForm.controls.Supplier.value;
+    this.ItemMasterForm.Manufacturer = this.addItemMasterForm.controls.Manufacturer.value;
 
-    if (this.ItemMasterForm.id != "" || this.ItemMasterForm.ItemName != "")
-    {
-      let errormessage = "Error";
-      this.itemMasterService.insertItemMaster(this.ItemMasterForm).subscribe(data => {
-        this.toastr.success("New Item Master Saved", "Saved");
-        this.LoadData();
-      },
-        error => {
-          errormessage = error.error;
-          this.toastr.error(errormessage, "Item Master Error");
-        });
-      this.insertItemMasterUnits();
-      this.resetForm();
-    }
+    this.itemMasterService.insertItemMaster(this.ItemMasterForm).subscribe(data => {
+      this.toastr.success("New Item Master Saved", "Saved");
+      this.LoadData();
+    },
+      error => {
+        errormessage = error.error;
+        this.toastr.error(errormessage, "Item Master Error");
+      });
+    this.insertItemMasterUnits();
+    this.resetForm();
   }
 
   private deleteItemMaster(id) {
@@ -164,13 +161,10 @@ export class ItemMasterComponent implements OnInit {
     }
   }
   private PassData(id, itemGroup, itemName, unit, supplier, manufacturer) {
-
-    this.createForm();
-
     this.Status = "Edit Changes";
     this.icon = "pencil";
     this.isAdd = false;
-    this.modalStatus = "Edit Item Master for " + " " + "(" + itemName + ")";
+    this.modalStatus = "Edit Item Group";
 
     this.addItemMasterForm.controls.id.setValue(id);
     this.addItemMasterForm.controls.ItemGroup.setValue(itemGroup);
@@ -182,32 +176,27 @@ export class ItemMasterComponent implements OnInit {
 
   private updateItemMaster() {
 
-    if (this.ItemMasterForm.id != "" || this.ItemMasterForm.ItemName != "") {
-      this.ItemMasterForm.id = this.addItemMasterForm.controls.id.value.trim();
-      this.ItemMasterForm.ItemGroup = this.addItemMasterForm.controls.ItemGroup.value.trim();
-      this.ItemMasterForm.ItemName = this.addItemMasterForm.controls.ItemName.value.trim();
-      this.ItemMasterForm.Unit = this.addItemMasterForm.controls.Unit.value.trim();
-      this.ItemMasterForm.Supplier = this.addItemMasterForm.controls.Supplier.value.trim();
-      this.ItemMasterForm.Manufacturer = this.addItemMasterForm.controls.Manufacturer.value.trim();
+    this.ItemMasterForm.id = this.addItemMasterForm.controls.id.value;
+    this.ItemMasterForm.ItemGroup = this.addItemMasterForm.controls.ItemGroup.value;
+    this.ItemMasterForm.ItemName = this.addItemMasterForm.controls.ItemName.value;
+    this.ItemMasterForm.Unit = this.addItemMasterForm.controls.Unit.value;
+    this.ItemMasterForm.Supplier = this.addItemMasterForm.controls.Supplier.value;
+    this.ItemMasterForm.Manufacturer = this.addItemMasterForm.controls.Manufacturer.value;
 
-      let errormessage = "Error";
+    let errormessage = "Error";
 
-      this.itemMasterService.updateItemMaster(this.ItemMasterForm).subscribe(data => {
-        this.toastr.info("Item Master Data Updated", "Edited");
-        this.itemMasterService.deleteAllItemMasterUnit(this.ItemMasterForm.id).subscribe();
-        if (this.addItemMasterForm.controls.Unit.dirty == true) {
-          this.insertItemMasterUnits();
-        }
-       
-        this.LoadData();
-        
-      },
+    this.itemMasterService.updateItemMaster(this.ItemMasterForm).subscribe(data => {
+      this.toastr.info("Item Master Data Updated", "Edited");
+      this.itemMasterService.deleteAllItemMasterUnit(this.ItemMasterForm.id).subscribe();
+      this.insertItemMasterUnits();
+      this.LoadData();
+    },
 
-        error => {
-          errormessage = error.error;
-          this.toastr.error(errormessage, "Error");
-        });
-    }
+      error => {
+        errormessage = error.error;
+        this.toastr.error(errormessage, "Error");
+      });
+  
   }
 
   private passDataItemMaster(name, itemId) {
@@ -226,30 +215,28 @@ export class ItemMasterComponent implements OnInit {
 
   private insertItemMasterUnits() {
 
-      this.ItemMasterUnitForm.id = this.addItemMasterForm.controls.id.value.trim();
-      this.ItemMasterUnitForm.itemMasterUnitUnit = this.addItemMasterForm.controls.Unit.value.trim();
-      this.ItemMasterUnitForm.itemMasterUnitConversion = "1";
+    this.ItemMasterUnitForm.id = this.addItemMasterForm.controls.id.value;
+    this.ItemMasterUnitForm.itemMasterUnitUnit = this.addItemMasterForm.controls.Unit.value;
+    this.ItemMasterUnitForm.itemMasterUnitConversion = "1";
 
-      let errormessage = "Error";
+    let errormessage = "Error";
 
-      this.itemMasterService.insertItemMasterUnit(this.ItemMasterUnitForm).subscribe(data => {
-        this.toastr.success("New Item Master Unit", "Saved");
-      },
-        error => {
-          errormessage = error.error;
-          this.toastr.error(errormessage, "Item Master Unit Error Insert");
-        });
-  
+    this.itemMasterService.insertItemMasterUnit(this.ItemMasterUnitForm).subscribe(data => {
+      this.toastr.success("New Item Master Unit", "Saved");
+    },
+      error => {
+        errormessage = error.error;
+        this.toastr.error(errormessage, "Item Master Unit Error Insert");
+      });
   }
 
   private saveItemMasterUnit() {
-
-    if(!this.addItemMasterUnitForm.value)
-    var conversion = this.addItemMasterUnitForm.controls.itemMasterUnitConversion.value.trim();
+  
+    var conversion = this.addItemMasterUnitForm.controls.itemMasterUnitConversion.value;
     let convertString = String(conversion);
 
     this.ItemMasterUnitForm.id = this.itemMasterUnitID;
-    this.ItemMasterUnitForm.itemMasterUnitUnit = this.addItemMasterUnitForm.controls.itemMasterUnitUnit.value.trim();
+    this.ItemMasterUnitForm.itemMasterUnitUnit = this.addItemMasterUnitForm.controls.itemMasterUnitUnit.value;
     this.ItemMasterUnitForm.itemMasterUnitConversion = convertString;
 
     let errormessage = "Error";
@@ -291,31 +278,30 @@ export class ItemMasterComponent implements OnInit {
   }
 
   updateItemMasterUnit() {
-    if (!this.addItemMasterUnitForm.value) {
-      var conversion = this.addItemMasterUnitForm.controls.itemMasterUnitConversion.value.trim();
-      let convertString = String(conversion);
+    var conversion = this.addItemMasterUnitForm.controls.itemMasterUnitConversion.value;
+    let convertString = String(conversion);
 
-      this.ItemMasterUnitForm.id = this.itemMasterUnitID;
-      this.ItemMasterUnitForm.itemMasterUnitUnit = this.addItemMasterUnitForm.controls.itemMasterUnitUnit.value.trim();
-      this.ItemMasterUnitForm.itemMasterUnitConversion = convertString;
+    this.ItemMasterUnitForm.id = this.itemMasterUnitID;
+    this.ItemMasterUnitForm.itemMasterUnitUnit = this.addItemMasterUnitForm.controls.itemMasterUnitUnit.value;
+    this.ItemMasterUnitForm.itemMasterUnitConversion = convertString;
 
-      let errormessage = "Error";
+    let errormessage = "Error";
 
+   
+    this.itemMasterService.updateItemMasterUnit(this.ItemMasterUnitForm).subscribe(data => {
+      this.toastr.info("Item Master Unit Successfully", "Updated");
+      this.itemMasterService.getItemMasterUnitByID(this.itemMasterUnitID).subscribe((data => this.ItemMasterUnitArray = data));
+      this.addItemMasterUnitForm.reset();
+      this.isITMUAdd = true;
+      this.isEditItemUnit = false;
+    },
+      error => {
+        errormessage = error.error;
+        this.toastr.error(errormessage, "Item Master Unit Error");
+      });
 
-      this.itemMasterService.updateItemMasterUnit(this.ItemMasterUnitForm).subscribe(data => {
-        this.toastr.info("Item Master Unit Successfully", "Updated");
-        this.itemMasterService.getItemMasterUnitByID(this.itemMasterUnitID).subscribe((data => this.ItemMasterUnitArray = data));
-        this.addItemMasterUnitForm.reset();
-        this.isITMUAdd = true;
-        this.isEditItemUnit = false;
-      },
-        error => {
-          errormessage = error.error;
-          this.toastr.error(errormessage, "Item Master Unit Error");
-        });
-    }
+   
   }
-
   clearItemMasterUnit() {
     this.isITMUAdd = true;
     this.isButtonDisabled = false;
