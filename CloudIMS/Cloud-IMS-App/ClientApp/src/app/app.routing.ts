@@ -17,7 +17,8 @@ import { UnitCodeComponent } from './dictionary/unit-code/unitCode.component';
 
 // inventory managment components
 import { InventoryManagementComponent } from './inventory-management/inventory-management.component';
-
+import { InventoryInComponent } from './inventory-management/inventory-in/inventory-in.component';
+import { InventoryOutComponent } from './inventory-management/inventory-out/inventory-out.component';
 
 
 //##############################################################################################
@@ -48,6 +49,8 @@ const routes: Routes = [
 
   // inventory management routes
   { path: 'inventory-management', component: InventoryManagementComponent, canActivate: [AuthGuard] },
+  { path: 'inventory-management/inventory-in', component: InventoryInComponent, canActivate: [AuthGuard] },
+  { path: 'inventory-management/inventory-out', component: InventoryOutComponent, canActivate: [AuthGuard] },
 
 
   //user management folder
