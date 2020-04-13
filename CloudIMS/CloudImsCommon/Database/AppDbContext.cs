@@ -67,5 +67,8 @@ namespace CloudImsCommon.Database
         //User Group tables
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<UserGroupProgram> UserGroupPrograms { get; set; }
+
+        public DbSet<InventoryInTrxHeader> InventoryInTrxHeaders { get; set; }
+        public DbSet<InventoryInTrxDetail> InventoryInTrxDetails { get; set; }
     }
 }
