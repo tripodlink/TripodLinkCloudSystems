@@ -30,27 +30,23 @@ namespace CloudImsCommon.Models
 
         [Required]
         [Column("quantity")]
-        [MaxLength(100, ErrorMessage = "Quantity cannot exceed 100 characters.")]
         public int Quantity { get; set; }
 
         [Required]
         [Column("lotno")]
         [MaxLength(100, ErrorMessage = "LotNumber cannot exceed 100 characters.")]
-        public int LotNumber { get; set; }
+        public String LotNumber { get; set; }
 
         [Required]
         [Column("exp_date")]
-        [MaxLength(100, ErrorMessage = "ExpirationDate cannot exceed 100 characters.")]
         public DateTime ExpirationDate { get; set; }
 
         [Required]
         [Column("count")]
-        [MaxLength(100, ErrorMessage = "Count cannot exceed 100 characters.")]
         public int Count { get; set; }
 
         [Required]
         [Column("remaning_count")]
-        [MaxLength(100, ErrorMessage = "RemainigCount cannot exceed 100 characters.")]
         public int RemainigCount { get; set; }
 
     }

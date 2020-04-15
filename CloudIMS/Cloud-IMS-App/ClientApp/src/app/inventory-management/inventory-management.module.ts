@@ -6,6 +6,7 @@ import { InventoryManagementComponent } from './inventory-management.component';
 import { InventoryService } from '../services/inventory.service';
 import { InventoryInComponent } from './inventory-in/inventory-in.component';
 import { InventoryOutComponent } from './inventory-out/inventory-out.component';
+import { InventoryInService } from '../services/InventoryIn.service';
 
 
 
@@ -22,6 +23,6 @@ import { InventoryOutComponent } from './inventory-out/inventory-out.component';
 
     RouterModule.forRoot([])
   ],
-  providers: [InventoryService]
+  providers: [InventoryService,InventoryInService]
 })
 export class InventoryManagementModule { }

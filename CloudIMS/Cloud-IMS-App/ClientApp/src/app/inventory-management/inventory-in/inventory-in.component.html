@@ -7,4 +7,139 @@
       <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
     </ul>
   </div>
+  <form [formGroup]="addInventoryInFormGroup">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tile">
+          <h3 class="tile-title">Transaction Header</h3>
+          <div class="tile-footer">
+
+          </div>
+
+          <div class="row">
+
+            <div class="form-group col-md-4">
+              <label>Transaction No.</label>
+              <input type="text" formControlName="trxNo_hdr" readonly class="form-control"
+                     [class.is-invalid]="addInventoryInFormGroup.controls['trxNo_hdr'].touched && addInventoryInFormGroup.controls['trxNo_hdr'].value.trim() == ''" required autofocus>
+            </div>
+            <div class="form-group col-md-2">
+              <label>Transaction Date</label>
+              <input type="datetime-local" formControlName="trxDate_hdr" readonly  class="form-control">
+            </div>
+            <div class="form-group col-md-3">
+              <label>PO No.</label>
+              <input type="text" formControlName="PONo_hdr" class="form-control"
+                     [class.is-invalid]="addInventoryInFormGroup.controls['PONo_hdr'].touched && addInventoryInFormGroup.controls['PONo_hdr'].value.trim() == ''" required autofocus>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Invoice No.</label>
+              <input type="text" formControlName="invoiceNo_hdr" class="form-control"
+                     [class.is-invalid]="addInventoryInFormGroup.controls['invoiceNo_hdr'].touched && addInventoryInFormGroup.controls['invoiceNo_hdr'].value.trim() == ''" required autofocus>
+            </div>
+            <div class="form-group col-md-2">
+              <label>Received Date</label>
+              <input type="datetime-local" formControlName="rcvdDate_hdr" class="form-control"
+                     [class.is-invalid]="addInventoryInFormGroup.controls['rcvdDate_hdr'].touched && addInventoryInFormGroup.controls['rcvdDate_hdr'].value.trim() == ''" required autofocus>
+            </div>
+            <div class="form-group col-md-2">
+              <label>Received By</label>
+              <input type="text" formControlName="rcvdBy_hdr" class="form-control"
+                     [class.is-invalid]="addInventoryInFormGroup.controls['rcvdBy_hdr'].touched && addInventoryInFormGroup.controls['rcvdBy_hdr'].value.trim() == ''" required autofocus>
+            </div>
+            <div class="form-group col-md-2">
+              <label>Supplier Name</label>
+              <input formControlName="supplier_hdr" class="form-control" list="supplierSelect"/>
+              <datalist id="supplierSelect"
+                     [class.is-invalid]="addInventoryInFormGroup.controls['supplier_hdr'].touched && addInventoryInFormGroup.controls['supplier_hdr'].value.trim() == ''" required autofocus>
+                <option value=""></option>
+                <option *ngFor="let sup of Isupplier" value="{{sup.id}}">{{sup.name}}</option>
+              </datalist>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Reference No.</label>
+              <input type="text" formControlName="refNo_hdr" class="form-control"
+                     [class.is-invalid]="addInventoryInFormGroup.controls['refNo_hdr'].touched && addInventoryInFormGroup.controls['refNo_hdr'].value.trim() == ''" required autofocus>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Document No.</label>
+              <input type="text" formControlName="docNo_hdr" class="form-control"
+                     [class.is-invalid]="addInventoryInFormGroup.controls['docNo_hdr'].touched && addInventoryInFormGroup.controls['docNo_hdr'].value.trim() == ''" required autofocus>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="exampleTextarea">Remarks</label>
+              <textarea type="text" formControlName="remarks_hdr" class="form-control"
+                        [class.is-invalid]="addInventoryInFormGroup.controls['remarks_hdr'].touched && addInventoryInFormGroup.controls['remarks_hdr'].value.trim() == ''" required autofocus rows="2"></textarea>
+            </div>
+          </div>
+
+          <div class="tile-footer">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tile">
+          <h3 class="tile-title">Transaction Details</h3>
+          <div class="tile-footer">
+
+          </div>
+          <div class="row">
+            <div class="form-group col-md-3">
+              <label>Item Name</label>
+              <input formControlName="itemMaster_dtl" class="form-control" list="itemSelect" #itemMasterSelect (change)='onSelectedItemMaster(itemMasterSelect.value)' />
+              <datalist id="itemSelect">
+                <option value=""></option>
+                <option *ngFor="let im of Iitemmaster" value="{{im.id}}">{{im.itemName}}</option>
+              </datalist>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Item Unit</label>
+              <input formControlName="itemUnit_dtl" class="form-control" list="unitSelect" #itemMasterUnitSelect (change)='onSelectCoversionFactor(itemMasterSelect.value,itemMasterUnitSelect.value)' />
+              <datalist id="unitSelect">
+
+                <option value=""></option>
+                <option *ngFor="let iu of ItemMasterUnitArray" value="{{iu.unitCode}}">{{iu.unitDescription}}</option>
+              </datalist>
+            </div>
+           
+            <div class="form-group col-md-6">
+              <label>LOT No.</label>
+              <input (change)="onTextChangedQuantityInput()"  formControlName="lotno_dtl" type="text" class="form-control" />
+            </div>
+            <div class="form-group col-md-2">
+              <label>Quantity</label>
+              <input formControlName="quantity_dtl" type="number" class="form-control" />
+            </div>
+            <div class="form-group col-md-3">
+              <label>Expiration Date</label>
+              <input formControlName="expDate_dtl" type="datetime-local" class="form-control" />
+            </div>
+
+            <div class="form-group col-md-3">
+              <label>Count</label>
+              <input formControlName="count_dtl" type="number"  class="form-control" />
+            </div>
+
+            <div class="form-group col-md-3">
+              <label>Remaining Count</label>
+              <input (change)="onTextChangedQuantityInput()" formControlName="remainingcount_dtl"  type="number" class="form-control" />
+            </div>
+          </div>
+              
+            <div class="tile-footer">
+              <div class="row">
+                <div class="form-group col-md-12">
+                  <button type="button" (click)="insertInventoryInTrx()" class="btn btn-primary pull-right"><i class="fa fa-arrow-circle-down"></i>Inventory In</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </form>
 </main>
