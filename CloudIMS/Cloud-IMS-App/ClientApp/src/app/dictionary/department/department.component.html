@@ -1,0 +1,96 @@
+<main class="app-content">
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-building-o"></i>Data-Dictionary / Department</h1>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
+    </ul>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tile">
+        <h3 class="tile-title"></h3>
+        <div class="col text-right">
+        </div>
+        <button type="button" class="btn btn-primary" (click)="ClickAdd()" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Add Department</button>
+        <br />
+        <br />
+        <div class="tile-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Department Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let depList of depListArray" [id]="depList.id">
+                  <td>{{depList.id}}</td>
+                  <td>{{depList.departmentName}}</td>
+                  <td>
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" (click)="PassData(depList.id, depList.departmentName)"><i class="fa fa-pencil"></i>Edit</button>
+                    &nbsp;<button type="button" class="btn btn-danger" (click)="deleteDepartment(depList.id)"><i class="fa fa-trash"></i>Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{modalStatus}}</h4>
+          </div>
+          <form [formGroup]="depForm">
+            <div class="modal-body">
+
+              <div class="form-group">
+                <label for="id">Department ID</label>
+                <input formControlName="id" [readonly]="!isAdd" class="form-control"
+                       [class.is-invalid]="this.depForm.controls.id.touched && this.depForm.controls.id.value.trim() == ''" required>
+              </div>
+
+              <div class="form-group">
+                <label for="depName">Department Name</label>
+                <input formControlName="depName" class="form-control"
+                       [class.is-invalid]="this.depForm.controls.depName.touched && this.depForm.controls.depName.value.trim() == ''" required>
+              </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+              <ng-template *ngIf="isAdd; then add; else update">
+
+              </ng-template>
+
+              <ng-template #add>
+                <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
+                <button class="btn btn-primary" [disabled]="!depForm.valid" (click)="insertDepartment()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+              </ng-template>
+
+              <ng-template #update>
+                <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
+                <button class="btn btn-primary" [disabled]="!depForm.touched || !depForm.valid" (click)="updateDepartment()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+              </ng-template>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
