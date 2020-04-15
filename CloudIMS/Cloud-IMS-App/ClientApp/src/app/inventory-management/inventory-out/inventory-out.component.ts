@@ -13,7 +13,7 @@ import { IDepartment } from '../../classes/data-dictionary/Department/IDepartmen
   templateUrl: './inventory-out.component.html'
 })
 export class InventoryOutComponent implements OnInit {
-
+  
   InventoryOutHeaderForm: FormGroup;
   InventoryOutDetail: FormGroup;
 
