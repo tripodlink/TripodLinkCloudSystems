@@ -134,16 +134,18 @@ export class ItemMasterComponent implements OnInit {
     this.ItemMasterForm.Supplier = this.addItemMasterForm.controls.Supplier.value;
     this.ItemMasterForm.Manufacturer = this.addItemMasterForm.controls.Manufacturer.value;
 
-    this.itemMasterService.insertItemMaster(this.ItemMasterForm).subscribe(data => {
-      this.toastr.success("New Item Master Saved", "Saved");
-      this.LoadData();
-    },
-      error => {
-        errormessage = error.error;
-        this.toastr.error(errormessage, "Item Master Error");
-      });
-    this.insertItemMasterUnits();
-    this.resetForm();
+    if (this.addItemMasterForm.controls.id.value.trim() != "" || this.addItemMasterForm.controls.ItemName.value.trim() != "") {
+      this.itemMasterService.insertItemMaster(this.ItemMasterForm).subscribe(data => {
+        this.toastr.success("New Item Master Saved", "Saved");
+        this.LoadData();
+      },
+        error => {
+          errormessage = error.error;
+          this.toastr.error(errormessage, "Item Master Error");
+        });
+      this.insertItemMasterUnits();
+      this.resetForm();
+    }   
   }
 
   private deleteItemMaster(id) {

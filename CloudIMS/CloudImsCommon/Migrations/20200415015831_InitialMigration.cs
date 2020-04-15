@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CloudImsCommon.Migrations
 {
-    public partial class Add_InventoryIn_trx_header_and_detail_table : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,6 +18,18 @@ namespace CloudImsCommon.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_company", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "department",
+                columns: table => new
+                {
+                    d_id = table.Column<string>(maxLength: 15, nullable: false),
+                    d_depertment_name = table.Column<string>(maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_department", x => x.d_id);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,6 +81,41 @@ namespace CloudImsCommon.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_inventoryin_trx_header", x => x.trxno);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "inventoryout_trx_detail",
+                columns: table => new
+                {
+                    itoh_trxno = table.Column<string>(maxLength: 100, nullable: false),
+                    itoh_item_id = table.Column<string>(maxLength: 100, nullable: false),
+                    itoh_unit = table.Column<string>(maxLength: 100, nullable: false),
+                    itoh_in_trxno = table.Column<int>(maxLength: 100, nullable: false),
+                    itoh_quantity = table.Column<int>(maxLength: 100, nullable: false),
+                    itoh_remarks = table.Column<string>(maxLength: 300, nullable: false),
+                    itoh_mincount = table.Column<int>(maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_inventoryout_trx_detail", x => x.itoh_trxno);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "inventoryout_trx_header",
+                columns: table => new
+                {
+                    itoh_trxno = table.Column<string>(maxLength: 100, nullable: false),
+                    itoh_trx_date = table.Column<DateTime>(nullable: false),
+                    itoh_issued_by = table.Column<string>(maxLength: 100, nullable: false),
+                    itoh_issued_date = table.Column<DateTime>(nullable: false),
+                    itoh_rcvd_by = table.Column<string>(maxLength: 100, nullable: false),
+                    itoh_department = table.Column<string>(maxLength: 200, nullable: false),
+                    itoh_ref_number = table.Column<string>(maxLength: 100, nullable: false),
+                    itoh_remarks = table.Column<string>(maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_inventoryout_trx_header", x => x.itoh_trxno);
                 });
 
             migrationBuilder.CreateTable(
@@ -290,7 +337,7 @@ namespace CloudImsCommon.Migrations
             migrationBuilder.InsertData(
                 table: "user_account",
                 columns: new[] { "ua_user_id", "im_created_by", "im_created_on", "ua_is_active", "ua_password", "im_updated_by", "im_updated_on", "ua_user_name" },
-                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 4, 13, 11, 23, 32, 509, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 4, 13, 11, 23, 32, 510, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
+                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 4, 15, 9, 58, 31, 255, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 4, 15, 9, 58, 31, 256, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "user_account_group",
@@ -331,6 +378,9 @@ namespace CloudImsCommon.Migrations
                 name: "company");
 
             migrationBuilder.DropTable(
+                name: "department");
+
+            migrationBuilder.DropTable(
                 name: "event_table");
 
             migrationBuilder.DropTable(
@@ -338,6 +388,12 @@ namespace CloudImsCommon.Migrations
 
             migrationBuilder.DropTable(
                 name: "inventoryin_trx_header");
+
+            migrationBuilder.DropTable(
+                name: "inventoryout_trx_detail");
+
+            migrationBuilder.DropTable(
+                name: "inventoryout_trx_header");
 
             migrationBuilder.DropTable(
                 name: "item_group");

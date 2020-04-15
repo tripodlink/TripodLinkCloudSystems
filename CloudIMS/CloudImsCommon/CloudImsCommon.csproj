@@ -14,6 +14,22 @@
     <Compile Remove="Migrations\20200402015327_InitialMigration.Designer.cs" />
     <Compile Remove="Migrations\20200406123449_InitialMigration.cs" />
     <Compile Remove="Migrations\20200406123449_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200413032332_Add_InventoryIn_trx_header_and_detail_table.cs" />
+    <Compile Remove="Migrations\20200413032332_Add_InventoryIn_trx_header_and_detail_table.Designer.cs" />
+    <Compile Remove="Migrations\20200413034817_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200413034817_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200413045532_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200413045532_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200413053209_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200413053209_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200413064606_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200413064606_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200414025947_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200414025947_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200415014419_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200415014419_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200415015608_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200415015608_InitialMigration.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
