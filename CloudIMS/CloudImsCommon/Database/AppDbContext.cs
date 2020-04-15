@@ -70,5 +70,8 @@ namespace CloudImsCommon.Database
 
         public DbSet<InventoryInTrxHeader> InventoryInTrxHeaders { get; set; }
         public DbSet<InventoryInTrxDetail> InventoryInTrxDetails { get; set; }
+        public DbSet<InventoryOutTrxHeader> InventoryOutTrxHeaders { get; set; }
+        public DbSet<InventoryOutTrxDetail> InventoryOutTrxDetails { get; set; }
+        public DbSet<Department> Departments { get; set; }
     }
 }

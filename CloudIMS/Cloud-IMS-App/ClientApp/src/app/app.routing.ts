@@ -14,6 +14,7 @@ import { ItemMasterComponent } from './dictionary/item-master/item-master.compon
 import { ManufacturerComponent } from './dictionary/manufacturer/manufacturer.component';
 import { SupplierComponent } from './dictionary/supplier/supplier.component';
 import { UnitCodeComponent } from './dictionary/unit-code/unitCode.component';
+import { DepartmentComponent } from './dictionary/department/department.component';
 
 // inventory managment components
 import { InventoryManagementComponent } from './inventory-management/inventory-management.component';
@@ -46,6 +47,7 @@ const routes: Routes = [
   { path: 'data-dictionary/manufacturer', component: ManufacturerComponent, canActivate: [AuthGuard] },
   { path: 'data-dictionary/supplier', component: SupplierComponent, canActivate: [AuthGuard] },
   { path: 'data-dictionary/unit-code', component: UnitCodeComponent, canActivate: [AuthGuard] },
+  { path: 'data-dictionary/department', component: DepartmentComponent, canActivate: [AuthGuard] },
 
   // inventory management routes
   { path: 'inventory-management', component: InventoryManagementComponent, canActivate: [AuthGuard] },

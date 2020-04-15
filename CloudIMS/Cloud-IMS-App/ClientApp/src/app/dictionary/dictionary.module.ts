@@ -14,6 +14,8 @@ import { ItemMasterServices } from '../services/itemmaster.service';
 import { SupplierService } from '../services/supplier.service';
 import { ManufacturerService } from '../services/Manufacturer.service';
 import { UnitCodeService } from '../services/UnitCode.service';
+import { DepartmentComponent } from './department/department.component';
+import { DepartmentServices } from '../services/department.service';
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import { UnitCodeService } from '../services/UnitCode.service';
     ItemMasterComponent,
     ManufacturerComponent,
     SupplierComponent,
-    UnitCodeComponent
+    UnitCodeComponent,
+    DepartmentComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +41,8 @@ import { UnitCodeService } from '../services/UnitCode.service';
     ItemMasterServices,
     ManufacturerService,
     SupplierService,
-    UnitCodeService
+    UnitCodeService,
+    DepartmentServices
   ]
 })
 export class DictionaryModule {  }
