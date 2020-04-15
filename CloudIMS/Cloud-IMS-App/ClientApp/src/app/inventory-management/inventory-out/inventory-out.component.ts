@@ -5,7 +5,8 @@ import { ViewChild, ElementRef } from '@angular/core';
 import { InventoryOutHeaderServices } from '../../services/inventoryoutheader.service';
 import { IinventoryOutHeaderClass  } from '../../classes/inventory-management/inventory-out/IitemGroupClass';
 import { IinventoryOutHeader } from '../../classes/inventory-management/inventory-out/IitemGroup.interface';
-import { DatePipe } from '@angular/common'
+import { IDepartment } from '../../classes/data-dictionary/Department/IDepartment.interface';
+
 
 @Component({
   selector: 'app-inventory-out',
@@ -15,17 +16,24 @@ export class InventoryOutComponent implements OnInit {
 
   InventoryOutHeaderForm: FormGroup;
 
+  depListArray: IDepartment[];
+
   InventoryOutHeaderArray: IinventoryOutHeader = new IinventoryOutHeaderClass();
 
   formatDate: string;
   isNewTrx: boolean;
 
-  constructor(private toastr: ToastrService, private builder: FormBuilder, private inventoryOutServices: InventoryOutHeaderServices,
-    private datepipe: DatePipe) {
+
+  constructor(private toastr: ToastrService, private builder: FormBuilder, private inventoryOutServices: InventoryOutHeaderServices) {
     this.createHeaderForm();
 
   }
   ngOnInit() {
+    this.loadData();
+  }
+
+  loadData() {
+    this.inventoryOutServices.getDepartmentList().subscribe((depList) => this.depListArray = depList);
   }
 
   createHeaderForm() {

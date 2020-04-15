@@ -83,7 +83,7 @@
 
               <ng-template #update>
                 <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
-                <button class="btn btn-primary" [disabled]="!depForm.touched || !depForm.valid" (click)="updateDepartment()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
+                <button class="btn btn-primary" [disabled]="!depForm.dirty || !depForm.valid" (click)="updateDepartment()"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{Status}}</button>
               </ng-template>
             </div>
           </form>

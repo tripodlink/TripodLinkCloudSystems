@@ -38,8 +38,7 @@
               <input list="depOption" formControlName="department" class="form-control">
 
               <datalist id="depOption">
-                <option>Hematology</option>
-                <option>Clinical Chemestry</option>
+                <option  *ngFor="let depList of depListArray" value="{{depList.id}}">{{depList.departmentName}}</option>
               </datalist>
             </div>
 

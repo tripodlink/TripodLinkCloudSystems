@@ -61,17 +61,19 @@ export class ItemGroupComponent{
     this.itemGroupForm.id = this.addItemGroupForm.controls.id.value;
     this.itemGroupForm.itemgroupname = this.addItemGroupForm.controls.itemGroupName.value;
 
-    let errormessage = "Error";
-    this.itemgroupService.insertItemGroup(this.itemGroupForm).subscribe(data => {
-      this.toastr.success("Data Saved", "Saved");
-      this.LoadData();
-      
-    },
-      error => {
-        errormessage = error.error;
-        this.toastr.error(errormessage, "Error");
+    if (this.addItemGroupForm.controls.id.value.trim() != "" || this.addItemGroupForm.controls.itemGroupName.value.trim() != "") {
+      let errormessage = "Error";
+      this.itemgroupService.insertItemGroup(this.itemGroupForm).subscribe(data => {
+        this.toastr.success("Data Saved", "Saved");
+        this.LoadData();
+
+      },
+        error => {
+          errormessage = error.error;
+          this.toastr.error(errormessage, "Error");
         });
-    this.ResetForm();
+      this.ResetForm();
+    }
   }
 
   private updateItemGroup() {

@@ -43,10 +43,9 @@ export class DepartmentComponent implements OnInit {
   }
 
   private insertDepartment() {
-    if (this.depForm.controls.id.value != null || this.depForm.controls.depName.value) {
-      this.depListForm.id = this.depForm.controls.id.value;
-      this.depListForm.departmentName = this.depForm.controls.depName.value;
-
+    this.depListForm.id = this.depForm.controls.id.value;
+    this.depListForm.departmentName = this.depForm.controls.depName.value;
+    if (this.depForm.controls.id.value.trim() != "" || this.depForm.controls.depName.value.trim() !="") {
       this.departmentService.insertDepartment(this.depListForm).subscribe(data => {
         this.toastr.success("Department Saved Succesfully", "Saved");
         this.loadDepartmentList();
