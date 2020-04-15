@@ -7,7 +7,9 @@ import { InventoryService } from '../services/inventory.service';
 import { InventoryOutHeaderServices } from '../services/inventoryoutheader.service';
 import { InventoryInComponent } from './inventory-in/inventory-in.component';
 import { InventoryOutComponent } from './inventory-out/inventory-out.component';
+import { InventoryInService } from '../services/InventoryIn.service';
 import { DatePipe } from '@angular/common'
+
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import { DatePipe } from '@angular/common'
 
     RouterModule.forRoot([])
   ],
-  providers: [InventoryService, InventoryOutHeaderServices, DatePipe]
+
+  providers: [InventoryService,InventoryInService, InventoryOutHeaderServices, DatePipe]
+
 })
 export class InventoryManagementModule { }
