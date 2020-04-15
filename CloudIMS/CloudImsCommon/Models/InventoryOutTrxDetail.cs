@@ -29,7 +29,7 @@ namespace CloudImsCommon.Models
         [Required]
         [Column("itoh_in_trxno")]
         [MaxLength(100, ErrorMessage = "In Transaction Number cannot exceed 100 characters.")]
-        public int In_TrxNo { get; set; }
+        public String In_TrxNo { get; set; }
 
         [Required]
         [Column("itoh_quantity")]
@@ -39,7 +39,7 @@ namespace CloudImsCommon.Models
         [Required]
         [Column("itoh_remarks")]
         [MaxLength(300, ErrorMessage = "Remarks cannot exceed 300 characters.")]
-        public string Remarks { get; set; }
+        public String Remarks { get; set; }
 
         [Required]
         [Column("itoh_mincount")]
