@@ -25,7 +25,7 @@
 
             <div class="form-group col-md-2">
               <label for="transactionNo">Transaction Number</label>
-              <input formControlName="transactionNo" [disabled]="isNewTrx" class="form-control" readonly>
+              <input formControlName="transactionNo" class="form-control" readonly>
             </div>
 
             <div class="form-group col-md-3">
@@ -70,8 +70,9 @@
           <div class="row">
 
             <div class="form-group col-md-3">
-              <label for="TrxDetailItem">Select Item</label>
-              <input list="itemOption" formControlName="TrxDetailItem" class="form-control">
+              <label for="itemID">Select Item</label>
+              <input list="itemOption" formControlName="itemID" class="form-control"
+                         [class.is-invalid]="this.InventoryOutDetail.controls.itemID.touched && this.InventoryOutDetail.controls.itemID.value.trim() == ''" required>
 
               <datalist id="itemOption">
                 <option>Serum</option>
@@ -81,8 +82,9 @@
             </div>
 
             <div class="form-group col-md-1">
-              <label for="TrxDetailUnit">Unit</label>
-              <input list="unitOption" formControlName="TrxDetailUnit" class="form-control">
+              <label for="unit">Unit</label>
+              <input list="unitOption" formControlName="unit" class="form-control"
+                     [class.is-invalid]="this.InventoryOutDetail.controls.unit.touched && this.InventoryOutDetail.controls.unit.value.trim() == ''" required>
 
               <datalist id="unitOption">
                 <option>Box</option>
@@ -92,8 +94,9 @@
             </div>
 
             <div class="form-group col-md-3">
-              <label for="TrxDetailLotNum">Select from Lot Number</label>
-              <input list="lotNumOption" formControlName="TrxDetailLotNum" class="form-control">
+              <label for="in_TrxNo">Select from Lot Number</label>
+              <input list="lotNumOption" formControlName="in_TrxNo" class="form-control"
+                     [class.is-invalid]="this.InventoryOutDetail.controls.in_TrxNo.touched && this.InventoryOutDetail.controls.in_TrxNo.value.trim() == ''" required>
 
               <datalist id="lotNumOption">
                 <option>111</option>
@@ -103,17 +106,19 @@
             </div>
 
             <div class="form-group col-md-1">
-              <label for="TrxDetailQuantity">Quantity</label>
-              <input type="number" formControlName="TrxDetailQuantity" class="form-control">
+              <label for="quantity">Quantity</label>
+              <input type="number" formControlName="quantity" class="form-control"
+                     [class.is-invalid]="this.InventoryOutDetail.controls.quantity.touched && this.InventoryOutDetail.controls.quantity.value == ''" required>
             </div>
 
             <div class="form-group col-md-3">
-              <label for="TrxDetailRemarks">Remarks</label>
-              <input formControlName="TrxDetailRemarks" class="form-control">
+              <label for="remarks">Remarks</label>
+              <input formControlName="remarks" class="form-control"
+                     [class.is-invalid]="this.InventoryOutDetail.controls.remarks.touched && this.InventoryOutDetail.controls.remarks.value.trim() == ''" required>
             </div>
 
             <div class="form-group col-md-1 align-self-end">
-              <button class="btn btn-info" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>Add</button>
+              <button class="btn btn-info" type="button" [disabled]="!InventoryOutDetail.dirty || !InventoryOutDetail.valid" (click)="addItem()"><i class="fa fa-fw fa-lg fa-check-circle"></i>Add</button>
             </div>
 
           </div>
@@ -133,34 +138,17 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Name</td>
-                  <td>Unit</td>
-                  <td>Lot Number</td>
-                  <td>Quantity</td>
-                  <td>Remarks</td>
-                  <td></td>
+                <tr *ngFor="let item of itemArrrayDTL">
+                  <td>{{item.Item}}</td>
+                  <td>{{item.Unit}}</td>
+                  <td>{{item.LotNum}}</td>
+                  <td>{{item.Quantity}}</td>
+                  <td>{{item.Remarks}}</td>
+                  <td><button type="button" class="btn btn-danger fc-center" (click)="removeItem(item.Item)"><i class="fa fa-trash"></i>Remove Item</button></td>
                 </tr>
-                <!--<tr *ngFor="let showD of showAllDataDic" [id]="showD.itemMasterID">
-            <td>{{showD.itemMasterID}}</td>
-            <td id="{{showD.itemGroupID}}">{{showD.itemgroupname}}</td>
-            <td>{{showD.itemName}}</td>
-            <td id="{{showD.code}}">{{showD.description}}</td>
-            <td id="{{showD.suppID}}">{{showD.suppName}}</td>
-            <td id="{{showD.mauFactID}}">{{showD.manufactName}}</td>
-            <td>
-              <button type="button" class="btn btn-primary" (click)="passDataItemMaster(showD.itemName,showD.itemMasterID)" data-toggle="modal" data-target="#AddItemUnitsModal"><i class="fa fa-plus-square-o"></i>Add Unit</button>&nbsp;
-              <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal"
-                      (click)="PassData(showD.itemMasterID, showD.itemGroupID, showD.itemName, showD.code,showD.suppID, showD.mauFactID)">
-                <i class="fa fa-pencil"></i>Edit
-              </button>&nbsp;
-              &nbsp;<button type="button" class="btn btn-danger" (click)="deleteItemMaster(itemM.id)"><i class="fa fa-trash"></i>Delete</button>
-            </td>
-          </tr>-->
               </tbody>
             </table>
           </div>
-
         </div>
       </div>
     </div>

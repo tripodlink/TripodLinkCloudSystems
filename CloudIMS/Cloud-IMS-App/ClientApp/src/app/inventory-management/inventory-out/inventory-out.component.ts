@@ -15,8 +15,11 @@ import { IDepartment } from '../../classes/data-dictionary/Department/IDepartmen
 export class InventoryOutComponent implements OnInit {
 
   InventoryOutHeaderForm: FormGroup;
+  InventoryOutDetail: FormGroup;
 
   depListArray: IDepartment[];
+
+  itemArrrayDTL: Array<{ Item: string, Unit: string, LotNum: string, Quantity: number, Remarks: string }> = [];
 
   InventoryOutHeaderArray: IinventoryOutHeader = new IinventoryOutHeaderClass();
 
@@ -26,6 +29,7 @@ export class InventoryOutComponent implements OnInit {
 
   constructor(private toastr: ToastrService, private builder: FormBuilder, private inventoryOutServices: InventoryOutHeaderServices) {
     this.createHeaderForm();
+    this.createDetialForm();
 
   }
   ngOnInit() {
@@ -36,7 +40,7 @@ export class InventoryOutComponent implements OnInit {
     this.inventoryOutServices.getDepartmentList().subscribe((depList) => this.depListArray = depList);
   }
 
-  createHeaderForm() {
+  private createHeaderForm() {
     let today = new Date();
     let getDate = today.toISOString().slice(0, 10);
     let cutTime = today.toTimeString().slice(0, 5);
@@ -52,6 +56,16 @@ export class InventoryOutComponent implements OnInit {
     this.InventoryOutHeaderForm.get('transactionDate').patchValue(dateTime);
   }
 
+  private createDetialForm() {
+    this.InventoryOutDetail = this.builder.group({
+      itemID: ['', Validators.required],
+      unit: ['', Validators.required],
+      in_TrxNo: ['', Validators.required],
+      quantity: ['', Validators.required],
+      remarks: ['', Validators.required],
+
+    })
+  }
   private saveTransaction() {
     let errormessage;
     this.InventoryOutHeaderArray.transactionNo = this.InventoryOutHeaderForm.controls.transactionNo.value;
@@ -80,6 +94,30 @@ export class InventoryOutComponent implements OnInit {
         let random = "T" + new Date().getFullYear() + new Date().getDate() + new Date().getTime();
         this.InventoryOutHeaderForm.controls.transactionNo.setValue(random);
       }
+    }
+  }
+  private addItem() {
+
+    let itemID = this.InventoryOutDetail.controls.itemID.value;
+    let findItem = this.itemArrrayDTL.find(({ Item }) => Item === itemID);
+
+    if (!findItem) {
+      this.itemArrrayDTL.push({
+        Item: this.InventoryOutDetail.controls.itemID.value, Unit: this.InventoryOutDetail.controls.unit.value
+        , LotNum: this.InventoryOutDetail.controls.in_TrxNo.value, Quantity: this.InventoryOutDetail.controls.quantity.value,
+        Remarks: this.InventoryOutDetail.controls.remarks.value
+      });
+     
+    }
+    else {
+      this.toastr.error("Item is Already Entered");
+    }
+    this.InventoryOutDetail.reset();
+  }
+
+  private removeItem(id) {
+    if (confirm("Are you sure you want to Remove" + " " + id)) {
+      this.itemArrrayDTL = this.itemArrrayDTL.filter(({ Item }) => Item !== id);
     }
   }
 }
