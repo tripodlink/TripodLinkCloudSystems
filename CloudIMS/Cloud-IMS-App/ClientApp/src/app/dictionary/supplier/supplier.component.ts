@@ -63,7 +63,7 @@ export class SupplierComponent{
 
     }else {
       this.isupplier.ID = supId
-      this.isupplier.Name= supName
+      this.isupplier.Name = supName
 
       this.supplierService.insertSupplier(this.isupplier).subscribe(data => {
 
