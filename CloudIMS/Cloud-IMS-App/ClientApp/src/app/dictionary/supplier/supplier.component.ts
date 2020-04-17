@@ -62,8 +62,8 @@ export class SupplierComponent{
     if (supId == null || supName == null || supId == '' || supName == ''){
 
     }else {
-      this.isupplier.ID.trim = supId
-      this.isupplier.Name.trim = supName
+      this.isupplier.ID = supId
+      this.isupplier.Name = supName
 
       this.supplierService.insertSupplier(this.isupplier).subscribe(data => {
 
