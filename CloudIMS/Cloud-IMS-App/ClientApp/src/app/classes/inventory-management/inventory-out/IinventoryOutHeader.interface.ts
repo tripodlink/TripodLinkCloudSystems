@@ -8,4 +8,5 @@ export interface IinventoryOutHeader {
   department: string;
   referenceNo: string;
   remarks: string;
+  status: string;
 }

@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { InventoryManagementComponent } from './inventory-management.component';
 import { InventoryService } from '../services/inventory.service';
-import { InventoryOutHeaderServices } from '../services/inventoryoutheader.service';
+import { InventorysServices } from '../services/inventorys.service';
 import { InventoryInComponent } from './inventory-in/inventory-in.component';
 import { InventoryOutComponent } from './inventory-out/inventory-out.component';
 import { InventoryInService } from '../services/InventoryIn.service';
@@ -26,7 +26,7 @@ import { DatePipe } from '@angular/common'
     RouterModule.forRoot([])
   ],
 
-  providers: [InventoryService,InventoryInService, InventoryOutHeaderServices, DatePipe]
+  providers: [InventoryService, InventoryInService, InventorysServices, DatePipe]
 
 })
 export class InventoryManagementModule { }

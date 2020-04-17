@@ -43,6 +43,47 @@ namespace Cloud_IMS_Api.Controllers
                 return BadRequest(GetErrorMessage(ex));
             }
         }
+
+        [Route("[action]")]
+        public IActionResult findLotNum(string itemID, string unit)
+        {
+            try
+            {
+                var lotNumber = dbContext.InventoryInTrxDetails.Where(data => data.ItemID == itemID).Where(data => data.Unit == unit);
+                if (lotNumber != null)
+                {
+                    return Ok(lotNumber);
+                }
+                else
+                {
+                    return Json(lotNumber);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
+        [Route("[action]")]
+        public IActionResult findTrxNum(string trxNUm)
+        {
+            try
+            {
+                var trxNumList = dbContext.InventoryOutTrxHeaders.Where(data => data.TransactionNo == trxNUm).ToList();
+                if (trxNumList != null)
+                {
+                    return Ok(trxNumList);
+                }
+                else
+                {
+                    return Ok(trxNumList); 
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
     }
    
 }

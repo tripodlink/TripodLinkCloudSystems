@@ -4,7 +4,7 @@ import { IDepartment } from '../classes/data-dictionary/Department/IDepartment.i
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 @Injectable()
 export class DepartmentServices {
-
+    
   url: string = 'api/department';
 
   constructor(private _http: HttpClient) {

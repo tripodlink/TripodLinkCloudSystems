@@ -92,8 +92,7 @@ namespace CloudImsCommon.Migrations
                         .HasMaxLength(100);
 
                     b.Property<int>("Count")
-                        .HasColumnName("count")
-                        .HasMaxLength(100);
+                        .HasColumnName("count");
 
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnName("exp_date");
@@ -109,12 +108,10 @@ namespace CloudImsCommon.Migrations
                         .HasMaxLength(100);
 
                     b.Property<int>("Quantity")
-                        .HasColumnName("quantity")
-                        .HasMaxLength(100);
+                        .HasColumnName("quantity");
 
                     b.Property<int>("RemainigCount")
-                        .HasColumnName("remaning_count")
-                        .HasMaxLength(100);
+                        .HasColumnName("remaning_count");
 
                     b.Property<string>("Unit")
                         .IsRequired()
@@ -179,7 +176,8 @@ namespace CloudImsCommon.Migrations
                         .HasColumnName("itoh_trxno")
                         .HasMaxLength(100);
 
-                    b.Property<int>("In_TrxNo")
+                    b.Property<string>("In_TrxNo")
+                        .IsRequired()
                         .HasColumnName("itoh_in_trxno")
                         .HasMaxLength(100);
 
@@ -244,6 +242,11 @@ namespace CloudImsCommon.Migrations
                     b.Property<string>("Remarks")
                         .IsRequired()
                         .HasColumnName("itoh_remarks")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnName("itoh_status")
                         .HasMaxLength(100);
 
                     b.Property<DateTime>("TransactionDate")
@@ -530,9 +533,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 14, 15, 7, 58, 152, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 14, 15, 7, 58, 153, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
-
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 17, 9, 57, 8, 848, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 17, 9, 57, 8, 849, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 
