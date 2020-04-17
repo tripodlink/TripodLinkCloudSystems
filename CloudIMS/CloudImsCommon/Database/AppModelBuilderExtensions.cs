@@ -106,7 +106,7 @@ namespace CloudImsCommon.Database
 
             //create Sample Management menu 
             modelBuilder.Entity<ProgramMenu>().HasData(
-               new ProgramMenu { ID = "DIC_UNIT", Name = "Unit", ProgramFolderID = "DIC", RouteAttribute = "unit", SequenceNo = 10 },
+               new ProgramMenu { ID = "DIC_UNIT", Name = "Unit", ProgramFolderID = "DIC", RouteAttribute = "unit-code", SequenceNo = 10 },
                new ProgramMenu { ID = "DIC_SUP", Name = "Supplier", ProgramFolderID = "DIC", RouteAttribute = "supplier", SequenceNo = 20 },
                new ProgramMenu { ID = "DIC_MANU", Name = "Manufacturer", ProgramFolderID = "DIC", RouteAttribute = "manufacturer", SequenceNo = 30 },
                new ProgramMenu { ID = "DIC_ITEM", Name = "Item Master", ProgramFolderID = "DIC", RouteAttribute = "item-master", SequenceNo = 40 },
