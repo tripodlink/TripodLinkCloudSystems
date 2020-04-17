@@ -52,11 +52,11 @@ namespace CloudImsCommon.Migrations
                     trxno = table.Column<string>(maxLength: 100, nullable: false),
                     item_id = table.Column<string>(maxLength: 100, nullable: false),
                     unit = table.Column<string>(maxLength: 100, nullable: false),
-                    quantity = table.Column<int>(maxLength: 100, nullable: false),
-                    lotno = table.Column<int>(maxLength: 100, nullable: false),
-                    exp_date = table.Column<DateTime>(maxLength: 100, nullable: false),
-                    count = table.Column<int>(maxLength: 100, nullable: false),
-                    remaning_count = table.Column<int>(maxLength: 100, nullable: false)
+                    quantity = table.Column<int>(nullable: false),
+                    lotno = table.Column<string>(maxLength: 100, nullable: false),
+                    exp_date = table.Column<DateTime>(nullable: false),
+                    count = table.Column<int>(nullable: false),
+                    remaning_count = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,15 +68,15 @@ namespace CloudImsCommon.Migrations
                 columns: table => new
                 {
                     trxno = table.Column<string>(maxLength: 100, nullable: false),
-                    trx_date = table.Column<DateTime>(maxLength: 100, nullable: false),
-                    rcvd_date = table.Column<DateTime>(maxLength: 100, nullable: false),
-                    rcvd_by = table.Column<string>(maxLength: 100, nullable: false),
-                    po_number = table.Column<string>(maxLength: 100, nullable: false),
-                    invoice_number = table.Column<string>(maxLength: 100, nullable: false),
-                    ref_number = table.Column<string>(maxLength: 100, nullable: false),
-                    doc_number = table.Column<string>(maxLength: 100, nullable: false),
-                    supplier = table.Column<string>(maxLength: 100, nullable: false),
-                    remarks = table.Column<string>(maxLength: 100, nullable: false)
+                    trx_date = table.Column<DateTime>(nullable: false),
+                    rcvd_date = table.Column<DateTime>(nullable: false),
+                    rcvd_by = table.Column<string>(maxLength: 100, nullable: true),
+                    po_number = table.Column<string>(maxLength: 100, nullable: true),
+                    invoice_number = table.Column<string>(maxLength: 100, nullable: true),
+                    ref_number = table.Column<string>(maxLength: 100, nullable: true),
+                    doc_number = table.Column<string>(maxLength: 100, nullable: true),
+                    supplier = table.Column<string>(maxLength: 100, nullable: true),
+                    remarks = table.Column<string>(maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -337,7 +337,7 @@ namespace CloudImsCommon.Migrations
             migrationBuilder.InsertData(
                 table: "user_account",
                 columns: new[] { "ua_user_id", "im_created_by", "im_created_on", "ua_is_active", "ua_password", "im_updated_by", "im_updated_on", "ua_user_name" },
-                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 4, 15, 9, 58, 31, 255, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 4, 15, 9, 58, 31, 256, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
+                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 4, 17, 16, 5, 22, 698, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 4, 17, 16, 5, 22, 699, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "user_account_group",

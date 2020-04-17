@@ -176,46 +176,6 @@ namespace CloudImsCommon.Migrations
                         .HasColumnName("itoh_trxno")
                         .HasMaxLength(100);
 
-                    b.Property<string>("In_TrxNo")
-                        .IsRequired()
-                        .HasColumnName("itoh_in_trxno")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("ItemID")
-                        .IsRequired()
-                        .HasColumnName("itoh_item_id")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("MinCount")
-                        .HasColumnName("itoh_mincount")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("Quantity")
-                        .HasColumnName("itoh_quantity")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Remarks")
-                        .IsRequired()
-                        .HasColumnName("itoh_remarks")
-                        .HasMaxLength(300);
-
-                    b.Property<string>("Unit")
-                        .IsRequired()
-                        .HasColumnName("itoh_unit")
-                        .HasMaxLength(100);
-
-                    b.HasKey("TransactionNo");
-
-                    b.ToTable("inventoryout_trx_detail");
-                });
-
-            modelBuilder.Entity("CloudImsCommon.Models.InventoryOutTrxDetail", b =>
-                {
-                    b.Property<string>("TransactionNo")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("itoh_trxno")
-                        .HasMaxLength(100);
-
                     b.Property<int>("In_TrxNo")
                         .HasColumnName("itoh_in_trxno")
                         .HasMaxLength(100);
@@ -567,7 +527,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 14, 15, 7, 58, 152, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 14, 15, 7, 58, 153, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 17, 16, 5, 22, 698, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 17, 16, 5, 22, 699, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 
