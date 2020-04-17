@@ -165,10 +165,10 @@ namespace Cloud_IMS_Api.Controllers
                                                  where ItemMasterUnit.itemMasterUnitUnit == idunit
                                                  select new
                                                  {
-                                                     ItemMasterUnit = ItemMasterUnit.ID,
-                                                     UnitCode = UnitCode.Code,
-                                                     UnitDescription = UnitCode.Description,
-                                                     ConversionFactor = ItemMasterUnit.itemMasterUnitConversion
+                                                     id = ItemMasterUnit.ID,
+                                                     itemMasterUnitUnit = UnitCode.Code,
+                                                     description = UnitCode.Description,
+                                                     itemMasterUnitConversion = ItemMasterUnit.itemMasterUnitConversion
                                                  };
 
 

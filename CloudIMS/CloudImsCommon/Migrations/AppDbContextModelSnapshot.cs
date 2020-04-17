@@ -176,8 +176,7 @@ namespace CloudImsCommon.Migrations
                         .HasColumnName("itoh_trxno")
                         .HasMaxLength(100);
 
-                    b.Property<string>("In_TrxNo")
-                        .IsRequired()
+                    b.Property<int>("In_TrxNo")
                         .HasColumnName("itoh_in_trxno")
                         .HasMaxLength(100);
 
@@ -242,11 +241,6 @@ namespace CloudImsCommon.Migrations
                     b.Property<string>("Remarks")
                         .IsRequired()
                         .HasColumnName("itoh_remarks")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnName("itoh_status")
                         .HasMaxLength(100);
 
                     b.Property<DateTime>("TransactionDate")
@@ -533,7 +527,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 17, 9, 57, 8, 848, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 17, 9, 57, 8, 849, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 17, 16, 5, 22, 698, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 17, 16, 5, 22, 699, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 
