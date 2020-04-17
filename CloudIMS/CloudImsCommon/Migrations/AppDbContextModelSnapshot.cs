@@ -92,8 +92,7 @@ namespace CloudImsCommon.Migrations
                         .HasMaxLength(100);
 
                     b.Property<int>("Count")
-                        .HasColumnName("count")
-                        .HasMaxLength(100);
+                        .HasColumnName("count");
 
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnName("exp_date");
@@ -109,12 +108,10 @@ namespace CloudImsCommon.Migrations
                         .HasMaxLength(100);
 
                     b.Property<int>("Quantity")
-                        .HasColumnName("quantity")
-                        .HasMaxLength(100);
+                        .HasColumnName("quantity");
 
                     b.Property<int>("RemainigCount")
-                        .HasColumnName("remaning_count")
-                        .HasMaxLength(100);
+                        .HasColumnName("remaning_count");
 
                     b.Property<string>("Unit")
                         .IsRequired()
@@ -530,9 +527,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 14, 15, 7, 58, 152, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 14, 15, 7, 58, 153, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
-
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 17, 16, 5, 22, 698, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 17, 16, 5, 22, 699, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 

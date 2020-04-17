@@ -11,6 +11,7 @@ import { IiTemMasterUnit } from '../classes/data-dictionary/ItemMasterUnit/Iitem
 import { Http } from '@angular/http';
 import { IiTemMasterUnitJoinUnit } from '../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitJoinUnit.interface';
 import { IitemMasterUnitJoinUnitClass } from '../classes/data-dictionary/ItemMasterUnit/IitemMasterJoinUnitClass';
+import { IitemMasterUnitConversionFactor } from '../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitConversionFactor.interface';
 
 @Injectable()
 export class InventoryInService {
@@ -51,13 +52,13 @@ export class InventoryInService {
 
   }
 
-  getItemasterUnit(id: string): Observable<IiTemMasterUnitJoinUnit[]> {
+  getItemasterUnit(id: string): Observable<IitemMasterUnitJoinUnitClass[]> {
     let params = new HttpParams().set('id', id);
-    return this._http.get<IiTemMasterUnitJoinUnit[]>(this.url_invIn + "/GetUnitCodeFromItem", {params : params})
+    return this._http.get<IitemMasterUnitJoinUnitClass[]>(this.url_invIn + "/GetUnitCodeFromItem", {params : params})
   }
 
-  getItemasterUnitConversionFactor(itemmasterId: string ,itemmasterUnitID: string): Observable<IiTemMasterUnitJoinUnit[]> {
+  getItemasterUnitConversionFactor(itemmasterId: string, itemmasterUnitID: string): Observable<IitemMasterUnitConversionFactor[]> {
     let params = new HttpParams().set('id', itemmasterId).set('idunit', itemmasterUnitID)
-    return this._http.get<IiTemMasterUnitJoinUnit[]>(this.url_invIn + "/GetConversionFactorFromItemMasterUnit", { params: params })
+    return this._http.get<IitemMasterUnitConversionFactor[]>(this.url_invIn + "/GetConversionFactorFromItemMasterUnit", { params: params })
   }
 }
