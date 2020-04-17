@@ -75,8 +75,7 @@ namespace CloudImsCommon.Migrations
                         .HasMaxLength(100);
 
                     b.Property<int>("Count")
-                        .HasColumnName("count")
-                        .HasMaxLength(100);
+                        .HasColumnName("count");
 
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnName("exp_date");
@@ -92,12 +91,10 @@ namespace CloudImsCommon.Migrations
                         .HasMaxLength(100);
 
                     b.Property<int>("Quantity")
-                        .HasColumnName("quantity")
-                        .HasMaxLength(100);
+                        .HasColumnName("quantity");
 
                     b.Property<int>("RemainigCount")
-                        .HasColumnName("remaning_count")
-                        .HasMaxLength(100);
+                        .HasColumnName("remaning_count");
 
                     b.Property<string>("Unit")
                         .IsRequired()
@@ -153,6 +150,89 @@ namespace CloudImsCommon.Migrations
                     b.HasKey("TransactionNo");
 
                     b.ToTable("inventoryin_trx_header");
+                });
+
+            modelBuilder.Entity("CloudImsCommon.Models.InventoryOutTrxDetail", b =>
+                {
+                    b.Property<string>("TransactionNo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("itoh_trxno")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("In_TrxNo")
+                        .IsRequired()
+                        .HasColumnName("itoh_in_trxno")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("ItemID")
+                        .IsRequired()
+                        .HasColumnName("itoh_item_id")
+                        .HasMaxLength(100);
+
+                    b.Property<int>("MinCount")
+                        .HasColumnName("itoh_mincount")
+                        .HasMaxLength(100);
+
+                    b.Property<int>("Quantity")
+                        .HasColumnName("itoh_quantity")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Remarks")
+                        .IsRequired()
+                        .HasColumnName("itoh_remarks")
+                        .HasMaxLength(300);
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasColumnName("itoh_unit")
+                        .HasMaxLength(100);
+
+                    b.HasKey("TransactionNo");
+
+                    b.ToTable("inventoryout_trx_detail");
+                });
+
+            modelBuilder.Entity("CloudImsCommon.Models.InventoryOutTrxHeader", b =>
+                {
+                    b.Property<string>("TransactionNo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("itoh_trxno")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasColumnName("itoh_department")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("IssuedBy")
+                        .IsRequired()
+                        .HasColumnName("itoh_issued_by")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime>("IssuedDate")
+                        .HasColumnName("itoh_issued_date");
+
+                    b.Property<string>("ReceivedBy")
+                        .IsRequired()
+                        .HasColumnName("itoh_rcvd_by")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("ReferenceNo")
+                        .IsRequired()
+                        .HasColumnName("itoh_ref_number")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Remarks")
+                        .IsRequired()
+                        .HasColumnName("itoh_remarks")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnName("itoh_trx_date");
+
+                    b.HasKey("TransactionNo");
+
+                    b.ToTable("inventoryout_trx_header");
                 });
 
             modelBuilder.Entity("CloudImsCommon.Models.ItemGroup", b =>
@@ -431,7 +511,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 14, 15, 7, 58, 152, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 14, 15, 7, 58, 153, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 17, 15, 42, 8, 438, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 17, 15, 42, 8, 439, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 
