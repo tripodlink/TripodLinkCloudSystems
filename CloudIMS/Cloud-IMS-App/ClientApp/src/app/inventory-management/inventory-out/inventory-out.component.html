@@ -1,10 +1,168 @@
 <main class="app-content">
   <div class="app-title">
     <div>
-      <h3><i class="fa fa-arrow-circle-up"></i> Inventory Management / Inventory Out</h3>
+      <h1><i class="fa fa-arrow-circle-up"></i>Inventory Management / Inventory Out</h1>
     </div>
     <ul class="app-breadcrumb breadcrumb">
       <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
     </ul>
   </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tile">
+        <h3 class="tile-title"></h3>
+        <div class="col text-right">
+        </div>
+        <h3>Transaction Header</h3>
+        <div class="fa-pull-right">
+          <button class="btn btn-secondary" type="button" (click)="saveTransaction()"><i class="fa fa-floppy-o"></i>Save Transaction</button>
+          &nbsp;
+          <button class="btn btn-primary" type="button"><i class="fa fa-arrow-circle-up"></i>Issue Item</button>
+        </div>
+        <br />
+        <form class="form" [formGroup]="InventoryOutHeaderForm" (change)="checkTrxNum()">
+          <div class="row">
+
+            <div class="form-group col-md-2">
+              <label for="transactionNo">Transaction Number</label>
+              <input formControlName="transactionNo" [disabled]="isNewTrx" class="form-control" readonly>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label for="transactionDate">Transaction Date</label>
+              <input type="datetime-local" formControlName="transactionDate" class="form-control date" id="transactionDate" readonly>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label for="department">Department</label>
+              <input list="depOption" formControlName="department" class="form-control">
+
+              <datalist id="depOption">
+                <option  *ngFor="let depList of depListArray" value="{{depList.id}}">{{depList.departmentName}}</option>
+              </datalist>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label for="referenceNo">Reference Number</label>
+              <input formControlName="referenceNo" class="form-control">
+            </div>
+
+            <div class="form-group col-md-11">
+              <label for="remarks">Remarks</label>
+              <textarea formControlName="remarks" class="form-control"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tile">
+        <h3 class="tile-title"></h3>
+        <div class="col text-right">
+        </div>
+        <h3>Transaction Detail</h3>
+    
+        <br />
+        <form class="form" [formGroup]="InventoryOutDetail">
+          <div class="row">
+
+            <div class="form-group col-md-3">
+              <label for="TrxDetailItem">Select Item</label>
+              <input list="itemOption" formControlName="TrxDetailItem" class="form-control">
+
+              <datalist id="itemOption">
+                <option>Serum</option>
+                <option>Edta</option>
+                <option>Syringe</option>
+              </datalist>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="TrxDetailUnit">Unit</label>
+              <input list="unitOption" formControlName="TrxDetailUnit" class="form-control">
+
+              <datalist id="unitOption">
+                <option>Box</option>
+                <option>Pieces</option>
+                <option>Tray</option>
+              </datalist>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label for="TrxDetailLotNum">Select from Lot Number</label>
+              <input list="lotNumOption" formControlName="TrxDetailLotNum" class="form-control">
+
+              <datalist id="lotNumOption">
+                <option>111</option>
+                <option>222</option>
+                <option>333</option>
+              </datalist>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="TrxDetailQuantity">Quantity</label>
+              <input type="number" formControlName="TrxDetailQuantity" class="form-control">
+            </div>
+
+            <div class="form-group col-md-3">
+              <label for="TrxDetailRemarks">Remarks</label>
+              <input formControlName="TrxDetailRemarks" class="form-control">
+            </div>
+
+            <div class="form-group col-md-1 align-self-end">
+              <button class="btn btn-info" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>Add</button>
+            </div>
+
+          </div>
+        </form>
+        <br />
+        <div class="tile-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="table">
+              <thead class="btn-dark">
+                <tr>
+                  <th>Item Name</th>
+                  <th>Item Unit</th>
+                  <th>Item Lot Number</th>
+                  <th>Item Quantity</th>
+                  <th>Item Remarks</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Name</td>
+                  <td>Unit</td>
+                  <td>Lot Number</td>
+                  <td>Quantity</td>
+                  <td>Remarks</td>
+                  <td></td>
+                </tr>
+                <!--<tr *ngFor="let showD of showAllDataDic" [id]="showD.itemMasterID">
+            <td>{{showD.itemMasterID}}</td>
+            <td id="{{showD.itemGroupID}}">{{showD.itemgroupname}}</td>
+            <td>{{showD.itemName}}</td>
+            <td id="{{showD.code}}">{{showD.description}}</td>
+            <td id="{{showD.suppID}}">{{showD.suppName}}</td>
+            <td id="{{showD.mauFactID}}">{{showD.manufactName}}</td>
+            <td>
+              <button type="button" class="btn btn-primary" (click)="passDataItemMaster(showD.itemName,showD.itemMasterID)" data-toggle="modal" data-target="#AddItemUnitsModal"><i class="fa fa-plus-square-o"></i>Add Unit</button>&nbsp;
+              <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal"
+                      (click)="PassData(showD.itemMasterID, showD.itemGroupID, showD.itemName, showD.code,showD.suppID, showD.mauFactID)">
+                <i class="fa fa-pencil"></i>Edit
+              </button>&nbsp;
+              &nbsp;<button type="button" class="btn btn-danger" (click)="deleteItemMaster(itemM.id)"><i class="fa fa-trash"></i>Delete</button>
+            </td>
+          </tr>-->
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>  
 </main>

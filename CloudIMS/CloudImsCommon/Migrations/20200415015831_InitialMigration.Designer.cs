@@ -3,14 +3,16 @@ using System;
 using CloudImsCommon.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CloudImsCommon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200415015831_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,26 +94,29 @@ namespace CloudImsCommon.Migrations
                         .HasMaxLength(100);
 
                     b.Property<int>("Count")
-                        .HasColumnName("count");
+                        .HasColumnName("count")
+                        .HasMaxLength(100);
 
                     b.Property<DateTime>("ExpirationDate")
-                        .HasColumnName("exp_date");
+                        .HasColumnName("exp_date")
+                        .HasMaxLength(100);
 
                     b.Property<string>("ItemID")
                         .IsRequired()
                         .HasColumnName("item_id")
                         .HasMaxLength(100);
 
-                    b.Property<string>("LotNumber")
-                        .IsRequired()
+                    b.Property<int>("LotNumber")
                         .HasColumnName("lotno")
                         .HasMaxLength(100);
 
                     b.Property<int>("Quantity")
-                        .HasColumnName("quantity");
+                        .HasColumnName("quantity")
+                        .HasMaxLength(100);
 
                     b.Property<int>("RemainigCount")
-                        .HasColumnName("remaning_count");
+                        .HasColumnName("remaning_count")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Unit")
                         .IsRequired()
@@ -131,82 +136,51 @@ namespace CloudImsCommon.Migrations
                         .HasMaxLength(100);
 
                     b.Property<string>("DocumnetNo")
+                        .IsRequired()
                         .HasColumnName("doc_number")
                         .HasMaxLength(100);
 
                     b.Property<string>("InvoiceNo")
+                        .IsRequired()
                         .HasColumnName("invoice_number")
                         .HasMaxLength(100);
 
                     b.Property<string>("PONumber")
+                        .IsRequired()
                         .HasColumnName("po_number")
                         .HasMaxLength(100);
 
                     b.Property<string>("ReceivedBy")
+                        .IsRequired()
                         .HasColumnName("rcvd_by")
                         .HasMaxLength(100);
 
                     b.Property<DateTime>("ReceivedDate")
-                        .HasColumnName("rcvd_date");
+                        .HasColumnName("rcvd_date")
+                        .HasMaxLength(100);
 
                     b.Property<string>("ReferenceNo")
+                        .IsRequired()
                         .HasColumnName("ref_number")
                         .HasMaxLength(100);
 
                     b.Property<string>("Remarks")
+                        .IsRequired()
                         .HasColumnName("remarks")
                         .HasMaxLength(100);
 
                     b.Property<string>("Supplier")
+                        .IsRequired()
                         .HasColumnName("supplier")
                         .HasMaxLength(100);
 
                     b.Property<DateTime>("TransactionDate")
-                        .HasColumnName("trx_date");
+                        .HasColumnName("trx_date")
+                        .HasMaxLength(100);
 
                     b.HasKey("TransactionNo");
 
                     b.ToTable("inventoryin_trx_header");
-                });
-
-            modelBuilder.Entity("CloudImsCommon.Models.InventoryOutTrxDetail", b =>
-                {
-                    b.Property<string>("TransactionNo")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("itoh_trxno")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("In_TrxNo")
-                        .IsRequired()
-                        .HasColumnName("itoh_in_trxno")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("ItemID")
-                        .IsRequired()
-                        .HasColumnName("itoh_item_id")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("MinCount")
-                        .HasColumnName("itoh_mincount")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("Quantity")
-                        .HasColumnName("itoh_quantity")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Remarks")
-                        .IsRequired()
-                        .HasColumnName("itoh_remarks")
-                        .HasMaxLength(300);
-
-                    b.Property<string>("Unit")
-                        .IsRequired()
-                        .HasColumnName("itoh_unit")
-                        .HasMaxLength(100);
-
-                    b.HasKey("TransactionNo");
-
-                    b.ToTable("inventoryout_trx_detail");
                 });
 
             modelBuilder.Entity("CloudImsCommon.Models.InventoryOutTrxDetail", b =>
@@ -567,7 +541,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 14, 15, 7, 58, 152, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 14, 15, 7, 58, 153, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 15, 9, 58, 31, 255, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 15, 9, 58, 31, 256, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 

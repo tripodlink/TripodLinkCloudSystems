@@ -41,12 +41,14 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\app.routing.ts" />
+    <None Remove="ClientApp\src\app\classes\data-dictionary\Department\DepartmentClass.ts" />
     <None Remove="ClientApp\src\app\classes\data-dictionary\IitemGroupClass.ts" />
     <None Remove="ClientApp\src\app\classes\data-dictionary\ItemMaster\IitemMasterClass.ts" />
     <None Remove="ClientApp\src\app\classes\data-dictionary\Manufacturer\IManufacturerClass.ts" />
     <None Remove="ClientApp\src\app\classes\data-dictionary\UnitCode\IUnitCodeClass.ts" />
     <None Remove="ClientApp\src\app\classes\inventory-management\InventoryIn\IInventoryInTrxDetailClass.ts" />
     <None Remove="ClientApp\src\app\classes\inventory-management\InventoryIn\IInventoryInTrxHeaderClass.ts" />
+    <None Remove="ClientApp\src\app\classes\inventory-management\inventory-out\IitemGroupClass.ts" />
     <None Remove="ClientApp\src\app\classes\ISupplierClass.ts" />
     <None Remove="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
     <None Remove="ClientApp\src\app\services\UserAuthorization.service.ts" />
@@ -95,6 +97,9 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\app.routing.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\Department\DepartmentClass.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\Manufacturer\IManufacturerClass.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\Supplier\ISupplierClass.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\ItemGroup\IitemGroupClass.ts" />
@@ -104,6 +109,10 @@
     <TypeScriptCompile Include="ClientApp\src\app\classes\data-dictionary\UnitCode\IUnitCodeClass.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\inventory-management\InventoryIn\IInventoryInTrxDetailClass.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\inventory-management\InventoryIn\IInventoryInTrxHeaderClass.ts" />
+
+    <TypeScriptCompile Include="ClientApp\src\app\classes\inventory-management\inventory-out\IitemGroupClass.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\classes\ProgramFolder.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\ProgramMenu.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\UserAccount.ts" />
