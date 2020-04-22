@@ -5,6 +5,7 @@ import { IinventoryOutDetail } from '../classes/inventory-management/inventory-o
 import { IDepartment } from '../classes/data-dictionary/Department/IDepartment.interface';
 import { IInventoryInTrxDetail } from '../classes/inventory-management/InventoryIn/IInventoryInTrxDetail.interface';
 import { IiTemMasterUnitJoinUnit } from '../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitJoinUnit.interface';
+import { IitemMasterJoinInvIN } from '../classes/data-dictionary/ItemMasterUnit/IitemMasterJoinInvIN.interface';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { IInventoryInTrxHeader } from '../classes/inventory-management/InventoryIn/IInventoryInTrxHeader.interface';
 
@@ -65,9 +66,9 @@ export class InventorysServices {
     return this._http.get<IInventoryInTrxDetail[]>(this.urldtl + "/JoinINVtoItemMaster");
   }
 
-  getLotNum(itemID: string, unit: string): Observable<IInventoryInTrxDetail[]> {
+  getLotNum(itemID: string, unit: string): Observable<IitemMasterJoinInvIN[]> {
     let params = new HttpParams().set('itemID', itemID).set('unit', unit);
-    return this._http.get<IInventoryInTrxDetail[]>(this.url + "/findLotNum", { params: params });
+    return this._http.get<IitemMasterJoinInvIN[]>(this.url + "/findLotNum", { params: params });
 
   }
 

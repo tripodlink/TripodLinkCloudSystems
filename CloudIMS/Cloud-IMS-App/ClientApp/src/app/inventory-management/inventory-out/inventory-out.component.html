@@ -22,7 +22,7 @@
             <div class="form-group col-md-3">
               <label for="transactionNo">Transaction Number</label>&nbsp;<label style="color:red; font:bold">*</label>
               <input list="trxList" formControlName="transactionNo" class="form-control" (change)="getTrxNum()"
-                     [class.is-invalid]="this.InventoryOutHeaderForm.controls.transactionNo.touched && this.InventoryOutDetailForm.controls.transactionNo.value.trim() == ''" required>
+                     [class.is-invalid]="this.InventoryOutHeaderForm.controls.transactionNo.touched && this.InventoryOutHeaderForm.controls.transactionNo.value.trim() == ''" required>
               <datalist id="trxList">
                 <option *ngFor="let trxP of inventoryPendingTrx">{{trxP.transactionNo}}</option>
               </datalist>
@@ -30,14 +30,14 @@
 
             <div class="form-group col-md-3">
               <label for="transactionDate">Transaction Date</label>&nbsp;<label style="color:red; font:bold">*</label>
-              <input type="datetime-local" formControlName="transactionDate" class="form-control date" id="transactionDate"
-                     [class.is-invalid]="this.InventoryOutHeaderForm.controls.transactionDate.touched && this.InventoryOutDetailForm.controls.transactionDate.value.trim() == ''" required readonly>
+              <input type="datetime-local" formControlName="transactionDate" class="form-control"
+                     [class.is-invalid]="this.InventoryOutHeaderForm.controls.transactionDate.touched && this.InventoryOutHeaderForm.controls.transactionDate.value == ''" required readonly>
             </div>
 
             <div class="form-group col-md-3">
               <label for="department">Department</label>&nbsp;<label style="color:red; font:bold">*</label>
               <select formControlName="department" class="form-control"
-                      [class.is-invalid]="this.InventoryOutHeaderForm.controls.department.touched && this.InventoryOutDetailForm.controls.department.value.trim() == ''" required>
+                      [class.is-invalid]="this.InventoryOutHeaderForm.controls.department.touched && this.InventoryOutHeaderForm.controls.department.value.trim() == ''" required>
                 <option *ngFor="let depList of depListArray" value="{{depList.id}}">{{depList.departmentName}}</option>
               </select>
             </div>
@@ -45,7 +45,7 @@
             <div class="form-group col-md-3">
               <label for="referenceNo">Reference Number</label>&nbsp;<label style="color:red; font:bold">*</label>
               <input formControlName="referenceNo" class="form-control"
-                     [class.is-invalid]="this.InventoryOutHeaderForm.controls.referenceNo.touched && this.InventoryOutDetailForm.controls.referenceNo.value.trim() == ''" required>
+                     [class.is-invalid]="this.InventoryOutHeaderForm.controls.referenceNo.touched && this.InventoryOutHeaderForm.controls.referenceNo.value.trim() == ''" required>
             </div>
 
             <div class="form-group col-md-12">
@@ -73,7 +73,7 @@
             <!-- ITEM ID -->
             <div class="form-group col-md-3">
               <label for="itemID">Select Item</label> &nbsp;<label style="color:red; font:bold">*</label>
-              <input list="itemOption" formControlName="itemID" class="form-control" (change)="checkUnit()" (input)="InputcheckItemIfNUll()"
+              <input list="itemOption" formControlName="itemID" class="form-control" (change)="checkUnit()"
                      [class.is-invalid]="this.InventoryOutDetailForm.controls.itemID.touched && this.InventoryOutDetailForm.controls.itemID.value.trim() == ''" required>
 
               <datalist id="itemOption">
@@ -85,7 +85,7 @@
             <div class="form-group col-md-1">
               <label for="unit">Unit</label>&nbsp;<label style="color:red; font:bold">*</label>
               <input list="unitOption" formControlName="unit" class="form-control" (change)="checkLotNum()"
-                     [class.is-invalid]="this.InventoryOutDetailForm.controls.unit.touched && this.InventoryOutDetailForm.controls.unit.value.trim() == ''" required>
+                     [class.is-invalid]="this.InventoryOutDetailForm.controls.unit.touched && this.InventoryOutDetailForm.controls.unit.value == ''" required>
 
               <datalist id="unitOption">
                 <option *ngFor="let unit of unitArray" id="{{unit.unitDescription}}" value="{{unit.unitDescription}}">{{unit.unitCode}}</option>
@@ -177,8 +177,8 @@
     &nbsp;
     <button class="btn btn-danger" type="button" [disabled]="isDisabledDeleteButton" (click)="deleteTransaction()"><i class="fa fa-trash-o"></i>Delete Transaction</button>
     &nbsp;
-    <button class="btn btn-secondary" type="button" [disabled]="!this.InventoryOutHeaderForm.valid" (click)="saveorIssueTransaction('P')"><i class="fa fa-floppy-o"></i>Save Transaction</button>
+    <button class="btn btn-secondary" type="button" [disabled]="!InventoryOutHeaderForm.valid" (click)="saveorIssueTransaction('P')"><i class="fa fa-floppy-o"></i>Save Transaction</button>
     &nbsp;
-    <button class="btn btn-primary" type="button" [disabled]="!this.InventoryOutHeaderForm.valid" (click)="saveorIssueTransaction('I')"><i class="fa fa-arrow-circle-up"></i>Issue Item</button>
+    <button class="btn btn-primary" type="button" [disabled]="!InventoryOutHeaderForm.valid" (click)="saveorIssueTransaction('I')"><i class="fa fa-arrow-circle-up"></i>Issue Item</button>
   </div>
 </main>
