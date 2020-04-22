@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CloudImsCommon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200420073246_InitialMigration")]
+    [Migration("20200422051901_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,7 +58,14 @@ namespace CloudImsCommon.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("DepartmentName")
+                        .HasName("IDX_DESCRIPTION");
+
                     b.ToTable("department");
+
+                    b.HasData(
+                        new { ID = "100", DepartmentName = "Default DepartmentName" }
+                    );
                 });
 
             modelBuilder.Entity("CloudImsCommon.Models.EventTable", b =>
@@ -270,7 +277,14 @@ namespace CloudImsCommon.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("ItemGroupName")
+                        .HasName("IDX_DESCRIPTION");
+
                     b.ToTable("item_group");
+
+                    b.HasData(
+                        new { ID = "100", ItemGroupName = "Default ItemGroup" }
+                    );
                 });
 
             modelBuilder.Entity("CloudImsCommon.Models.ItemMaster", b =>
@@ -308,6 +322,10 @@ namespace CloudImsCommon.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("item_master");
+
+                    b.HasData(
+                        new { ID = "01", ItemGroup = "100", ItemName = "Default Item", Manufacturer = "100", Supplier = "100", Unit = "102" }
+                    );
                 });
 
             modelBuilder.Entity("CloudImsCommon.Models.ItemMasterUnit", b =>
@@ -327,6 +345,10 @@ namespace CloudImsCommon.Migrations
                     b.HasKey("ID", "itemMasterUnitUnit");
 
                     b.ToTable("item_master_unit");
+
+                    b.HasData(
+                        new { ID = "01", itemMasterUnitUnit = "102", itemMasterUnitConversion = "1" }
+                    );
                 });
 
             modelBuilder.Entity("CloudImsCommon.Models.Manufacturer", b =>
@@ -343,7 +365,14 @@ namespace CloudImsCommon.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("ManufactName")
+                        .HasName("IDX_DESCRIPTION");
+
                     b.ToTable("manufacturer");
+
+                    b.HasData(
+                        new { ID = "100", ManufactName = "Default Manufacturer" }
+                    );
                 });
 
             modelBuilder.Entity("CloudImsCommon.Models.ProgramFolder", b =>
@@ -383,10 +412,11 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("program_folder");
 
                     b.HasData(
-                        new { ID = "DASH", Name = "Dashboard", RouteAttribute = "dashboard", SequenceNo = 0 },
-                        new { ID = "IVM", Name = "Inventory Management", RouteAttribute = "inventory-management", SequenceNo = 10 },
-                        new { ID = "DIC", Name = "Data Dictionary", RouteAttribute = "data-dictionary", SequenceNo = 20 },
-                        new { ID = "UM", Name = "User Management", RouteAttribute = "user-management", SequenceNo = 30 }
+                        new { ID = "IVM", Icon = "fa fa-truck", Name = "Inventory Management", RouteAttribute = "inventory-management", SequenceNo = 10 },
+                        new { ID = "DIC", Icon = "fa fa-file-code-o", Name = "Data Dictionary", RouteAttribute = "data-dictionary", SequenceNo = 20 },
+                        new { ID = "UM", Icon = "fa fa-user-circle-o", Name = "User Management", RouteAttribute = "user-management", SequenceNo = 30 },
+                        new { ID = "DASH", Icon = "fa fa-tachometer", Name = "Dashboard", RouteAttribute = "dashboard", SequenceNo = 10 },
+                        new { ID = "RPT", Icon = "fa fa-file-text", Name = "Report Management", RouteAttribute = "report-management", SequenceNo = 10 }
                     );
                 });
 
@@ -432,16 +462,20 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("program_menu");
 
                     b.HasData(
-                        new { ID = "IVM_IN", Name = "Inventory In", ProgramFolderID = "IVM", RouteAttribute = "inventory-in", SequenceNo = 10 },
-                        new { ID = "IVM_OUT", Name = "Inventory Out", ProgramFolderID = "IVM", RouteAttribute = "inventory-out", SequenceNo = 20 },
-                        new { ID = "DIC_UNIT", Name = "Unit", ProgramFolderID = "DIC", RouteAttribute = "unit", SequenceNo = 10 },
-                        new { ID = "DIC_SUP", Name = "Supplier", ProgramFolderID = "DIC", RouteAttribute = "supplier", SequenceNo = 20 },
-                        new { ID = "DIC_MANU", Name = "Manufacturer", ProgramFolderID = "DIC", RouteAttribute = "manufacturer", SequenceNo = 30 },
-                        new { ID = "DIC_ITEM", Name = "Item Master", ProgramFolderID = "DIC", RouteAttribute = "item-master", SequenceNo = 40 },
-                        new { ID = "DIC_ITEMGRP", Name = "Item Group", ProgramFolderID = "DIC", RouteAttribute = "item-group", SequenceNo = 50 },
-                        new { ID = "UM_USERACC", Name = "User Account", ProgramFolderID = "UM", RouteAttribute = "user-account", SequenceNo = 10 },
-                        new { ID = "UM_USERGRP", Name = "User Group", ProgramFolderID = "UM", RouteAttribute = "user-group", SequenceNo = 20 },
-                        new { ID = "UM_USERPROF", Name = "User Profile", ProgramFolderID = "UM", RouteAttribute = "user-profile", SequenceNo = 30 }
+                        new { ID = "IVM_IN", IconName = "fa fa-desktop", Name = "Inventory In", ProgramFolderID = "IVM", RouteAttribute = "inventory-in", SequenceNo = 10 },
+                        new { ID = "IVM_OUT", IconName = "fa fa-desktop", Name = "Inventory Out", ProgramFolderID = "IVM", RouteAttribute = "inventory-out", SequenceNo = 20 },
+                        new { ID = "DIC_UNIT", IconName = "fa fa-desktop", Name = "Unit", ProgramFolderID = "DIC", RouteAttribute = "unit-code", SequenceNo = 10 },
+                        new { ID = "DIC_SUP", IconName = "fa fa-desktop", Name = "Supplier", ProgramFolderID = "DIC", RouteAttribute = "supplier", SequenceNo = 20 },
+                        new { ID = "DIC_MANU", IconName = "fa fa-desktop", Name = "Manufacturer", ProgramFolderID = "DIC", RouteAttribute = "manufacturer", SequenceNo = 30 },
+                        new { ID = "DIC_ITEM", IconName = "fa fa-desktop", Name = "Item Master", ProgramFolderID = "DIC", RouteAttribute = "item-master", SequenceNo = 40 },
+                        new { ID = "DIC_ITEMGRP", IconName = "fa fa-desktop", Name = "Item Group", ProgramFolderID = "DIC", RouteAttribute = "item-group", SequenceNo = 50 },
+                        new { ID = "DIC_DEP", IconName = "fa fa-desktop", Name = "Department", ProgramFolderID = "DIC", RouteAttribute = "department", SequenceNo = 60 },
+                        new { ID = "UM_USERACC", IconName = "fa fa-desktop", Name = "User Account", ProgramFolderID = "UM", RouteAttribute = "user-account", SequenceNo = 10 },
+                        new { ID = "UM_USERGRP", IconName = "fa fa-desktop", Name = "User Group", ProgramFolderID = "UM", RouteAttribute = "user-group", SequenceNo = 20 },
+                        new { ID = "UM_USERPROF", IconName = "fa fa-desktop", Name = "User Profile", ProgramFolderID = "UM", RouteAttribute = "user-profile", SequenceNo = 30 },
+                        new { ID = "DASH", IconName = "fa fa-tachometer", Name = "Dashboard", ProgramFolderID = "DASH", RouteAttribute = "dashboard", SequenceNo = 10 },
+                        new { ID = "RPT_IVM_IN", IconName = "fa fa-desktop", Name = "(Report) Inventory In", ProgramFolderID = "RPT", RouteAttribute = "report-inventory-in", SequenceNo = 10 },
+                        new { ID = "RPT_IVM_OUT", IconName = "fa fa-desktop", Name = "(Report) Inventory Out", ProgramFolderID = "RPT", RouteAttribute = "report-inventory-out", SequenceNo = 20 }
                     );
                 });
 
@@ -459,7 +493,14 @@ namespace CloudImsCommon.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("Name")
+                        .HasName("IDX_DESCRIPTION");
+
                     b.ToTable("supplier");
+
+                    b.HasData(
+                        new { ID = "100", Name = "Default Supplier" }
+                    );
                 });
 
             modelBuilder.Entity("CloudImsCommon.Models.UnitCode", b =>
@@ -486,9 +527,9 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("unit_code");
 
                     b.HasData(
-                        new { Code = "100", Description = "Meter" },
-                        new { Code = "101", Description = "Kilo" },
-                        new { Code = "102", Description = "Gram" }
+                        new { Code = "100", Description = "Box" },
+                        new { Code = "101", Description = "Tray" },
+                        new { Code = "102", Description = "Pieces" }
                     );
                 });
 
@@ -532,7 +573,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 20, 15, 32, 46, 365, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 20, 15, 32, 46, 366, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 22, 13, 19, 1, 147, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 22, 13, 19, 1, 148, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 
@@ -593,6 +634,8 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_group_program");
 
                     b.HasData(
+                        new { UserGroupID = "ADMIN", ProgramMenuID = "RPT_IVM_IN" },
+                        new { UserGroupID = "ADMIN", ProgramMenuID = "RPT_IVM_OUT" },
                         new { UserGroupID = "ADMIN", ProgramMenuID = "IVM_IN" },
                         new { UserGroupID = "ADMIN", ProgramMenuID = "IVM_OUT" },
                         new { UserGroupID = "ADMIN", ProgramMenuID = "DIC_UNIT" },
@@ -600,6 +643,8 @@ namespace CloudImsCommon.Migrations
                         new { UserGroupID = "ADMIN", ProgramMenuID = "DIC_MANU" },
                         new { UserGroupID = "ADMIN", ProgramMenuID = "DIC_ITEM" },
                         new { UserGroupID = "ADMIN", ProgramMenuID = "DIC_ITEMGRP" },
+                        new { UserGroupID = "ADMIN", ProgramMenuID = "DIC_DEP" },
+                        new { UserGroupID = "ADMIN", ProgramMenuID = "DASH" },
                         new { UserGroupID = "ADMIN", ProgramMenuID = "UM_USERACC" },
                         new { UserGroupID = "ADMIN", ProgramMenuID = "UM_USERGRP" },
                         new { UserGroupID = "ADMIN", ProgramMenuID = "UM_USERPROF" }

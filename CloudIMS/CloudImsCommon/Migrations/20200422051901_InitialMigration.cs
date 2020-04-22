@@ -91,13 +91,14 @@ namespace CloudImsCommon.Migrations
                     itoh_item_id = table.Column<string>(maxLength: 100, nullable: false),
                     itoh_unit = table.Column<string>(maxLength: 100, nullable: false),
                     itoh_in_trxno = table.Column<string>(maxLength: 100, nullable: false),
-                    itoh_quantity = table.Column<int>(maxLength: 100, nullable: false),
+                    itoh_quantity = table.Column<int>(nullable: false),
                     itoh_remarks = table.Column<string>(maxLength: 300, nullable: false),
-                    itoh_mincount = table.Column<int>(maxLength: 100, nullable: false)
+                    itoh_mincount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_inventoryout_trx_detail", x => x.itoh_trxno);
+                    table.PrimaryKey("PK_inventoryout_trx_detail", x => new { x.itoh_trxno, x.itoh_item_id, x.itoh_in_trxno });
+                    table.UniqueConstraint("AK_inventoryout_trx_detail_itoh_in_trxno_itoh_item_id_itoh_trxno", x => new { x.itoh_in_trxno, x.itoh_item_id, x.itoh_trxno });
                 });
 
             migrationBuilder.CreateTable(
@@ -111,7 +112,8 @@ namespace CloudImsCommon.Migrations
                     itoh_rcvd_by = table.Column<string>(maxLength: 100, nullable: false),
                     itoh_department = table.Column<string>(maxLength: 200, nullable: false),
                     itoh_ref_number = table.Column<string>(maxLength: 100, nullable: false),
-                    itoh_remarks = table.Column<string>(maxLength: 100, nullable: false)
+                    itoh_remarks = table.Column<string>(maxLength: 100, nullable: false),
+                    itoh_status = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -372,7 +374,7 @@ namespace CloudImsCommon.Migrations
             migrationBuilder.InsertData(
                 table: "user_account",
                 columns: new[] { "ua_user_id", "im_created_by", "im_created_on", "ua_is_active", "ua_password", "im_updated_by", "im_updated_on", "ua_user_name" },
-                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 4, 22, 12, 20, 1, 387, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 4, 22, 12, 20, 1, 388, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
+                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 4, 22, 13, 19, 1, 147, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 4, 22, 13, 19, 1, 148, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "user_account_group",
