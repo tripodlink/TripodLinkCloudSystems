@@ -1,14 +1,14 @@
 <main class="app-content">
   <div class="app-title">
     <div>
-      <h3><i class="fa fa-truck"></i> Inventory Management</h3>
+      <h3><i class="fa fa-file-text"></i> Report Management</h3>
     </div>
     <ul class="app-breadcrumb breadcrumb">
       <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
     </ul>
   </div>
   <div class="row">
-    <div *ngFor="let pm of inv_pg_menus" class="col-md-2">
+    <div *ngFor="let pm of rpt_pg_menus" class="col-md-2">
       <a routerLink="{{ pm.routeAttribute }}">
         <div class="tile">
           <div class="tile-body">

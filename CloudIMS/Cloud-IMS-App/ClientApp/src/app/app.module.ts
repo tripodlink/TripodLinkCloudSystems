@@ -21,6 +21,7 @@ import { AuthGuard } from './_helpers/auth.guard';
 import { AppRoutingModule } from './app.routing';
 import { DataTablesModule } from 'angular-datatables';
 import { CookieService } from 'ngx-cookie-service';
+import { ReportManagementModule } from './report-management/report-management.module';
 
 @NgModule({
 
@@ -49,6 +50,7 @@ import { CookieService } from 'ngx-cookie-service';
     InventoryManagementModule,
     UserManagementModule,
     DataTablesModule,
+    ReportManagementModule,
 
     AppRoutingModule
 

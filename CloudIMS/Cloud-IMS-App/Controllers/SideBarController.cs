@@ -28,32 +28,32 @@ namespace Cloud_IMS_Api.Controllers
         public IActionResult Index(string id)
         {
 
-            UserAccount user = dbContext.UserAccounts.Find(id);
+            //UserAccount user = dbContext.UserAccounts.Find(id);
 
-            var userGroupIdList = dbContext.UserAccountGroups
-                .Where(uag => uag.UserAccountID == id)
-                .Select(uag => new { GoupID = uag.UserGroupID })
-                .ToList();
+            //var userGroupIdList = dbContext.UserAccountGroups
+            //    .Where(uag => uag.UserAccountID == id)
+            //    .Select(uag => new { GoupID = uag.UserGroupID })
+            //    .ToList();
 
-            user.UserGroups = dbContext.UserGroups
-                .Where(ug => userGroupIdList.Any(ugL => ugL.GoupID == ug.ID))
-                .ToList();
+            //user.UserGroups = dbContext.UserGroups
+            //    .Where(ug => userGroupIdList.Any(ugL => ugL.GoupID == ug.ID))
+            //    .ToList();
 
-            var programIdList = dbContext.UserGroupPrograms
-                .Where(ugp => user.UserGroups.Any(ug => ug.ID == ugp.UserGroupID))
-                .Distinct()
-                .Select(ugp => new { ProgramID = ugp.ProgramMenuID })
-                .ToList();
+            //var programIdList = dbContext.UserGroupPrograms
+            //    .Where(ugp => user.UserGroups.Any(ug => ug.ID == ugp.UserGroupID))
+            //    .Distinct()
+            //    .Select(ugp => new { ProgramID = ugp.ProgramMenuID })
+            //    .ToList();
 
-            user.ProgramMenus = dbContext.ProgramMenus
-                .Where(pm => programIdList.Any(pmL => pmL.ProgramID == pm.ID))
-                .ToList();
+            //user.ProgramMenus = dbContext.ProgramMenus
+            //    .Where(pm => programIdList.Any(pmL => pmL.ProgramID == pm.ID))
+            //    .ToList();
 
-            user.ProgramFolders = dbContext.ProgramFolders
-                .Where(pf => user.ProgramMenus.Any(pm => pm.ProgramFolderID == pf.ID))
-                .ToList();
+            //user.ProgramFolders = dbContext.ProgramFolders
+            //    .Where(pf => user.ProgramMenus.Any(pm => pm.ProgramFolderID == pf.ID))
+            //    .ToList();
 
-            return Ok(user.ProgramFolders);
+            return Ok("");
 
         }
     }
