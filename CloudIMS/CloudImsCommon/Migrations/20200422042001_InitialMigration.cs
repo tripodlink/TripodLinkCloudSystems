@@ -90,7 +90,7 @@ namespace CloudImsCommon.Migrations
                     itoh_trxno = table.Column<string>(maxLength: 100, nullable: false),
                     itoh_item_id = table.Column<string>(maxLength: 100, nullable: false),
                     itoh_unit = table.Column<string>(maxLength: 100, nullable: false),
-                    itoh_in_trxno = table.Column<int>(maxLength: 100, nullable: false),
+                    itoh_in_trxno = table.Column<string>(maxLength: 100, nullable: false),
                     itoh_quantity = table.Column<int>(maxLength: 100, nullable: false),
                     itoh_remarks = table.Column<string>(maxLength: 300, nullable: false),
                     itoh_mincount = table.Column<int>(maxLength: 100, nullable: false)
@@ -292,19 +292,45 @@ namespace CloudImsCommon.Migrations
                 values: new object[] { "000", "NEW", "NEW CLOUD IMS CUSTOMER" });
 
             migrationBuilder.InsertData(
+                table: "department",
+                columns: new[] { "d_id", "d_depertment_name" },
+                values: new object[] { "100", "Default DepartmentName" });
+
+            migrationBuilder.InsertData(
                 table: "event_table",
                 columns: new[] { "et_code", "et_description", "et_remarks" },
                 values: new object[] { "IV_IN", "Inventory In", null });
+
+            migrationBuilder.InsertData(
+                table: "item_group",
+                columns: new[] { "ig_id", "ig_item_group_name" },
+                values: new object[] { "100", "Default ItemGroup" });
+
+            migrationBuilder.InsertData(
+                table: "item_master",
+                columns: new[] { "im_id", "im_item_group", "im_item_name", "im_manufact", "im_supp", "im_unit" },
+                values: new object[] { "01", "100", "Default Item", "100", "100", "102" });
+
+            migrationBuilder.InsertData(
+                table: "item_master_unit",
+                columns: new[] { "imu_id", "imu_unit", "im_item_conversion" },
+                values: new object[] { "01", "102", "1" });
+
+            migrationBuilder.InsertData(
+                table: "manufacturer",
+                columns: new[] { "m_id", "m_item_group_name" },
+                values: new object[] { "100", "Default Manufacturer" });
 
             migrationBuilder.InsertData(
                 table: "program_folder",
                 columns: new[] { "pf_folder_id", "pf_icon", "pf_icon_provider", "pf_icon_type", "pf_folder_name", "pf_folder_route", "pf_seqno" },
                 values: new object[,]
                 {
-                    { "DASH", null, null, null, "Dashboard", "dashboard", 0 },
-                    { "IVM", null, null, null, "Inventory Management", "inventory-management", 10 },
-                    { "DIC", null, null, null, "Data Dictionary", "data-dictionary", 20 },
-                    { "UM", null, null, null, "User Management", "user-management", 30 }
+                    { "RPT", "fa fa-file-text", null, null, "Report Management", "report-management", 10 },
+                    { "DASH", "fa fa-tachometer", null, null, "Dashboard", "dashboard", 10 },
+                    { "DIC", "fa fa-file-code-o", null, null, "Data Dictionary", "data-dictionary", 20 },
+                    { "IVM", "fa fa-truck", null, null, "Inventory Management", "inventory-management", 10 },
+                    { "UM", "fa fa-user-circle-o", null, null, "User Management", "user-management", 30 }
                 });
 
             migrationBuilder.InsertData(
@@ -312,32 +338,41 @@ namespace CloudImsCommon.Migrations
                 columns: new[] { "pm_id", "pm_icon_name", "pm_icon_provider", "pm_icon_type", "pm_name", "pm_folder", "pm_route", "pm_seqno" },
                 values: new object[,]
                 {
-                    { "UM_USERGRP", null, null, null, "User Group", "UM", "user-group", 20 },
-                    { "UM_USERACC", null, null, null, "User Account", "UM", "user-account", 10 },
-                    { "DIC_ITEMGRP", null, null, null, "Item Group", "DIC", "item-group", 50 },
-                    { "DIC_ITEM", null, null, null, "Item Master", "DIC", "item-master", 40 },
-                    { "UM_USERPROF", null, null, null, "User Profile", "UM", "user-profile", 30 },
-                    { "DIC_SUP", null, null, null, "Supplier", "DIC", "supplier", 20 },
-                    { "DIC_UNIT", null, null, null, "Unit", "DIC", "unit", 10 },
-                    { "IVM_OUT", null, null, null, "Inventory Out", "IVM", "inventory-out", 20 },
-                    { "IVM_IN", null, null, null, "Inventory In", "IVM", "inventory-in", 10 },
-                    { "DIC_MANU", null, null, null, "Manufacturer", "DIC", "manufacturer", 30 }
+                    { "UM_USERACC", "fa fa-desktop", null, null, "User Account", "UM", "user-account", 10 },
+                    { "RPT_IVM_OUT", "fa fa-desktop", null, null, "(Report) Inventory Out", "RPT", "report-inventory-out", 20 },
+                    { "RPT_IVM_IN", "fa fa-desktop", null, null, "(Report) Inventory In", "RPT", "report-inventory-in", 10 },
+                    { "UM_USERPROF", "fa fa-desktop", null, null, "User Profile", "UM", "user-profile", 30 },
+                    { "UM_USERGRP", "fa fa-desktop", null, null, "User Group", "UM", "user-group", 20 },
+                    { "DIC_DEP", "fa fa-desktop", null, null, "Department", "DIC", "department", 60 },
+                    { "DASH", "fa fa-tachometer", null, null, "Dashboard", "DASH", "dashboard", 10 },
+                    { "DIC_ITEM", "fa fa-desktop", null, null, "Item Master", "DIC", "item-master", 40 },
+                    { "DIC_MANU", "fa fa-desktop", null, null, "Manufacturer", "DIC", "manufacturer", 30 },
+                    { "DIC_SUP", "fa fa-desktop", null, null, "Supplier", "DIC", "supplier", 20 },
+                    { "DIC_UNIT", "fa fa-desktop", null, null, "Unit", "DIC", "unit-code", 10 },
+                    { "DIC_ITEMGRP", "fa fa-desktop", null, null, "Item Group", "DIC", "item-group", 50 },
+                    { "IVM_OUT", "fa fa-desktop", null, null, "Inventory Out", "IVM", "inventory-out", 20 },
+                    { "IVM_IN", "fa fa-desktop", null, null, "Inventory In", "IVM", "inventory-in", 10 }
                 });
+
+            migrationBuilder.InsertData(
+                table: "supplier",
+                columns: new[] { "sup_id", "sup_name" },
+                values: new object[] { "100", "Default Supplier" });
 
             migrationBuilder.InsertData(
                 table: "unit_code",
                 columns: new[] { "uc_code", "uc_description", "uc_short_description" },
                 values: new object[,]
                 {
-                    { "100", "Meter", null },
-                    { "101", "Kilo", null },
-                    { "102", "Gram", null }
+                    { "100", "Box", null },
+                    { "101", "Tray", null },
+                    { "102", "Pieces", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "user_account",
                 columns: new[] { "ua_user_id", "im_created_by", "im_created_on", "ua_is_active", "ua_password", "im_updated_by", "im_updated_on", "ua_user_name" },
-                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 4, 17, 16, 5, 22, 698, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 4, 17, 16, 5, 22, 699, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
+                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 4, 22, 12, 20, 1, 387, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 4, 22, 12, 20, 1, 388, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "user_account_group",
@@ -354,6 +389,8 @@ namespace CloudImsCommon.Migrations
                 columns: new[] { "ugp_user_group", "ugp_program_id" },
                 values: new object[,]
                 {
+                    { "ADMIN", "RPT_IVM_IN" },
+                    { "ADMIN", "RPT_IVM_OUT" },
                     { "ADMIN", "IVM_IN" },
                     { "ADMIN", "IVM_OUT" },
                     { "ADMIN", "DIC_UNIT" },
@@ -361,10 +398,32 @@ namespace CloudImsCommon.Migrations
                     { "ADMIN", "DIC_MANU" },
                     { "ADMIN", "DIC_ITEM" },
                     { "ADMIN", "DIC_ITEMGRP" },
+                    { "ADMIN", "DIC_DEP" },
+                    { "ADMIN", "DASH" },
                     { "ADMIN", "UM_USERACC" },
                     { "ADMIN", "UM_USERGRP" },
                     { "ADMIN", "UM_USERPROF" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IDX_DESCRIPTION",
+                table: "department",
+                column: "d_depertment_name");
+
+            migrationBuilder.CreateIndex(
+                name: "IDX_DESCRIPTION",
+                table: "item_group",
+                column: "ig_item_group_name");
+
+            migrationBuilder.CreateIndex(
+                name: "IDX_DESCRIPTION",
+                table: "manufacturer",
+                column: "m_item_group_name");
+
+            migrationBuilder.CreateIndex(
+                name: "IDX_DESCRIPTION",
+                table: "supplier",
+                column: "sup_name");
 
             migrationBuilder.CreateIndex(
                 name: "IDX_DESCRIPTION",
