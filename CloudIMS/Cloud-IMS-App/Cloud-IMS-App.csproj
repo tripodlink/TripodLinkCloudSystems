@@ -134,6 +134,8 @@
     <Folder Include="ClientApp\src\app\classes\user-management\user-account\" />
     <Folder Include="ClientApp\src\app\classes\user-management\user-group\" />
     <Folder Include="ClientApp\src\app\classes\user-management\user-profile\" />
+    <Folder Include="ClientApp\src\app\report-management\inventory-in-report\" />
+    <Folder Include="ClientApp\src\app\report-management\inventory-out-report\" />
     <Folder Include="ClientApp\src\app\user-management\user-profile\" />
   </ItemGroup>
 

@@ -21,6 +21,8 @@ import { InventoryManagementComponent } from './inventory-management/inventory-m
 import { InventoryInComponent } from './inventory-management/inventory-in/inventory-in.component';
 import { InventoryOutComponent } from './inventory-management/inventory-out/inventory-out.component';
 
+//report management
+import { ReportManagementComponent } from './report-management/report-management.component';
 
 //##############################################################################################
 // user management folder componenet
@@ -32,6 +34,7 @@ import { AddEditUserAccountComponent } from './user-management/user-account/addE
 
 // user group components
 import { UserGroupComponent } from './user-management/user-group/user-group.component';
+
 //##############################################################################################
 
 const routes: Routes = [
@@ -53,6 +56,11 @@ const routes: Routes = [
   { path: 'inventory-management', component: InventoryManagementComponent, canActivate: [AuthGuard] },
   { path: 'inventory-management/inventory-in', component: InventoryInComponent, canActivate: [AuthGuard] },
   { path: 'inventory-management/inventory-out', component: InventoryOutComponent, canActivate: [AuthGuard] },
+
+  //report management
+  { path: 'report-management', component: ReportManagementComponent, canActivate: [AuthGuard] },
+  //{ path: 'report-management/report-inventory-in', component: ReportManagementComponent, canActivate: [AuthGuard] },
+  //{ path: 'report-management/report-inventory-out', component: ReportManagementComponent, canActivate: [AuthGuard] },
 
 
   //user management folder
