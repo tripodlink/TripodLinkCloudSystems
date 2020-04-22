@@ -16,6 +16,7 @@ namespace CloudImsCommon.Models
         [MaxLength(100, ErrorMessage = "TransactionNo cannot exceed 10 characters.")]
         public String TransactionNo { get; set; }
 
+        [Key]
         [Required]
         [Column("itoh_item_id")]
         [MaxLength(100, ErrorMessage = "Item ID cannot exceed 100 characters.")]
@@ -26,6 +27,7 @@ namespace CloudImsCommon.Models
         [MaxLength(100, ErrorMessage = "Unit cannot exceed 100 characters.")]
         public String Unit { get; set; }
 
+        [Key]
         [Required]
         [Column("itoh_in_trxno")]
         [MaxLength(100, ErrorMessage = "In Transaction Number cannot exceed 100 characters.")]
@@ -33,7 +35,6 @@ namespace CloudImsCommon.Models
 
         [Required]
         [Column("itoh_quantity")]
-        [MaxLength(100, ErrorMessage = "Quantity cannot exceed 100 characters.")]
         public int Quantity { get; set; }
 
         [Required]
@@ -43,7 +44,6 @@ namespace CloudImsCommon.Models
 
         [Required]
         [Column("itoh_mincount")]
-        [MaxLength(100, ErrorMessage = "Count cannot exceed 100 characters.")]
         public int MinCount { get; set; }
 
     }

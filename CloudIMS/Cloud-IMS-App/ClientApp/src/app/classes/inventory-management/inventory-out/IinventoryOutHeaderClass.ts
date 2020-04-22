@@ -1,4 +1,4 @@
-import { IinventoryOutHeader } from "../inventory-out/IitemGroup.interface";
+import { IinventoryOutHeader } from "../inventory-out/IinventoryOutHeader.interface";
 
 export class IinventoryOutHeaderClass implements IinventoryOutHeader {
   transactionNo: string;
@@ -9,4 +9,5 @@ export class IinventoryOutHeaderClass implements IinventoryOutHeader {
   department: string;
   referenceNo: string;
   remarks: string;
+  status: string;
 }

@@ -47,6 +47,8 @@ namespace CloudImsCommon.Database
 
             modelBuilder.Entity<ItemMasterUnit>().HasKey(itm => new { itm.ID, itm.itemMasterUnitUnit });
 
+            modelBuilder.Entity<InventoryOutTrxDetail>().HasKey(d => new { d.TransactionNo, d.ItemID, d.In_TrxNo});
+
             CreateSystemAdminGroupWithUserPrograms(modelBuilder);
 
           
