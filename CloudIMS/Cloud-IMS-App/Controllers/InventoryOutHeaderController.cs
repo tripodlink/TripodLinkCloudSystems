@@ -84,6 +84,78 @@ namespace Cloud_IMS_Api.Controllers
                 return BadRequest(GetErrorMessage(ex));
             }
         }
+        [Route("[action]")]
+        public IActionResult findPendingTrx()
+        {
+            try
+            {
+                var trxNumList = dbContext.InventoryOutTrxHeaders.Where(data => data.Status == "P").ToList();
+                if (trxNumList != null)
+                {
+                    return Json(trxNumList);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
+        [Route("[action]")]
+        [HttpDelete]
+        public IActionResult DeleteAllTrx(string trxNum)
+        {
+            try
+            {
+                InventoryOutTrxHeader allTrxHeader = dbContext.InventoryOutTrxHeaders.Find(trxNum);
+
+                if (allTrxHeader != null)
+                {
+                    dbContext.InventoryOutTrxHeaders.Remove(allTrxHeader);
+                    dbContext.SaveChanges();
+
+                    return Json(trxNum);
+                }
+                else
+                {
+                    throw new Exception($"User Not found with a user ID of '{trxNum}'.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
+        [Route("[action]")]
+        [HttpPost]
+        public IActionResult UpdatePendingTrx([FromBody] InventoryOutTrxHeader invOutTrx)
+        {
+            try
+            {
+                InventoryOutTrxHeader findTrxNum = dbContext.InventoryOutTrxHeaders.Find(invOutTrx.TransactionNo);
+
+                if (findTrxNum != null)
+                {
+
+                    findTrxNum.Status = invOutTrx.Status;
+                    dbContext.InventoryOutTrxHeaders.Update(findTrxNum);
+                    dbContext.SaveChanges();
+
+                    return Json(findTrxNum);
+                }
+                else
+                {
+                    throw new Exception($"User Not found with a user ID of '{invOutTrx.TransactionNo}'.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
     }
    
 }

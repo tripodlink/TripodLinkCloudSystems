@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CloudImsCommon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200417015709_InitialMigration")]
+    [Migration("20200420073246_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -174,27 +174,22 @@ namespace CloudImsCommon.Migrations
             modelBuilder.Entity("CloudImsCommon.Models.InventoryOutTrxDetail", b =>
                 {
                     b.Property<string>("TransactionNo")
-                        .ValueGeneratedOnAdd()
                         .HasColumnName("itoh_trxno")
                         .HasMaxLength(100);
 
-                    b.Property<string>("In_TrxNo")
-                        .IsRequired()
-                        .HasColumnName("itoh_in_trxno")
-                        .HasMaxLength(100);
-
                     b.Property<string>("ItemID")
-                        .IsRequired()
                         .HasColumnName("itoh_item_id")
                         .HasMaxLength(100);
 
-                    b.Property<int>("MinCount")
-                        .HasColumnName("itoh_mincount")
+                    b.Property<string>("In_TrxNo")
+                        .HasColumnName("itoh_in_trxno")
                         .HasMaxLength(100);
 
+                    b.Property<int>("MinCount")
+                        .HasColumnName("itoh_mincount");
+
                     b.Property<int>("Quantity")
-                        .HasColumnName("itoh_quantity")
-                        .HasMaxLength(100);
+                        .HasColumnName("itoh_quantity");
 
                     b.Property<string>("Remarks")
                         .IsRequired()
@@ -206,7 +201,9 @@ namespace CloudImsCommon.Migrations
                         .HasColumnName("itoh_unit")
                         .HasMaxLength(100);
 
-                    b.HasKey("TransactionNo");
+                    b.HasKey("TransactionNo", "ItemID", "In_TrxNo");
+
+                    b.HasAlternateKey("In_TrxNo", "ItemID", "TransactionNo");
 
                     b.ToTable("inventoryout_trx_detail");
                 });
@@ -535,7 +532,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 17, 9, 57, 8, 848, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 17, 9, 57, 8, 849, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 20, 15, 32, 46, 365, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 20, 15, 32, 46, 366, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 

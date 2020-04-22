@@ -14,43 +14,41 @@
         <div class="col text-right">
         </div>
         <h3>Transaction Header</h3>
-        <div class="fa-pull-right">
-          <button class="btn btn-danger" type="button" [disabled]="isDisabledDeleteButton" (click)="deleteTransaction()"><i class="fa fa-trash-o"></i>Delete Transaction</button>
-          &nbsp;
-          <button class="btn btn-secondary" type="button"  (click)="saveTransaction()"><i class="fa fa-floppy-o"></i>Save Transaction</button>
-          &nbsp;
-          <button class="btn btn-primary" type="button" (click)="issueTransaction()"><i class="fa fa-arrow-circle-up"></i>Issue Item</button>
-        </div>
+
         <br />
-        <form class="form" [formGroup]="InventoryOutHeaderForm" (change)="checkTrxNum()">
+        <form class="form" [formGroup]="InventoryOutHeaderForm" (change)="generateTrxNumandDate()">
           <div class="row">
 
             <div class="form-group col-md-3">
-              <label for="transactionNo">Transaction Number</label>
-              <input list="trxList" formControlName="transactionNo" class="form-control" (change)="getTrxNum()">
+              <label for="transactionNo">Transaction Number</label>&nbsp;<label style="color:red; font:bold">*</label>
+              <input list="trxList" formControlName="transactionNo" class="form-control" (change)="getTrxNum()"
+                     [class.is-invalid]="this.InventoryOutHeaderForm.controls.transactionNo.touched && this.InventoryOutDetailForm.controls.transactionNo.value.trim() == ''" required>
               <datalist id="trxList">
-                <option></option>
+                <option *ngFor="let trxP of inventoryPendingTrx">{{trxP.transactionNo}}</option>
               </datalist>
             </div>
 
             <div class="form-group col-md-3">
-              <label for="transactionDate">Transaction Date</label>
-              <input type="datetime-local" formControlName="transactionDate" class="form-control date" id="transactionDate" readonly>
+              <label for="transactionDate">Transaction Date</label>&nbsp;<label style="color:red; font:bold">*</label>
+              <input type="datetime-local" formControlName="transactionDate" class="form-control date" id="transactionDate"
+                     [class.is-invalid]="this.InventoryOutHeaderForm.controls.transactionDate.touched && this.InventoryOutDetailForm.controls.transactionDate.value.trim() == ''" required readonly>
             </div>
 
             <div class="form-group col-md-3">
-              <label for="department">Department</label>
-              <select formControlName="department" class="form-control">
-                <option  *ngFor="let depList of depListArray" value="{{depList.id}}">{{depList.departmentName}}</option>
+              <label for="department">Department</label>&nbsp;<label style="color:red; font:bold">*</label>
+              <select formControlName="department" class="form-control"
+                      [class.is-invalid]="this.InventoryOutHeaderForm.controls.department.touched && this.InventoryOutDetailForm.controls.department.value.trim() == ''" required>
+                <option *ngFor="let depList of depListArray" value="{{depList.id}}">{{depList.departmentName}}</option>
               </select>
             </div>
 
             <div class="form-group col-md-3">
-              <label for="referenceNo">Reference Number</label>
-              <input formControlName="referenceNo" class="form-control">
+              <label for="referenceNo">Reference Number</label>&nbsp;<label style="color:red; font:bold">*</label>
+              <input formControlName="referenceNo" class="form-control"
+                     [class.is-invalid]="this.InventoryOutHeaderForm.controls.referenceNo.touched && this.InventoryOutDetailForm.controls.referenceNo.value.trim() == ''" required>
             </div>
 
-            <div class="form-group col-md-11">
+            <div class="form-group col-md-12">
               <label for="remarks">Remarks</label>
               <textarea formControlName="remarks" class="form-control"></textarea>
             </div>
@@ -67,56 +65,67 @@
         <div class="col text-right">
         </div>
         <h3>Transaction Detail</h3>
-    
+
         <br />
-        <form class="form" [formGroup]="InventoryOutDetail">
+        <form class="form" [formGroup]="InventoryOutDetailForm">
           <div class="row">
 
             <!-- ITEM ID -->
             <div class="form-group col-md-3">
-              <label for="itemID">Select Item</label>
-              <input list="itemOption" formControlName="itemID" class="form-control" (change)="checkUnit()"
-                         [class.is-invalid]="this.InventoryOutDetail.controls.itemID.touched && this.InventoryOutDetail.controls.itemID.value.trim() == ''" required>
+              <label for="itemID">Select Item</label> &nbsp;<label style="color:red; font:bold">*</label>
+              <input list="itemOption" formControlName="itemID" class="form-control" (change)="checkUnit()" (input)="InputcheckItemIfNUll()"
+                     [class.is-invalid]="this.InventoryOutDetailForm.controls.itemID.touched && this.InventoryOutDetailForm.controls.itemID.value.trim() == ''" required>
 
               <datalist id="itemOption">
-                <option *ngFor="let option of inventoryInArray">{{option.itemID}}</option>
+                <option *ngFor="let option of inventoryInArray" id="{{option.itemName}}" value="{{option.itemName}}">{{option.itemID}}</option>
               </datalist>
             </div>
 
             <!-- UNIT -->
             <div class="form-group col-md-1">
-              <label for="unit">Unit</label>
-              <select formControlName="unit" class="form-control" (change)="checkLotNum()"
-                      [class.is-invalid]="this.InventoryOutDetail.controls.unit.touched && this.InventoryOutDetail.controls.unit.value.trim() == ''" required>
-                <option *ngFor="let unit of unitArray" value="{{unit.unitCode}}">{{unit.unitDescription}}</option>
-              </select>
+              <label for="unit">Unit</label>&nbsp;<label style="color:red; font:bold">*</label>
+              <input list="unitOption" formControlName="unit" class="form-control" (change)="checkLotNum()"
+                     [class.is-invalid]="this.InventoryOutDetailForm.controls.unit.touched && this.InventoryOutDetailForm.controls.unit.value.trim() == ''" required>
+
+              <datalist id="unitOption">
+                <option *ngFor="let unit of unitArray" id="{{unit.unitDescription}}" value="{{unit.unitDescription}}">{{unit.unitCode}}</option>
+              </datalist>
             </div>
 
             <!-- LOT NUMBER -->
             <div class="form-group col-md-3">
-              <label for="in_TrxNo">Select from Lot Number</label>
-              <select list="lotNumOption" formControlName="in_TrxNo" class="form-control"
-                      [class.is-invalid]="this.InventoryOutDetail.controls.in_TrxNo.touched && this.InventoryOutDetail.controls.in_TrxNo.value.trim() == ''" required>
-                <option *ngFor="let lotNums of lotNumArray" value="{{lotNums.transactionNo}}">{{lotNums.lotNumber}}</option>
-              </select>
+              <label for="in_TrxNo">Select from Lot Number</label>&nbsp;<label style="color:red; font:bold">*</label>
+              <input list="lotNumOption" formControlName="in_TrxNo" class="form-control" (change)="checkRemainingCount()"
+                     [class.is-invalid]="this.InventoryOutDetailForm.controls.in_TrxNo.touched && this.InventoryOutDetailForm.controls.in_TrxNo.value.trim() == ''" required>
+
+              <ng-template *ngIf="this.InventoryOutDetailForm.controls.in_TrxNo.value != ''; then show">
+              </ng-template>
+
+              <ng-template #show>
+                <div *ngFor="let count of Count">Item remaining count : {{remainingCount}}</div>
+              </ng-template>
+
+              <datalist id="lotNumOption">
+                <option *ngFor="let lotNums of lotNumArray" id="{{lotNums.lotNumber}}" value="{{lotNums.lotNumber}}">{{lotNums.transactionNo}}</option>
+              </datalist>
             </div>
 
             <!-- QUANTITY -->
             <div class="form-group col-md-1">
-              <label for="quantity">Quantity</label>
-              <input type="number" formControlName="quantity" class="form-control"
-                     [class.is-invalid]="this.InventoryOutDetail.controls.quantity.touched && this.InventoryOutDetail.controls.quantity.value == ''" required>
+              <label for="quantity">Quantity</label>&nbsp;<label style="color:red; font:bold">*</label>
+              <input type="number" formControlName="quantity" min="1" max="{{remainingCount}}" (input)="checkInputQuantity()" class="form-control"
+                     [class.is-invalid]="this.InventoryOutDetailForm.controls.quantity.touched && this.InventoryOutDetailForm.controls.quantity.value == ''" required>
             </div>
 
             <!-- REMARKS -->
             <div class="form-group col-md-3">
               <label for="remarks">Remarks</label>
-              <input formControlName="remarks" class="form-control"
-                     [class.is-invalid]="this.InventoryOutDetail.controls.remarks.touched && this.InventoryOutDetail.controls.remarks.value.trim() == ''" required>
+              <input formControlName="remarks" class="form-control">
             </div>
 
-            <div class="form-group col-md-1 align-self-end">
-              <button class="btn btn-info" type="button" [disabled]="!InventoryOutDetail.dirty || !InventoryOutDetail.valid" (click)="addItem()"><i class="fa fa-fw fa-lg fa-check-circle"></i>Add</button>
+            <div class="form-group col-md-1 align-self-baseline">
+               <!--<button class="btn btn-info" type="button" (click)="addItem()"><i class="fa fa-fw fa-lg fa-check-circle"></i>Add</button>-->
+              <div class="btn-group"><a class="btn btn-primary" (click)="addItem()"><i class="fa fa-lg fa-plus"></i></a>&nbsp;<a class="btn btn-danger" (click)="resetDetials()"><i class="fa fa-lg fa-trash"></i></a></div>
             </div>
 
           </div>
@@ -124,43 +133,52 @@
         <br />
         <div class="tile-body">
           <div class="table-responsive">
-          
+
             <table class="table table-hover table-bordered" id="table">
-                <thead class="btn-dark">
-                  <tr>
-                    <th>Item Name</th>
-                    <th>Item Unit</th>
-                    <th>Item Lot Number</th>
-                    <th>Item Quantity</th>
-                    <th>Item Remarks</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of itemArrrayDTL">
-                    <td>{{item.Item}}</td>
-                    <td>{{item.Unit}}</td>
-                    <td>{{item.LotNum}}</td>
-                    <td>
-                      <form [formGroup]="quantityForm">
+              <thead class="btn-dark">
+                <tr>
+                  <th>Item Name</th>
+                  <th>Item Unit</th>
+                  <th>Item Lot Number</th>
+                  <th>Item Quantity</th>
+                  <th>Item Remarks</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of itemArrayDTL">
+                  <td>{{item.itemName}}</td>
+                  <td>{{item.unitName}}</td>
+                  <td>{{item.lotNumber}}</td>
+                  <td>
+                    <form [formGroup]="quantityForm">
                       <!--  <input type="number" formControlName="quantityInput" (keypress)="saveQuantityChanges(item.Item)" min="0" class="form-control" value="{{item.Quantity}}">-->
 
-                        <div class="quantity buttons_added">
-                          <input type="button" (click)="minusQuantity()" (keypress)="saveQuantityChanges(item.Item)" value="-" class="minus">
-                          <input type="number" formControlName="quantityInput" min="1" value="{{item.Quantity}}" class="input-text qty text">
-                          <input type="button" (click)="addQuantity()" (keypress)="saveQuantityChanges(item.Item)" value="+" class="plus">
-                        </div>
-
-                      </form>
-                    </td>
-                    <td>{{item.Remarks}}</td>
-                    <td><button type="button" class="btn btn-danger fc-center" (click)="removeItem(item.Item)"><i class="fa fa-trash"></i>Remove Item</button></td>
-                  </tr>
-                </tbody>
+                      <div class="quantity buttons_added">
+                        <input type="button" (click)="minusQuantity(item.itemID)" (keypress)="saveQuantityChanges(item.Item)" value="-" class="minus">
+                        <input type="number" formControlName="quantityInput" min="1" value="{{item.quantity}}" class="input-text qty text">
+                        <input type="button" (click)="addQuantity(item.itemID)" (keypress)="saveQuantityChanges(item.Item)" value="+" class="plus">
+                        <p style="color:red">Expired</p>
+                      </div>
+                    </form>
+                  </td>
+                  <td>{{item.remarks}}</td>
+                  <td><button type="button" class="btn btn-danger fc-center" (click)="removeItem(item.itemID)"><i class="fa fa-trash"></i>Remove Item</button></td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
       </div>
     </div>
-  </div>  
+  </div>
+  <div class="fa-pull-right">
+    <button class="btn btn-warning" type="button"(click)="resetPage()"><i class="fa fa-refresh"></i>Clear</button>
+    &nbsp;
+    <button class="btn btn-danger" type="button" [disabled]="isDisabledDeleteButton" (click)="deleteTransaction()"><i class="fa fa-trash-o"></i>Delete Transaction</button>
+    &nbsp;
+    <button class="btn btn-secondary" type="button" [disabled]="!this.InventoryOutHeaderForm.valid" (click)="saveorIssueTransaction('P')"><i class="fa fa-floppy-o"></i>Save Transaction</button>
+    &nbsp;
+    <button class="btn btn-primary" type="button" [disabled]="!this.InventoryOutHeaderForm.valid" (click)="saveorIssueTransaction('I')"><i class="fa fa-arrow-circle-up"></i>Issue Item</button>
+  </div>
 </main>

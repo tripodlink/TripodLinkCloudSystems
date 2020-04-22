@@ -3,9 +3,9 @@ import { IinventoryOutDetail } from "../inventory-out/IinventoryOutDetail.interf
 export class IinventoryOutDetailClass implements IinventoryOutDetail {
   transactionNo: string;
   itemID: string;
-  unit: string
+  unit: string;
   in_TrxNo: string;
   quantity: number
   remarks: string;
-  minCount: string;
+  minCount: number;
 }
