@@ -49,14 +49,24 @@ namespace Cloud_IMS_Api.Controllers
         {
             try
             {
-                var lotNumber = dbContext.InventoryInTrxDetails.Where(data => data.ItemID == itemID).Where(data => data.Unit == unit);
-                if (lotNumber != null)
+                var JoinInvtoITMU = (from invInDetail in dbContext.InventoryInTrxDetails
+                                     join ItemMasterUnit in dbContext.itemMasterUnits on invInDetail.ItemID equals ItemMasterUnit.ID
+                                     where invInDetail.ItemID == itemID && ItemMasterUnit.itemMasterUnitUnit == unit
+                                     select new
+                                     {
+                                         itemID = invInDetail.ItemID,
+                                         lotNumber = invInDetail.LotNumber,
+                                         itemMasterUnitUnit = ItemMasterUnit.itemMasterUnitUnit,
+                                         transactionNo = invInDetail.TransactionNo
+                                     });
+                if (JoinInvtoITMU != null)
                 {
-                    return Ok(lotNumber);
+                    return Json(JoinInvtoITMU.ToList()); ;
                 }
                 else
                 {
-                    return Json(lotNumber);
+
+                    throw new Exception($"No Data Found.");
                 }
             }
             catch (Exception ex)

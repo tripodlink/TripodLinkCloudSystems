@@ -4,15 +4,14 @@ import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { IDepartment } from '../../classes/data-dictionary/Department/IDepartment.interface';
 import { IiTemMasterUnitJoinUnit } from '../../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitJoinUnit.interface';
+import { IitemMasterJoinInvIN } from '../../classes/data-dictionary/ItemMasterUnit/IitemMasterJoinInvIN.interface';
 import { IinventoryOutDetail } from '../../classes/inventory-management/inventory-out/IinventoryOutDetail.interface';
 import { IinventoryOutDetailClass } from '../../classes/inventory-management/inventory-out/IinventoryOutDetailClass';
 import { IinventoryOutHeader } from '../../classes/inventory-management/inventory-out/IinventoryOutHeader.interface';
 import { IinventoryOutHeaderClass } from '../../classes/inventory-management/inventory-out/IinventoryOutHeaderClass';
 import { IInventoryInTrxDetail } from '../../classes/inventory-management/InventoryIn/IInventoryInTrxDetail.interface';
 import { InventorysServices } from '../../services/inventorys.service';
-import { IInventoryInTrxDetailClass } from '../../classes/inventory-management/InventoryIn/IInventoryInTrxDetailClass';
-import { element } from 'protractor';
-import { NumericLiteral } from 'typescript';
+
 @Component({
   selector: 'app-inventory-out',
   templateUrl: './inventory-out.component.html',
@@ -30,7 +29,7 @@ export class InventoryOutComponent implements OnInit {
   inventoryPendingTrx: IinventoryOutHeader[];
   inventoryInArray: IInventoryInTrxDetail[];
   unitArray: IiTemMasterUnitJoinUnit[];
-  lotNumArray: IInventoryInTrxDetail[];
+  lotNumArray: IitemMasterJoinInvIN[];
   Count: IInventoryInTrxDetail[];
   remainingCount: number;
 
@@ -210,29 +209,25 @@ export class InventoryOutComponent implements OnInit {
   }
 
   private getTrxNum() {
-    
     let trxNum = this.InventoryOutHeaderForm.controls.transactionNo.value;
-    this.itemArrayDTL = JSON.parse(this.cookieService.get("D" + trxNum));
-    this.inventHeadOutArray = JSON.parse(this.cookieService.get("H" + trxNum));
-
-    this.InventoryOutHeaderForm.get('transactionDate').patchValue(this.inventHeadOutArray.transactionDate); 
-    this.InventoryOutHeaderForm.controls.department.setValue(this.inventHeadOutArray.department);
-    this.InventoryOutHeaderForm.controls.referenceNo.setValue(this.inventHeadOutArray.referenceNo);
-    this.InventoryOutHeaderForm.controls.remarks.setValue(this.inventHeadOutArray.remarks);
 
     if (trxNum != '') {
       this.isDisabledDeleteButton = false;
+      this.itemArrayDTL = JSON.parse(this.cookieService.get("D" + trxNum));
+      this.inventHeadOutArray = JSON.parse(this.cookieService.get("H" + trxNum));
 
+      this.InventoryOutHeaderForm.get('transactionDate').patchValue(this.inventHeadOutArray.transactionDate);
+      this.InventoryOutHeaderForm.controls.department.setValue(this.inventHeadOutArray.department);
+      this.InventoryOutHeaderForm.controls.referenceNo.setValue(this.inventHeadOutArray.referenceNo);
+      this.InventoryOutHeaderForm.controls.remarks.setValue(this.inventHeadOutArray.remarks);
     }
   }
 
   private generateTrxNumandDate() {
-    if (this.InventoryOutHeaderForm.valueChanges) {
       if (this.InventoryOutHeaderForm.controls.transactionNo.value == "") {
         let random = "T" + new Date().getFullYear() + new Date().getDate() + new Date().getTime();
         this.InventoryOutHeaderForm.controls.transactionNo.setValue(random);
         this.getDateTimeNow();
-      }
     }
   }
 
@@ -326,19 +321,28 @@ export class InventoryOutComponent implements OnInit {
     this.unitArray = [];
     this.lotNumArray = [];
     let itemName = this.InventoryOutDetailForm.controls.itemID.value;
-    let itemID = document.getElementById(itemName).innerHTML;
-    this.inventoryServices.getJoinUnitAndITMU(itemID).subscribe((unit) => this.unitArray = unit);
+    let itemIDs = document.getElementById(itemName).innerHTML;
+    this.inventoryServices.getJoinUnitAndITMU(itemIDs).subscribe((unit) => this.unitArray = unit);
 
+    let itemID = this.InventoryOutDetailForm.controls.itemID.value;
+    if (itemID == '') {
+      this.unitArray = [];
+      this.InventoryOutDetailForm.controls.unit.setValue('');
+      this.lotNumArray = [];
+      this.InventoryOutDetailForm.controls.in_TrxNo.setValue('');
+    }
   }
 
   //HTML ONCHANGE OF CHECK LOT NUMBER
   private checkLotNum() {
     this.lotNumArray = [];
     let itemName = this.InventoryOutDetailForm.controls.itemID.value;
-    let itemID = document.getElementById(itemName).innerHTML;
+    let itemIDs = document.getElementById(itemName).innerHTML;
     let unit = this.InventoryOutDetailForm.controls.unit.value;
     let unitName = document.getElementById(unit).innerHTML;
-    this.inventoryServices.getLotNum(itemID, unitName).subscribe((lotNUm) =>this.lotNumArray = lotNUm);
+    this.inventoryServices.getLotNum(itemIDs, unitName).subscribe((lotNUm) =>this.lotNumArray = lotNUm);
+
+  
 
   }
 
@@ -360,13 +364,7 @@ export class InventoryOutComponent implements OnInit {
   }
 
  private InputcheckItemIfNUll() {
-   let itemID = this.InventoryOutDetailForm.controls.itemID.value;
-   if (itemID == '') {
-     this.unitArray = [];
-     this.InventoryOutDetailForm.controls.unit.setValue('');
-     this.lotNumArray = [];
-     this.InventoryOutDetailForm.controls.in_TrxNo.setValue('');
-   }
+   
   }
 
   private checkInputQuantity() {
