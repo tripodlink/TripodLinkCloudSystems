@@ -38,7 +38,7 @@
                      [class.is-invalid]="addInventoryInFormGroup.controls['invoiceNo_hdr'].touched && addInventoryInFormGroup.controls['invoiceNo_hdr'].value == ''" required autofocus>
             </div>
             <div class="form-group col-md-2">
-              <label>Received Date</label>
+              <label>Received Date</label><label style="color:red;font-size:15px"><b>*</b></label>
               <input type="datetime-local" formControlName="rcvdDate_hdr" class="form-control"
                      [class.is-invalid]="addInventoryInFormGroup.controls['rcvdDate_hdr'].touched && addInventoryInFormGroup.controls['rcvdDate_hdr'].value == ''" required autofocus>
             </div>

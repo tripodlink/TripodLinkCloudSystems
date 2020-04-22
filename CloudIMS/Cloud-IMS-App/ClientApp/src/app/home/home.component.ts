@@ -5,6 +5,8 @@ import { UserAuthorizationService } from '../services/UserAuthorization.service'
 import { ICountUser } from '../classes/home/ICountUser.interface';
 import { ICountStockIn } from '../classes/home/ICountStockIn.interface';
 import { ICountStockOut } from '../classes/home/ICountStockOut.interface';
+import { IItemListStockIn } from '../classes/home/IItemListStockIn.interface';
+import { IItemListStockOut } from '../classes/home/IItemListStockOut.interface';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +17,9 @@ export class HomeComponent {
   ICountUser: ICountUser[];
   ICountStockIn: ICountStockIn[];
   ICountStockOut: ICountStockOut[];
+  IItemListStockIn: IItemListStockIn[];
+  IItemListStockOut: IItemListStockOut[];
+
   constructor(private homeService: HomeService, private auth: UserAuthorizationService) {
   }
   ngOnInit() {
@@ -26,6 +31,12 @@ export class HomeComponent {
     })
      this.homeService.getCountStockOut().subscribe((countstockout) => {
        this.ICountStockOut = countstockout;
+    })
+      this.homeService.getItemListStockIn().subscribe((itemliststockin) => {
+        this.IItemListStockIn = itemliststockin;
+    })
+     this.homeService.getItemListStockOut().subscribe((itemliststockout) => {
+       this.IItemListStockOut = itemliststockout;
     })
 
   }
