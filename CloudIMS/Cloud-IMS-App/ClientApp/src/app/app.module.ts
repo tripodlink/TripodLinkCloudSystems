@@ -22,6 +22,7 @@ import { AppRoutingModule } from './app.routing';
 import { DataTablesModule } from 'angular-datatables';
 import { CookieService } from 'ngx-cookie-service';
 import { ReportManagementModule } from './report-management/report-management.module';
+import { AppSidebarMenuModule } from './app-sidebar-menu/app-sidebar-menu.module';
 
 @NgModule({
 
@@ -51,7 +52,6 @@ import { ReportManagementModule } from './report-management/report-management.mo
     UserManagementModule,
     DataTablesModule,
     ReportManagementModule,
-
     AppRoutingModule
 
   ],

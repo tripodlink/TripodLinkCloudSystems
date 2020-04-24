@@ -23,7 +23,7 @@ export class ManufacturerComponent implements OnInit {
   idInput: string;
   manufacturerInput: string;
 
-  constructor(private manufacturerService: ManufacturerService, private toastr: ToastrService, private builder: FormBuilder, public el: ElementRef) {
+  constructor(public manufacturerService: ManufacturerService, public toastr: ToastrService, public builder: FormBuilder, public el: ElementRef) {
     this.CreateForm();
   }
   ngOnInit(): void {
@@ -33,14 +33,14 @@ export class ManufacturerComponent implements OnInit {
   getManufacturer() {
     this.manufacturerService.getManufacturer().subscribe((manufacturer) => this.manufacturer = manufacturer)
   }
-  private CreateForm() {
+   CreateForm() {
     this.addManufacturerFormGroup = this.builder.group({
       ID: [''],
       ManufactName: ['']
     })
   }
 
-  private PassData(ID, ManufactName) {
+   PassData(ID, ManufactName) {
 
     this.addManufacturerFormGroup.controls.ID.setValue(ID)
     this.addManufacturerFormGroup.controls.ManufactName.setValue(ManufactName)
@@ -51,7 +51,7 @@ export class ManufacturerComponent implements OnInit {
     this.iconHeaderTextModal = "fa fa-pencil-square";
   }
 
-  private insertManufacturer() {
+   insertManufacturer() {
     let errormessage = "Error";
 
     let manufactID = this.addManufacturerFormGroup.controls.ID.value
@@ -77,7 +77,7 @@ export class ManufacturerComponent implements OnInit {
     }
   }
 
-  private updateManufacturer() {
+   updateManufacturer() {
 
     let errormessage = "Error";
 
@@ -97,7 +97,7 @@ export class ManufacturerComponent implements OnInit {
         this.toastr.error(errormessage, "Error");
       });
   }
-  private deleteManufacturer(id) {
+   deleteManufacturer(id) {
     if (confirm("Are you sure do you want to delete this Manufacturer" + " " + id)) {
       let errormessage = "Error";
       this.manufacturerService.deleteManufacturer(id).subscribe(data => {
@@ -110,7 +110,7 @@ export class ManufacturerComponent implements OnInit {
         });
     }
   }
-  private ClickAdd() {
+   ClickAdd() {
     this.ResetForm();
     this.Status = "Save Changes";
     this.icon = "floppy-o";
@@ -120,7 +120,7 @@ export class ManufacturerComponent implements OnInit {
     this.manufacturerInput = "";
     this.iconHeaderTextModal = "fa fa-plus-square";
   }
-  private ResetForm() {
+   ResetForm() {
     this.addManufacturerFormGroup.reset();
   }
 }

@@ -23,7 +23,7 @@ export class DepartmentComponent implements OnInit {
   isAdd: boolean;
   modalStatus: string;
 
-  constructor(private departmentService: DepartmentServices, private toastr: ToastrService, private builder: FormBuilder) {
+  constructor(public departmentService: DepartmentServices, public toastr: ToastrService, public builder: FormBuilder) {
     this.createDepartmentForm();
   }
 
@@ -31,18 +31,18 @@ export class DepartmentComponent implements OnInit {
     this.loadDepartmentList();
   }
 
-  private loadDepartmentList() {
+   loadDepartmentList() {
     this.departmentService.getDepartmentList().subscribe((department) => this.depListArray = department);
   }
 
-  private createDepartmentForm() {
+   createDepartmentForm() {
     this.depForm = this.builder.group({
       id: [''],
       depName: ['']
     })
   }
 
-  private insertDepartment() {
+   insertDepartment() {
     this.depListForm.id = this.depForm.controls.id.value;
     this.depListForm.departmentName = this.depForm.controls.depName.value;
     if (this.depForm.controls.id.value.trim() != "" || this.depForm.controls.depName.value.trim() !="") {
@@ -58,7 +58,7 @@ export class DepartmentComponent implements OnInit {
     }
   }
 
-  private PassData(id, departmentName) {
+   PassData(id, departmentName) {
 
     this.depForm.controls.id.setValue(id);
     this.depForm.controls.depName.setValue(departmentName);
@@ -69,7 +69,7 @@ export class DepartmentComponent implements OnInit {
 
   }
 
-  private updateDepartment() {
+   updateDepartment() {
     this.depListForm.id = this.depForm.controls.id.value;
     this.depListForm.departmentName = this.depForm.controls.depName.value;
 
@@ -83,7 +83,7 @@ export class DepartmentComponent implements OnInit {
       })
   }
 
-  private ClickAdd() {
+   ClickAdd() {
     this.resetForm();
     this.Status = "Save Changes";
     this.icon = "floppy-o";
@@ -91,11 +91,11 @@ export class DepartmentComponent implements OnInit {
     this.modalStatus = "Add Item Group";
   }
 
-  private resetForm() {
+   resetForm() {
     this.depForm.reset();
   }
 
-  private deleteDepartment(id: string) {
+   deleteDepartment(id: string) {
     if (confirm("Are you sure to delete " + " " + id)) {
       this.departmentService.deleteItemGroup(id).subscribe(data => {
         this.toastr.info("Data" + " " + id + " " + "Successfully Deleted", "Deleted");

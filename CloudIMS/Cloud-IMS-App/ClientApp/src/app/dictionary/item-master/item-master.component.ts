@@ -58,7 +58,7 @@ export class ItemMasterComponent implements OnInit {
   isButtonDisabled: boolean;
   isEditItemUnit: boolean;
 
-  constructor(private itemMasterService: ItemMasterServices, private toastr: ToastrService, private builder: FormBuilder) {
+  constructor(public itemMasterService: ItemMasterServices, public toastr: ToastrService, public builder: FormBuilder) {
     this.createForm();
     this.createFormItemMasterUnit();
   }
@@ -66,7 +66,7 @@ export class ItemMasterComponent implements OnInit {
   ngOnInit() {
     this.LoadData();
   }
-  private createForm() {
+   createForm() {
     this.addItemMasterForm = this.builder.group({
       id: [Validators.required],
       ItemGroup: [Validators.required],
@@ -77,7 +77,7 @@ export class ItemMasterComponent implements OnInit {
     });
   }
 
-  private createFormItemMasterUnit() {
+   createFormItemMasterUnit() {
     this.addItemMasterUnitForm = this.builder.group({
       id: new FormControl(),
       itemMasterUnitUnit: [{disabled: this.isEditItemUnit }, Validators.required],
@@ -85,7 +85,7 @@ export class ItemMasterComponent implements OnInit {
     });
   }
 
-  private LoadData() {
+   LoadData() {
     //this.itemMasterService.getItemMasterData().subscribe((itemMaster) => this.ItemMasterArray = itemMaster);
     this.itemMasterService.getAllDataDic().subscribe((dataDic) => this.showAllDataDic = dataDic);
     this.itemMasterService.getItemGroupData().subscribe((itemGroup) => this.itemGroupArray = itemGroup);
@@ -112,7 +112,7 @@ export class ItemMasterComponent implements OnInit {
     }
   }
 
-  private clickAddItemMaster() {
+   clickAddItemMaster() {
     this.resetForm();
     this.Status = "Save Changes";
     this.icon = "floppy-o";
@@ -120,11 +120,11 @@ export class ItemMasterComponent implements OnInit {
     this.modalStatus = "Add Item Master";
   }
 
-  private resetForm() {
+   resetForm() {
     this.addItemMasterForm.reset();
   }
 
-  private insertItemMaster() {
+   insertItemMaster() {
     let errormessage = "Error";
 
     this.ItemMasterForm.id = this.addItemMasterForm.controls.id.value;
@@ -148,7 +148,7 @@ export class ItemMasterComponent implements OnInit {
     }   
   }
 
-  private deleteItemMaster(id) {
+   deleteItemMaster(id) {
     if (confirm("Are you sure to delete" + " " + id)) {
       let errormessage = "Error";
       this.itemMasterService.deleteItemMaster(id).subscribe(data => {
@@ -162,7 +162,7 @@ export class ItemMasterComponent implements OnInit {
         });
     }
   }
-  private PassData(id, itemGroup, itemName, unit, supplier, manufacturer) {
+   PassData(id, itemGroup, itemName, unit, supplier, manufacturer) {
     this.Status = "Edit Changes";
     this.icon = "pencil";
     this.isAdd = false;
@@ -176,7 +176,7 @@ export class ItemMasterComponent implements OnInit {
     this.addItemMasterForm.controls.Manufacturer.setValue(manufacturer);
   }
 
-  private updateItemMaster() {
+   updateItemMaster() {
 
     this.ItemMasterForm.id = this.addItemMasterForm.controls.id.value;
     this.ItemMasterForm.ItemGroup = this.addItemMasterForm.controls.ItemGroup.value;
@@ -201,7 +201,7 @@ export class ItemMasterComponent implements OnInit {
   
   }
 
-  private passDataItemMaster(name, itemId) {
+   passDataItemMaster(name, itemId) {
     this.ItemMasterUnitName = name;
     this.itemMasterUnitID = itemId;
     this.loadItemMasterUnit();
@@ -211,11 +211,11 @@ export class ItemMasterComponent implements OnInit {
 
   }
 
-  private loadItemMasterUnit() {
+   loadItemMasterUnit() {
     this.itemMasterService.getUnitCodeData().subscribe((unitCode) => this.UnitCodeSelectArray = unitCode);
   }
 
-  private insertItemMasterUnits() {
+   insertItemMasterUnits() {
 
     this.ItemMasterUnitForm.id = this.addItemMasterForm.controls.id.value;
     this.ItemMasterUnitForm.itemMasterUnitUnit = this.addItemMasterForm.controls.Unit.value;
@@ -232,7 +232,7 @@ export class ItemMasterComponent implements OnInit {
       });
   }
 
-  private saveItemMasterUnit() {
+   saveItemMasterUnit() {
   
     var conversion = this.addItemMasterUnitForm.controls.itemMasterUnitConversion.value;
     let convertString = String(conversion);

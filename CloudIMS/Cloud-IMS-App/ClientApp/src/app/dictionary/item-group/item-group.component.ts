@@ -23,7 +23,7 @@ export class ItemGroupComponent{
   isAdd: boolean;
   modalStatus: string;
   
-  constructor(private itemgroupService: ItemGroupServices, private toastr: ToastrService, private builder: FormBuilder,
+  constructor(public itemgroupService: ItemGroupServices, public toastr: ToastrService, public builder: FormBuilder,
   public el: ElementRef) {
     this.CreateForm();
   }
@@ -32,7 +32,7 @@ export class ItemGroupComponent{
     this.LoadData();
   }
 
-  private CreateForm() {
+   CreateForm() {
     this.addItemGroupForm = this.builder.group({
       id: [''],
       itemGroupName: ['']
@@ -41,7 +41,7 @@ export class ItemGroupComponent{
   
   }
 
-  private PassData(id, itemGroupName) {
+   PassData(id, itemGroupName) {
 
     this.addItemGroupForm.controls.id.setValue(id);
     this.addItemGroupForm.controls.itemGroupName.setValue(itemGroupName);
@@ -56,7 +56,7 @@ export class ItemGroupComponent{
     this.itemgroupService.getItemGroupData().subscribe((itemGroup) => this.itemGroup = itemGroup);
   }
 
-  private insertItemGroup() {
+   insertItemGroup() {
 
     this.itemGroupForm.id = this.addItemGroupForm.controls.id.value;
     this.itemGroupForm.itemgroupname = this.addItemGroupForm.controls.itemGroupName.value;
@@ -76,7 +76,7 @@ export class ItemGroupComponent{
     }
   }
 
-  private updateItemGroup() {
+   updateItemGroup() {
     this.itemGroupForm.id = this.addItemGroupForm.controls.id.value;
     this.itemGroupForm.itemgroupname = this.addItemGroupForm.controls.itemGroupName.value;
 
@@ -93,7 +93,7 @@ export class ItemGroupComponent{
    
   }
 
-  private deleteItemGroup(id: string) {
+   deleteItemGroup(id: string) {
     if (confirm("Are you sure to delete" + " " + id)) {
       let errormessage = "Error";
       this.itemgroupService.deleteItemGroup(id).subscribe(data => {
@@ -109,7 +109,7 @@ export class ItemGroupComponent{
   }
 
 
-  private ClickAdd() {
+   ClickAdd() {
     this.ResetForm();
     this.Status = "Save Changes";
     this.icon = "floppy-o";
@@ -117,7 +117,7 @@ export class ItemGroupComponent{
     this.modalStatus = "Add Item Group";
   }
 
-  private ResetForm() {
+   ResetForm() {
     this.addItemGroupForm.reset();
   }
 }

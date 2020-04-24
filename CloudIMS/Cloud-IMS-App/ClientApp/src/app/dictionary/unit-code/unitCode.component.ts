@@ -23,12 +23,12 @@ export class UnitCodeComponent {
   isAdd: boolean;
   modalStatus: string;
 
-  constructor(private unitcodeService: UnitCodeService, private formBuilder: FormBuilder, private toastr: ToastrService) {
+  constructor(public unitcodeService: UnitCodeService, public formBuilder: FormBuilder, public toastr: ToastrService) {
     this.CreateForm();
   }
 
 
-  private CreateForm(): void {
+   CreateForm(): void {
     this.addUnitCodeForm = this.formBuilder.group({
       Code: [''],
       Description: ['', {disabled : this.isAdd} ],
@@ -40,11 +40,11 @@ export class UnitCodeComponent {
     this.loadData();
   }
 
-  private loadData() {
+   loadData() {
     this.unitcodeService.getUnitCodes().subscribe((unitCodes) => this.unitCodes = unitCodes);
   }
 
-  private insertUnitCodes() {
+   insertUnitCodes() {
     
     this.unitCodesForm.code = this.addUnitCodeForm.get('Code').value;
     this.unitCodesForm.description = this.addUnitCodeForm.controls.Description.value;
@@ -66,7 +66,7 @@ export class UnitCodeComponent {
     }
   }
 
-  private onClickAddButton() {
+   onClickAddButton() {
     this.resetForm();
     this.Status = "Save Changes";
     this.icon = "floppy-o";
@@ -74,11 +74,11 @@ export class UnitCodeComponent {
     this.modalStatus = "Add Item Group";
   }
 
-  private resetForm() {
+   resetForm() {
     this.addUnitCodeForm.reset();
   }
 
-  private deleteUnitCode(id) {
+   deleteUnitCode(id) {
     if (confirm("Are you sure to delete" + " " + id)) {
       let errormessage = "Error";
       this.unitcodeService.deleteUnitCodes(id).subscribe(data => {
@@ -93,7 +93,7 @@ export class UnitCodeComponent {
     }
   }
 
-  private onPassData(code, desc, shortdesc) {
+   onPassData(code, desc, shortdesc) {
 
     this.addUnitCodeForm.controls.Code.setValue(code);
     this.addUnitCodeForm.controls.Description.setValue(desc);
@@ -106,7 +106,7 @@ export class UnitCodeComponent {
   }
 
 
-  private updateUnitCodes() {
+   updateUnitCodes() {
 
     this.unitCodesForm.code = this.addUnitCodeForm.controls.Code.value;
     this.unitCodesForm.description = this.addUnitCodeForm.controls.Description.value;

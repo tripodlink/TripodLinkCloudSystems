@@ -19,7 +19,7 @@ export class ItemMasterUnitComponent implements OnInit {
   ItemMasterUnitArray: IiTemMasterUnit[];
   ItemMasterUnitSelectArray: string[];
 
-  constructor(private itemMasterUnitService: ItemMasterUnitServices, private toastr: ToastrService, private builder: FormBuilder,
+  constructor(public itemMasterUnitService: ItemMasterUnitServices, public toastr: ToastrService, public builder: FormBuilder,
     public el: ElementRef) { }
 
   ngOnInit() {

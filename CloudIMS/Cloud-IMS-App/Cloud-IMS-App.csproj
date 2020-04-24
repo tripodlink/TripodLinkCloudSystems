@@ -30,11 +30,19 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\app\report-management\inventory-in-report\**" />
+    <Compile Remove="ClientApp\src\app\report-management\inventory-out-report\**" />
     <Compile Remove="ClientApp\src\assets\jquery\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\report-management\inventory-in-report\**" />
+    <Content Remove="ClientApp\src\app\report-management\inventory-out-report\**" />
     <Content Remove="ClientApp\src\assets\jquery\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\report-management\inventory-in-report\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\report-management\inventory-out-report\**" />
     <EmbeddedResource Remove="ClientApp\src\assets\jquery\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\app\report-management\inventory-in-report\**" />
+    <None Remove="ClientApp\src\app\report-management\inventory-out-report\**" />
     <None Remove="ClientApp\src\assets\jquery\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
@@ -134,9 +142,8 @@
     <Folder Include="ClientApp\src\app\classes\user-management\user-account\" />
     <Folder Include="ClientApp\src\app\classes\user-management\user-group\" />
     <Folder Include="ClientApp\src\app\classes\user-management\user-profile\" />
-    <Folder Include="ClientApp\src\app\report-management\inventory-in-report\" />
-    <Folder Include="ClientApp\src\app\report-management\inventory-out-report\" />
     <Folder Include="ClientApp\src\app\user-management\user-profile\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

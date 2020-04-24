@@ -7,6 +7,8 @@ import { ICountStockIn } from '../classes/home/ICountStockIn.interface';
 import { ICountStockOut } from '../classes/home/ICountStockOut.interface';
 import { IItemListStockIn } from '../classes/home/IItemListStockIn.interface';
 import { IItemListStockOut } from '../classes/home/IItemListStockOut.interface';
+import { Router } from '@angular/router';
+import { IItemListPendingToStockOut } from '../classes/home/IItemListPendingToStockOut.interface';
 
 @Component({
   selector: 'app-home',
@@ -19,8 +21,9 @@ export class HomeComponent {
   ICountStockOut: ICountStockOut[];
   IItemListStockIn: IItemListStockIn[];
   IItemListStockOut: IItemListStockOut[];
+  IItemListPendingToStockOut: IItemListPendingToStockOut[];
 
-  constructor(private homeService: HomeService, private auth: UserAuthorizationService) {
+  constructor(private homeService: HomeService, private auth: UserAuthorizationService,private router: Router) {
   }
   ngOnInit() {
     this.homeService.getCountUser().subscribe((countuser) => {
@@ -38,7 +41,13 @@ export class HomeComponent {
      this.homeService.getItemListStockOut().subscribe((itemliststockout) => {
        this.IItemListStockOut = itemliststockout;
     })
+    this.homeService.getItemListPending_To_StockOut().subscribe((itemlistpendingstockout) => {
+      this.IItemListPendingToStockOut = itemlistpendingstockout;
+    })
 
+  }
+  private getTrxNo_GotoInvOutScreen(trxno: string) {
+    this.router.navigateByUrl("/inventory-management/inventory-out/"+trxno)
   }
  
 }

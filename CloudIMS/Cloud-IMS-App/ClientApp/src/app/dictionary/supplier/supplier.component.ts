@@ -4,6 +4,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { ToastrService } from 'ngx-toastr';
 import { ISupplier } from '../../classes/data-dictionary/Supplier/ISupplier.interface';
 import { ISupplierClass } from '../../classes/data-dictionary/Supplier/ISupplierClass';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-supplier',
@@ -26,20 +27,25 @@ export class SupplierComponent{
   idInput: string;
   supplierInput: string;
 
-  constructor(private supplierService: SupplierService, private toastr: ToastrService, private builder: FormBuilder, public el: ElementRef) {
+  /*name of the excel-file which will be downloaded. */
+  fileName = 'ExcelSheet.xlsx';
+
+
+
+  constructor(public supplierService: SupplierService, public toastr: ToastrService, public builder: FormBuilder, public el: ElementRef) {
     this.CreateForm();
   }
   ngOnInit(): void {
     this.getSupplier();
   }
-  private CreateForm() {
+  CreateForm() {
     this.addSupplierFormGroup = this.builder.group({
       ID: ['',Validators.required],
       Name: ['',Validators.required]
     })
   }
 
-  private PassData(ID, Name) {
+   PassData(ID, Name) {
 
     this.addSupplierFormGroup.controls.ID.setValue(ID);
     this.addSupplierFormGroup.controls.Name.setValue(Name);
@@ -53,7 +59,7 @@ export class SupplierComponent{
   getSupplier() {
     this.supplierService.getSupplier().subscribe((suppliers) => this.suppliers = suppliers)
   }
-  private insertSupplier() {
+   insertSupplier() {
     let errormessage = "Error";
 
     let supId = this.addSupplierFormGroup.controls.ID.value
@@ -79,7 +85,7 @@ export class SupplierComponent{
       this.ResetForm();
     }
   }
-  private updateSupplier() {
+   updateSupplier() {
 
     this.isupplier.ID = this.addSupplierFormGroup.controls.ID.value
     this.isupplier.Name = this.addSupplierFormGroup.controls.Name.value
@@ -96,7 +102,7 @@ export class SupplierComponent{
       });
   }
 
-  private deleteSupplier(id) {
+   deleteSupplier(id) {
     if (confirm("Are you sure do you want to delete this Supplier" + " " + id)) {
       let errormessage = "Error";
       this.supplierService.deleteSupplier(id).subscribe(data => {
@@ -109,7 +115,7 @@ export class SupplierComponent{
         });
     }
   }
-  private ClickAdd() {
+   ClickAdd() {
     this.ResetForm();
     this.Status = "Save Changes";
     this.icon = "floppy-o";
@@ -120,7 +126,19 @@ export class SupplierComponent{
     this.iconHeaderTextModal ="fa fa-plus-square"
   }
 
-  private ResetForm() {
+   ResetForm() {
     this.addSupplierFormGroup.reset();
+  }
+  ExportFile() {
+    /* table id is passed over here */
+    let element = document.getElementById('sampletable');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, this.fileName);
   }
 }

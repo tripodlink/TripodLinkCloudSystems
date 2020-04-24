@@ -34,6 +34,9 @@ import { AddEditUserAccountComponent } from './user-management/user-account/addE
 
 // user group components
 import { UserGroupComponent } from './user-management/user-group/user-group.component';
+import { AppSidebarMenuComponent } from './app-sidebar-menu/app-sidebar-menu.component';
+import { ReportInventoryInComponent } from './report-management/report-inventory-in/report-inventory-in.component';
+import { ReportInventoryOutComponent } from './report-management/report-inventory-out/report-inventory-out.component';
 
 //##############################################################################################
 
@@ -42,6 +45,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: HomeComponent, canActivate: [AuthGuard] },
 
+  //NAVIGATION BAR AND SIDEBAR ROUTES
+  { path: 'app-sidebar/sidebar-menu', component: AppSidebarMenuComponent },
 
   // data dictionary routes
   { path: 'data-dictionary', component: DictionaryComponent, canActivate: [AuthGuard] },
@@ -56,11 +61,12 @@ const routes: Routes = [
   { path: 'inventory-management', component: InventoryManagementComponent, canActivate: [AuthGuard] },
   { path: 'inventory-management/inventory-in', component: InventoryInComponent, canActivate: [AuthGuard] },
   { path: 'inventory-management/inventory-out', component: InventoryOutComponent, canActivate: [AuthGuard] },
+  { path: 'inventory-management/inventory-out/:trxno', component: InventoryOutComponent, canActivate: [AuthGuard] },
 
   //report management
   { path: 'report-management', component: ReportManagementComponent, canActivate: [AuthGuard] },
-  //{ path: 'report-management/report-inventory-in', component: ReportManagementComponent, canActivate: [AuthGuard] },
-  //{ path: 'report-management/report-inventory-out', component: ReportManagementComponent, canActivate: [AuthGuard] },
+  { path: 'report-management/report-inventory-in', component: ReportInventoryInComponent, canActivate: [AuthGuard] },
+  { path: 'report-management/report-inventory-out', component: ReportInventoryOutComponent, canActivate: [AuthGuard] },
 
 
   //user management folder

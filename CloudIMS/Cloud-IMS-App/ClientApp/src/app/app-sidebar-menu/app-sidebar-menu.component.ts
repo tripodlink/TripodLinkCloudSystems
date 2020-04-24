@@ -13,7 +13,7 @@ export class AppSidebarMenuComponent implements OnInit {
   button_status: string;
   button_isActive: boolean;
 
-  constructor(private auth: UserAuthorizationService, private router: Router) {  }
+  constructor(public auth: UserAuthorizationService, public router: Router) {  }
 
   ngOnInit(): void {
     this.auth.getCurrentUser()
