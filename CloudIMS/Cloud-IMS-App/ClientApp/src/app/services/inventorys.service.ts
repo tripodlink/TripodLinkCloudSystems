@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IinventoryOutHeader } from '../classes/inventory-management/inventory-out/IinventoryOutHeader.interface';
 import { IinventoryOutDetail } from '../classes/inventory-management/inventory-out/IinventoryOutDetail.interface';
+import { IinventoryOutTable } from '../classes/inventory-management/inventory-out/IinventoryOutDetail.interface';
 import { IDepartment } from '../classes/data-dictionary/Department/IDepartment.interface';
 import { IInventoryInTrxDetail } from '../classes/inventory-management/InventoryIn/IInventoryInTrxDetail.interface';
 import { IiTemMasterUnitJoinUnit } from '../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitJoinUnit.interface';
@@ -75,6 +76,11 @@ export class InventorysServices {
   getRemainingCount(itemID: string, unit: string, lotNum: string): Observable<IInventoryInTrxDetail[]> {
     let params = new HttpParams().set('itemID', itemID).set('unit', unit).set('lotNum', lotNum);
     return this._http.get<IInventoryInTrxDetail[]>(this.urldtl + "/findRemainingCount", { params: params });
+  }
+
+  getTrxTable(trxNum: string): Observable<IinventoryOutTable[]> {
+    let params = new HttpParams().set('trxNum', trxNum);
+    return this._http.get<IinventoryOutTable[]>(this.urldtl + "/getAllTrx", { params: params });
   }
   //
 
