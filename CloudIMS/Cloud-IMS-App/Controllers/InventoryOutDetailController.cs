@@ -140,6 +140,52 @@ namespace Cloud_IMS_Api.Controllers
                 return BadRequest(GetErrorMessage(ex));
             }
         }
+        [Route("[action]")]
+        public IActionResult getAllTrx(string trxNum)
+        {
+            try
+            {
+                var JoinInvtoITMU = (from invOutDetail in dbContext.InventoryOutTrxDetails
+                                     join itemMaster in dbContext.ItemMasters on invOutDetail.ItemID equals itemMaster.ID
+                                     join itemUnits in dbContext.UnitCodes on invOutDetail.Unit equals itemUnits.Code
+                                     join invInTrxDetail in dbContext.InventoryInTrxDetails on invOutDetail.In_TrxNo equals invInTrxDetail.TransactionNo
+                                     join invOutHeader in dbContext.InventoryOutTrxHeaders on invOutDetail.TransactionNo equals invOutHeader.TransactionNo
+                                     where invOutDetail.TransactionNo == trxNum
+                                     select new
+                                     {
+                                         transactionNo = invOutDetail.TransactionNo,
+                                         itemID = invOutDetail.ItemID,
+                                         ItemName = itemMaster.ItemName,
+                                         unit = invOutDetail.Unit,
+                                         description = itemUnits.Description,
+                                         in_TrxNo = invOutDetail.In_TrxNo,
+                                         lotNumber = invInTrxDetail.LotNumber,
+                                         quantity = invOutDetail.Quantity,
+                                         remarks = invOutDetail.Remarks,
+                                         minCount = invOutDetail.MinCount,
+                                         expirationDate = invInTrxDetail.ExpirationDate,
+                                         remainigCount = invInTrxDetail.RemainigCount,
+                                         transactionDate = invOutHeader.TransactionDate,
+                                         department = invOutHeader.Department,
+                                         referenceNo = invOutHeader.ReferenceNo,
+                                         headremarks = invOutHeader.Remarks
+
+                                     }) ;
+                if (JoinInvtoITMU != null)
+                {
+                    return Json(JoinInvtoITMU.ToList()); ;
+                }
+                else
+                {
+
+                    throw new Exception($"No Data Found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
     }
    
 }

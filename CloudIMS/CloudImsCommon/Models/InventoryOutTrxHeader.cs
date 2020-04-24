@@ -44,7 +44,6 @@ namespace CloudImsCommon.Models
         [MaxLength(100, ErrorMessage = "ReferenceNo cannot exceed 100 characters.")]
         public String ReferenceNo { get; set; }
 
-        [Required]
         [Column("itoh_remarks")]
         [MaxLength(100, ErrorMessage = "Remarks cannot exceed 100 characters.")]
         public String Remarks { get; set; }

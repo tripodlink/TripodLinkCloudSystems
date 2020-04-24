@@ -98,11 +98,11 @@
               <input list="lotNumOption" formControlName="in_TrxNo" class="form-control" (change)="checkRemainingCount()"
                      [class.is-invalid]="this.InventoryOutDetailForm.controls.in_TrxNo.touched && this.InventoryOutDetailForm.controls.in_TrxNo.value.trim() == ''" required>
 
-              <ng-template *ngIf="this.InventoryOutDetailForm.controls.in_TrxNo.value != ''; then show">
+              <ng-template *ngIf="this.InventoryOutDetailForm.controls.in_TrxNo.value != ''; then showCount">
               </ng-template>
 
-              <ng-template #show>
-                <div *ngFor="let count of Count">Item remaining count : {{remainingCount}}</div>
+              <ng-template #showCount>
+                <div>Item remaining count : {{remainingCount}}</div><div style="color:red">{{expDate}}</div>
               </ng-template>
 
               <datalist id="lotNumOption">
@@ -114,7 +114,15 @@
             <div class="form-group col-md-1">
               <label for="quantity">Quantity</label>&nbsp;<label style="color:red; font:bold">*</label>
               <input type="number" formControlName="quantity" min="1" max="{{remainingCount}}" (input)="checkInputQuantity()" class="form-control"
-                     [class.is-invalid]="this.InventoryOutDetailForm.controls.quantity.touched && this.InventoryOutDetailForm.controls.quantity.value == ''" required>
+                     [class.is-invalid]="this.InventoryOutDetailForm.controls.quantity.touched && this.InventoryOutDetailForm.controls.quantity.value == ''
+                     || isQuantityOver == 'Yes'" required>
+
+              <ng-template *ngIf="isQuantityOver == 'Yes'; then show">
+              </ng-template>
+
+              <ng-template #show>
+                <div style="color:red">Quantity Cannot Exceed from the remaining Count</div>
+              </ng-template>
             </div>
 
             <!-- REMARKS -->
@@ -123,9 +131,9 @@
               <input formControlName="remarks" class="form-control">
             </div>
 
-            <div class="form-group col-md-1 align-self-baseline">
-               <!--<button class="btn btn-info" type="button" (click)="addItem()"><i class="fa fa-fw fa-lg fa-check-circle"></i>Add</button>-->
-              <div class="btn-group"><a class="btn btn-primary" (click)="addItem()"><i class="fa fa-lg fa-plus"></i></a>&nbsp;<a class="btn btn-danger" (click)="resetDetials()"><i class="fa fa-lg fa-trash"></i></a></div>
+            <div class="form-group col-md-1 align-self-center">
+              <!--<button class="btn btn-info" type="button" (click)="addItem()"><i class="fa fa-fw fa-lg fa-check-circle"></i>Add</button>-->
+              <div class="btn-group"><button class="btn btn-primary" [disabled]="InventoryOutDetailForm.invalid || isQuantityOver == 'Yes'" (click)="addItem()"><i class="fa fa-lg fa-plus"></i></button>&nbsp;&nbsp;<button class="btn btn-danger" (click)="resetDetials()"><i class="fa fa-lg fa-trash"></i></button></div>
             </div>
 
           </div>
@@ -150,20 +158,43 @@
                   <td>{{item.itemName}}</td>
                   <td>{{item.unitName}}</td>
                   <td>{{item.lotNumber}}</td>
+
                   <td>
                     <form [formGroup]="quantityForm">
-                      <!--  <input type="number" formControlName="quantityInput" (keypress)="saveQuantityChanges(item.Item)" min="0" class="form-control" value="{{item.Quantity}}">-->
+                      <div class="form-group col-md-12">
+                        <div class="row">
+                          <div class=" form-group col-md-12">
+                            <div class="row">
 
-                      <div class="quantity buttons_added">
-                        <input type="button" (click)="minusQuantity(item.itemID)" (keypress)="saveQuantityChanges(item.Item)" value="-" class="minus">
-                        <input type="number" formControlName="quantityInput" min="1" value="{{item.quantity}}" class="input-text qty text">
-                        <input type="button" (click)="addQuantity(item.itemID)" (keypress)="saveQuantityChanges(item.Item)" value="+" class="plus">
-                        <p style="color:red">Expired</p>
+                              <input type="button" (click)="minusQuantity(item.itemID,item.unitName,item.lotNumber)" value="-" class="form-control col-md-1">
+                              <input type="number" formControlName="quantityInput" min="1" id="{{item.itemID}}" value="{{item.quantity}}" (input)="tableQuantityChanges(item.itemID,item.unitName,item.lotNumber)" class="form-control col-md-2" readonly>
+                              <input type="button" (click)="addQuantity(item.itemID,item.unitName,item.lotNumber)" value="+" class="form-control col-md-1">
+
+                              <ng-template *ngIf="item.remainingCount < item.quantity; then red; else black">
+
+                              </ng-template>
+
+                              <ng-template #red>
+                                <div class="form-group col-md-4"> <label style="color:red">Remaining Item : {{item.remainingCount}}</label></div>
+                              </ng-template>
+
+                              <ng-template #black>
+                                <div class="form-group col-md-4"> <label style="color:black">Remaining Item : {{item.remainingCount}}</label></div>
+                              </ng-template>
+
+                            </div>
+
+                            <ng-template *ngIf="item.tableExpDate < dateTimeNow; then expired"> </ng-template>
+
+                            <ng-template #expired><label style="color:red">Expired</label> </ng-template>
+                          </div>
+                        </div>
                       </div>
                     </form>
                   </td>
+
                   <td>{{item.remarks}}</td>
-                  <td><button type="button" class="btn btn-danger fc-center" (click)="removeItem(item.itemID)"><i class="fa fa-trash"></i>Remove Item</button></td>
+                  <td><button type="button" class="btn btn-danger fc-center" (click)="removeItem(item.itemID,item.unitName,item.lotNumber )"><i class="fa fa-trash"></i>Remove Item</button></td>
                 </tr>
               </tbody>
             </table>
@@ -171,14 +202,19 @@
         </div>
       </div>
     </div>
+
   </div>
-  <div class="fa-pull-right">
-    <button class="btn btn-warning" type="button"(click)="resetPage()"><i class="fa fa-refresh"></i>Clear</button>
-    &nbsp;
-    <button class="btn btn-danger" type="button" [disabled]="isDisabledDeleteButton" (click)="deleteTransaction()"><i class="fa fa-trash-o"></i>Delete Transaction</button>
-    &nbsp;
-    <button class="btn btn-secondary" type="button" [disabled]="!InventoryOutHeaderForm.valid" (click)="saveorIssueTransaction('P')"><i class="fa fa-floppy-o"></i>Save Transaction</button>
-    &nbsp;
-    <button class="btn btn-primary" type="button" [disabled]="!InventoryOutHeaderForm.valid" (click)="saveorIssueTransaction('I')"><i class="fa fa-arrow-circle-up"></i>Issue Item</button>
+  <div class="row">
+    <div class="form-grou col-12"> 
+      <div class="fa-pull-right">
+        <button class="btn btn-warning" type="button" (click)="resetPage()"><i class="fa fa-refresh"></i>Clear</button>
+        &nbsp;
+        <button class="btn btn-danger" type="button" [disabled]="isDisabledDeleteButton" (click)="deleteTransaction()"><i class="fa fa-trash-o"></i>Delete Transaction</button>
+        &nbsp;
+        <button class="btn btn-secondary" type="button" [disabled]="InventoryOutHeaderForm.invalid || quantityValid" (click)="saveorIssueTransaction('P')"><i class="fa fa-floppy-o"></i>Save Transaction</button>
+        &nbsp;
+        <button class="btn btn-primary" type="button" [disabled]="InventoryOutHeaderForm.invalid || quantityValid" (click)="saveorIssueTransaction('I')"><i class="fa fa-arrow-circle-up"></i>Issue Item</button>
+      </div>
+    </div>
   </div>
 </main>
