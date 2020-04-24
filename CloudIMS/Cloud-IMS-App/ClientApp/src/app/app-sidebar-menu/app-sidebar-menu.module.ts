@@ -8,14 +8,12 @@ import { AppComponent } from '../app.component';
 
 
 @NgModule({
-  declarations: [AppSidebarMenuComponent],
+  declarations: [],
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule.forRoot([
-      { path: 'app-sidebar/sidebar-menu', component: AppSidebarMenuComponent },
-    ])
+    //FormsModule,
+    //ReactiveFormsModule,
+    RouterModule.forRoot([])
   ],
   providers: [SideBarService]
 })

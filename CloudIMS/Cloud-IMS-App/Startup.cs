@@ -102,7 +102,8 @@ namespace Cloud_IMS_App
 
             app.UseRouting();
 
-
+            //app.UseDefaultFiles();
+            //app.UseStaticFiles();
             //app.UseCors("CorsPolicy");
 
             // global cors policy

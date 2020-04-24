@@ -14,7 +14,7 @@
       <div class="tile" style="border-radius: 10px 10px">
         <div>
           <div class="tile-title">List of User Groups</div>
-          <!--<button type="button" style="width:100px; margin-bottom:5px" class="btn btn-primary" [routerLink]="'/user-management/user-account/add'">Add User</button>-->
+          <button type="button" style="width:100px; margin-bottom:5px" class="btn btn-primary" [routerLink]="'/user-management/user-account/add'">Add User</button>
         </div>
 
         <form>
@@ -79,7 +79,7 @@
                   <div class="row">
                     <div class="col-md-12">
                       <div formArrayName="programFolders">
-                        <div *ngFor="let pfForm of addEditUserGroupForm.get('programFolders').controls; let i=index">
+                        <div *ngFor="let pfForm of addEditUserGroupForm.get('programFolders')['controls']; let i=index">
                           <div [formGroupName]="i">
                             <input formControlName="id" hidden readonly />
                             <input formControlName="name" hidden readonly />
@@ -93,7 +93,7 @@
                               <div class="row">
                                 <div class="col-md-11 offset-md-1">
                                   <div formArrayName="programMenus">
-                                    <div *ngFor="let pmForm of pfForm.get('programMenus').controls; let j=index">
+                                    <div *ngFor="let pmForm of pfForm.get('programMenus')['controls']; let j=index">
                                       <div [formGroupName]="j">
                                         <input formControlName="id" hidden readonly />
                                         <input formControlName="name" hidden readonly />

@@ -40,48 +40,86 @@
     <div class="col-md-6">
       <div class="tile">
         <h3 class="tile-title">List of Items (Stock In) </h3>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Item Name</th>
-              <th>Item Unit</th>
-              <th>Quantity</th>
-              <th>Transaction No.</th>
-              <th>Transaction Date.</th>
-            </tr>
-          </thead>
-          <tr *ngFor="let itmlst of IItemListStockIn">
-            <td>{{itmlst.itemname}}</td>
-            <td>{{itmlst.itemunit}}</td>
-            <td>{{itmlst.qty}}</td>
-            <td>{{itmlst.txrno}}</td>
-            <td>{{itmlst.trxdate}}</td>
-          </tr>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Item Name</th>
+                <th>Item Unit</th>
+                <th>Quantity</th>
+                <th>Transaction No.</th>
+                <th>Transaction Date.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let itmlst of IItemListStockIn">
+                <td>{{itmlst.itemname}}</td>
+                <td>{{itmlst.itemunit}}</td>
+                <td>{{itmlst.qty}}</td>
+                <td>{{itmlst.txrno}}</td>
+                <td>{{itmlst.trxdate}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     <div class="col-md-6">
       <div class="tile">
         <h3 class="tile-title">List of Items (Stock Out) </h3>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Item Name</th>
-              <th>Item Unit</th>
-              <th>Quantity</th>
-              <th>Transaction No.</th>
-              <th>Transaction Date.</th>
-            </tr>
-          </thead>
-          <tr *ngFor="let itmlst of IItemListStockOut">
-            <td>{{itmlst.itemname}}</td>
-            <td>{{itmlst.itemunit}}</td>
-            <td>{{itmlst.qty}}</td>
-            <td>{{itmlst.txrno}}</td>
-            <td>{{itmlst.trxdate}}</td>
-          </tr>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Item Name</th>
+                <th>Item Unit</th>
+                <th>Quantity</th>
+                <th>Transaction No.</th>
+                <th>Transaction Date.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let itmlst of IItemListStockOut" (click)="getTrxNo_GotoInvOutScreen(itmlst.txrno)">
+                <td>{{itmlst.itemname}}</td>
+                <td>{{itmlst.itemunit}}</td>
+                <td>{{itmlst.qty}}</td>
+                <td><button class="btn btn-link">{{itmlst.txrno}}</button></td>
+                <td>{{itmlst.trxdate}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
       </div>
-    </div>
   </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tile">
+          <h3 class="tile-title">List of Items (Pending to Stock Out) </h3>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Item Name</th>
+                  <th>Item Unit</th>
+                  <th>Quantity</th>
+                  <th>Transaction No.</th>
+                  <th>Transaction Date.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let itmp of IItemListPendingToStockOut" (click)="getTrxNo_GotoInvOutScreen(itmp.txrno)">
+                  <td>{{itmp.itemname}}</td>
+                  <td>{{itmp.itemunit}}</td>
+                  <td>{{itmp.qty}}</td>
+                  <td><button class="btn btn-link">{{itmp.txrno}}</button></td>
+                  <td>{{itmp.trxdate}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+       </div>
+    </div>
+
 </main>

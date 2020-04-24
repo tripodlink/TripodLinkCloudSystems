@@ -104,13 +104,35 @@ namespace Cloud_IMS_Api.Controllers
                           where invOutHeader.Status == "I"
                           select new
                           {
-                              txrno = invOutDetail.TransactionNo,
+                              txrno = invOutHeader.TransactionNo,
                               trxdate = invOutHeader.TransactionDate,
                               qty = invOutDetail.Quantity,
                               itemname = im.ItemName,
                               itemunit = uc.Description
 
                           };
+            return Ok(stockOut.ToList());
+        }
+
+
+        [Route("[action]")]
+        [HttpGet]
+        public IActionResult GetListOfItemPending_To_StockOut()
+        {
+            var stockOut = from invOutHeader in dbContext.InventoryOutTrxHeaders
+                           join invOutDetail in dbContext.InventoryOutTrxDetails on invOutHeader.TransactionNo equals invOutDetail.TransactionNo
+                           join im in dbContext.ItemMasters on invOutDetail.ItemID equals im.ID
+                           join uc in dbContext.UnitCodes on invOutDetail.Unit equals uc.Code
+                           where invOutHeader.Status == "P"
+                           select new
+                           {
+                               txrno = invOutHeader.TransactionNo,
+                               trxdate = invOutHeader.TransactionDate,
+                               qty = invOutDetail.Quantity,
+                               itemname = im.ItemName,
+                               itemunit = uc.Description
+
+                           };
             return Ok(stockOut.ToList());
         }
 

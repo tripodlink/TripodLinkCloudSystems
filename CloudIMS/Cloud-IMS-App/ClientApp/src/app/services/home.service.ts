@@ -7,6 +7,7 @@ import { ICountStockIn } from '../classes/home/ICountStockIn.interface';
 import { ICountStockOut } from '../classes/home/ICountStockOut.interface';
 import { IItemListStockIn } from '../classes/home/IItemListStockIn.interface';
 import { IItemListStockOut } from '../classes/home/IItemListStockOut.interface';
+import { IItemListPendingToStockOut } from '../classes/home/IItemListPendingToStockOut.interface';
 
 @Injectable()
 export class HomeService {
@@ -16,6 +17,9 @@ export class HomeService {
   url_count_stockOut: string = 'api/home/Count_StockOut';
   url_GetListOfItemStockIn: string = 'api/home/GetListOfItemStockIn';
   url_GetListOfItemStockOut: string = 'api/home/GetListOfItemStockOut';
+  url_GetListOfItemPending_To_StockOut: string = 'api/home/GetListOfItemPending_To_StockOut';
+
+  
   constructor(private _http: HttpClient) {
   }
   getCountUser(): Observable<ICountUser[]> {
@@ -32,5 +36,8 @@ export class HomeService {
   }
   getItemListStockOut(): Observable<IItemListStockOut[]> {
     return this._http.get<IItemListStockOut[]>(this.url_GetListOfItemStockOut);
+  }
+  getItemListPending_To_StockOut(): Observable<IItemListPendingToStockOut[]> {
+    return this._http.get<IItemListPendingToStockOut[]>(this.url_GetListOfItemPending_To_StockOut);
   }
 }

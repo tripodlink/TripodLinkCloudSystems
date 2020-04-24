@@ -12,15 +12,15 @@ import { FormGroup, FormBuilder, FormControl, FormArray } from "@angular/forms";
   templateUrl: "./user-group.component.html"
 })
 export class UserGroupComponent {
-  userGroups: UserGroup[] = new Array();
+  userGroups: UserGroup[]=new Array();
   programFoldersWithMenus: ProgramFolder[] = new Array();
   selectedUserGroup: UserGroup = new UserGroup();
   isNewUserGroup: boolean = true;
   addEditUserGroupForm: FormGroup;
 
-  constructor(private _userGroupService: UserGroupService,
-    private _toastr: ToastrService,
-    private _formBuilder: FormBuilder) {
+  constructor(public _userGroupService: UserGroupService,
+    public _toastr: ToastrService,
+    public _formBuilder: FormBuilder) {
 
     this.createForm();
   }

@@ -52,7 +52,7 @@
               </div>
 
               <div formArrayName="userGroups" style="margin-bottom:20px">
-                <div class="form-check" *ngFor="let ugForm of addEditForm.get('userGroups').controls; let i=index">
+                <div class="form-check" *ngFor="let ugForm of addEditForm.get('userGroups')['controls']; let i=index">
                   <div [formGroupName]="i">
                     <label class="form-check-label">
                       <input class="form-check-input" type="checkbox" formControlName="isSelected">  {{ugForm.controls.name.value}}
