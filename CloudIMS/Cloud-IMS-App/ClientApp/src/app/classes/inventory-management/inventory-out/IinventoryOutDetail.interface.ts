@@ -20,6 +20,8 @@ export interface IinventoryOutTable {
   itemID: string;
   itemName: string;
 
+  itemMasterUnitConversion: number;
+
   unit: string;
   description: string;
 

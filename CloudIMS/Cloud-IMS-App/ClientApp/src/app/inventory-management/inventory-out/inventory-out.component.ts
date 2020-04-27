@@ -14,6 +14,9 @@ import { IinventoryOutHeaderClass } from '../../classes/inventory-management/inv
 import { IInventoryInTrxDetail } from '../../classes/inventory-management/InventoryIn/IInventoryInTrxDetail.interface';
 import { InventorysServices } from '../../services/inventorys.service';
 import { DatePipe } from '@angular/common'
+import { ActivatedRoute } from '@angular/router';
+import { equal } from 'assert';
+
 @Component({
   selector: 'app-inventory-out',
   templateUrl: './inventory-out.component.html',
@@ -41,8 +44,8 @@ export class InventoryOutComponent implements OnInit {
   retrieveOutTable: IinventoryOutTable[];
   itemArrayDTL: Array<{
     transactionNo: string, itemID: string, itemName: string, unit: string, unitName:
-    string, in_TrxNo: string, lotNumber: string, quantity: number, remarks: string,
-    remainingCount: number, tableExpDate: string
+    string, in_TrxNo: string, lotNumber: string, quantity: number, remarks: string, minCount: number,
+    remainingCount: number, tableExpDate: string, convertFactor: number
   }> = [];
 
   InventoryOutHeaderArray: IinventoryOutHeader = new IinventoryOutHeaderClass();
@@ -61,10 +64,14 @@ export class InventoryOutComponent implements OnInit {
   quantityValid: boolean = false;
     dateTimeNow: string;
   ExpdateTimeNow: string;
+  _trxno_snapshot: string;
+  trxInputDisabled: boolean;
+  verifyIcon: string;
 
   constructor(public toastr: ToastrService, public builder: FormBuilder, public inventoryServices: InventorysServices,
     public cookieService: CookieService,
-    public datepipe: DatePipe) {
+    public datepipe: DatePipe,
+    public _activatedRoute: ActivatedRoute) {
 
     this.createHeaderForm();
     this.createDetailForm();
@@ -74,6 +81,7 @@ export class InventoryOutComponent implements OnInit {
    ngOnInit() {
     this.loadData();
      this.userIDLogin = this.cookieService.get('userId');
+     this.Get_TrxNo_from_Dashboard()  
   }
   public getDateTimeNow(): string {
     let today = new Date();
@@ -81,7 +89,7 @@ export class InventoryOutComponent implements OnInit {
     let cutTime = today.toTimeString().slice(0, 5);
     let dateTime = getDate + "T" + cutTime;
     return dateTime;
-   // this.InventoryOutHeaderForm.get('transactionDate').patchValue(dateTime);
+    this.InventoryOutHeaderForm.get('transactionDate').patchValue(dateTime);
   }
 
   loadData() {
@@ -115,12 +123,19 @@ export class InventoryOutComponent implements OnInit {
       remarks: [''],
     })
   }
+  public Get_TrxNo_from_Dashboard() {
+    this._trxno_snapshot = this._activatedRoute.snapshot.params["trxno"];
+    if (this._trxno_snapshot == undefined) {
+      console.log("snapshot params empty")
+    } else {
+      this.InventoryOutHeaderForm.controls.transactionNo.setValue(this._trxno_snapshot);
+      this.getTrxNum()
+    }
+  }
 
   public saveorIssueTransaction(status) {
     let trxNum = this.InventoryOutHeaderForm.controls.transactionNo.value;
     let itemID = this.InventoryOutDetailForm.controls.itemID.value;
-    this.cookieService.set("D" + trxNum, JSON.stringify(this.itemArrayDTL), 365);
-    this.cookieService.set("H" + trxNum, JSON.stringify(this.InventoryOutHeaderForm.value), 365);
 
     this.status = status;
 
@@ -136,7 +151,7 @@ export class InventoryOutComponent implements OnInit {
               this.toastr.success("Transaction Saved");
             }
             else {
-              this.toastr.show('Transaction Issued');
+              this.checkIfRemainingCountisValid();
             }
           }
           else {
@@ -144,6 +159,7 @@ export class InventoryOutComponent implements OnInit {
               this.saveOutDetails();
             }
             else {
+              this.checkIfRemainingCountisValid();
               this.updateTrxtoIssued();
             }
             this.toastr.success("Transaction Saved");
@@ -154,6 +170,25 @@ export class InventoryOutComponent implements OnInit {
       }
     })
     this.InventoryOutHeaderForm.get('transactionDate').patchValue(this.getDateTimeNow());
+  }
+
+  public checkIfRemainingCountisValid() {
+    this.inventoryServices.getTrxTable(this.getTrxHeaderForm().transactionNo).subscribe((data) => {
+      this.retrieveOutTable = data;
+
+      Array.from(this.retrieveOutTable).forEach((trx) => {
+        if (trx.remainigCount / trx.itemMasterUnitConversion < trx.quantity) {
+          this.verifyIcon = "fa-times";
+           }
+       else {
+          this.verifyIcon = "fa-check";
+          let minus = (trx.remainigCount) - (trx.itemMasterUnitConversion * trx.quantity);
+          this.inventoryServices.updateRemaningCount(trx.in_TrxNo, String(minus)).subscribe(data => {
+            this.toastr.show('Transaction Issued');
+          })
+        }
+      })
+    })
   }
 
   public getTrxHeaderForm() {
@@ -173,7 +208,6 @@ export class InventoryOutComponent implements OnInit {
   //SAVE THE HEADER INFO TO DB
   public saveOutHeader()  {
     this.inventoryServices.insertOutHeader(this.getTrxHeaderForm()).subscribe(data => {
-
       },
         error => {
           this.errormessage = error.error;
@@ -194,11 +228,9 @@ export class InventoryOutComponent implements OnInit {
         this.inventDetailOutArray.in_TrxNo = array.in_TrxNo;
         this.inventDetailOutArray.quantity = array.quantity as number;
         this.inventDetailOutArray.remarks = array.remarks;
-        this.inventDetailOutArray.minCount = 100;
+        this.inventDetailOutArray.minCount =array.minCount;
 
         this.inventoryServices.insertOutDetail(this.inventDetailOutArray).subscribe(data => {
-        
-
         },
           error => {
             this.errormessage = error.error;
@@ -221,19 +253,12 @@ export class InventoryOutComponent implements OnInit {
     let trxNum = this.getTrxHeaderForm().transactionNo;
     this.itemArrayDTL = [];
     this.InventoryOutDetailForm.reset();
+    this.trxInputDisabled = false;
     this.InventoryOutDetailForm.controls.in_TrxNo.setValue('');
     if (trxNum != '') {
       this.isDisabledDeleteButton = false;
-
+      this.trxInputDisabled = true;
       this.setTrxTable();
-
-
-      //this.itemArrayDTL = JSON.parse(this.cookieService.get("D" + trxNum));
-      //this.inventHeadOutArray = JSON.parse(this.cookieService.get("H" + trxNum));
-      //this.InventoryOutHeaderForm.get('transactionDate').patchValue(this.inventHeadOutArray.transactionDate);
-      //this.InventoryOutHeaderForm.controls.department.setValue(this.inventHeadOutArray.department);
-      //this.InventoryOutHeaderForm.controls.referenceNo.setValue(this.inventHeadOutArray.referenceNo);
-      //this.InventoryOutHeaderForm.controls.remarks.setValue(this.inventHeadOutArray.remarks);
     }
   }
 
@@ -243,6 +268,7 @@ export class InventoryOutComponent implements OnInit {
         let random = "T" + new Date().getFullYear() + new Date().getDate() + new Date().getTime();
         this.InventoryOutHeaderForm.controls.transactionNo.setValue(random);
         this.InventoryOutHeaderForm.get('transactionDate').patchValue(this.getDateTimeNow());
+        this.trxInputDisabled = true;
     }
   }
 
@@ -263,9 +289,10 @@ export class InventoryOutComponent implements OnInit {
           lotNumber: trx.lotNumber,
           quantity: trx.quantity,
           remarks: trx.remarks,
-          remainingCount: trx.remainigCount,
-          tableExpDate: String(trx.expirationDate)
-
+          minCount: trx.minCount,
+          remainingCount: trx.remainigCount / trx.itemMasterUnitConversion,
+          tableExpDate: String(trx.expirationDate),
+          convertFactor: trx.itemMasterUnitConversion
         })
         this.tableItemCount = String(trx.remainigCount);
            
@@ -297,6 +324,8 @@ export class InventoryOutComponent implements OnInit {
     let itemID = this.InventoryOutDetailForm.controls.itemID.value;
     let Name = this.InventoryOutDetailForm.controls.unit.value;
     let lot = this.InventoryOutDetailForm.controls.in_TrxNo.value;
+    let unit = this.InventoryOutDetailForm.controls.unit.value;
+    let unitCV = document.getElementById(unit).title;
 
     let item = document.getElementById(itemID).innerHTML;
     let unitName = document.getElementById(Name).innerHTML;
@@ -311,8 +340,10 @@ export class InventoryOutComponent implements OnInit {
       lotNumber: this.InventoryOutDetailForm.controls.in_TrxNo.value,
       quantity: this.InventoryOutDetailForm.controls.quantity.value,
       remarks: this.InventoryOutDetailForm.controls.remarks.value,
+      minCount: this.InventoryOutDetailForm.controls.quantity.value * Number(unitCV),
       remainingCount: null,
-      tableExpDate: null
+      tableExpDate: null,
+      convertFactor: Number(unitCV)
     })
   }
 
@@ -331,8 +362,8 @@ export class InventoryOutComponent implements OnInit {
 
     else if (result != undefined) {
       let findID = result.itemID;
-      let findUnit = result.in_TrxNo;
-      if (findID != item || findUnit != lotNum) {
+      let findLotNum = result.in_TrxNo;
+      if (findID != item || findLotNum != lotNum) {
         this.pushToArray();
       }
 
@@ -414,11 +445,12 @@ export class InventoryOutComponent implements OnInit {
       let itemIDs = document.getElementById(itemName).innerHTML;
       let unit = this.InventoryOutDetailForm.controls.unit.value;
       let unitName = document.getElementById(unit).innerHTML;
+
       this.inventoryServices.getLotNum(itemIDs, unitName).subscribe((lotNUm) => this.lotNumArray = lotNUm);
     }
       else {
-        this.InventoryOutDetailForm.controls.unit.setValue('');
-        this.toastr.warning("Please Complete Important Fields in Transaction Header First")
+      this.InventoryOutDetailForm.controls.unit.setValue('');
+      this.toastr.warning("Please Complete Important Fields in Transaction Header First");
       }
   }
 
@@ -428,12 +460,13 @@ export class InventoryOutComponent implements OnInit {
     let itemID = document.getElementById(itemName).innerHTML;
     let unit = this.InventoryOutDetailForm.controls.unit.value;
     let unitName = document.getElementById(unit).innerHTML;
+    let cvFactor = document.getElementById(unit).title;
 
     let lotNum = this.InventoryOutDetailForm.controls.in_TrxNo.value;
-    this.inventoryServices.getRemainingCount(itemID, unitName, lotNum).subscribe((count) => {
+    this.inventoryServices.getRemainingCount(itemID, lotNum).subscribe((count) => {
       this.Count = count;
       Array.from(this.Count).forEach((data) => {
-        this.remainingCount = data.remainigCount;
+        this.remainingCount = Number(data.remainigCount) / Number(cvFactor) ;
       })
 
       Array.from(this.Count).forEach((expDate) => {
@@ -458,7 +491,7 @@ export class InventoryOutComponent implements OnInit {
    
   }
 
-  private minusQuantity(itemID,unit,lotNum) {
+  public minusQuantity(itemID,unit,lotNum) {
    let quantity = this.itemArrayDTL.find(array => array.itemID === itemID && array.unitName === unit && array.lotNumber === lotNum).quantity;
     var minus = quantity - this.quan;
     this.itemArrayDTL.find(array => array.itemID === itemID && array.unitName === unit && array.lotNumber === lotNum).quantity = minus;
@@ -483,7 +516,7 @@ export class InventoryOutComponent implements OnInit {
     this.checkTableItemQuantity();
   }
 
-  private resetDetials() {
+  public resetDetials() {
     this.remainingCount = null;
     this.InventoryOutDetailForm.reset();
     this.InventoryOutDetailForm.controls.in_TrxNo.setValue('');
@@ -494,6 +527,7 @@ export class InventoryOutComponent implements OnInit {
     this.InventoryOutHeaderForm.reset();
     this.createHeaderForm();
     this.createDetailForm();
+    this.trxInputDisabled = false;
     this.InventoryOutHeaderForm.get('transactionDate').patchValue(this.getDateTimeNow());
     this.itemArrayDTL = [];
     this.remainingCount = null;

@@ -22,7 +22,8 @@
             <div class="form-group col-md-3">
               <label for="transactionNo">Transaction Number</label>&nbsp;<label style="color:red; font:bold">*</label>
               <input list="trxList" formControlName="transactionNo" class="form-control" (change)="getTrxNum()"
-                     [class.is-invalid]="this.InventoryOutHeaderForm.controls.transactionNo.touched && this.InventoryOutHeaderForm.controls.transactionNo.value.trim() == ''" required>
+                     [class.is-invalid]="this.InventoryOutHeaderForm.controls.transactionNo.touched && this.InventoryOutHeaderForm.controls.transactionNo.value.trim() == ''" required
+                     [readonly]="this.trxInputDisabled">
               <datalist id="trxList">
                 <option *ngFor="let trxP of inventoryPendingTrx">{{trxP.transactionNo}}</option>
               </datalist>
@@ -88,7 +89,7 @@
                      [class.is-invalid]="this.InventoryOutDetailForm.controls.unit.touched && this.InventoryOutDetailForm.controls.unit.value == ''" required>
 
               <datalist id="unitOption">
-                <option *ngFor="let unit of unitArray" id="{{unit.unitDescription}}" value="{{unit.unitDescription}}">{{unit.unitCode}}</option>
+                <option *ngFor="let unit of unitArray" title="{{unit.conversionFactor}}" id="{{unit.unitDescription}}" value="{{unit.unitDescription}}">{{unit.unitCode}}</option>
               </datalist>
             </div>
 
@@ -155,7 +156,8 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of itemArrayDTL">
-                  <td>{{item.itemName}}</td>
+                  <td>{{item.itemName}}
+                    &nbsp;<i [hidden]="false" class="fa {{verifyIcon}} fa-sm"></i></td>
                   <td>{{item.unitName}}</td>
                   <td>{{item.lotNumber}}</td>
 
@@ -183,10 +185,10 @@
                               </ng-template>
 
                             </div>
-
                             <ng-template *ngIf="item.tableExpDate < dateTimeNow; then expired"> </ng-template>
 
                             <ng-template #expired><label style="color:red">Expired</label> </ng-template>
+              
                           </div>
                         </div>
                       </div>
@@ -194,7 +196,9 @@
                   </td>
 
                   <td>{{item.remarks}}</td>
-                  <td><button type="button" class="btn btn-danger fc-center" (click)="removeItem(item.itemID,item.unitName,item.lotNumber )"><i class="fa fa-trash"></i>Remove Item</button></td>
+                  <td>
+                    <button type="button" class="btn btn-danger fc-center" (click)="removeItem(item.itemID,item.unitName,item.lotNumber )"><i class="fa fa-trash"></i>Remove Item</button>
+                  </td>
                 </tr>
               </tbody>
             </table>

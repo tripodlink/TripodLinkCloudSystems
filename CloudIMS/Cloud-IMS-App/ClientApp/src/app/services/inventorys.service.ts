@@ -73,8 +73,8 @@ export class InventorysServices {
 
   }
 
-  getRemainingCount(itemID: string, unit: string, lotNum: string): Observable<IInventoryInTrxDetail[]> {
-    let params = new HttpParams().set('itemID', itemID).set('unit', unit).set('lotNum', lotNum);
+  getRemainingCount(itemID: string, lotNum: string): Observable<IInventoryInTrxDetail[]> {
+    let params = new HttpParams().set('itemID', itemID).set('lotNum', lotNum);
     return this._http.get<IInventoryInTrxDetail[]>(this.urldtl + "/findRemainingCount", { params: params });
   }
 
@@ -82,6 +82,8 @@ export class InventorysServices {
     let params = new HttpParams().set('trxNum', trxNum);
     return this._http.get<IinventoryOutTable[]>(this.urldtl + "/getAllTrx", { params: params });
   }
+
+
   //
 
   //FIND
@@ -114,5 +116,10 @@ export class InventorysServices {
       "Accept": "application/json"
     });
     return this._http.post<IinventoryOutHeader>(this.url + "/UpdatePendingTrx", JSON.stringify(invHead), { headers: headers });
+  }
+
+  updateRemaningCount(trxNum: string, minCount: string): Observable<any[]> {
+    let params = new HttpParams().set('trxNum', trxNum).set('minCount', minCount);
+    return this._http.get<any[]>(this.urldtl + "/UpdateINVInRemainingCount", { params: params });
   }
 }
