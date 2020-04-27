@@ -11,11 +11,11 @@ using Microsoft.Extensions.Logging;
 namespace Cloud_IMS_Api.Controllers
 {
 
-    [Route("api/[controller]")]   
+    [Route("api/[controller]")]
     public class InventoryOutHeaderController : AppController
-    {   
+    {
         public InventoryOutHeaderController(AppDbContext dbContext, ILogger<InventoryOutHeaderController> logger)
-            :base(dbContext,logger)
+            : base(dbContext, logger)
         {
             this.dbContext = dbContext;
         }
@@ -32,15 +32,20 @@ namespace Cloud_IMS_Api.Controllers
         [HttpPost]
         public IActionResult Add([FromBody] InventoryOutTrxHeader inventoryOut)
         {
-            try
+            using (var transaction = dbContext.Database.BeginTransaction())
             {
-                dbContext.InventoryOutTrxHeaders.Add(inventoryOut);
-                dbContext.SaveChanges();
-                return Ok(inventoryOut);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(GetErrorMessage(ex));
+                try
+                {
+                    dbContext.InventoryOutTrxHeaders.Add(inventoryOut);
+                    dbContext.SaveChanges();
+                    transaction.Commit();
+                    return Ok(inventoryOut);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return BadRequest(GetErrorMessage(ex));
+                }
             }
         }
 
@@ -52,6 +57,7 @@ namespace Cloud_IMS_Api.Controllers
                 var JoinInvtoITMU = (from invInDetail in dbContext.InventoryInTrxDetails
                                      join ItemMasterUnit in dbContext.itemMasterUnits on invInDetail.ItemID equals ItemMasterUnit.ID
                                      where invInDetail.ItemID == itemID && ItemMasterUnit.itemMasterUnitUnit == unit
+                                     && invInDetail.RemainigCount != 0
                                      select new
                                      {
                                          itemID = invInDetail.ItemID,
@@ -86,7 +92,7 @@ namespace Cloud_IMS_Api.Controllers
                 }
                 else
                 {
-                    return Ok(trxNumList); 
+                    return Ok(trxNumList);
                 }
             }
             catch (Exception ex)
@@ -118,54 +124,61 @@ namespace Cloud_IMS_Api.Controllers
         [HttpDelete]
         public IActionResult DeleteAllTrx(string trxNum)
         {
-            try
+            using (var transaction = dbContext.Database.BeginTransaction())
             {
-                InventoryOutTrxHeader allTrxHeader = dbContext.InventoryOutTrxHeaders.Find(trxNum);
-
-                if (allTrxHeader != null)
+                try
                 {
-                    dbContext.InventoryOutTrxHeaders.Remove(allTrxHeader);
-                    dbContext.SaveChanges();
+                    InventoryOutTrxHeader allTrxHeader = dbContext.InventoryOutTrxHeaders.Find(trxNum);
 
-                    return Json(trxNum);
+                    if (allTrxHeader != null)
+                    {
+                        dbContext.InventoryOutTrxHeaders.Remove(allTrxHeader);
+                        dbContext.SaveChanges();
+                        transaction.Commit();
+                        return Json(trxNum);
+                    }
+                    else
+                    {
+                        throw new Exception($"User Not found with a user ID of '{trxNum}'.");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    throw new Exception($"User Not found with a user ID of '{trxNum}'.");
+                    transaction.Rollback();
+                    return BadRequest(GetErrorMessage(ex));
                 }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(GetErrorMessage(ex));
             }
         }
         [Route("[action]")]
         [HttpPost]
         public IActionResult UpdatePendingTrx([FromBody] InventoryOutTrxHeader invOutTrx)
         {
-            try
+            using (var transaction = dbContext.Database.BeginTransaction())
             {
-                InventoryOutTrxHeader findTrxNum = dbContext.InventoryOutTrxHeaders.Find(invOutTrx.TransactionNo);
-
-                if (findTrxNum != null)
+                try
                 {
+                    InventoryOutTrxHeader findTrxNum = dbContext.InventoryOutTrxHeaders.Find(invOutTrx.TransactionNo);
 
-                    findTrxNum.Status = invOutTrx.Status;
-                    dbContext.InventoryOutTrxHeaders.Update(findTrxNum);
-                    dbContext.SaveChanges();
+                    if (findTrxNum != null)
+                    {
 
-                    return Json(findTrxNum);
+                        findTrxNum.Status = invOutTrx.Status;
+                        dbContext.InventoryOutTrxHeaders.Update(findTrxNum);
+                        dbContext.SaveChanges();
+                        transaction.Commit();
+                        return Json(findTrxNum);
+                    }
+                    else
+                    {
+                        throw new Exception($"User Not found with a user ID of '{invOutTrx.TransactionNo}'.");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    throw new Exception($"User Not found with a user ID of '{invOutTrx.TransactionNo}'.");
+                    transaction.Rollback();
+                    return BadRequest(GetErrorMessage(ex));
                 }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(GetErrorMessage(ex));
             }
         }
     }
-   
 }

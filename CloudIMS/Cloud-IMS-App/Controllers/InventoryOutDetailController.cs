@@ -32,17 +32,53 @@ namespace Cloud_IMS_Api.Controllers
         [HttpPost]
         public IActionResult Add([FromBody] InventoryOutTrxDetail inventoryOutDetail)
         {
-            try
+            using (var transaction = dbContext.Database.BeginTransaction())
             {
-                dbContext.InventoryOutTrxDetails.Add(inventoryOutDetail);
-                dbContext.SaveChanges();
-                return Ok(inventoryOutDetail);
+                try
+                {
+                    dbContext.InventoryOutTrxDetails.Add(inventoryOutDetail);
+                    dbContext.SaveChanges();
+                    transaction.Commit();
+                    return Ok(inventoryOutDetail);
             }
-            catch (Exception ex)
-            {
-                return BadRequest(GetErrorMessage(ex));
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return BadRequest(GetErrorMessage(ex));
+                }
             }
         }
+        [Route("[action]")]
+        public IActionResult UpdateINVInRemainingCount(string trxNum, string minCount)
+        {  
+                using (var transaction = dbContext.Database.BeginTransaction())
+                {
+                try
+                {
+                    InventoryInTrxDetail invd = dbContext.InventoryInTrxDetails.Find(trxNum);
+
+                    if (invd != null)
+                    {
+                        invd.RemainigCount = int.Parse(minCount);
+                        dbContext.InventoryInTrxDetails.Update(invd);
+                        dbContext.SaveChanges();
+                        transaction.Commit();
+                        return Ok(trxNum);
+
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(GetErrorMessage(ex));
+                }
+                }
+            }
+        
+                 
         [Route("[action]")]
         public IActionResult findTrxNum(string itemID, string unit)
         {
@@ -64,13 +100,12 @@ namespace Cloud_IMS_Api.Controllers
             }
         }
         [Route("[action]")]
-        public IActionResult findRemainingCount(string itemID, string unit,string lotNum)
+        public IActionResult findRemainingCount(string itemID,string lotNum)
         {
             try
             {
                 var remainingCount = dbContext.InventoryInTrxDetails
                     .Where(data => data.ItemID == itemID)
-                    .Where(data => data.Unit == unit)
                     .Where(data => data.LotNumber == lotNum);
                 if (remainingCount != null)
                 {
@@ -91,28 +126,34 @@ namespace Cloud_IMS_Api.Controllers
         [HttpDelete]
         public IActionResult DeleteAll(string trxNum)
         {
-            try
+            using (var transaction = dbContext.Database.BeginTransaction())
             {
-                IEnumerable<InventoryOutTrxDetail> invDeleteAll = dbContext.InventoryOutTrxDetails.Where(data => data.TransactionNo == trxNum).ToList();
-
-
-                if (invDeleteAll != null)
+                try
                 {
-                    dbContext.InventoryOutTrxDetails.RemoveRange(invDeleteAll);
-                    dbContext.SaveChanges();
+                    IEnumerable<InventoryOutTrxDetail> invDeleteAll = dbContext.InventoryOutTrxDetails.Where(data => data.TransactionNo == trxNum).ToList();
 
-                    return Json(trxNum);
+
+                    if (invDeleteAll != null)
+                    {
+                        dbContext.InventoryOutTrxDetails.RemoveRange(invDeleteAll);
+                        dbContext.SaveChanges();
+                        transaction.Commit();
+
+                        return Json(trxNum);
+                    }
+                    else
+                    {
+                        throw new Exception($"User Not found with a user ID of '{trxNum}'.");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    throw new Exception($"User Not found with a user ID of '{trxNum}'.");
+                    transaction.Rollback();
+                    return BadRequest(GetErrorMessage(ex));
                 }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(GetErrorMessage(ex));
             }
         }
+             
         [Route("[action]")]
         public IActionResult JoinINVtoItemMaster()
         {
@@ -150,6 +191,7 @@ namespace Cloud_IMS_Api.Controllers
                                      join itemUnits in dbContext.UnitCodes on invOutDetail.Unit equals itemUnits.Code
                                      join invInTrxDetail in dbContext.InventoryInTrxDetails on invOutDetail.In_TrxNo equals invInTrxDetail.TransactionNo
                                      join invOutHeader in dbContext.InventoryOutTrxHeaders on invOutDetail.TransactionNo equals invOutHeader.TransactionNo
+                                     join itemMasterUnits in dbContext.itemMasterUnits on new { key1 = invOutDetail.ItemID, key2 = invOutDetail.Unit } equals new { key1 = itemMasterUnits.ID, key2 = itemMasterUnits.itemMasterUnitUnit }
                                      where invOutDetail.TransactionNo == trxNum
                                      select new
                                      {
@@ -166,6 +208,7 @@ namespace Cloud_IMS_Api.Controllers
                                          expirationDate = invInTrxDetail.ExpirationDate,
                                          remainigCount = invInTrxDetail.RemainigCount,
                                          transactionDate = invOutHeader.TransactionDate,
+                                         itemMasterUnitConversion = itemMasterUnits.itemMasterUnitConversion,
                                          department = invOutHeader.Department,
                                          referenceNo = invOutHeader.ReferenceNo,
                                          headremarks = invOutHeader.Remarks

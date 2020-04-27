@@ -33,6 +33,7 @@
     "datatables.net-dt": "^1.10.20",
     "datatables.net-responsive": "^2.2.3",
     "file-saver": "^2.0.2",
+    "file-server": "^2.1.0",
     "jquery": "^3.4.1",
     "jsonwebtoken": "^8.5.1",
     "ngx-cookie-service": "^3.0.4",
