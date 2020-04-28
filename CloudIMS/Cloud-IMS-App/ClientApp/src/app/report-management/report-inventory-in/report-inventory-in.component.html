@@ -11,68 +11,75 @@
     <div class="col-md-3">
 
     </div>
+    
     <div class="col-md-4">
-      <div class="tile">
-        <h3 class="tile-title"><i class="fa fa-file-excel-o"></i> Census Report</h3>
-        <div class="tile-footer">
-        </div>
-        <div class="row">
-          <div class="form-group col-md-12">
-            <label>Supplier Name</label>
-            <input type="text" class="form-control" />
-            <datalist>
-              <option value=""></option>
-            </datalist>
+      <form [formGroup]="rptInvInFormGroup">
+        <div class="tile">
+          <h3 class="tile-title"><i class="fa fa-file-excel-o"></i> Census Report</h3>
+          <div class="tile-footer">
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-12">
-            <label>Item Name</label>
-            <input type="text" class="form-control" />
-            <datalist>
-              <option value=""></option>
-            </datalist>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-12">
-            <label>Item Unit</label>
-            <input type="text" class="form-control" />
-            <datalist>
-              <option value=""></option>
-            </datalist>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label>From</label>
-            <input type="datetime-local" class="form-control">
-            <datalist>
-              <option value=""></option>
-            </datalist>
-          </div>
-          <div class="form-group col-md-6">
-            <label>To</label>
-            <input type="datetime-local" class="form-control">
-          </div>
-        </div>
-        <div class="col-md-12">
           <div class="row">
-            <div class="col-md-2">
-
+            <div class="form-group col-md-12">
+              <label>Supplier Name</label>
+              <input formControlName="supplier_hdr" type="text" class="form-control" list="supplierSelect"/>
+              <datalist id="supplierSelect">
+                <option id="All Suppliers" data-value="All Suppliers">%</option>
+                <option *ngFor="let sup of supplierArray"  id="{{sup.name}}" data-value="{{sup.name}}">{{sup.id}}</option>
+              </datalist>
             </div>
-            <div class="col-md-8">
-              <button class="btn btn-primary col-md-12"><i class="fa fa-file-excel-o"></i> Generate</button>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label>Item Name</label>
+              <input formControlName="itemMaster_dtl" type="text" class="form-control" list="itemmasterSelect" />
+              <datalist id="itemmasterSelect">
+                <option id="All Items" data-value="All Items">%</option>
+                <option *ngFor="let im of itemasterArray" id="{{im.itemName}}" data-value="{{im.itemName}}">{{im.id}}</option>
+              </datalist>
             </div>
-            <div class="col-md-2">
+          </div>
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label>Item Unit</label>
+              <input formControlName="itemUnit_dtl" type="text" class="form-control" list="itemUnitSelect" />
+              <datalist id="itemUnitSelect">
+                <option id="All Item Units" data-value="All Item Units">%</option>
+                <option *ngFor="let iu of itemUnitCodeArray" id="{{iu.description}}" data-value="{{iu.description}}">{{iu.code}}</option>
+              </datalist>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label>From</label>
+              <input type="datetime-local" formControlName="from_DT" class="form-control">
+              <datalist>
+                <option value=""></option>
+              </datalist>
+            </div>
+            <div class="form-group col-md-6">
+              <label>To</label>
+              <input type="datetime-local" formControlName="To_DT" class="form-control">
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-2">
 
+              </div>
+              <div class="col-md-8">
+                <button (click)="generateReportInvIn()" class="btn btn-primary col-md-12"><i class="fa fa-file-excel-o"></i> Generate</button>
+              </div>
+              <div class="col-md-2">
+
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      </div>
-      <div class="col-md-4">
-
-      </div>
+      </form>
     </div>
+    
+    <div class="col-md-4">
+
+    </div>
+  </div>
 </main>

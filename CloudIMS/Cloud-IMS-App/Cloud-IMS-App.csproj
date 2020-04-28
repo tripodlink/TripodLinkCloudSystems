@@ -59,6 +59,7 @@
     <None Remove="ClientApp\src\app\classes\inventory-management\InventoryIn\IInventoryInTrxDetailClass.ts" />
     <None Remove="ClientApp\src\app\classes\inventory-management\InventoryIn\IInventoryInTrxHeaderClass.ts" />
     <None Remove="ClientApp\src\app\classes\ISupplierClass.ts" />
+    <None Remove="ClientApp\src\app\classes\report-management\report-inventory-in\IReportInventoryInClass.ts" />
     <None Remove="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
     <None Remove="ClientApp\src\app\services\UserAuthorization.service.ts" />
     <None Remove="ClientApp\src\app\services\UserGroup.service.ts" />
@@ -127,6 +128,7 @@
     </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\classes\ProgramFolder.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\ProgramMenu.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\classes\report-management\report-inventory-in\IReportInventoryInClass.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\UserAccount.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\UserAccount.service.ts" />
@@ -139,6 +141,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\dist\" />
     <Folder Include="ClientApp\src\app\classes\user-management\user-account\" />
     <Folder Include="ClientApp\src\app\classes\user-management\user-group\" />
     <Folder Include="ClientApp\src\app\classes\user-management\user-profile\" />
