@@ -66,11 +66,11 @@ export class InventoryInComponent {
     let datenow = dt.getDate()
     this.addInventoryInFormGroup.controls.trxNo_hdr.setValue("T" + fullyearnow + datenow + timenow);
   }
-  public getDateTimeNow() {
-    let dt = new Date();
-    let DayMonthYear = dt.toISOString().slice(0, 10)
-    let TimeNow = dt.toTimeString().slice(0, 5)
-    let CompleteDate = DayMonthYear + "T" + TimeNow
+    public getDateTimeNow() {
+      let dt = new Date();
+      let DayMonthYear = dt.toISOString().slice(0, 10)
+      let TimeNow = dt.toTimeString().slice(0, 5)
+      let CompleteDate = DayMonthYear + "T" + TimeNow
 
     this.addInventoryInFormGroup.controls.trxDate_hdr.setValue(CompleteDate);
     this.addInventoryInFormGroup.controls.rcvdDate_hdr.setValue(CompleteDate);
