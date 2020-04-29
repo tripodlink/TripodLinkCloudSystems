@@ -118,8 +118,8 @@ export class InventorysServices {
     return this._http.post<IinventoryOutHeader>(this.url + "/UpdatePendingTrx", JSON.stringify(invHead), { headers: headers });
   }
 
-  updateRemaningCount(trxNum: string, minCount: string): Observable<any[]> {
+  updateRemaningCount(trxNum: string, minCount: string): Observable<string> {
     let params = new HttpParams().set('trxNum', trxNum).set('minCount', minCount);
-    return this._http.get<any[]>(this.urldtl + "/UpdateINVInRemainingCount", { params: params });
+    return this._http.get<string>(this.urldtl + "/UpdateINVInRemainingCount", { params: params });
   }
 }
