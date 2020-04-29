@@ -91,9 +91,9 @@ namespace CloudImsCommon.Migrations
                     itoh_item_id = table.Column<string>(maxLength: 100, nullable: false),
                     itoh_unit = table.Column<string>(maxLength: 100, nullable: false),
                     itoh_in_trxno = table.Column<string>(maxLength: 100, nullable: false),
-                    itoh_quantity = table.Column<int>(nullable: false),
+                    itoh_quantity = table.Column<double>(nullable: false),
                     itoh_remarks = table.Column<string>(maxLength: 300, nullable: true),
-                    itoh_mincount = table.Column<int>(nullable: false)
+                    itoh_mincount = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -374,7 +374,7 @@ namespace CloudImsCommon.Migrations
             migrationBuilder.InsertData(
                 table: "user_account",
                 columns: new[] { "ua_user_id", "im_created_by", "im_created_on", "ua_is_active", "ua_password", "im_updated_by", "im_updated_on", "ua_user_name" },
-                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 4, 29, 16, 13, 31, 827, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 4, 29, 16, 13, 31, 828, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
+                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 4, 29, 17, 2, 3, 321, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 4, 29, 17, 2, 3, 322, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "user_account_group",

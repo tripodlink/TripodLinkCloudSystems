@@ -62,7 +62,7 @@ export class InventoryOutComponent implements OnInit {
   tableExpDate: string;
   tableItemCount: string;
   quantityValid: boolean = false;
-    dateTimeNow: string;
+  dateTimeNow: string;
   ExpdateTimeNow: string;
   _trxno_snapshot: string;
   trxInputDisabled: boolean;
@@ -78,10 +78,10 @@ export class InventoryOutComponent implements OnInit {
     this.createQuantityForm();
 
   }
-   ngOnInit() {
+  ngOnInit() {
     this.loadData();
-     this.userIDLogin = this.cookieService.get('userId');
-     this.Get_TrxNo_from_Dashboard()  
+    this.userIDLogin = this.cookieService.get('userId');
+    this.Get_TrxNo_from_Dashboard()
   }
   public getDateTimeNow(): string {
     let today = new Date();
@@ -135,34 +135,25 @@ export class InventoryOutComponent implements OnInit {
 
   public saveorIssueTransaction(status) {
     let trxNum = this.InventoryOutHeaderForm.controls.transactionNo.value;
-    let itemID = this.InventoryOutDetailForm.controls.itemID.value;
-
     this.status = status;
 
     this.inventoryServices.findOutHeaderTrxNum(trxNum).subscribe((data) => {
       this.checkTrxNumArray = data;
 
       if (this.InventoryOutHeaderForm.valid) {
-        if (trxNum != "" || itemID != "")
+        if (trxNum != "") {
           if (this.checkTrxNumArray == undefined || this.checkTrxNumArray.length == 0) {
             this.saveOutHeader();
             this.saveOutDetails();
-            if (this.status == 'P') {
-              this.toastr.success("Transaction Saved");
-            }
-            else {
-              this.checkIfRemainingCountisValid();
-            }
           }
           else {
             if (this.status == 'P') {
               this.saveOutDetails();
             }
             else {
-              this.checkIfRemainingCountisValid();
               this.updateTrxtoIssued();
             }
-            this.toastr.success("Transaction Saved");
+        }
           }
         else {
           this.toastr.info("Please Complete Important Fields")
@@ -174,23 +165,26 @@ export class InventoryOutComponent implements OnInit {
 
   public checkIfRemainingCountisValid() {
     this.inventoryServices.getTrxTable(this.getTrxHeaderForm().transactionNo).subscribe((data) => {
-      this.retrieveOutTable = data;
-
-      Array.from(this.retrieveOutTable).forEach((trx) => {
-        if (trx.remainigCount / trx.itemMasterUnitConversion < trx.quantity) {
-          this.verifyIcon = "fa-times";
-           }
-       else {
-          this.verifyIcon = "fa-check";
-          let minus = (trx.remainigCount) - (trx.itemMasterUnitConversion * trx.quantity);
-          this.inventoryServices.updateRemaningCount(trx.in_TrxNo, String(minus)).subscribe(data => {
-            this.toastr.show('Transaction Issued');
+      if (confirm("Do you really want to Issue Item?")) {
+        this.retrieveOutTable = data;
+        setTimeout(() => {
+          Array.from(this.retrieveOutTable).forEach((trx) => {
+            if (trx.remainigCount / trx.itemMasterUnitConversion < trx.quantity) {
+              this.verifyIcon = "fa-times";
+            }
+            else {
+              this.verifyIcon = "fa-check";
+              let minus = (trx.remainigCount) - (trx.itemMasterUnitConversion * trx.quantity);
+              this.inventoryServices.updateRemaningCount(trx.in_TrxNo, String(minus)).subscribe(data => {
+                this.resetPage();
+                this.toastr.info("Transaction" + " " + data + " " + "Issued");
+              })
+            }
           })
-        }
+        }, 1000)
+      }
       })
-    })
   }
-
   public getTrxHeaderForm() {
     this.InventoryOutHeaderArray.transactionNo = this.InventoryOutHeaderForm.controls.transactionNo.value;
     this.InventoryOutHeaderArray.transactionDate = this.InventoryOutHeaderForm.controls.transactionDate.value as Date;
@@ -231,6 +225,12 @@ export class InventoryOutComponent implements OnInit {
         this.inventDetailOutArray.minCount =array.minCount;
 
         this.inventoryServices.insertOutDetail(this.inventDetailOutArray).subscribe(data => {
+          if (this.status == "P") {
+
+          }
+          else {
+            this.checkIfRemainingCountisValid();
+          }
         },
           error => {
             this.errormessage = error.error;
@@ -242,9 +242,10 @@ export class InventoryOutComponent implements OnInit {
   }
 
   public updateTrxtoIssued() {
-    this.inventoryServices.updatePendingTrx(this.getTrxHeaderForm()).subscribe(data => {
-      this.toastr.show('Transaction Issued');
-      this.resetPage();
+  this.inventoryServices.updatePendingTrx(this.getTrxHeaderForm()).subscribe(data => {
+
+      this.checkIfRemainingCountisValid();
+    
     });
   }
 
@@ -290,7 +291,7 @@ export class InventoryOutComponent implements OnInit {
           quantity: trx.quantity,
           remarks: trx.remarks,
           minCount: trx.minCount,
-          remainingCount: trx.remainigCount / trx.itemMasterUnitConversion,
+          remainingCount: parseFloat(Number(trx.remainigCount / trx.itemMasterUnitConversion).toFixed(2)),
           tableExpDate: String(trx.expirationDate),
           convertFactor: trx.itemMasterUnitConversion
         })
@@ -341,7 +342,7 @@ export class InventoryOutComponent implements OnInit {
       quantity: this.InventoryOutDetailForm.controls.quantity.value,
       remarks: this.InventoryOutDetailForm.controls.remarks.value,
       minCount: this.InventoryOutDetailForm.controls.quantity.value * Number(unitCV),
-      remainingCount: null,
+      remainingCount: this.remainingCount,
       tableExpDate: null,
       convertFactor: Number(unitCV)
     })
@@ -466,7 +467,8 @@ export class InventoryOutComponent implements OnInit {
     this.inventoryServices.getRemainingCount(itemID, lotNum).subscribe((count) => {
       this.Count = count;
       Array.from(this.Count).forEach((data) => {
-        this.remainingCount = Number(data.remainigCount) / Number(cvFactor) ;
+        let rC = Number(data.remainigCount) / Number(cvFactor);
+        this.remainingCount = parseFloat(rC.toFixed(2));
       })
 
       Array.from(this.Count).forEach((expDate) => {

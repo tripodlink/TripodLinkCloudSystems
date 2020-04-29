@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CloudImsCommon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200429081332_InitialMigration")]
+    [Migration("20200429090203_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -192,10 +192,10 @@ namespace CloudImsCommon.Migrations
                         .HasColumnName("itoh_in_trxno")
                         .HasMaxLength(100);
 
-                    b.Property<int>("MinCount")
+                    b.Property<double>("MinCount")
                         .HasColumnName("itoh_mincount");
 
-                    b.Property<int>("Quantity")
+                    b.Property<double>("Quantity")
                         .HasColumnName("itoh_quantity");
 
                     b.Property<string>("Remarks")
@@ -571,7 +571,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 29, 16, 13, 31, 827, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 29, 16, 13, 31, 828, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 29, 17, 2, 3, 321, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 29, 17, 2, 3, 322, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 

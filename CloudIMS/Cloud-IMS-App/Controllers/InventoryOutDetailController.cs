@@ -39,7 +39,7 @@ namespace Cloud_IMS_Api.Controllers
                     dbContext.InventoryOutTrxDetails.Add(inventoryOutDetail);
                     dbContext.SaveChanges();
                     transaction.Commit();
-                    return Ok(inventoryOutDetail);
+                    return Json(inventoryOutDetail);
             }
                 catch (Exception ex)
                 {
@@ -63,7 +63,7 @@ namespace Cloud_IMS_Api.Controllers
                         dbContext.InventoryInTrxDetails.Update(invd);
                         dbContext.SaveChanges();
                         transaction.Commit();
-                        return Ok(trxNum);
+                        return Json(trxNum);
 
                     }
                     else

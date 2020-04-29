@@ -35,7 +35,7 @@ namespace CloudImsCommon.Models
 
         [Required]
         [Column("itoh_quantity")]
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
 
         [Column("itoh_remarks")]
         [MaxLength(300, ErrorMessage = "Remarks cannot exceed 300 characters.")]
@@ -43,7 +43,7 @@ namespace CloudImsCommon.Models
 
         [Required]
         [Column("itoh_mincount")]
-        public int MinCount { get; set; }
+        public double MinCount { get; set; }
 
     }
 }
