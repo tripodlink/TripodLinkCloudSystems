@@ -43,11 +43,11 @@ namespace CloudImsCommon.Models
 
         [Required]
         [Column("count")]
-        public int Count { get; set; }
+        public double Count { get; set; }
 
         [Required]
         [Column("remaning_count")]
-        public int RemainigCount { get; set; }
+        public double RemainigCount { get; set; }
 
     }
 }
