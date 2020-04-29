@@ -1,10 +1,10 @@
 
 export interface IReportInventoryIn {
-  transactionNo: string;
-  transactionDate: Date;
-  itemID: string;
-  unit: string;
-  quantity: number;
-  lotNumber: string;
+  trxno: string;
+  trxdate: Date;
+  itemname: string;
+  itemunit: string;
+  qty: number;
+  lotno: string;
   supplier: string;
 }

@@ -5,6 +5,12 @@ import { IiTemMaster } from '../../classes/data-dictionary/ItemMaster/IitemMaste
 import { ISupplier } from '../../classes/data-dictionary/Supplier/ISupplier.interface';
 import { IUnitCode } from '../../classes/data-dictionary/UnitCode/IUnitCode.interface';
 import { IReportInventoryIn } from '../../classes/report-management/report-inventory-in/IReportInventoryIn.interface';
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
+import { IReportInventoryInClass } from '../../classes/report-management/report-inventory-in/IReportInventoryInClass';
+
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-report-inventory-in',
@@ -18,6 +24,8 @@ export class ReportInventoryInComponent implements OnInit {
   supplierArray: ISupplier[];
   rptInvInArray: IReportInventoryIn[];
 
+  /*name of the excel-file which will be downloaded. */
+  fileName = 'ExcelSheet.xlsx';
 
   constructor(public builder: FormBuilder,public rptservice: ReportInventoryInService) {
     this.createForm();  
@@ -67,6 +75,32 @@ export class ReportInventoryInComponent implements OnInit {
     let supID = document.getElementById(this.rptInvInFormGroup.controls.supplier_hdr.value).innerText;
 
     
-    this.rptservice.getReportInventoryIn(itemID, itemunitID, supID,fromDT,toDT).subscribe((getreport)=>this.rptInvInArray = getreport)
+    this.rptservice.getReportInventoryIn(itemID, itemunitID, supID, fromDT, toDT).subscribe((getreport) => this.rptInvInArray = getreport)
+    this.exportAsExcelFile(this.rptInvInArray, 'sample');
+  }
+
+  ExportFile() {
+    /* table id is passed over here */
+    let element = document.getElementById('rptInvInTable');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, this.fileName);
+  }
+
+
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+  public saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
 }

@@ -79,7 +79,30 @@
     </div>
     
     <div class="col-md-4">
-
+      <table id="rptInvInTable" hidden>
+        <thead>
+          <tr>
+            <th>Transaction No.</th>
+            <th>Transaction Date</th>
+            <th>Item Name</th>
+            <th>Item Unit</th>
+            <th>Quantity</th>
+            <th>LOT No.</th>
+            <th>Supplier</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rptInArr of rptInvInArray">
+            <td>{{rptInArr.trxno}}</td>
+            <td>{{rptInArr.trxdate}}</td>
+            <td>{{rptInArr.itemname}}</td>
+            <td>{{rptInArr.itemunit}}</td>
+            <td>{{rptInArr.qty}}</td>
+            <td>{{rptInArr.lotno}}</td>
+            <td>{{rptInArr.supplier}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </main>
