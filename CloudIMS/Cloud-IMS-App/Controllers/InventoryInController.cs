@@ -50,11 +50,16 @@ namespace Cloud_IMS_Api.Controllers
           
                 try
                 {
-                    InventoryInTrxHeader invtoadd = new InventoryInTrxHeader()
+                var dtnow = DateTime.Now;
+
+                var dtdate = dtnow.ToString("yyyy-MM-dd");
+
+
+                InventoryInTrxHeader invtoadd = new InventoryInTrxHeader()
                     {
 
                         TransactionNo = InvInTrxHeader.TransactionNo,
-                        TransactionDate = DateTime.Now,
+                        TransactionDate = DateTime.Parse(dtdate),
                         ReceivedDate = InvInTrxHeader.ReceivedDate,
                         ReceivedBy = InvInTrxHeader.ReceivedBy,
                         PONumber = InvInTrxHeader.PONumber,

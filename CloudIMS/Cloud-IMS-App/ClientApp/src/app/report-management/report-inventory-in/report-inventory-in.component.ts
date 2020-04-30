@@ -76,16 +76,19 @@ export class ReportInventoryInComponent implements OnInit {
 
     
     this.rptservice.getReportInventoryIn(itemID, itemunitID, supID, fromDT, toDT).subscribe((getreport) => this.rptInvInArray = getreport)
-    this.exportAsExcelFile(this.rptInvInArray, 'sample');
+    //this.exportAsExcelFile(this.rptInvInArray, 'sample');
+    this.ExportFile();
+    this.rptInvInArray = [];
   }
 
   ExportFile() {
     /* table id is passed over here */
     let element = document.getElementById('rptInvInTable');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
-
+   
     /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     /* save to file */

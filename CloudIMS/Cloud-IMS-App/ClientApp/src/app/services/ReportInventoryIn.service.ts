@@ -27,7 +27,7 @@ export class ReportInventoryInService {
   }
 
   getReportInventoryIn(itemID: string, itemunitID: string, supplierID: string,fromDT: Date, ToDT: Date): Observable<IReportInventoryIn[]> {
-    console.log(fromDT.toString());
+    
     let params = new HttpParams().set('ItemID', itemID).set('ItemUNIT', itemunitID).set('supplierID', supplierID).set('fromDT', fromDT.toString()).set('toDT', ToDT.toString());
     return this._http.get<IReportInventoryIn[]>(this.url_rptinvIn + "/GetReportInventoryIN", { params: params })
   }
