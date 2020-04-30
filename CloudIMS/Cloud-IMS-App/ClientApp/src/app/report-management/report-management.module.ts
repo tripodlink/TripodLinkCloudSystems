@@ -6,6 +6,7 @@ import { ReportManagementComponent } from './report-management.component';
 import { ReportInventoryInComponent } from './report-inventory-in/report-inventory-in.component';
 import { ReportInventoryOutComponent } from './report-inventory-out/report-inventory-out.component';
 import { ReportInventoryInService } from '../services/ReportInventoryIn.service';
+import { ReportInventoryOutService  } from '../services/ReportInventoryOut.service';
 
 
 @NgModule({
@@ -21,6 +22,6 @@ import { ReportInventoryInService } from '../services/ReportInventoryIn.service'
 
     RouterModule.forRoot([])
   ],
-  providers: [ReportInventoryInService]
+  providers: [ReportInventoryInService, ReportInventoryOutService]
 })
 export class ReportManagementModule {  }

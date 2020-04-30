@@ -11,8 +11,8 @@
     <div class="col-md-3">
 
     </div>
-    <form [formGroup]="invInReports">
-      <div class="col-md-4">
+    <div class="col-md-4">
+      <form [formGroup]="invInReports">
         <div class="tile">
           <h3 class="tile-title"><i class="fa fa-file-excel-o"></i>Reports</h3>
           <div class="tile-footer">
@@ -21,7 +21,7 @@
           <div class="row">
             <div class="form-group col-md-12">
               <label>Transaction Number</label>
-              <input type="text" formControlName="TransactionNo" class="form-control" />
+              <input type="text" formControlName="TransactionNumber" class="form-control" />
               <datalist>
                 <option value=""></option>
               </datalist>
@@ -30,18 +30,31 @@
           <div class="row">
             <div class="form-group col-md-12">
               <label>Item Name</label>
-              <input type="text" formControlName="ItemName" class="form-control" />
-              <datalist>
-                <option value=""></option>
+              <input list="itemList" type="text" formControlName="ItemName" class="form-control"/>
+              <datalist id="itemList">
+                <option id="All Item Name" value="All Item Name">%</option>
+                <option *ngFor="let item of itemArray" id="{{item.itemName}}" value="{{item.itemName}}">{{item.id}}</option>
+
               </datalist>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-md-12">
               <label>Item Unit</label>
-              <input type="text" formControlName="ItemUnit" class="form-control" />
-              <datalist>
-                <option value=""></option>
+              <input list="itemUnit" type="text" formControlName="ItemUnit" class="form-control"/>
+              <datalist id="itemUnit">
+                <option id="All Item Unit" value="All Item Unit">%</option>
+                <option *ngFor="let unit of unitArray" id="{{unit.code}}" value="{{unit.description}}">{{unit.code}}</option>
+              </datalist>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label>Department</label>
+              <input list="depList" type="text" formControlName="department" class="form-control"/>
+              <datalist id="depList">
+                <option id="All Department" value="All Department">%</option>
+                <option *ngFor="let dep of depArray" id="{{dep.departmentName}}" value="{{dep.departmentName}}">{{dep.id}}</option>
               </datalist>
             </div>
           </div>
@@ -64,7 +77,7 @@
 
               </div>
               <div class="col-md-8">
-                <button class="btn btn-primary col-md-12"><i class="fa fa-file-excel-o"></i> Generate</button>
+                <button class="btn btn-primary col-md-12" (click)="generateReports()"><i class="fa fa-file-excel-o"></i> Generate</button>
               </div>
               <div class="col-md-2">
 
@@ -72,10 +85,9 @@
             </div>
           </div>
         </div>
-      </div>
-</form>
+      </form>
+    </div>
       <div class="col-md-4">
-
       </div>
   </div>
 </main>
