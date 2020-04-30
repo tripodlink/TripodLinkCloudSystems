@@ -39,7 +39,10 @@ namespace Cloud_IMS_Api.Controllers
                                join im in dbContext.ItemMasters on inv_in_trxdtl.ItemID equals im.ID
                                join uc in dbContext.UnitCodes on inv_in_trxdtl.Unit equals uc.Code
                                join sup in dbContext.Suppliers on inv_in_trxhdr.Supplier equals sup.ID
-                               where (inv_in_trxhdr.TransactionDate >= DateTime.Parse(from_dt) && inv_in_trxhdr.TransactionDate <= DateTime.Parse(to_dt))
+                               where 
+                               inv_in_trxhdr.TransactionDate >= DateTime.Parse(from_dt) 
+                               && 
+                               inv_in_trxhdr.TransactionDate <= DateTime.Parse(to_dt)
                                
                             
                                select new

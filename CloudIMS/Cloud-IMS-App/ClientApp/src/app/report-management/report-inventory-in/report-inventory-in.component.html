@@ -50,14 +50,22 @@
           </div>
           <div class="row">
             <div class="form-group col-md-6">
-              <label>From</label>
+              <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4"> <label>From</label></div>
+                <div class="col-md-4"></div>
+              </div>
               <input type="datetime-local" formControlName="from_DT" class="form-control">
               <datalist>
                 <option value=""></option>
               </datalist>
             </div>
             <div class="form-group col-md-6">
-              <label>To</label>
+              <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4"><label>To</label></div>
+                <div class="col-md-4"></div>
+              </div>
               <input type="datetime-local" formControlName="To_DT" class="form-control">
             </div>
           </div>
@@ -93,8 +101,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let rptInArr of rptInvInArray">
-            <td>{{rptInArr.trxno}}</td>
             <td>{{rptInArr.trxdate}}</td>
+            <td>{{rptInArr.trxno}}</td>
             <td>{{rptInArr.itemname}}</td>
             <td>{{rptInArr.itemunit}}</td>
             <td>{{rptInArr.qty}}</td>
