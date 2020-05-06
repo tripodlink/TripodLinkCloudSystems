@@ -29,31 +29,29 @@ namespace Cloud_IMS_Api.Controllers
         }
 
         [Route("[action]")]
-        public IActionResult FindReport(string trxNum, string itemName, string itemUnit, string depart, string trxDateFrom, string trxDateTo)
+        public IActionResult FindReport(string trxNum, string itemName, string itemUnit, string department, DateTime dateFrom, DateTime dateTo)
         {
                
             try
             {
-                var dateFrom = DateTime.Parse(trxDateFrom);
-                var dateTo = DateTime.Parse(trxDateTo);
-                var itemMasterUnitJoinUnitCode = from invOutHeader in dbContext.InventoryOutTrxHeaders
-                                                 join department in dbContext.Departments on invOutHeader.Department equals department.ID
+                var dateFromC = dateFrom.ToString("yyyy-MM-dd");
+                var dateToC = dateTo.ToString("yyyy-MM-dd");
+
+                var itemMasterUnitJoinUnitCode = (from invOutHeader in dbContext.InventoryOutTrxHeaders
+                                                 join departments in dbContext.Departments on invOutHeader.Department equals departments.ID
                                                  join invOutDetail in dbContext.InventoryOutTrxDetails on invOutHeader.TransactionNo equals invOutDetail.TransactionNo
                                                  join itemMaster in dbContext.ItemMasters on invOutDetail.ItemID equals itemMaster.ID
                                                  join itemMasterUnit in dbContext.itemMasterUnits on invOutDetail.Unit equals itemMasterUnit.itemMasterUnitUnit
                                                  join unitCode in dbContext.UnitCodes on invOutDetail.Unit equals unitCode.Code
                                                  join invInDetail in dbContext.InventoryInTrxDetails on invOutDetail.In_TrxNo equals invInDetail.TransactionNo
-                                                 where invOutHeader.TransactionNo == trxNum
-                                                 && invOutDetail.ItemID == itemName && invOutDetail.Unit == itemUnit
-                                                 && invOutHeader.Department == depart
-                                                 && (invOutHeader.TransactionDate >= dateFrom && invOutHeader.TransactionDate <= dateTo)
+                                                 where (invOutHeader.TransactionDate >= DateTime.Parse(dateFromC) && invOutHeader.TransactionDate <= DateTime.Parse(dateToC))
                                                  select new {
                                                      HeaderTransactionNo = invOutHeader.TransactionNo,
                                                      transactionDate = invOutHeader.TransactionDate,
                                                      issuedBy = invOutHeader.IssuedBy,
                                                      receivedBy = invOutHeader.ReceivedBy,
                                                      department = invOutHeader.Department,
-                                                     departmentName = department.DepartmentName,
+                                                     departmentName = departments.DepartmentName,
                                                      referenceNo = invOutHeader.ReferenceNo,
                                                      HeaderRemarks = invOutHeader.Remarks,
                                                      itemID = invOutDetail.ItemID,
@@ -64,18 +62,27 @@ namespace Cloud_IMS_Api.Controllers
                                                      in_TrxNo = invOutDetail.In_TrxNo,
                                                      lotNumber = invInDetail.LotNumber,
                                                      quantity = invOutDetail.Quantity,
-                                                     DetailRemarks = invOutDetail.Remarks
-
-                                                 };
-                                                 
+                                                     DetailRemarks = invOutDetail.Remarks}).Distinct();
                 if (itemMasterUnitJoinUnitCode != null)
                 {
+                    if (trxNum != null)
+                    {
+                        itemMasterUnitJoinUnitCode = itemMasterUnitJoinUnitCode.Where(invOutTrx => invOutTrx.HeaderTransactionNo.Contains(trxNum));
+                    }
+                    if (itemName != "%")
+                    {
+                        itemMasterUnitJoinUnitCode = itemMasterUnitJoinUnitCode.Where(invOutName => invOutName.itemName.Contains(itemName));
+                    }
+                    if (itemUnit != "%")
+                    {
+                        itemMasterUnitJoinUnitCode = itemMasterUnitJoinUnitCode.Where(invOutUnit => invOutUnit.unit.Contains(department));
+                    }
+
                     return Json(itemMasterUnitJoinUnitCode.ToList()); ;
                 }
                 else
                 {
-
-                    throw new Exception($"User Not found with a user ID of '{""}'.");
+                    throw new Exception($"No Data Found.");
                 }
             }
             catch (Exception ex)

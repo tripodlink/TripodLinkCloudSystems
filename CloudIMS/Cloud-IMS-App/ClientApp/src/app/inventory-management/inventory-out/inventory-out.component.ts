@@ -13,7 +13,7 @@ import { IinventoryOutHeader } from '../../classes/inventory-management/inventor
 import { IinventoryOutHeaderClass } from '../../classes/inventory-management/inventory-out/IinventoryOutHeaderClass';
 import { IInventoryInTrxDetail } from '../../classes/inventory-management/InventoryIn/IInventoryInTrxDetail.interface';
 import { InventorysServices } from '../../services/inventorys.service';
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { equal } from 'assert';
 
