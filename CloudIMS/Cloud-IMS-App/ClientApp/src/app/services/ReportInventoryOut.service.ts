@@ -16,14 +16,16 @@ export class ReportInventoryOutService {
   constructor(private _http: HttpClient) {
 
   }
-  getReport(trxNum: string, itemName: string, itemUnit: string, department: string, dateFrom: Date, dateTo: Date): Observable<IReportInventoryOut[]> {
+  getReport(trxNum: string, itemName: string, itemUnit: string, department: string, dateFrom: Date, dateTo: Date,
+  reportType: string): Observable<IReportInventoryOut[]> {
     let params = new HttpParams()
       .set('trxNum', trxNum)
       .set('itemName', itemName)
       .set('itemUnit', itemUnit)
       .set('department', department)
       .set('dateFrom', dateFrom.toString())
-      .set('dateTo', dateTo.toString());
+      .set('dateTo', dateTo.toString())
+      .set('reportType', reportType);
     return this._http.get<IReportInventoryOut[]>(this.url + "/FindReport", { params: params });
   }
 

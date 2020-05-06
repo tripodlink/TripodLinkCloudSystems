@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CloudImsCommon.Database;
 using CloudImsCommon.Extensions;
 using CloudImsCommon.Models;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -29,23 +30,26 @@ namespace Cloud_IMS_Api.Controllers
         }
 
         [Route("[action]")]
-        public IActionResult FindReport(string trxNum, string itemName, string itemUnit, string department, DateTime dateFrom, DateTime dateTo)
+        public IActionResult FindReport(string trxNum, string itemName, string itemUnit, string department, 
+            DateTime dateFrom, DateTime dateTo, string reportType)
         {
-               
+
             try
             {
                 var dateFromC = dateFrom.ToString("yyyy-MM-dd");
                 var dateToC = dateTo.ToString("yyyy-MM-dd");
-
-                var itemMasterUnitJoinUnitCode = (from invOutHeader in dbContext.InventoryOutTrxHeaders
+                if (reportType == "TransactionDate")
+                {
+               
+                var rptTrxDate = (from invOutHeader in dbContext.InventoryOutTrxHeaders
                                                  join departments in dbContext.Departments on invOutHeader.Department equals departments.ID
                                                  join invOutDetail in dbContext.InventoryOutTrxDetails on invOutHeader.TransactionNo equals invOutDetail.TransactionNo
                                                  join itemMaster in dbContext.ItemMasters on invOutDetail.ItemID equals itemMaster.ID
                                                  join itemMasterUnit in dbContext.itemMasterUnits on invOutDetail.Unit equals itemMasterUnit.itemMasterUnitUnit
                                                  join unitCode in dbContext.UnitCodes on invOutDetail.Unit equals unitCode.Code
                                                  join invInDetail in dbContext.InventoryInTrxDetails on invOutDetail.In_TrxNo equals invInDetail.TransactionNo
-                                                 where (invOutHeader.TransactionDate >= DateTime.Parse(dateFromC) && invOutHeader.TransactionDate <= DateTime.Parse(dateToC))
-                                                 select new {
+                                                 where invOutHeader.TransactionDate >= DateTime.Parse(dateFromC) && invOutHeader.TransactionDate <= DateTime.Parse(dateToC)
+                                                  select new {
                                                      HeaderTransactionNo = invOutHeader.TransactionNo,
                                                      transactionDate = invOutHeader.TransactionDate,
                                                      issuedBy = invOutHeader.IssuedBy,
@@ -63,22 +67,69 @@ namespace Cloud_IMS_Api.Controllers
                                                      lotNumber = invInDetail.LotNumber,
                                                      quantity = invOutDetail.Quantity,
                                                      DetailRemarks = invOutDetail.Remarks}).Distinct();
-                if (itemMasterUnitJoinUnitCode != null)
-                {
-                    if (trxNum != null)
+                    if (rptTrxDate != null)
                     {
-                        itemMasterUnitJoinUnitCode = itemMasterUnitJoinUnitCode.Where(invOutTrx => invOutTrx.HeaderTransactionNo.Contains(trxNum));
+                        if (trxNum != null)
+                        {
+                            rptTrxDate = rptTrxDate.Where(invOutTrx => invOutTrx.HeaderTransactionNo.Contains(trxNum));
+                        }
+                        if (itemName != "%")
+                        {
+                            rptTrxDate = rptTrxDate.Where(invOutName => invOutName.itemName.Contains(itemName));
+                        }
+                        if (itemUnit != "%")
+                        {
+                            rptTrxDate = rptTrxDate.Where(invOutUnit => invOutUnit.unit.Contains(department));
+                        }
+                        return Json(rptTrxDate.ToList());
                     }
-                    if (itemName != "%")
-                    {
-                        itemMasterUnitJoinUnitCode = itemMasterUnitJoinUnitCode.Where(invOutName => invOutName.itemName.Contains(itemName));
+                    else{
+                        var rptIsseudDate = (from invOutHeader in dbContext.InventoryOutTrxHeaders
+                                          join departments in dbContext.Departments on invOutHeader.Department equals departments.ID
+                                          join invOutDetail in dbContext.InventoryOutTrxDetails on invOutHeader.TransactionNo equals invOutDetail.TransactionNo
+                                          join itemMaster in dbContext.ItemMasters on invOutDetail.ItemID equals itemMaster.ID
+                                          join itemMasterUnit in dbContext.itemMasterUnits on invOutDetail.Unit equals itemMasterUnit.itemMasterUnitUnit
+                                          join unitCode in dbContext.UnitCodes on invOutDetail.Unit equals unitCode.Code
+                                          join invInDetail in dbContext.InventoryInTrxDetails on invOutDetail.In_TrxNo equals invInDetail.TransactionNo
+                                          where invOutHeader.IssuedDate >= DateTime.Parse(dateFromC) && invOutHeader.IssuedDate <= DateTime.Parse(dateToC)
+                                          select new
+                                          {
+                                              HeaderTransactionNo = invOutHeader.TransactionNo,
+                                              transactionDate = invOutHeader.TransactionDate,
+                                              issuedBy = invOutHeader.IssuedBy,
+                                              receivedBy = invOutHeader.ReceivedBy,
+                                              department = invOutHeader.Department,
+                                              departmentName = departments.DepartmentName,
+                                              referenceNo = invOutHeader.ReferenceNo,
+                                              HeaderRemarks = invOutHeader.Remarks,
+                                              itemID = invOutDetail.ItemID,
+                                              itemName = itemMaster.ItemName,
+                                              unit = invOutDetail.Unit,
+                                              itemMasterUnitUnit = itemMasterUnit.itemMasterUnitUnit,
+                                              description = unitCode.Description,
+                                              in_TrxNo = invOutDetail.In_TrxNo,
+                                              lotNumber = invInDetail.LotNumber,
+                                              quantity = invOutDetail.Quantity,
+                                              DetailRemarks = invOutDetail.Remarks
+                                          }).Distinct();
+                        if (rptIsseudDate != null)
+                        {
+                            if (trxNum != null)
+                            {
+                                rptIsseudDate = rptIsseudDate.Where(invOutTrx => invOutTrx.HeaderTransactionNo.Contains(trxNum));
+                            }
+                            if (itemName != "%")
+                            {
+                                rptIsseudDate = rptIsseudDate.Where(invOutName => invOutName.itemName.Contains(itemName));
+                            }
+                            if (itemUnit != "%")
+                            {
+                                rptIsseudDate = rptIsseudDate.Where(invOutUnit => invOutUnit.unit.Contains(department));
+                            }
+                            return Json(rptIsseudDate.ToList());
+                        }
                     }
-                    if (itemUnit != "%")
-                    {
-                        itemMasterUnitJoinUnitCode = itemMasterUnitJoinUnitCode.Where(invOutUnit => invOutUnit.unit.Contains(department));
-                    }
-
-                    return Json(itemMasterUnitJoinUnitCode.ToList()); ;
+                    return Ok();
                 }
                 else
                 {

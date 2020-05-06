@@ -40,7 +40,8 @@ export class ReportInventoryOutComponent implements OnInit {
       ItemUnit: [''],
       department: [''],
       dateFrom: [''],
-      dateTo: ['']
+      dateTo: [''],
+      reportType: ['']
     })
   }
 
@@ -96,7 +97,8 @@ export class ReportInventoryOutComponent implements OnInit {
    
 
     this.reportServices.getReport(this.getFormValue().HeaderTransactionNo, this.getFormValue().itemID, this.getFormValue().unit,
-      this.getFormValue().department, this.getFormValue().transactionDateFrom, this.getFormValue().transactionDateTo).subscribe((data) => {
+      this.getFormValue().department, this.getFormValue().transactionDateFrom, this.getFormValue().transactionDateTo,
+      this.invInReports.controls.reportType.value).subscribe((data) => {
         this.reportOutArray = data;
         this.exportReport();
       });
@@ -113,9 +115,9 @@ export class ReportInventoryOutComponent implements OnInit {
 
 
       /* save to file */
-      let dateFrom = this.datePipe.transform(this.formValue.transactionDateFrom, 'yyyy-MM-dd');
-      let dateTo = this.datePipe.transform(this.formValue.transactionDateTo, 'yyyy-MM-dd');
-      XLSX.writeFile(wb, dateFrom + "-" + dateTo + ".xlsx");
+    let dateFrom = this.datePipe.transform(this.formValue.transactionDateFrom, 'MMMM d, y');
+    let dateTo = this.datePipe.transform(this.formValue.transactionDateTo, 'MMMM d, y');
+      XLSX.writeFile(wb,"Inventory Out For" + " " +dateFrom + " " + "to" + " " + dateTo + ".xlsx");
     }
   
 }
