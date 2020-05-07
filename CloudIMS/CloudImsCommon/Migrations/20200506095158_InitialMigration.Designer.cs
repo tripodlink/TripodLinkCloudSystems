@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CloudImsCommon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200430065458_InitialMigration")]
+    [Migration("20200506095158_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,6 +17,43 @@ namespace CloudImsCommon.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.8-servicing-32085");
+
+            modelBuilder.Entity("CloudImsCommon.Models.AutoNumber", b =>
+                {
+                    b.Property<string>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("an_type")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Auto_Length")
+                        .IsRequired()
+                        .HasColumnName("an_auto_length")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Current_year")
+                        .IsRequired()
+                        .HasColumnName("an_current_year")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Date_Prefix")
+                        .IsRequired()
+                        .HasColumnName("an_date_prefix")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Last_Value")
+                        .IsRequired()
+                        .HasColumnName("an_last_value")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Text_Prefix")
+                        .IsRequired()
+                        .HasColumnName("an_text_prefix")
+                        .HasMaxLength(255);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Auto_Number");
+                });
 
             modelBuilder.Entity("CloudImsCommon.Models.Company", b =>
                 {
@@ -571,7 +608,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 4, 30, 14, 54, 58, 267, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 4, 30, 14, 54, 58, 268, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 5, 6, 17, 51, 57, 928, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 5, 6, 17, 51, 57, 930, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 

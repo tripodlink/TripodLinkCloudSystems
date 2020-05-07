@@ -8,6 +8,22 @@ namespace CloudImsCommon.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Auto_Number",
+                columns: table => new
+                {
+                    an_type = table.Column<string>(maxLength: 100, nullable: false),
+                    an_text_prefix = table.Column<string>(maxLength: 255, nullable: false),
+                    an_date_prefix = table.Column<string>(maxLength: 255, nullable: false),
+                    an_auto_length = table.Column<string>(maxLength: 255, nullable: false),
+                    an_last_value = table.Column<string>(maxLength: 255, nullable: false),
+                    an_current_year = table.Column<string>(maxLength: 255, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Auto_Number", x => x.an_type);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "company",
                 columns: table => new
                 {
@@ -374,7 +390,7 @@ namespace CloudImsCommon.Migrations
             migrationBuilder.InsertData(
                 table: "user_account",
                 columns: new[] { "ua_user_id", "im_created_by", "im_created_on", "ua_is_active", "ua_password", "im_updated_by", "im_updated_on", "ua_user_name" },
-                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 4, 30, 14, 54, 58, 267, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 4, 30, 14, 54, 58, 268, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
+                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 5, 6, 17, 51, 57, 928, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 5, 6, 17, 51, 57, 930, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "user_account_group",
@@ -435,6 +451,9 @@ namespace CloudImsCommon.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Auto_Number");
+
             migrationBuilder.DropTable(
                 name: "company");
 

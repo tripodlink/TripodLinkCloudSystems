@@ -6,7 +6,10 @@ using CloudImsCommon.Database;
 using CloudImsCommon.Extensions;
 using CloudImsCommon.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using MySql.Data.MySqlClient;
+using Renci.SshNet.Security.Cryptography;
 
 namespace Cloud_IMS_Api.Controllers
 {
@@ -179,6 +182,29 @@ namespace Cloud_IMS_Api.Controllers
                     return BadRequest(GetErrorMessage(ex));
                 }
             }
+        }
+        [Route("[action]")]
+        public IActionResult getTrxNumFunction()
+        {
+            using (var transaction = dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    var mcon = dbContext.Database.GetDbConnection().CreateCommand();
+                    mcon.CommandText = "select setAuto_number('INVOUT')";
+                    var returnVal = mcon.ExecuteScalar();
+                    transaction.Commit();
+                
+                    return Json(returnVal);
+                    
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return BadRequest(GetErrorMessage(ex));
+                }
+            }
+
         }
     }
 }
