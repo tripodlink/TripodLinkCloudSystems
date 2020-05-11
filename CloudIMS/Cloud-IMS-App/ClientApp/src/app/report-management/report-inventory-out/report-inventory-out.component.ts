@@ -7,7 +7,9 @@ import { IReportInventoryOutClass } from '../../classes/report-management/report
 import { IiTemMaster } from '../../classes/data-dictionary/ItemMaster/IitemMaster.interface';
 import { IUnitCode } from '../../classes/data-dictionary/UnitCode/IUnitCode.interface';
 import { IDepartment } from '../../classes/data-dictionary/Department/IDepartment.interface';
-
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-report-inventory-out',
   templateUrl: './report-inventory-out.component.html',
@@ -21,8 +23,10 @@ export class ReportInventoryOutComponent implements OnInit {
   depArray: IDepartment[];
 
   formValue: IReportInventoryOut = new IReportInventoryOutClass();
+  reportOutArray: IReportInventoryOut[];
 
-  constructor(public builder: FormBuilder, public reportServices: ReportInventoryOutService) {
+  constructor(public builder: FormBuilder, public reportServices: ReportInventoryOutService,
+  public datePipe: DatePipe) {
     this.createForm()
   }
 
@@ -36,7 +40,8 @@ export class ReportInventoryOutComponent implements OnInit {
       ItemUnit: [''],
       department: [''],
       dateFrom: [''],
-      dateTo: ['']
+      dateTo: [''],
+      reportType: ['']
     })
   }
 
@@ -62,14 +67,25 @@ export class ReportInventoryOutComponent implements OnInit {
     this.formValue.HeaderTransactionNo = this.invInReports.controls.TransactionNumber.value;
 
     let itemID = this.invInReports.controls.ItemName.value;
-    this.formValue.itemID = document.getElementById(itemID).innerHTML;
-
+    if (itemID != "") {
+      this.formValue.itemID = document.getElementById(itemID).innerHTML;
+    } else {
+      this.formValue.itemID = "%";
+    }
 
     let unitcode = this.invInReports.controls.ItemUnit.value;
-    this.formValue.unit = document.getElementById(unitcode).innerHTML;
+    if (unitcode != "") {
+      this.formValue.unit = document.getElementById(unitcode).innerHTML;
+    } else {
+      this.formValue.unit = "%";
+    }
 
     let department = this.invInReports.controls.department.value;
-    this.formValue.department = document.getElementById(department).innerHTML;
+    if (department != "") {
+      this.formValue.department = document.getElementById(department).innerHTML;
+    } else {
+      this.formValue.department = "%";
+    }
 
     this.formValue.transactionDateFrom = this.invInReports.controls.dateFrom.value;
     this.formValue.transactionDateTo = this.invInReports.controls.dateTo.value;
@@ -78,10 +94,31 @@ export class ReportInventoryOutComponent implements OnInit {
   }
 
   public generateReports() {
-    this.reportServices.getReport(this.getFormValue().HeaderTransactionNo, this.getFormValue().itemID,
-      this.getFormValue().unit,this.getFormValue().department,
-      this.getFormValue(). transactionDateFrom, this.getFormValue().transactionDateTo).subscribe(data => {
-        alert("Ok");
+   
+
+    this.reportServices.getReport(this.getFormValue().HeaderTransactionNo, this.getFormValue().itemID, this.getFormValue().unit,
+      this.getFormValue().department, this.getFormValue().transactionDateFrom, this.getFormValue().transactionDateTo,
+      this.invInReports.controls.reportType.value).subscribe((data) => {
+        this.reportOutArray = data;
+        this.exportReport();
       });
   }
+
+  exportReport() {
+  /* table id is passed over here */
+      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.reportOutArray);
+
+      /* generate workbook and add the worksheet */
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+
+      /* save to file */
+    let dateFrom = this.datePipe.transform(this.formValue.transactionDateFrom, 'MMMM d, y');
+    let dateTo = this.datePipe.transform(this.formValue.transactionDateTo, 'MMMM d, y');
+      XLSX.writeFile(wb,"Inventory Out For" + " " +dateFrom + " " + "to" + " " + dateTo + ".xlsx");
+    }
+  
 }
+

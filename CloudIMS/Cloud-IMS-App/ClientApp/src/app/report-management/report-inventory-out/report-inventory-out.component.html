@@ -30,9 +30,8 @@
           <div class="row">
             <div class="form-group col-md-12">
               <label>Item Name</label>
-              <input list="itemList" type="text" formControlName="ItemName" class="form-control"/>
+              <input list="itemList" type="text" formControlName="ItemName" class="form-control" />
               <datalist id="itemList">
-                <option id="All Item Name" value="All Item Name">%</option>
                 <option *ngFor="let item of itemArray" id="{{item.itemName}}" value="{{item.itemName}}">{{item.id}}</option>
 
               </datalist>
@@ -41,9 +40,8 @@
           <div class="row">
             <div class="form-group col-md-12">
               <label>Item Unit</label>
-              <input list="itemUnit" type="text" formControlName="ItemUnit" class="form-control"/>
+              <input list="itemUnit" type="text" formControlName="ItemUnit" class="form-control" />
               <datalist id="itemUnit">
-                <option id="All Item Unit" value="All Item Unit">%</option>
                 <option *ngFor="let unit of unitArray" id="{{unit.code}}" value="{{unit.description}}">{{unit.code}}</option>
               </datalist>
             </div>
@@ -51,13 +49,38 @@
           <div class="row">
             <div class="form-group col-md-12">
               <label>Department</label>
-              <input list="depList" type="text" formControlName="department" class="form-control"/>
+              <input list="depList" type="text" formControlName="department" class="form-control" />
               <datalist id="depList">
-                <option id="All Department" value="All Department">%</option>
                 <option *ngFor="let dep of depArray" id="{{dep.departmentName}}" value="{{dep.departmentName}}">{{dep.id}}</option>
               </datalist>
             </div>
           </div>
+          <div class="form-group">
+            <label>Choose Type to Filter</label>
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-sm-12">
+                    <input type="radio" name="reportType"
+                           formControlName="reportType"
+                           value="TransactionDate" required>
+                    Transaction Date
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-sm-12">
+                    <input type="radio" name="reportType"
+                           formControlName="reportType"
+                           value="IssuedDate" required>
+                    Issued Date
+                  </label>
+                </div>
+               </div>
+
+          </div>
+
           <div class="row">
             <div class="form-group col-md-6">
               <label>From</label>

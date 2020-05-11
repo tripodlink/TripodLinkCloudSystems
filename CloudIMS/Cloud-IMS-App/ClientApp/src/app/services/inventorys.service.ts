@@ -83,6 +83,9 @@ export class InventorysServices {
     return this._http.get<IinventoryOutTable[]>(this.urldtl + "/getAllTrx", { params: params });
   }
 
+  getTrxNumFunction(): Observable<string> {
+    return this._http.get<string>(this.url + "/getTrxNumFunction");
+  }
 
   //
 
@@ -95,6 +98,7 @@ export class InventorysServices {
   findPendingTrx(): Observable<IinventoryOutHeader[]> {
     return this._http.get<IinventoryOutHeader[]>(this.url + "/findPendingTrx");
   }
+ 
   //
 
   //DELETE

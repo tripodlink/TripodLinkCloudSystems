@@ -43,7 +43,7 @@ namespace CloudImsCommon.Database
             base.OnModelCreating(modelBuilder);            
             modelBuilder.Seed();
         }
-        
+
         public DbSet<Company> Company { get; set; }
         public DbSet<EventTable> EventTable { get; set; }
 

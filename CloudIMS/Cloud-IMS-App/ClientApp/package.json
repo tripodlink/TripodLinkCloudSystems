@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "build:ssr": "ng run Cloud_IMS_App:server:dev",
+    "build": "ng build --prod --base-href /",
+    "build:ssr": "ng run Cloud IMS:server:dev",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

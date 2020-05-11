@@ -5,7 +5,8 @@ export interface IReportInventoryOut {
   transactionDateFrom: Date;
   transactionDateTo: Date;
   issuedBy: string
-  issuedDate: Date;
+  issuedDateFrom: Date;
+  issuedDateTo: Date;
   receivedBy: string
 
   department: string;

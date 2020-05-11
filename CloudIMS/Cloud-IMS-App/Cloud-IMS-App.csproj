@@ -25,7 +25,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="3.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
-    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.19" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,6 +60,26 @@
     <None Remove="ClientApp\src\app\classes\ISupplierClass.ts" />
     <None Remove="ClientApp\src\app\classes\report-management\report-inventory-in\IReportInventoryInClass.ts" />
     <None Remove="ClientApp\src\app\classes\report-management\report-inventory-out\IReportInventoryOutClass.ts" />
+    <None Remove="ClientApp\src\app\Controllers\DepartmentController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\DictionaryController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\HomeController .cs" />
+    <None Remove="ClientApp\src\app\Controllers\InventoryInController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\InventoryManagementController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\InventoryOutDetailController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\InventoryOutHeaderController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\ItemGroupController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\ItemMasterController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\ItemMasterUnitController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\ManufacturerController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\ProgramMenuController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\ReportInventoryInController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\ReportInventoryOutController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\SideBarController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\SupplierController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\UnitCodeController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\UserAccountController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\UserGroupController.cs" />
+    <None Remove="ClientApp\src\app\Controllers\UserManagementController.cs" />
     <None Remove="ClientApp\src\app\dictionary\unit-code\unitCode.component.ts" />
     <None Remove="ClientApp\src\app\services\UserAuthorization.service.ts" />
     <None Remove="ClientApp\src\app\services\UserGroup.service.ts" />
@@ -96,10 +115,6 @@
     <None Remove="ClientApp\src\vali-js\plugins\select2.min.js" />
     <None Remove="ClientApp\src\vali-js\plugins\sweetalert.min.js" />
     <None Remove="ClientApp\src\vali-js\popper.min.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Controllers\UnitCodeController.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -148,6 +163,7 @@
     <Folder Include="ClientApp\src\app\classes\user-management\user-group\" />
     <Folder Include="ClientApp\src\app\classes\user-management\user-profile\" />
     <Folder Include="ClientApp\src\app\user-management\user-profile\" />
+    <Folder Include="dist\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -177,6 +193,5 @@
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </ResolvedFileToPublish>
     </ItemGroup>
-  </Target>
-
+  </Target> 
 </Project>
