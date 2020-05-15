@@ -16,6 +16,43 @@ namespace CloudImsCommon.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.8-servicing-32085");
 
+            modelBuilder.Entity("CloudImsCommon.Models.AutoNumber", b =>
+                {
+                    b.Property<string>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("an_type")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Auto_Length")
+                        .IsRequired()
+                        .HasColumnName("an_auto_length")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Current_year")
+                        .IsRequired()
+                        .HasColumnName("an_current_year")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Date_Prefix")
+                        .IsRequired()
+                        .HasColumnName("an_date_prefix")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Last_Value")
+                        .IsRequired()
+                        .HasColumnName("an_last_value")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Text_Prefix")
+                        .IsRequired()
+                        .HasColumnName("an_text_prefix")
+                        .HasMaxLength(255);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Auto_Number");
+                });
+
             modelBuilder.Entity("CloudImsCommon.Models.Company", b =>
                 {
                     b.Property<string>("ID")
@@ -569,7 +606,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 5, 7, 19, 16, 47, 12, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 5, 7, 19, 16, 47, 13, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 5, 11, 10, 37, 7, 968, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 5, 11, 10, 37, 7, 969, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 

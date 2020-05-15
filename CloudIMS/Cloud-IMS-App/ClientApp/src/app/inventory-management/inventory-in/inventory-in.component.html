@@ -48,20 +48,24 @@
                      [class.is-invalid]="addInventoryInFormGroup.controls['rcvdBy_hdr'].touched && addInventoryInFormGroup.controls['rcvdBy_hdr'].value.trim() == ''" required autofocus>
             </div>
             
-            <div class="form-group col-md-2" id="supnameId">
+            <div class="form-group col-md-4" id="supnameId">
               <label>Supplier Name</label>
-              <input formControlName="supplier_hdr" class="form-control" list="supplierSelect"/>
-              <datalist id="supplierSelect">
-                <option value=""></option>
-                <option *ngFor="let sup of Isupplier" id="{{sup.name}}" data-value="{{sup.name}}">{{sup.id}}</option>
-              </datalist>
+              <div class="row">
+                <input formControlName="supplier_hdr" class="form-control col-md-10" list="supplierSelect" />
+                <datalist id="supplierSelect">
+                  <option value=""></option>
+                  <option *ngFor="let sup of Isupplier" id="{{sup.name}}" data-value="{{sup.name}}">{{sup.id}}</option>
+                </datalist>
+                <button class="btn btn-primary col-md-1" data-toggle="modal" data-target="#supplierModal"><i class="fa fa-list"></i></button>
+              </div>
+             
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
               <label>Reference No.</label><label style="color:red;font-size:15px"><b>*</b></label>
               <input type="text" formControlName="refNo_hdr" class="form-control"
                      [class.is-invalid]="addInventoryInFormGroup.controls['refNo_hdr'].touched && addInventoryInFormGroup.controls['refNo_hdr'].value.trim() == ''" required autofocus>
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
               <label>Document No.</label>
               <input type="text" formControlName="docNo_hdr" class="form-control" />
             </div>
@@ -85,58 +89,67 @@
           <div class="tile-footer">
 
           </div>
-          <div class="row">
-            <div class="form-group col-md-4">
-            <label>Item Name</label><label style="color:red;font-size:15px"><b>*</b></label>
-            <input formControlName="itemMaster_dtl" class="form-control" list="itemSelect" #itemMasterSelect (change)='onSelectedItemMaster(itemMasterSelect.value)'
-                   (input)="enabledUnitCode()"
-                   required autofocus>
-            <datalist id="itemSelect">
-              <option value=""></option>
-              <option *ngFor="let im of Iitemmaster"  id="{{im.itemName}}" data-value="{{im.itemName}}">{{im.id}}</option>
-            </datalist>
-          </div>
-
-            <div class="form-group col-md-4">
-                <label>Item Unit</label><label style="color:red;font-size:15px"><b>*</b></label>
-                <input formControlName="itemUnit_dtl" class="form-control" list="unitSelect" #itemMasterUnitSelect (change)='onSelectCoversionFactor(itemMasterSelect.value,itemMasterUnitSelect.value)'
-                       [readonly]="isReadonly_UC"
-                       (input)="enabledQuantity()"
-                       required autofocus>
-                <datalist id="unitSelect">
-
-                  <option value=""></option>
-                  <option *ngFor="let iu of ItemMasterUnitArray" id="{{iu.unitDescription}}" data-value="{{iu.unitDescription}}">{{iu.unitCode}}</option>
-                </datalist>
+          <div class="col-md-12">
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label>Item Name</label><label style="color:red;font-size:15px"><b>*</b></label>
+                <div class="row">
+                  <input formControlName="itemMaster_dtl" class="form-control col-md-10" list="itemSelect" #itemMasterSelect (change)='onSelectedItemMaster(itemMasterSelect.value)'
+                         (input)="enabledUnitCode()"
+                         required autofocus>
+                  <datalist id="itemSelect">
+                    <option value=""></option>
+                    <option *ngFor="let im of Iitemmaster" id="{{im.itemName}}" data-value="{{im.itemName}}">{{im.id}}</option>
+                  </datalist>
+                  <button class="btn btn-primary col-md-1" data-toggle="modal" data-target="#itemMasterModal"><i class="fa fa-list"></i></button>
+                </div>
               </div>
 
-            <div class="form-group col-md-4">
-              <label>Quantity</label><label style="color:red;font-size:15px"><b>*</b></label>
-              <input (input)="onTextChangedQuantityInput()" formControlName="quantity_dtl" type="number" class="form-control"
-                     [readonly]="isReadonly_QTY"
-                     required autofocus>
-            </div>
-           
-          </div>
-          <div class="row">
-            <div class="form-group col-md-3">
-              <label>LOT No.</label><label style="color:red;font-size:15px"><b>*</b></label>
-              <input formControlName="lotno_dtl" type="text" class="form-control"
-                     [class.is-invalid]="addInventoryInFormGroup.controls['lotno_dtl'].touched && addInventoryInFormGroup.controls['lotno_dtl'].value == ''" required autofocus>
-            </div>
-            <div class="form-group col-md-3">
-              <label>Expiration Date</label><label style="color:red;font-size:15px"><b>*</b></label>
-              <input formControlName="expDate_dtl" type="datetime-local" class="form-control"
-                     [class.is-invalid]="addInventoryInFormGroup.controls['expDate_dtl'].touched && addInventoryInFormGroup.controls['expDate_dtl'].value == ''" required autofocus>
-            </div>
-            <div class="form-group col-md-3">
-              <label>Count</label>
-              <input formControlName="count_dtl" type="number" readonly class="form-control" />
-            </div>
+              <div class="form-group col-md-4">
+                <label>Item Unit</label><label style="color:red;font-size:15px"><b>*</b></label>
+                  <div class="row">
+                    <input formControlName="itemUnit_dtl" class="form-control col-md-10" list="unitSelect" #itemMasterUnitSelect (change)='onSelectCoversionFactor(itemMasterSelect.value,itemMasterUnitSelect.value)'
+                            [readonly]="isReadonly_UC"
+                            (input)="enabledQuantity()"
+                            required autofocus>
+                    <datalist id="unitSelect">
 
-            <div class="form-group col-md-3">
-              <label>Remaining Count</label>
-              <input formControlName="remainingcount_dtl" type="number" readonly class="form-control" />
+                      <option value=""></option>
+                      <option *ngFor="let iu of ItemMasterUnitArray" id="{{iu.unitDescription}}" data-value="{{iu.unitDescription}}">{{iu.unitCode}}</option>
+                    </datalist>
+                    <button class="btn btn-primary col-md-1"  [disabled]="isReadonly_LookUp_Btn_ItemUnit" data-toggle="modal" data-target="#itemMasterUnitModal"><i class="fa fa-list"></i></button>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-4">
+                  <label>Quantity</label><label style="color:red;font-size:15px"><b>*</b></label>
+                  <input (input)="onTextChangedQuantityInput()" formControlName="quantity_dtl" type="number" class="form-control"
+                         [readonly]="isReadonly_QTY"
+                         required autofocus>
+                </div>
+
+              </div>
+            <div class="row">
+              <div class="form-group col-md-3">
+                <label>LOT No.</label><label style="color:red;font-size:15px"><b>*</b></label>
+                <input formControlName="lotno_dtl" type="text" class="form-control"
+                       [class.is-invalid]="addInventoryInFormGroup.controls['lotno_dtl'].touched && addInventoryInFormGroup.controls['lotno_dtl'].value == ''" required autofocus>
+              </div>
+              <div class="form-group col-md-3">
+                <label>Expiration Date</label><label style="color:red;font-size:15px"><b>*</b></label>
+                <input formControlName="expDate_dtl" type="datetime-local" class="form-control"
+                       [class.is-invalid]="addInventoryInFormGroup.controls['expDate_dtl'].touched && addInventoryInFormGroup.controls['expDate_dtl'].value == ''" required autofocus>
+              </div>
+              <div class="form-group col-md-3">
+                <label>Count</label>
+                <input formControlName="count_dtl" type="number" readonly class="form-control" />
+              </div>
+
+              <div class="form-group col-md-3">
+                <label>Remaining Count</label>
+                <input formControlName="remainingcount_dtl" type="number" readonly class="form-control" />
+              </div>
+
             </div>
 
           </div>
@@ -156,3 +169,126 @@
     </div>
   </form>
 </main>
+
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="supplierModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><i class="fa fa-list"></i>List of Suppliers</h4>
+        </div>
+
+      
+          <div class="modal-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered" id="sampletable">
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let sup of Isupplier" [id]="sup.id">
+                    <td>{{sup.id}}</td>
+                    <td>{{sup.name}}</td>
+                    <td><button class="btn btn-primary" (click)="supplierSelectLookUp(sup.id)" data-dismiss="modal"><i class="fa fa-check-square"></i>Select</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+           
+              <button type="button" id="closeModal" #closeModal class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="itemMasterModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><i class="fa fa-list"></i>List of Items</h4>
+        </div>
+
+
+        <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="sampletable">
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>Name</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let im of Iitemmaster" [id]="im.id">
+                  <td>{{im.id}}</td>
+                  <td>{{im.itemName}}</td>
+                  <td><button class="btn btn-primary" (click)="itemMasterSelectLookUp(im.id)" data-dismiss="modal"><i class="fa fa-check-square"></i>Select</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+
+          <button type="button" id="closeModal" #closeModal class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="itemMasterUnitModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><i class="fa fa-list"></i>List of Item Units</h4>
+        </div>
+
+
+        <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered" id="sampletable">
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>Name</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let iu of ItemMasterUnitArray" [id]="iu.unitCode">
+                  <td>{{iu.unitCode}}</td>
+                  <td>{{iu.unitDescription}}</td>
+                  <td><button class="btn btn-primary" (click)="itemMasterUnitSelectLookup(iu.unitCode)" data-dismiss="modal"><i class="fa fa-check-square"></i>Select</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+
+          <button type="button" id="closeModal" #closeModal class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
