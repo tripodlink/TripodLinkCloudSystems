@@ -84,6 +84,69 @@ namespace Cloud_IMS_Api.Controllers
             }
         }
         [Route("[action]")]
+        public IActionResult getPendingTrx()
+        {
+            try
+            {
+                var result = (from invOutHeaders in dbContext.InventoryOutTrxHeaders
+                              join depList in dbContext.Departments on invOutHeaders.Department equals depList.ID
+                              where invOutHeaders.Status == "P"
+                                     select new
+                                     {
+                                         transactionNo = invOutHeaders.TransactionNo,
+                                         transactionDate = invOutHeaders.TransactionDate,
+                                         issuedDate = invOutHeaders.IssuedDate,
+                                         department = depList.DepartmentName,
+                                         referenceNo = invOutHeaders.ReferenceNo
+                                     });
+                if (result != null)
+                {
+                    return Json(result.ToList()); ;
+                }
+                else
+                {
+
+                    throw new Exception($"No Data Found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
+        [Route("[action]")]
+        public IActionResult getIssuedTrx()
+        {
+            try
+            {
+                var result = (from invOutHeaders in dbContext.InventoryOutTrxHeaders
+                              join depList in dbContext.Departments on invOutHeaders.Department equals depList.ID
+                              where invOutHeaders.Status == "I"
+                              select new
+                              {
+                                  transactionNo = invOutHeaders.TransactionNo,
+                                  transactionDate = invOutHeaders.TransactionDate,
+                                  issuedDate = invOutHeaders.IssuedDate,
+                                  department = depList.DepartmentName,
+                                  referenceNo = invOutHeaders.ReferenceNo
+                              });
+                if (result != null)
+                {
+                    return Json(result.ToList()); ;
+                }
+                else
+                {
+
+                    throw new Exception($"No Data Found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
+
+        [Route("[action]")]
         public IActionResult findTrxNum(string trxNUm)
         {
             try

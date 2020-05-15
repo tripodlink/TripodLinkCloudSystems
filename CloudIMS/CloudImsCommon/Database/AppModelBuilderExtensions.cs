@@ -36,6 +36,7 @@ namespace CloudImsCommon.Database
             SeedDepartment(modelBuilder);
             SeedItemMaster(modelBuilder);
 
+            SeedAutoNumber(modelBuilder);
             //Dashboard seeds
             SeedDashboardProgramMenus(modelBuilder);
 
