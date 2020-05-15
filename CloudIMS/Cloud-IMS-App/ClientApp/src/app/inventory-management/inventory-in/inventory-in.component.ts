@@ -32,6 +32,9 @@ export class InventoryInComponent {
   addInventoryInFormGroup: FormGroup;
   trxDate: Date;
   Isupplier: ISupplier[];
+  supplierSelectList = [];
+  itemasterSelectList = [];
+  itemmasteunitSelectList = [];
   Iitemmaster: IiTemMaster[];
   Iunitcode: IUnitCode[];
   ItemMasterUnitArray: IiTemMasterUnitJoinUnit[];
@@ -41,6 +44,7 @@ export class InventoryInComponent {
 
   isReadonly_UC: boolean;
   isReadonly_QTY: boolean;
+  isReadonly_LookUp_Btn_ItemUnit: boolean;
 
   itemmasterId_doc: string;
   itemmasterUnit_doc: string;
@@ -207,6 +211,7 @@ export class InventoryInComponent {
 
       this.inv_in_service.getItemasterUnit(value).subscribe((itemmaster) => this.ItemMasterUnitArray = itemmaster);
       this.enabledUnitCode()
+      this.enabledLookUpButtonItemUnit()
     }
     catch{
     }
@@ -257,14 +262,19 @@ export class InventoryInComponent {
     this.getUser();
     this.isReadonly_QTY = true;
     this.isReadonly_UC = true;
+    this.isReadonly_LookUp_Btn_ItemUnit=true
     this.conversionFactor = null;
     this.itemmasterId_doc = null;
     this.itemmasterUnit_doc = null;
+    this.itemmasteunitSelectList = null;
+    this.itemasterSelectList = null;
+    this.supplierSelectList = null;
   }
   public enabledUnitCode() {
     if (this.addInventoryInFormGroup.controls.itemMaster_dtl.value == '') {
       this.isReadonly_UC = true;
       this.isReadonly_QTY = true;
+      this.isReadonly_LookUp_Btn_ItemUnit = true;
       this.itemmasterUnit_doc = null;
       this.addInventoryInFormGroup.controls.itemUnit_dtl.reset();
       this.addInventoryInFormGroup.controls.quantity_dtl.reset();
@@ -272,6 +282,7 @@ export class InventoryInComponent {
       this.addInventoryInFormGroup.controls.remainingcount_dtl.reset();
     } else {
       this.isReadonly_UC = false;
+      this.isReadonly_LookUp_Btn_ItemUnit = false;
     }
       
   }
@@ -285,5 +296,90 @@ export class InventoryInComponent {
       this.isReadonly_QTY = false;
     }
   }
-  
+
+  supplierSelectLookUp(supplierId: string) {
+    console.log(supplierId);
+
+    this.inv_in_service.getSupplierData().subscribe((supplier) => {
+      this.supplierSelectList = supplier;
+
+      for (let sup of this.supplierSelectList) {
+        let suppId = sup.id;
+        if (supplierId == suppId) {
+          this.addInventoryInFormGroup.controls.supplier_hdr.setValue(sup.name)
+
+        } else {
+
+        }
+      }
+    })
+  }
+
+  itemMasterSelectLookUp(value: string) {
+    try {
+
+      this.inv_in_service.getItemMasterData().subscribe((itemmaster) => {
+      this.itemasterSelectList = itemmaster;
+      
+        for (let im of this.itemasterSelectList) {
+          let imID = im.id
+
+          if (value == imID) {
+            this.addInventoryInFormGroup.controls.itemMaster_dtl.setValue(im.itemName)
+
+            this.itemmasterId_doc = document.getElementById(this.addInventoryInFormGroup.controls.itemMaster_dtl.value).innerText;
+            value = this.itemmasterId_doc;
+
+            this.inv_in_service.getItemasterUnit(value).subscribe((itemmaster) => this.ItemMasterUnitArray = itemmaster);
+            this.enabledUnitCode()
+          }
+          else {
+
+          }
+        }
+      })
+    }
+    catch{
+    }
+  }
+  itemMasterUnitSelectLookup(itemMasterUnitId: string) {
+
+    try {
+      console.log(itemMasterUnitId)
+
+      let itemMasterId = document.getElementById(this.addInventoryInFormGroup.controls.itemMaster_dtl.value).innerText
+      this.inv_in_service.getItemasterUnit(itemMasterId).subscribe((itemmaster) => {
+      this.itemmasteunitSelectList = itemmaster;
+
+        for (let imu of this.itemmasteunitSelectList) {
+          if (itemMasterUnitId == imu.unitCode) {
+            this.addInventoryInFormGroup.controls.itemUnit_dtl.setValue(imu.unitDescription)
+
+            this.itemmasterUnit_doc = document.getElementById(this.addInventoryInFormGroup.controls.itemUnit_dtl.value).innerText;
+
+            itemMasterUnitId = this.itemmasterUnit_doc;
+
+            this.inv_in_service.getItemasterUnitConversionFactor(itemMasterId, itemMasterUnitId).subscribe((itemmasterunit) => {
+              this.ItemMasterUnitArray_convfactor = itemmasterunit;
+
+              for (let i of this.ItemMasterUnitArray_convfactor) {
+                this.conversionFactor = parseInt(i.itemMasterUnitConversion);
+              }
+            });
+            this.enabledQuantity()
+
+          }
+        }
+      });
+    }
+    catch{
+    }
+  }
+  enabledLookUpButtonItemUnit() {
+    if (this.addInventoryInFormGroup.controls.itemMaster_dtl.value == '') {
+      this.isReadonly_LookUp_Btn_ItemUnit = true
+    } else {
+      this.isReadonly_LookUp_Btn_ItemUnit = false
+    }
+  }
 }

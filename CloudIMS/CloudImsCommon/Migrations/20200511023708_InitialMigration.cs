@@ -390,7 +390,7 @@ namespace CloudImsCommon.Migrations
             migrationBuilder.InsertData(
                 table: "user_account",
                 columns: new[] { "ua_user_id", "im_created_by", "im_created_on", "ua_is_active", "ua_password", "im_updated_by", "im_updated_on", "ua_user_name" },
-                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 5, 6, 17, 51, 57, 928, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 5, 6, 17, 51, 57, 930, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
+                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 5, 11, 10, 37, 7, 968, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 5, 11, 10, 37, 7, 969, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "user_account_group",
