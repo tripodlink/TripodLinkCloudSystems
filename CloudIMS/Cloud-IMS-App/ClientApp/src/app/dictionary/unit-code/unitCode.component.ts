@@ -68,7 +68,7 @@ export class UnitCodeComponent {
 
    onClickAddButton() {
     this.resetForm();
-    this.Status = "Save Changes";
+    this.Status = "Add Unit";
     this.icon = "floppy-o";
     this.isAdd = true;
     this.modalStatus = "Add Item Group";
@@ -99,7 +99,7 @@ export class UnitCodeComponent {
     this.addUnitCodeForm.controls.Description.setValue(desc);
     this.addUnitCodeForm.controls.ShortDescription.setValue(shortdesc);
 
-    this.Status = "Edit Changes";
+    this.Status = "Save Changes";
     this.icon = "pencil";
     this.isAdd = false;
     this.modalStatus = "Edit Item Group";

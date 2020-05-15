@@ -10,6 +10,8 @@ import { IinventoryOutTable } from '../../classes/inventory-management/inventory
 import { IinventoryOutDetailClass } from '../../classes/inventory-management/inventory-out/IinventoryOutDetailClass';
 import { IinventoryOutTableClass } from '../../classes/inventory-management/inventory-out/IinventoryOutDetailClass';
 import { IinventoryOutHeader } from '../../classes/inventory-management/inventory-out/IinventoryOutHeader.interface';
+import { IinventoryOutIssuedTrx } from '../../classes/inventory-management/inventory-out/IinventoryOutHeader.interface';
+import { IinventoryOutPendingTrx } from '../../classes/inventory-management/inventory-out/IinventoryOutHeader.interface';
 import { IinventoryOutHeaderClass } from '../../classes/inventory-management/inventory-out/IinventoryOutHeaderClass';
 import { IInventoryInTrxDetail } from '../../classes/inventory-management/InventoryIn/IInventoryInTrxDetail.interface';
 import { InventorysServices } from '../../services/inventorys.service';
@@ -29,6 +31,8 @@ export class InventoryOutComponent implements OnInit {
   InventoryOutHeaderForm: FormGroup;
   InventoryOutDetailForm: FormGroup;
   quantityForm: FormGroup;
+  findTrxPending: FormGroup;
+  findTrxIssued: FormGroup;
   depListArray: IDepartment[];
 
   inventoryPendingTrx: IinventoryOutHeader[];
@@ -37,6 +41,9 @@ export class InventoryOutComponent implements OnInit {
   lotNumArray: IitemMasterJoinInvIN[];
   Count: IInventoryInTrxDetail[];
   remainingCount: number;
+
+  pendingTrxArray: IinventoryOutPendingTrx[];
+  issuedTrxArray: IinventoryOutIssuedTrx[];
 
   inventHeadOutArray: IinventoryOutHeader = new IinventoryOutHeaderClass();
   inventDetailOutArray: IinventoryOutDetail = new IinventoryOutDetailClass();
@@ -77,6 +84,9 @@ export class InventoryOutComponent implements OnInit {
     this.createHeaderForm();
     this.createDetailForm();
     this.createQuantityForm();
+
+    this.createPendingForm();
+    this.createIssuedForm();
 
   }
   ngOnInit() {
@@ -123,6 +133,23 @@ export class InventoryOutComponent implements OnInit {
       remarks: [''],
     })
   }
+
+  public createPendingForm() {
+    this.findTrxPending = this.builder.group({
+      pendingDateFrom: [''],
+      pendingDateTo: [''],
+      pendingRefNumber: ['']
+    })
+  }
+
+  public createIssuedForm() {
+    this.findTrxIssued = this.builder.group({
+      issuedDateFrom: [''],
+      issuedDateTo: [''],
+      issuedRefNumber: ['']
+    })
+  }
+
   public Get_TrxNo_from_Dashboard() {
     this._trxno_snapshot = this._activatedRoute.snapshot.params["trxno"];
     if (this._trxno_snapshot == undefined) {
@@ -131,6 +158,73 @@ export class InventoryOutComponent implements OnInit {
       this.InventoryOutHeaderForm.controls.transactionNo.setValue(this._trxno_snapshot);
       this.getTrxNum()
     }
+  }
+
+  public clearTrxLookup(trxType) {
+    if (trxType == "pending") {
+      this.findTrxPending.reset();
+    }
+    else if (trxType == "issued") {
+      this.findTrxIssued.reset();
+    }
+  }
+
+  public searchTrx(type) {
+     if (type == "pending") {
+       this.inventoryServices.getPendingTrx().subscribe((pending) => {
+         this.pendingTrxArray = pending;
+         let PdateFrom = this.datepipe.transform(this.findTrxPending.controls.pendingDateFrom.value, 'yyyy-MM-dd');
+         let PdateTo = this.datepipe.transform(this.findTrxPending.controls.pendingDateTo.value, 'yyyy-MM-dd');
+         let PRef = this.findTrxPending.controls.pendingRefNumber.value;
+         console.log(PdateFrom);
+         console.log(PdateTo);
+         if (PdateFrom == null || PdateTo == null) {
+           this.pendingTrxArray = this.pendingTrxArray.filter((item) => item.referenceNo == PRef);
+         }
+
+         else if (PdateFrom != null && PdateTo != null && PRef == "") {
+             this.pendingTrxArray = this.pendingTrxArray.filter((item) =>
+               this.datepipe.transform(item.transactionDate, 'yyyy-MM-dd') >= PdateFrom
+               && this.datepipe.transform(item.transactionDate, 'yyyy-MM-dd') <= PdateTo);
+         }
+
+         else {
+             this.pendingTrxArray = this.pendingTrxArray.filter((item) =>
+               this.datepipe.transform(item.issuedDate, 'yyyy-MM-dd') >= PdateFrom
+               && this.datepipe.transform(item.issuedDate, 'yyyy-MM-dd') <= PdateTo)
+               .filter(((item) => item.referenceNo == PRef));
+         }
+         })
+     }
+        
+    else if (type == "issued") {
+      this.inventoryServices.getIssuedTrx().subscribe((issued) => {
+      this.issuedTrxArray = issued
+      let IdateFrom = this.datepipe.transform(this.findTrxIssued.controls.issuedDateFrom.value, 'yyyy-MM-dd');
+      let IdateTo = this.datepipe.transform(this.findTrxIssued.controls.issuedDateTo.value, 'yyyy-MM-dd');
+        let IRef = this.findTrxIssued.controls.issuedRefNumber.value;
+
+        if (IdateFrom == null || IdateTo == null) {
+          this.issuedTrxArray = this.issuedTrxArray.filter((item) => item.referenceNo == IRef);
+        }
+        else if (IdateFrom != null && IdateTo != null && IRef == "") {
+            this.issuedTrxArray = this.issuedTrxArray.filter((item) =>
+              this.datepipe.transform(item.issuedDate, 'yyyy-MM-dd') >= IdateFrom
+              && this.datepipe.transform(item.issuedDate, 'yyyy-MM-dd') <= IdateTo)
+        }
+        else {
+            this.issuedTrxArray = this.issuedTrxArray.filter((item) =>
+              this.datepipe.transform(item.issuedDate, 'yyyy-MM-dd') >= IdateFrom
+              && this.datepipe.transform(item.issuedDate, 'yyyy-MM-dd') <= IdateTo)
+              .filter((item) => item.referenceNo == IRef);
+        }
+      })
+      } 
+  }
+
+  public tableRowClick(trxNum) {
+    this.InventoryOutHeaderForm.controls.transactionNo.setValue(trxNum);
+    this.getTrxNum();
   }
 
   public saveorIssueTransaction(status) {

@@ -62,6 +62,7 @@
                   <label class="col-sm-12">
                     <input type="radio" name="reportType"
                            formControlName="reportType"
+                           [checked]="true"
                            value="TransactionDate" required>
                     Transaction Date
                   </label>
@@ -84,14 +85,11 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label>From</label>
-              <input type="datetime-local" formControlName="dateFrom" class="form-control">
-              <datalist>
-                <option value=""></option>
-              </datalist>
+              <input type="date" formControlName="dateFrom" class="form-control">
             </div>
             <div class="form-group col-md-6">
               <label>To</label>
-              <input type="datetime-local" formControlName="dateTo" class="form-control">
+              <input type="date" formControlName="dateTo" class="form-control">
             </div>
           </div>
           <div class="col-md-12">
@@ -102,12 +100,20 @@
               <div class="col-md-8">
                 <button class="btn btn-primary col-md-12" (click)="generateReports()"><i class="fa fa-file-excel-o"></i> Generate</button>
               </div>
-              <div class="col-md-2">
+            </div>
 
+            <div class="row justify-content-center">
+              <div class="form-group col-md-3">
+                <div class="col-md-12">
+                  <label style="color:red">{{Result}}</label>
+                </div>
+                
               </div>
             </div>
+               
+
+            </div>
           </div>
-        </div>
       </form>
     </div>
       <div class="col-md-4">

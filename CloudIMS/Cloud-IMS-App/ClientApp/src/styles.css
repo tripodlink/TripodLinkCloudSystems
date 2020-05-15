@@ -4,3 +4,33 @@
 @import "../node_modules/ngx-toastr/toastr.css";
 @import "./assets/css/main.css";
 
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  /*background-color: #ddd;*/
+}
+
+
+/* The scrollable part */
+
+.table-responsive {
+  height: 645px;
+  overflow-y: scroll;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+}

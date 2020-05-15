@@ -45,7 +45,7 @@ export class ItemGroupComponent{
 
     this.addItemGroupForm.controls.id.setValue(id);
     this.addItemGroupForm.controls.itemGroupName.setValue(itemGroupName);
-      this.Status = "Edit Changes";
+      this.Status = "Save Changes";
       this.icon = "pencil";
     this.isAdd = false;
   this.modalStatus = "Edit Item Group";
@@ -111,8 +111,8 @@ export class ItemGroupComponent{
 
    ClickAdd() {
     this.ResetForm();
-    this.Status = "Save Changes";
-    this.icon = "floppy-o";
+    this.Status = "Save Item";
+    this.icon = "floppy-o"; 
     this.isAdd = true;
     this.modalStatus = "Add Item Group";
   }

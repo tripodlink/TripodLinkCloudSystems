@@ -10,6 +10,7 @@ import { IDepartment } from '../../classes/data-dictionary/Department/IDepartmen
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import { DatePipe } from '@angular/common';
+
 @Component({
   selector: 'app-report-inventory-out',
   templateUrl: './report-inventory-out.component.html',
@@ -22,9 +23,16 @@ export class ReportInventoryOutComponent implements OnInit {
   unitArray: IUnitCode[];
   depArray: IDepartment[];
 
-  formValue: IReportInventoryOut = new IReportInventoryOutClass();
   reportOutArray: IReportInventoryOut[];
+  reportOutNewArray: Array<{
+    TransactionNumber: string, TransactionDate: string, IssuedBy: string, ReceivedBy: string,
+    DepartmentName: string, ReferenceNumber: string, Remarks, ItemName: string, Description: string,
+    LotNumber: string, Quantity: number, DetailRemarks: string }> = [];
 
+  Result: string;
+    transactionDateFrom: Date;
+    transactionDateTo: Date;
+  errormessage: string;
   constructor(public builder: FormBuilder, public reportServices: ReportInventoryOutService,
   public datePipe: DatePipe) {
     this.createForm()
@@ -46,67 +54,93 @@ export class ReportInventoryOutComponent implements OnInit {
   }
 
   public loadData() {
-    this.invInReports.get('dateFrom').patchValue(this.getDateTimeNow());
-    this.invInReports.get('dateTo').patchValue(this.getDateTimeNow());
+    this.invInReports.get('dateFrom').patchValue(this.getDateNow());
+    this.invInReports.get('dateTo').patchValue(this.getDateNow());
 
     this.reportServices.getItem().subscribe((data) => this.itemArray = data);
     this.reportServices.getUnit().subscribe((data) => this.unitArray = data);
     this.reportServices.getDepartment().subscribe((data) => this.depArray = data);
   }
 
-  public getDateTimeNow(): string {
+  public getDateNow(): string {
     let today = new Date();
     let getDate = today.toISOString().slice(0, 10);
-    let cutTime = today.toTimeString().slice(0, 5);
-    let dateTime = getDate + "T" + cutTime;
-    return dateTime;
+    return getDate;
   
   }
-
-  public getFormValue() {
-    this.formValue.HeaderTransactionNo = this.invInReports.controls.TransactionNumber.value;
+  public generateReports() {
+    let HeaderTransactionNo = this.invInReports.controls.TransactionNumber.value;
 
     let itemID = this.invInReports.controls.ItemName.value;
+    let itemInnerHtml;
     if (itemID != "") {
-      this.formValue.itemID = document.getElementById(itemID).innerHTML;
+      itemInnerHtml = document.getElementById(itemID).innerHTML;
     } else {
-      this.formValue.itemID = "%";
+      itemInnerHtml = "%";
     }
 
     let unitcode = this.invInReports.controls.ItemUnit.value;
+    let unitcodeInnerHtml
     if (unitcode != "") {
-      this.formValue.unit = document.getElementById(unitcode).innerHTML;
+      unitcodeInnerHtml= document.getElementById(unitcode).innerHTML;
     } else {
-      this.formValue.unit = "%";
+      unitcodeInnerHtml= "%";
     }
 
     let department = this.invInReports.controls.department.value;
+    let departmentInnerHtml;
     if (department != "") {
-      this.formValue.department = document.getElementById(department).innerHTML;
+      departmentInnerHtml = document.getElementById(department).innerHTML;
     } else {
-      this.formValue.department = "%";
+      departmentInnerHtml = "%";
     }
+    this.transactionDateFrom = this.invInReports.controls.dateFrom.value;
+    this.transactionDateTo = this.invInReports.controls.dateTo.value;
 
-    this.formValue.transactionDateFrom = this.invInReports.controls.dateFrom.value;
-    this.formValue.transactionDateTo = this.invInReports.controls.dateTo.value;
-
-    return this.formValue;
-  }
-
-  public generateReports() {
-   
-
-    this.reportServices.getReport(this.getFormValue().HeaderTransactionNo, this.getFormValue().itemID, this.getFormValue().unit,
-      this.getFormValue().department, this.getFormValue().transactionDateFrom, this.getFormValue().transactionDateTo,
+    this.reportServices.getReport(HeaderTransactionNo, itemInnerHtml, unitcodeInnerHtml,
+      departmentInnerHtml, this.transactionDateFrom, this.transactionDateTo,
       this.invInReports.controls.reportType.value).subscribe((data) => {
         this.reportOutArray = data;
-        this.exportReport();
-      });
+        if (this.reportOutArray.length == 0) {
+          this.Result = "No Data Found";
+        }
+        else {
+
+          var count = 0;
+          this.reportOutNewArray = [];
+         
+
+          Array.from(this.reportOutArray).forEach((arr) => {
+            this.reportOutNewArray.push({
+              TransactionNumber: arr.headerTransactionNo,
+              TransactionDate: this.datePipe.transform(arr.transactionDate, "yyyy-MM-dd hh:mm:ss"),
+              IssuedBy: arr.issuedBy,
+              ReceivedBy: arr.receivedBy,
+              DepartmentName: arr.departmentName,
+              ReferenceNumber: arr.referenceNo,
+              Remarks: arr.headerRemarks,
+              ItemName: arr.itemName,
+              Description: arr.description,
+              LotNumber: arr.lotNumber,
+              Quantity: arr.quantity,
+              DetailRemarks: arr.detailRemarks
+            });
+            count++;
+          });
+          this.Result = "Found " + " " + count + " " + "Record";
+          this.exportReport();
+        }
+      },
+     
+        error => {
+          this.errormessage = error.error;
+          this.Result = this.errormessage + " " + "Error";
+        });
   }
 
   exportReport() {
   /* table id is passed over here */
-      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.reportOutArray);
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.reportOutNewArray);
 
       /* generate workbook and add the worksheet */
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
@@ -115,8 +149,8 @@ export class ReportInventoryOutComponent implements OnInit {
 
 
       /* save to file */
-    let dateFrom = this.datePipe.transform(this.formValue.transactionDateFrom, 'MMMM d, y');
-    let dateTo = this.datePipe.transform(this.formValue.transactionDateTo, 'MMMM d, y');
+    let dateFrom = this.datePipe.transform(this.transactionDateFrom, 'MMMM d, y');
+    let dateTo = this.datePipe.transform(this.transactionDateTo, 'MMMM d, y');
       XLSX.writeFile(wb,"Inventory Out For" + " " +dateFrom + " " + "to" + " " + dateTo + ".xlsx");
     }
   

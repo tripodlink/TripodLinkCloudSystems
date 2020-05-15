@@ -114,7 +114,7 @@ export class ItemMasterComponent implements OnInit {
 
    clickAddItemMaster() {
     this.resetForm();
-    this.Status = "Save Changes";
+    this.Status = "Save Item";
     this.icon = "floppy-o";
     this.isAdd = true;
     this.modalStatus = "Add Item Master";
@@ -163,7 +163,7 @@ export class ItemMasterComponent implements OnInit {
     }
   }
    PassData(id, itemGroup, itemName, unit, supplier, manufacturer) {
-    this.Status = "Edit Changes";
+    this.Status = "Save Changes";
     this.icon = "pencil";
     this.isAdd = false;
     this.modalStatus = "Edit Item Group";

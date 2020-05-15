@@ -21,15 +21,20 @@
 
             <div class="form-group col-md-3">
               <label for="transactionNo">Transaction Number</label>&nbsp;<label style="color:red; font:bold">*</label>
-              <input list="trxList" formControlName="transactionNo" class="form-control" (change)="getTrxNum()"
-                     [class.is-invalid]="this.InventoryOutHeaderForm.controls.transactionNo.touched && this.InventoryOutHeaderForm.controls.transactionNo.value.trim() == ''" required
-                     [readonly]="this.trxInputDisabled">
-              <datalist id="trxList">
-                <option *ngFor="let trxP of inventoryPendingTrx">{{trxP.transactionNo}}</option>
-              </datalist>
+              <div class="form-group input-group">
+                <input list="trxList" formControlName="transactionNo" class="form-control" (input)="getTrxNum()"
+                       [class.is-invalid]="this.InventoryOutHeaderForm.controls.transactionNo.touched && this.InventoryOutHeaderForm.controls.transactionNo.value.trim() == ''" required
+                       [readonly]="this.trxInputDisabled">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-primary fc-center" data-toggle="modal" data-target="#myModal"><i class="fa fa-list"></i></button>
+                </span>
+                <datalist id="trxList">
+                  <option *ngFor="let trxP of inventoryPendingTrx">{{trxP.transactionNo}}</option>
+                </datalist>
+              </div>
             </div>
 
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
               <label for="transactionDate">Transaction Date</label>&nbsp;<label style="color:red; font:bold">*</label>
               <input type="datetime-local" formControlName="transactionDate" class="form-control"
                      [class.is-invalid]="this.InventoryOutHeaderForm.controls.transactionDate.touched && this.InventoryOutHeaderForm.controls.transactionDate.value == ''" required readonly>
@@ -58,6 +63,152 @@
       </div>
     </div>
   </div>
+
+
+  <!-- Modal -->
+  <div class="container">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Transaction List</h4>
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="bs-component">
+              <ul class="nav nav-tabs" style="font-weight:bold">
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#pending">Pending Item</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#issued">Issued Item</a></li>
+              </ul>
+
+            <!-- Pending Tab -->
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade active show" id="pending">
+                  <br />
+                  <form [formGroup]="findTrxPending">
+                    <div class="row">
+
+                      <div class="col-md-3">
+                        <label for="pendingDateFrom">Date From:</label>
+                        <input type="date" formControlName="pendingDateFrom" class="form-control" />
+                      </div>
+
+                      <div class="col-md-3">
+                        <label for="pendingDateTo">Date To:</label>
+                        <input type="date" formControlName="pendingDateTo" class="form-control" />
+                      </div>
+
+                      <div class="col-md-4">
+                        <label for="pendingRefNumber">Reference Number</label>
+                        <input type="text" formControlName="pendingRefNumber" class="form-control" />
+                      </div>
+
+                      <div class="form-group col-md-1 align-self-center">
+                        <br />
+                        <div class="btn-group"><button class="btn btn-warning" type="button" (click)="clearTrxLookup('pending')"><i class="fa fa-lg fa-eraser"></i></button>&nbsp;&nbsp; <button class="btn btn-primary" type="submit" (click)="searchTrx('pending')"><i class="fa fa-lg fa-search"></i></button></div>
+                      </div>
+
+                    </div>
+               
+                  </form>
+                  <br />
+                  <br />
+                  <div class="tile-body">
+                    <div class="table-responsive">
+
+                      <table class="table table-hover table-bordered" id="table">
+                        <thead class="btn-dark">
+                          <tr>
+                            <th>Transaction Number</th>
+                            <th>Transaction Date</th>
+                            <th>Issued Date</th>
+                            <th>Department</th>
+                            <th>Reference Number</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let pend of pendingTrxArray" data-dismiss="modal" (click)="tableRowClick(pend.transactionNo)">
+                            <td>{{pend.transactionNo}}</td>
+                            <td>{{pend.transactionDate}}</td>
+                            <td>{{pend.issuedDate}}</td>
+                            <td>{{pend.department}}</td>
+                            <td>{{pend.referenceNo}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Issued Tab -->
+                <div class="tab-pane fade" id="issued">
+                  <br />
+                  <form [formGroup]="findTrxIssued">
+                    <div class="row">
+
+                      <div class="col-md-3">
+                        <label for="issuedDateFrom">Date From:</label>
+                        <input type="date" formControlName="issuedDateFrom" class="form-control" />
+                      </div>
+
+                      <div class="col-md-3">
+                        <label for="issuedDateTo">Date To:</label>
+                        <input type="date" formControlName="issuedDateTo" class="form-control" />
+                      </div>
+
+                      <div class="col-md-4">
+                        <label for="issuedRefNumber">Reference Number</label>
+                        <input type="text" formControlName="issuedRefNumber" class="form-control" />
+                      </div>
+
+                      <div class="form-group col-md-1 align-self-end">
+                        <div class="btn-group"><button class="btn btn-warning" (click)="clearTrxLookup('issued')"><i class="fa fa-lg fa-eraser"></i></button>&nbsp;&nbsp;<button class="btn btn-primary" (click)="searchTrx('issued')"><i class="fa fa-lg fa-search"></i></button></div>
+                      </div>
+                    </div>
+                  </form>
+                  <br />
+                  <br />
+                  <div class="tile-body">
+                    <div class="table-responsive">
+
+                      <table class="table table-hover table-bordered" id="table">
+                        <thead class="btn-dark">
+                          <tr>
+                            <th>Transaction Number</th>
+                            <th>Transaction Date</th>
+                            <th>Issued Date</th>
+                            <th>Department</th>
+                            <th>Reference Number</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let issued of issuedTrxArray" data-dismiss="modal" (click)="tableRowClick(issued.transactionNo)">
+                            <td>{{issued.transactionNo}}</td>
+                            <td>{{issued.transactionDate}}</td>
+                            <td>{{issued.issuedDate}}</td>
+                            <td>{{issued.department}}</td>
+                            <td>{{issued.referenceNo}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
 
   <div class="row">
     <div class="col-md-12">
@@ -141,7 +292,7 @@
         </form>
         <br />
         <div class="tile-body">
-          <div class="table-responsive">
+          <div class="table">
 
             <table class="table table-hover table-bordered" id="table">
               <thead class="btn-dark">
@@ -156,8 +307,10 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of itemArrayDTL">
-                  <td>{{item.itemName}}
-                    &nbsp;<i [hidden]="false" class="fa {{verifyIcon}} fa-sm"></i></td>
+                  <td>
+                    {{item.itemName}}
+                    &nbsp;<i [hidden]="false" class="fa {{verifyIcon}} fa-sm"></i>
+                  </td>
                   <td>{{item.unitName}}</td>
                   <td>{{item.lotNumber}}</td>
 
@@ -188,7 +341,7 @@
                             <ng-template *ngIf="item.tableExpDate < dateTimeNow; then expired"> </ng-template>
 
                             <ng-template #expired><label style="color:red">Expired</label> </ng-template>
-              
+
                           </div>
                         </div>
                       </div>
@@ -209,7 +362,7 @@
 
   </div>
   <div class="row">
-    <div class="form-grou col-12"> 
+    <div class="form-grou col-12">
       <div class="fa-pull-right">
         <button class="btn btn-warning" type="button" (click)="resetPage()"><i class="fa fa-refresh"></i>Clear</button>
         &nbsp;
