@@ -101,7 +101,7 @@ export class ReportInventoryOutComponent implements OnInit {
       departmentInnerHtml, this.transactionDateFrom, this.transactionDateTo,
       this.invInReports.controls.reportType.value).subscribe((data) => {
         this.reportOutArray = data;
-        if (this.reportOutArray.length == 0) {
+        if (this.reportOutArray == null || this.reportOutArray.length == 0) {
           this.Result = "No Data Found";
         }
         else {
