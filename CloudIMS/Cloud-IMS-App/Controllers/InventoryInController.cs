@@ -7,6 +7,7 @@ using CloudImsCommon.Extensions;
 using CloudImsCommon.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cloud_IMS_Api.Controllers
 {
@@ -193,6 +194,29 @@ namespace Cloud_IMS_Api.Controllers
             }
            
         }
-    }
+        [Route("[action]")]
+        public IActionResult getTrxNumFunction()
+        {
+            using (var transaction = dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    var mcon = dbContext.Database.GetDbConnection().CreateCommand();
+                    mcon.CommandText = "select setAuto_number('INVIN')";
+                    var returnVal = mcon.ExecuteScalar();
+                    transaction.Commit();
+
+                    return Json(returnVal);
+
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return BadRequest(GetErrorMessage(ex));
+                }
+            }
+
+        }
+}
 }
 
