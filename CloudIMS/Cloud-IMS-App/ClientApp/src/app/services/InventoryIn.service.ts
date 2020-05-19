@@ -61,4 +61,9 @@ export class InventoryInService {
     let params = new HttpParams().set('id', itemmasterId).set('idunit', itemmasterUnitID)
     return this._http.get<IitemMasterUnitConversionFactor[]>(this.url_invIn + "/GetConversionFactorFromItemMasterUnit", { params: params })
   }
+
+  getTrxNumFunction(): Observable<string> {
+    return this._http.get<string>(this.url_invIn + "/getTrxNumFunction");
+  }
+
 }
