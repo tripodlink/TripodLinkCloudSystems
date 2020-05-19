@@ -292,11 +292,11 @@ namespace Cloud_IMS_Api.Controllers
 
             if (user == null)
             {
-                return BadRequest(new { message = "Incorrect user ID or password." });
+                return BadRequest("Incorrect user ID or password.");
             }
             else if(! user.IsActive)
             {
-                return BadRequest(new { message = "User is not active." });
+                return BadRequest("User is not active." );
             }
 
             GetUserGrantedPrograms(user);

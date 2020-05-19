@@ -13,7 +13,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-
+  errormessage: string;
   constructor(public app: AppComponent,
     private fb: FormBuilder,
     public auth: UserAuthorizationService,
@@ -54,7 +54,8 @@ export class LoginComponent implements OnInit {
       this.router.navigateByUrl("/dashboard")
     }, error => {
         this.auth.setCurrentUser(null);
-        this.auth.setLoginErrorMessage(error.error);
+        this.errormessage = error.error;
+        this.auth.setLoginErrorMessage(this.errormessage);
 
     })
 

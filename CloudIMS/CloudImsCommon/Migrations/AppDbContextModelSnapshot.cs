@@ -51,6 +51,11 @@ namespace CloudImsCommon.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Auto_Number");
+
+                    b.HasData(
+                        new { ID = "INVIN", Auto_Length = "8", Current_year = "2020", Date_Prefix = "YY", Last_Value = "1", Text_Prefix = "TI" },
+                        new { ID = "INVOUT", Auto_Length = "8", Current_year = "2020", Date_Prefix = "YY", Last_Value = "1", Text_Prefix = "TO" }
+                    );
                 });
 
             modelBuilder.Entity("CloudImsCommon.Models.Company", b =>
@@ -606,7 +611,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 5, 11, 10, 37, 7, 968, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 5, 11, 10, 37, 7, 969, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 5, 19, 15, 8, 3, 576, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 5, 19, 15, 8, 3, 577, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 
