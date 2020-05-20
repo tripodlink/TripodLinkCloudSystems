@@ -201,12 +201,12 @@ namespace CloudImsCommon.Database
 
             //create Sample Management menu 
             modelBuilder.Entity<ProgramMenu>().HasData(
-               new ProgramMenu { ID = "DIC_UNIT", Name = "Unit", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "unit-code", SequenceNo = 10 },
-               new ProgramMenu { ID = "DIC_SUP", Name = "Supplier", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "supplier", SequenceNo = 20 },
-               new ProgramMenu { ID = "DIC_MANU", Name = "Manufacturer", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "manufacturer", SequenceNo = 30 },
-               new ProgramMenu { ID = "DIC_ITEM", Name = "Item Master", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "item-master", SequenceNo = 40 },
-               new ProgramMenu { ID = "DIC_ITEMGRP", Name = "Item Group", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "item-group", SequenceNo = 50 },
-               new ProgramMenu { ID = "DIC_DEP", Name = "Department", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "department", SequenceNo = 60 });
+               new ProgramMenu { ID = "DIC_UNIT", Name = "Unit", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "unit-code", SequenceNo = 60 },
+               new ProgramMenu { ID = "DIC_SUP", Name = "Supplier", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "supplier", SequenceNo = 50 },
+               new ProgramMenu { ID = "DIC_MANU", Name = "Manufacturer", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "manufacturer", SequenceNo = 40 },
+               new ProgramMenu { ID = "DIC_ITEM", Name = "Item Master", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "item-master", SequenceNo = 30 },
+               new ProgramMenu { ID = "DIC_ITEMGRP", Name = "Item Group", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "item-group", SequenceNo = 20 },
+               new ProgramMenu { ID = "DIC_DEP", Name = "Department", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "department", SequenceNo = 10 });
         }
 
         private static void SeedUserManagementProgramMenus(ModelBuilder modelBuilder)
