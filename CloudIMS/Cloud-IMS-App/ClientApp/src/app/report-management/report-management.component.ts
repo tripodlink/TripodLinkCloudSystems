@@ -20,7 +20,8 @@ export class ReportManagementComponent implements OnInit {
   ngOnInit(): void {
     this._userAuthorizationService.getCurrentUser()
       .then(user => {
-        this.rpt_pg_menus = user.programMenus.filter(pm => pm.programFolderID == "RPT");
+        this.rpt_pg_menus = user.programMenus.filter(pm => pm.programFolderID == "RPT")
+          .sort((pm, pm2) => pm.sequenceNo - pm2.sequenceNo);
       })
       .catch((error) => {
         //error while retrieving user data

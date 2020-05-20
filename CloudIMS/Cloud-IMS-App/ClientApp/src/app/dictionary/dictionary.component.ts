@@ -20,7 +20,8 @@ export class DictionaryComponent implements OnInit {
   ngOnInit(): void {
     this._userAuthorizationService.getCurrentUser()
       .then(user => {
-        this.dic_pg_menus = user.programMenus.filter(pm => pm.programFolderID == "DIC");
+        this.dic_pg_menus = user.programMenus.filter(pm => pm.programFolderID == "DIC")
+          .sort((pm, pm2) => pm.sequenceNo - pm2.sequenceNo);
       })
       .catch((error) => {
         //error while retrieving user data
