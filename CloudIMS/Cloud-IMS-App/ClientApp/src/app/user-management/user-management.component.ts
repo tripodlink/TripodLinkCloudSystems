@@ -17,7 +17,8 @@ export class UserManagementComponent implements OnInit {
   ngOnInit(): void {
     this._userAuthorizationService.getCurrentUser()
       .then(user => {
-        this.um_pg_menus = user.programMenus.filter(pm => pm.programFolderID == "UM");
+        this.um_pg_menus = user.programMenus.filter(pm => pm.programFolderID == "UM")
+          .sort((pm, pm2) => pm.sequenceNo - pm2.sequenceNo);
       })
       .catch((error) => {
         // error while retrieving user data
