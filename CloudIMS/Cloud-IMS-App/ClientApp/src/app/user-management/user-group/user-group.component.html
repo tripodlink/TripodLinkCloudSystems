@@ -126,7 +126,7 @@
               <i class="fa fa-save"></i> Save
             </button> &nbsp;
             <button type="submit" class="btn btn-warning" style="width:100px" (click)="clearEntry()"><i class="fa fa-eraser"></i> Clear</button> &nbsp;
-            <button type="submit" class="btn btn-danger" style="width:100px" [disabled]="isNewUserGroup" (click)="deleteUserGroup()"><i class="fa fa-trash"></i> Delete</button>
+            <button type="submit" class="btn btn-danger" style="width:100px" [disabled]="isNewUserGroup || addEditUserGroupForm.controls['groupId'].value == 'ADMIN'" (click)="deleteUserGroup()"><i class="fa fa-trash"></i> Delete</button>
           </div>
         </form>
 
