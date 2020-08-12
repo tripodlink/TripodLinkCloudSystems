@@ -69,8 +69,8 @@
                     [disabled]="addEditForm.controls['userId'].value.trim() == '' || addEditForm.controls['userName'].value.trim() == ''">
               <i class="fa fa-save"></i> Save
             </button> &nbsp;
-            <button type="submit" class="btn btn-warning" style="width:100px" [routerLink]="'/user-management/user-account/add'" (click)="clearEntry()"><i class="fa fa-eraser"></i> Clear</button> &nbsp;
-            <button type="submit" class="btn btn-danger" style="width:100px" [disabled]="isNewUser && user.userID != 'SYSAD'" (click)="deleteUser()"><i class="fa fa-trash"></i> Delete</button>&nbsp;
+            <button type="button" class="btn btn-warning" style="width:100px" (click)="clearEntry()"><i class="fa fa-eraser"></i> Clear</button> &nbsp;
+            <!--<button type="submit" class="btn btn-danger" style="width:100px" [disabled]="isNewUser && user.userID != 'SYSAD'" (click)="deleteUser()"><i class="fa fa-trash"></i> Delete</button>&nbsp;-->
             <button type="button" class="btn btn-warning" style="width:100px" [routerLink]="['/user-management/user-account']"><i class="fa fa-backward"></i> Back </button>
           </div>
 

@@ -187,23 +187,21 @@ export class AddEditUserAccountComponent {
     }
   }
 
-  deleteUser(): boolean {
-    this._userAccountService.deleteUser(this.user.userID).subscribe(data =>
-    {
-      this.clearEntry();
-      this._toastr.info("User deleted successfully.", "Delete")
-    }, error =>
-      {
-        this._toastr.error(error.error);
-    });
+  //deleteUser(): boolean {
+  //  this._userAccountService.deleteUser(this.user.userID).subscribe(data =>
+  //  {
+  //    this.clearEntry();
+  //    this._toastr.info("User deleted successfully.", "Delete")
+  //  }, error =>
+  //    {
+  //      this._toastr.error(error.error);
+  //  });
 
-    return false;
-  }
+  //  return false;
+  //}
 
   clearEntry(): boolean {
-    if (!this.isNewUser) {
-      return true;
-    } else {
+
       this.user = new UserAccount();
 
       this.addEditForm.controls.userId.setValue("");
@@ -216,7 +214,7 @@ export class AddEditUserAccountComponent {
       });
 
       return false;
-    }
+
   }
 }
 

@@ -6,7 +6,7 @@ import { UserAccount } from "../../classes/UserAccount";
 
 @Component({
   selector: "user-account",
-  templateUrl:"./user-account.component.html"
+  templateUrl: "./user-account.component.html"
 })
 export class UserAccountComponent {
   users: UserAccount[];
@@ -19,27 +19,20 @@ export class UserAccountComponent {
     this._userAccountService.getAllUsers().subscribe((users) => this.users = users);
   }
 
-  onDeleteUser(event): void {
-    let userId = event.currentTarget.name;
+  onDeleteUser(userID, userName): void {
+    if (confirm("Are you sure to delete" + " " + userName)) {
 
-    let isDeleted: boolean = true;
-
-    this._userAccountService.deleteUser(userId).subscribe(
+    this._userAccountService.deleteUser(userID).subscribe(
       anyData => {
-        isDeleted = true;
+
+        document.getElementById(userID).remove();
+        this.toastr.info("Deleted susccessfully.", "Delete");
       },
       error => {
         if (error != null && error.status != 200) {
           this.toastr.error(error.error, "Delete");
-          isDeleted = false;
         }
-      }
-    );
-
-    if (isDeleted) {
-      document.getElementById(userId).remove();
-      this.toastr.info("Deleted susccessfully.", "Delete");
+      })
     }
   }
-
 }

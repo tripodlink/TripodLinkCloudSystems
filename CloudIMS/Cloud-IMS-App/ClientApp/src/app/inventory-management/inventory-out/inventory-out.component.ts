@@ -17,7 +17,7 @@ import { IInventoryInTrxDetail } from '../../classes/inventory-management/Invent
 import { InventorysServices } from '../../services/inventorys.service';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { equal } from 'assert';
+
 
 @Component({
   selector: 'app-inventory-out',
@@ -75,6 +75,7 @@ export class InventoryOutComponent implements OnInit {
   trxInputDisabled: boolean;
   verifyIcon: string;
   trxNumFunction: string;
+  isApprover: boolean;
 
   constructor(public toastr: ToastrService, public builder: FormBuilder, public inventoryServices: InventorysServices,
     public cookieService: CookieService,
@@ -92,7 +93,16 @@ export class InventoryOutComponent implements OnInit {
   ngOnInit() {
     this.loadData();
     this.userIDLogin = this.cookieService.get('userId');
+    this.getIfApprover();
     this.Get_TrxNo_from_Dashboard();
+  }
+
+  public getIfApprover() {
+    this.inventoryServices.getIfApprover(this.userIDLogin).subscribe((data) => {
+      this.isApprover = data;
+      
+    })
+  
   }
   public getDateTimeNow(): string {
     let today = new Date();

@@ -370,7 +370,7 @@
         &nbsp;
         <button class="btn btn-secondary" type="button" [disabled]="InventoryOutHeaderForm.invalid || quantityValid" (click)="saveorIssueTransaction('P')"><i class="fa fa-floppy-o"></i>Save Transaction</button>
         &nbsp;
-        <button class="btn btn-primary" type="button" [disabled]="InventoryOutHeaderForm.invalid || quantityValid" (click)="saveorIssueTransaction('I')"><i class="fa fa-arrow-circle-up"></i>Issue Item</button>
+        <button class="btn btn-primary" type="button" [disabled]="InventoryOutHeaderForm.invalid || quantityValid" [hidden]="!isApprover" (click)="saveorIssueTransaction('I')"><i class="fa fa-arrow-circle-up"></i>Issue Item</button>
       </div>
     </div>
   </div>

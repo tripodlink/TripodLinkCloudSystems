@@ -51,12 +51,19 @@ export class InventorysServices {
 
 
   //GET
+
   getItemGroupData(): Observable<IinventoryOutHeader[]> {
     return this._http.get<IinventoryOutHeader[]>(this.url);
   }
 
   getDepartmentList(): Observable<IDepartment[]> {
     return this._http.get<IDepartment[]>(this.urlDep);
+  }
+
+  getIfApprover(userID: string): Observable<boolean> {
+    let params = new HttpParams().set('userID', userID);
+    return this._http.get<boolean>(this.url + "/GetIfApprover", { params: params });
+
   }
 
   getJoinUnitAndITMU(id: string): Observable<IiTemMasterUnitJoinUnit[]> {

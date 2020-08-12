@@ -9,12 +9,12 @@
   </div>
 
   <div class="row">
-     User Group Table 
+     
     <div class="col-md-4">
       <div class="tile" style="border-radius: 10px 10px">
         <div>
           <div class="tile-title">List of User Groups</div>
-          <button type="button" style="width:100px; margin-bottom:5px" class="btn btn-primary" [routerLink]="'/user-management/user-account/add'">Add Group</button>
+         <!-- <button type="button" style="width:100px; margin-bottom:5px" class="btn btn-primary" [routerLink]="'/user-management/user-account/add'">Add Group</button>-->
         </div>
 
         <form>
@@ -40,7 +40,7 @@
     </div>
 
 
-     Program Menu Tree 
+  
     <div class="col-md-8">
       <div class="tile" style="border-radius: 10px 10px">
         <div class="tile-title">User Group Details</div>
@@ -48,6 +48,7 @@
         <form (ngSubmit)="saveUserGroupDetails()" [formGroup]="addEditUserGroupForm">
           <div class="row">
             <div class="col-md-4">
+
               <div class="form-group">
                 <label for="groupId">Group ID:</label>
                 <input formControlName="groupId" type="text" class="form-control text-uppercase" [readonly]="!isNewUserGroup"
@@ -55,13 +56,22 @@
               </div>
             </div>
 
-            <div class="col-md-8">
+            <div class="col-md-6">
               <div class="form-group">
                 <label for="groupName">Group Name:</label>
                 <input formControlName="groupName" type="text" class="form-control"
                        [class.is-invalid]="addEditUserGroupForm.controls['groupName'].touched && addEditUserGroupForm.controls['groupName'].value.trim() == ''">
               </div>
             </div>
+
+              <div class="col-md-2">
+                <label for="groupIsApprover" class="col-md-2 col-sm-4 col-form-label">Approver</label>
+                <div class="col-md-4 col-sm-10">
+                  <input type="checkbox" formControlName="groupIsApprover" style="margin-top:12px">
+                </div>
+              </div>
+
+           
           </div>
 
           <div class="row">

@@ -228,7 +228,7 @@ namespace CloudImsCommon.Database
         {
             //create Result Management folder 
             modelBuilder.Entity<UserGroup>().HasData(
-               new UserGroup { ID = "ADMIN", Name = "SYSTEM ADMINISTRATORS"}
+               new UserGroup { ID = "ADMIN", Name = "SYSTEM ADMINISTRATORS",IsApprover = true}
                );
 
             //create Result Management menu 
