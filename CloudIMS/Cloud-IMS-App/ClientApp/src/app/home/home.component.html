@@ -44,19 +44,15 @@
           <table class="table table-hover">
             <thead>
               <tr>
-                <th>Item Name</th>
-                <th>Item Unit</th>
-                <th>Quantity</th>
                 <th>Transaction No.</th>
+                <th>Item Name</th>
                 <th>Transaction Date.</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let itmp of IItemListPendingToStockOut" (click)="getTrxNo_GotoInvOutScreen(itmp.txrno)">
-                <td>{{itmp.itemname}}</td>
-                <td>{{itmp.itemunit}}</td>
-                <td>{{itmp.qty}}</td>
                 <td><button class="btn btn-link">{{itmp.txrno}}</button></td>
+                <td>{{itmp.itemname}}</td>
                 <td>{{itmp.trxdate}}</td>
               </tr>
             </tbody>

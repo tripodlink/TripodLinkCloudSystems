@@ -38,7 +38,7 @@
                   <td [class.text-danger]="!user.isActive">{{user.isActive? 'Yes' : 'No'}}</td>
                   <td style="width:1px; white-space:nowrap">
                     <button class="btn btn-warning" style="width:100px" [routerLink]="'/user-management/user-account/edit/' + user.userID"><i class="fa fa-edit"></i>Edit</button> &nbsp;
-                    <button class="btn btn-danger" style="width:100px" [name]="user.userID" (click)="onDeleteUser($event)" [disabled]="user.userID == 'SYSAD'"><i class="fa fa-trash"></i> Delete</button>
+                    <button class="btn btn-danger" style="width:100px" [name]="user.userID" (click)="onDeleteUser(user.userID  ,user.userName)" [disabled]="user.userID == 'SYSAD'"><i class="fa fa-trash"></i> Delete</button>
                   </td>
                 </tr>
               </tbody>

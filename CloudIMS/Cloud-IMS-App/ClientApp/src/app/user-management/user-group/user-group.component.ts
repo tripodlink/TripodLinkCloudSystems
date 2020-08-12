@@ -29,6 +29,7 @@ export class UserGroupComponent {
     this.addEditUserGroupForm = this._formBuilder.group({
       groupId: [''],
       groupName: [''],
+      groupIsApprover: [''],
       programFolders: new FormArray([])
     });
   }
@@ -167,6 +168,7 @@ export class UserGroupComponent {
 
     this.selectedUserGroup.id = groupId;
     this.selectedUserGroup.name = this.addEditUserGroupForm.controls.groupName.value;
+    this.selectedUserGroup.isApprover = this.addEditUserGroupForm.controls.groupIsApprover.value;
     this.selectedUserGroup.programMenus = this.getProgramMenusForSaving();
 
 
@@ -273,6 +275,7 @@ export class UserGroupComponent {
         
         this.addEditUserGroupForm.controls.groupId.setValue(this.selectedUserGroup.id);
         this.addEditUserGroupForm.controls.groupName.setValue(this.selectedUserGroup.name);
+        this.addEditUserGroupForm.controls.groupIsApprover.setValue(this.selectedUserGroup.isApprover);
         this.displayUserGroupGrantedPrograms();
       },
         error => {
@@ -353,6 +356,7 @@ export class UserGroupComponent {
 
     this.addEditUserGroupForm.controls.groupId.setValue("");
     this.addEditUserGroupForm.controls.groupName.setValue("");
+    this.addEditUserGroupForm.controls.groupIsApprover.setValue(false);
 
     let pfForms = (this.addEditUserGroupForm.controls.programFolders as FormArray).controls;
 

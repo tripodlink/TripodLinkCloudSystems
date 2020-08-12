@@ -22,6 +22,10 @@ namespace CloudImsCommon.Models
         [Required]
         public String Name { get; set; }
 
+        [Required]
+        [Column("ug_is_approver", TypeName = "TINYINT")]
+        public Boolean IsApprover { get; set; } = true;
+
         [NotMapped]
         public IEnumerable<ProgramFolder> ProgramFolders { get; set; }
 

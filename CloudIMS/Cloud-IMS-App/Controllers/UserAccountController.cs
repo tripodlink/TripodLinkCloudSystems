@@ -265,7 +265,7 @@ namespace Cloud_IMS_Api.Controllers
 
                         dbContext.SaveChanges();
 
-                        transaction.Rollback();
+                        transaction.Commit();
 
                         return Json(id);
                     }

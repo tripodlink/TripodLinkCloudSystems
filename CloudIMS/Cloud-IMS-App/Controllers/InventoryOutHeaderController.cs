@@ -6,9 +6,11 @@ using CloudImsCommon.Database;
 using CloudImsCommon.Extensions;
 using CloudImsCommon.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Common;
 using Renci.SshNet.Security.Cryptography;
 
 namespace Cloud_IMS_Api.Controllers
@@ -31,6 +33,7 @@ namespace Cloud_IMS_Api.Controllers
             return invenOut;
         }
 
+       
         [Route("[action]")]
         [HttpPost]
         public IActionResult Add([FromBody] InventoryOutTrxHeader inventoryOut)
@@ -166,6 +169,41 @@ namespace Cloud_IMS_Api.Controllers
                 return BadRequest(GetErrorMessage(ex));
             }
         }
+
+        [Route("[action]")]
+        public Boolean GetIfApprover(string userID)
+        {
+            var GetApprover = (from userAccount in dbContext.UserAccounts
+                               join userAccountGroup in dbContext.UserAccountGroups on userAccount.UserID
+                               equals userAccountGroup.UserAccountID
+                               join userGroup in dbContext.UserGroups on userAccountGroup.UserGroupID
+                               equals userGroup.ID
+                               where userAccount.UserID == userID
+                               select new
+                               {
+                                   isApprover = userGroup.IsApprover
+                               }
+                               ).ToList();
+
+
+            var result = true;
+
+            GetApprover.ForEach((arr) =>
+            {
+                if (arr.isApprover)
+                {
+                    result = true;
+                }
+                else
+                {
+                    result = false;
+                }
+            });
+            return result;
+
+        }
+
+
         [Route("[action]")]
         public IActionResult findPendingTrx()
         {

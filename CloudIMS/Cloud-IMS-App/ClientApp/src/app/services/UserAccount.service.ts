@@ -48,14 +48,9 @@ export class UserAccountService {
   }
 
   deleteUser(id: string): Observable<string> {
-    const headers = new HttpHeaders({
-      "Content-Type": "application/json",
-      "Accept": "application/text"
-    });
-
     let params = new HttpParams().set('id', id);
 
-    return this._http.delete<string>(this.url + "/delete", { params: params, headers: headers });
+    return this._http.delete<string>(this.url + "/Delete", { params: params });
   }
 
 }

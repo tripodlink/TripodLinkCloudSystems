@@ -128,10 +128,7 @@ namespace Cloud_IMS_Api.Controllers
                            {
                                txrno = invOutHeader.TransactionNo,
                                trxdate = invOutHeader.TransactionDate,
-                               qty = invOutDetail.Quantity,
                                itemname = im.ItemName,
-                               itemunit = uc.Description
-
                            };
             return Ok(stockOut.ToList());
         }

@@ -89,6 +89,7 @@ namespace Cloud_IMS_App.Controllers
                     UserGroup ugToAdd = new UserGroup();
                     ugToAdd.ID = ug.ID;
                     ugToAdd.Name = ug.Name;
+                    ugToAdd.IsApprover = ug.IsApprover;
 
                     dbContext.UserGroups.Add(ugToAdd);
                     dbContext.SaveChanges();
@@ -129,6 +130,7 @@ namespace Cloud_IMS_App.Controllers
                     if (userToSave != null)
                     {
                         userToSave.Name = ug.Name;
+                        userToSave.IsApprover = ug.IsApprover;
 
                         dbContext.SaveChanges();
 
