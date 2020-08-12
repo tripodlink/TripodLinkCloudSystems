@@ -54,7 +54,8 @@ namespace CloudImsCommon.Migrations
 
                     b.HasData(
                         new { ID = "INVIN", Auto_Length = "8", Current_year = "2020", Date_Prefix = "YY", Last_Value = "1", Text_Prefix = "TI" },
-                        new { ID = "INVOUT", Auto_Length = "8", Current_year = "2020", Date_Prefix = "YY", Last_Value = "1", Text_Prefix = "TO" }
+                        new { ID = "INVOUT", Auto_Length = "8", Current_year = "2020", Date_Prefix = "YY", Last_Value = "1", Text_Prefix = "TO" },
+                        new { ID = "INVIN_BID", Auto_Length = "8", Current_year = "2020", Date_Prefix = "YY", Last_Value = "1", Text_Prefix = "BID" }
                     );
                 });
 
@@ -502,12 +503,12 @@ namespace CloudImsCommon.Migrations
                     b.HasData(
                         new { ID = "IVM_IN", IconName = "fa fa-desktop", Name = "Inventory In", ProgramFolderID = "IVM", RouteAttribute = "inventory-in", SequenceNo = 10 },
                         new { ID = "IVM_OUT", IconName = "fa fa-desktop", Name = "Inventory Out", ProgramFolderID = "IVM", RouteAttribute = "inventory-out", SequenceNo = 20 },
-                        new { ID = "DIC_UNIT", IconName = "fa fa-desktop", Name = "Unit", ProgramFolderID = "DIC", RouteAttribute = "unit-code", SequenceNo = 10 },
-                        new { ID = "DIC_SUP", IconName = "fa fa-desktop", Name = "Supplier", ProgramFolderID = "DIC", RouteAttribute = "supplier", SequenceNo = 20 },
-                        new { ID = "DIC_MANU", IconName = "fa fa-desktop", Name = "Manufacturer", ProgramFolderID = "DIC", RouteAttribute = "manufacturer", SequenceNo = 30 },
-                        new { ID = "DIC_ITEM", IconName = "fa fa-desktop", Name = "Item Master", ProgramFolderID = "DIC", RouteAttribute = "item-master", SequenceNo = 40 },
-                        new { ID = "DIC_ITEMGRP", IconName = "fa fa-desktop", Name = "Item Group", ProgramFolderID = "DIC", RouteAttribute = "item-group", SequenceNo = 50 },
-                        new { ID = "DIC_DEP", IconName = "fa fa-desktop", Name = "Department", ProgramFolderID = "DIC", RouteAttribute = "department", SequenceNo = 60 },
+                        new { ID = "DIC_UNIT", IconName = "fa fa-desktop", Name = "Unit", ProgramFolderID = "DIC", RouteAttribute = "unit-code", SequenceNo = 60 },
+                        new { ID = "DIC_SUP", IconName = "fa fa-desktop", Name = "Supplier", ProgramFolderID = "DIC", RouteAttribute = "supplier", SequenceNo = 50 },
+                        new { ID = "DIC_MANU", IconName = "fa fa-desktop", Name = "Manufacturer", ProgramFolderID = "DIC", RouteAttribute = "manufacturer", SequenceNo = 40 },
+                        new { ID = "DIC_ITEM", IconName = "fa fa-desktop", Name = "Item Master", ProgramFolderID = "DIC", RouteAttribute = "item-master", SequenceNo = 30 },
+                        new { ID = "DIC_ITEMGRP", IconName = "fa fa-desktop", Name = "Item Group", ProgramFolderID = "DIC", RouteAttribute = "item-group", SequenceNo = 20 },
+                        new { ID = "DIC_DEP", IconName = "fa fa-desktop", Name = "Department", ProgramFolderID = "DIC", RouteAttribute = "department", SequenceNo = 10 },
                         new { ID = "UM_USERACC", IconName = "fa fa-desktop", Name = "User Account", ProgramFolderID = "UM", RouteAttribute = "user-account", SequenceNo = 10 },
                         new { ID = "UM_USERGRP", IconName = "fa fa-desktop", Name = "User Group", ProgramFolderID = "UM", RouteAttribute = "user-group", SequenceNo = 20 },
                         new { ID = "UM_USERPROF", IconName = "fa fa-desktop", Name = "User Profile", ProgramFolderID = "UM", RouteAttribute = "user-profile", SequenceNo = 30 },
@@ -611,7 +612,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 5, 19, 15, 8, 3, 576, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 5, 19, 15, 8, 3, 577, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 7, 22, 18, 26, 0, 940, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 7, 22, 18, 26, 0, 941, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 

@@ -58,8 +58,9 @@ namespace CloudImsCommon.Database
         private static void SeedAutoNumber(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AutoNumber>().HasData(
-               new AutoNumber {ID = "INVIN",Text_Prefix="TI", Date_Prefix="YY",Auto_Length="8",Last_Value="1",Current_year="2020"},
-               new AutoNumber { ID = "INVOUT", Text_Prefix = "TO", Date_Prefix = "YY", Auto_Length = "8", Last_Value = "1", Current_year = "2020" }
+               new AutoNumber { ID = "INVIN",Text_Prefix="TI", Date_Prefix="YY",Auto_Length="8",Last_Value="1",Current_year="2020"},
+               new AutoNumber { ID = "INVOUT", Text_Prefix = "TO", Date_Prefix = "YY", Auto_Length = "8", Last_Value = "1", Current_year = "2020" },
+               new AutoNumber { ID = "INVIN_BID", Text_Prefix = "BID", Date_Prefix = "YY", Auto_Length = "8", Last_Value = "1", Current_year = "2020" }
                );
         }
 

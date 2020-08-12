@@ -1,0 +1,68 @@
+<main class="app-content">
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-building-o"></i>Inventory Management / Item Defect</h1>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
+    </ul>
+  </div>
+  <div class="col-md-12">
+    <div class="tile">
+      <div class="tile-body">
+
+        <button type="button" class="btn btn-success" (click)="ClickAdd()" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>Add Supplier</button><br />
+      
+        <br /><br />
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered" id="sampletable">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>Name</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sup of suppliers" [id]="sup.id">
+                <td>{{sup.id}}</td>
+                <td>{{sup.name}}</td>
+                <td>
+                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" (click)="PassData(sup.id, sup.name)"><i class="fa fa-edit"></i> Edit</button>&nbsp;
+                  <button class="btn btn-danger" (click)="deleteSupplier(sup.id)"><i class="fa fa-trash"></i> Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tile-footer">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+<!-- Large modal -->
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><i class="{{iconHeaderTextModal}}"></i> {{modalStatus}}</h4>
+        </div>
+
+          <div class="modal-body">
+
+          </div>
+          <div class="modal-footer">
+          
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

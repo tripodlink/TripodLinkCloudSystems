@@ -7,167 +7,188 @@
       <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
     </ul>
   </div>
-  <form [formGroup]="addInventoryInFormGroup">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="tile">
-          <h3 class="tile-title">Transaction Header</h3>
-          <div class="tile-footer">
+ 
+    <div class="col-lg-12 col-md-12 col-sm-12">
 
-          </div>
-
-          <div class="row">
-
-            <div class="form-group col-md-4">
-              <label>Transaction No.</label>
-              <input type="text" formControlName="trxNo_hdr" readonly class="form-control"
-                     [class.is-invalid]="addInventoryInFormGroup.controls['trxNo_hdr'].touched && addInventoryInFormGroup.controls['trxNo_hdr'].value == ''" required autofocus>
-            </div>
-            <div class="form-group col-md-2">
-              <label>Transaction Date</label>
-              <input type="datetime-local" formControlName="trxDate_hdr" readonly class="form-control">
-            </div>
-            <div class="form-group col-md-3">
-              <label>PO No.</label><label style="color:red;font-size:15px"><b>*</b></label>
-              <input type="text" formControlName="PONo_hdr" class="form-control"
-                     [class.is-invalid]="addInventoryInFormGroup.controls['PONo_hdr'].touched && addInventoryInFormGroup.controls['PONo_hdr'].value == ''" required autofocus>
-            </div>
-            <div class="form-group col-md-3">
-              <label>Invoice No.</label><label style="color:red;font-size:15px"><b>*</b></label>
-              <input type="text" formControlName="invoiceNo_hdr" class="form-control"
-                     [class.is-invalid]="addInventoryInFormGroup.controls['invoiceNo_hdr'].touched && addInventoryInFormGroup.controls['invoiceNo_hdr'].value == ''" required autofocus>
-            </div>
-            <div class="form-group col-md-2">
-              <label>Received Date</label><label style="color:red;font-size:15px"><b>*</b></label>
-              <input type="datetime-local" formControlName="rcvdDate_hdr" class="form-control"
-                     [class.is-invalid]="addInventoryInFormGroup.controls['rcvdDate_hdr'].touched && addInventoryInFormGroup.controls['rcvdDate_hdr'].value == ''" required autofocus>
-            </div>
-            <div class="form-group col-md-2">
-              <label>Received By</label><label style="color:red;font-size:15px"><b>*</b></label>
-              <input type="text" formControlName="rcvdBy_hdr" class="form-control"
-                     [class.is-invalid]="addInventoryInFormGroup.controls['rcvdBy_hdr'].touched && addInventoryInFormGroup.controls['rcvdBy_hdr'].value.trim() == ''" required autofocus>
-            </div>
-            
-            <div class="form-group col-md-4" id="supnameId">
-              <label>Supplier Name</label>
+      <div class="bs-component">
+        <ul class="nav nav-tabs">
+          <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#InventoryIn_By_Single">Inventory In (Single)</a></li>
+          <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#InventoryIn_By_Batch">Inventory In (By Batch)</a></li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade active show" id="InventoryIn_By_Single">
+            <form [formGroup]="addInventoryInFormGroup">
               <div class="row">
-                <input formControlName="supplier_hdr" class="form-control col-md-10" list="supplierSelect" />
-                <datalist id="supplierSelect">
-                  <option value=""></option>
-                  <option *ngFor="let sup of Isupplier" id="{{sup.name}}" data-value="{{sup.name}}">{{sup.id}}</option>
-                </datalist>
-                <button class="btn btn-primary col-md-1" data-toggle="modal" data-target="#supplierModal"><i class="fa fa-list"></i></button>
+                <div class="col-md-12">
+                  <div class="tile">
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label>Transaction No.</label>
+                          <input type="text" formControlName="trxNo_hdr" readonly class="form-control"
+                                 [class.is-invalid]="addInventoryInFormGroup.controls['trxNo_hdr'].touched && addInventoryInFormGroup.controls['trxNo_hdr'].value == ''" required autofocus>
+                        </div>
+                        <div class="form-group">
+                          <label>Transaction Date</label>
+                          <input type="datetime-local" formControlName="trxDate_hdr" readonly class="form-control">
+                        </div>
+                        <div class="form-group">
+                          <label>PO No.</label><label style="color:red;font-size:15px"><b>*</b></label>
+                          <input type="text" formControlName="PONo_hdr" class="form-control"
+                                 [class.is-invalid]="addInventoryInFormGroup.controls['PONo_hdr'].touched && addInventoryInFormGroup.controls['PONo_hdr'].value == ''" required autofocus>
+                        </div>
+                        <div class="form-group">
+                          <label>Invoice No.</label><label style="color:red;font-size:15px"><b>*</b></label>
+                          <input type="text" formControlName="invoiceNo_hdr" class="form-control"
+                                 [class.is-invalid]="addInventoryInFormGroup.controls['invoiceNo_hdr'].touched && addInventoryInFormGroup.controls['invoiceNo_hdr'].value == ''" required autofocus>
+                        </div>
+                        <div class="form-group">
+                          <label>Received Date</label><label style="color:red;font-size:15px"><b>*</b></label>
+                          <input type="datetime-local" formControlName="rcvdDate_hdr" class="form-control"
+                                 [class.is-invalid]="addInventoryInFormGroup.controls['rcvdDate_hdr'].touched && addInventoryInFormGroup.controls['rcvdDate_hdr'].value == ''" required autofocus>
+                        </div>
+                        <div class="form-group">
+                          <label>Received By</label><label style="color:red;font-size:15px"><b>*</b></label>
+                          <input type="text" formControlName="rcvdBy_hdr" class="form-control"
+                                 [class.is-invalid]="addInventoryInFormGroup.controls['rcvdBy_hdr'].touched && addInventoryInFormGroup.controls['rcvdBy_hdr'].value.trim() == ''" required autofocus>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="form-group" id="supnameId">
+                            <label>Supplier Name</label>
+                            <div class="row">
+                              <input formControlName="supplier_hdr" class="form-control col-md-11" list="supplierSelect" />
+                              <datalist id="supplierSelect">
+                                <option value=""></option>
+                                <option *ngFor="let sup of Isupplier" id="{{sup.name}}" data-value="{{sup.name}}">{{sup.id}}</option>
+                              </datalist>
+                              <button class="btn btn-primary col-md-1" data-toggle="modal" data-target="#supplierModal"><i class="fa fa-list"></i></button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label>Reference No.</label><label style="color:red;font-size:15px"><b>*</b></label>
+                          <input type="text" formControlName="refNo_hdr" class="form-control"
+                                 [class.is-invalid]="addInventoryInFormGroup.controls['refNo_hdr'].touched && addInventoryInFormGroup.controls['refNo_hdr'].value.trim() == ''" required autofocus>
+                        </div>
+                        <div class="form-group">
+                          <label>Document No.</label>
+                          <input type="text" formControlName="docNo_hdr" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleTextarea">Remarks</label>
+                          <textarea type="text" formControlName="remarks_hdr" class="form-control" required autofocus rows="2"></textarea>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-4 offset-lg-1">
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label>Item Name</label><label style="color:red;font-size:15px"><b>*</b></label>
+                            <div class="row">
+                              <input formControlName="itemMaster_dtl" class="form-control col-md-10" list="itemSelect" #itemMasterSelect (change)='onSelectedItemMaster(itemMasterSelect.value)'
+                                     (input)="enabledUnitCode()"
+                                     required autofocus>
+                              <datalist id="itemSelect">
+                                <option value=""></option>
+                                <option *ngFor="let im of Iitemmaster" id="{{im.itemName}}" data-value="{{im.itemName}}">{{im.id}}</option>
+                              </datalist>
+                              <button class="btn btn-primary col-md-1" data-toggle="modal" data-target="#itemMasterModal"><i class="fa fa-list"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label>Item Unit</label><label style="color:red;font-size:15px"><b>*</b></label>
+                            <div class="row">
+                              <input formControlName="itemUnit_dtl" class="form-control col-md-10" list="unitSelect" #itemMasterUnitSelect (change)='onSelectCoversionFactor(itemMasterSelect.value,itemMasterUnitSelect.value)'
+                                     [readonly]="isReadonly_UC"
+                                     (input)="enabledQuantity()"
+                                     required autofocus>
+                              <datalist id="unitSelect">
+
+                                <option value=""></option>
+                                <option *ngFor="let iu of ItemMasterUnitArray" id="{{iu.unitDescription}}" data-value="{{iu.unitDescription}}">{{iu.unitCode}}</option>
+                              </datalist>
+                              <button class="btn btn-primary col-md-1" [disabled]="isReadonly_LookUp_Btn_ItemUnit" data-toggle="modal" data-target="#itemMasterUnitModal"><i class="fa fa-list"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                          <div class="form-group">
+                            <label>Quantity</label><label style="color:red;font-size:15px"><b>*</b></label>
+                            <input (input)="onTextChangedQuantityInput()" formControlName="quantity_dtl" type="number" class="form-control"
+                                   [readonly]="isReadonly_QTY"
+                                   required autofocus>
+                          </div>
+                          <div class="form-group">
+                            <label>LOT No.</label><label style="color:red;font-size:15px"><b>*</b></label>
+                            <input formControlName="lotno_dtl" type="text" class="form-control"
+                                   [class.is-invalid]="addInventoryInFormGroup.controls['lotno_dtl'].touched && addInventoryInFormGroup.controls['lotno_dtl'].value == ''" required autofocus>
+                          </div>
+                          <div class="form-group">
+                            <label>Expiration Date</label><label style="color:red;font-size:15px"><b>*</b></label>
+                            <input formControlName="expDate_dtl" type="datetime-local" class="form-control"
+                                   [class.is-invalid]="addInventoryInFormGroup.controls['expDate_dtl'].touched && addInventoryInFormGroup.controls['expDate_dtl'].value == ''" required autofocus>
+                          </div>
+                          <div class="form-group">
+                            <label>Count</label>
+                            <input formControlName="count_dtl" type="number" readonly class="form-control" />
+                          </div>
+
+                          <div class="form-group">
+                            <label>Remaining Count</label>
+                            <input formControlName="remainingcount_dtl" type="number" readonly class="form-control" />
+                          </div>
+
+                        </div>
+                      </div>
+                    <div class="tile-footer">
+                      <button type="button" (click)="resetScreen()" class="btn btn-warning"><i class="fa fa-eraser"></i>Clear Fields</button>&nbsp;
+                      <button type="button" (click)="insertInventoryInTrx()" class="btn btn-primary"><i class="fa fa-arrow-circle-down"></i>Inventory In</button>
+                    </div>
+                  </div>
+                </div>
               </div>
-             
-            </div>
-            <div class="form-group col-md-2">
-              <label>Reference No.</label><label style="color:red;font-size:15px"><b>*</b></label>
-              <input type="text" formControlName="refNo_hdr" class="form-control"
-                     [class.is-invalid]="addInventoryInFormGroup.controls['refNo_hdr'].touched && addInventoryInFormGroup.controls['refNo_hdr'].value.trim() == ''" required autofocus>
-            </div>
-            <div class="form-group col-md-2">
-              <label>Document No.</label>
-              <input type="text" formControlName="docNo_hdr" class="form-control" />
-            </div>
-            <div class="form-group col-md-12">
-              <label for="exampleTextarea">Remarks</label>
-              <textarea type="text" formControlName="remarks_hdr" class="form-control" required autofocus rows="2"></textarea>
-            </div>
+              </form>
           </div>
+          <div class="tab-pane fade" id="InventoryIn_By_Batch">
+            <form [formGroup]="addInventoryInFormGroupByBatch">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="tile">
+                    <div clasls="row">
+                      <div class="col-lg-12">
+                        <div class="row">
+                          <div class="form-group col-md-3">
+                            <label>Transaction Date</label>
+                            <input type="datetime-local" formControlName="trxDate_hdr_by_batch" readonly class="form-control">
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label>Received By</label><label style="color:red;font-size:15px"><b>*</b></label>
+                            <input type="text" formControlName="rcvdBy_hdr_by_batch" class="form-control">
+                          </div>
+                          <div class="form-group col-md-5">
+                            <button type="button" class="btn btn-info" (click)="Upload()">Get Template</button>
+                          </div>
+                          <div class="form-group col-md-8">
+                            <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file" accept=".xlsx">
+                            <button type="button" class="btn btn-info" (click)="Upload()">Upload</button>
+                          </div>
 
-          <div class="tile-footer">
 
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </form>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="tile">
-          <h3 class="tile-title">Transaction Details</h3>
-          <div class="tile-footer">
-
-          </div>
-          <div class="col-md-12">
-            <div class="row">
-              <div class="form-group col-md-4">
-                <label>Item Name</label><label style="color:red;font-size:15px"><b>*</b></label>
-                <div class="row">
-                  <input formControlName="itemMaster_dtl" class="form-control col-md-10" list="itemSelect" #itemMasterSelect (change)='onSelectedItemMaster(itemMasterSelect.value)'
-                         (input)="enabledUnitCode()"
-                         required autofocus>
-                  <datalist id="itemSelect">
-                    <option value=""></option>
-                    <option *ngFor="let im of Iitemmaster" id="{{im.itemName}}" data-value="{{im.itemName}}">{{im.id}}</option>
-                  </datalist>
-                  <button class="btn btn-primary col-md-1" data-toggle="modal" data-target="#itemMasterModal"><i class="fa fa-list"></i></button>
-                </div>
-              </div>
-
-              <div class="form-group col-md-4">
-                <label>Item Unit</label><label style="color:red;font-size:15px"><b>*</b></label>
-                  <div class="row">
-                    <input formControlName="itemUnit_dtl" class="form-control col-md-10" list="unitSelect" #itemMasterUnitSelect (change)='onSelectCoversionFactor(itemMasterSelect.value,itemMasterUnitSelect.value)'
-                            [readonly]="isReadonly_UC"
-                            (input)="enabledQuantity()"
-                            required autofocus>
-                    <datalist id="unitSelect">
-
-                      <option value=""></option>
-                      <option *ngFor="let iu of ItemMasterUnitArray" id="{{iu.unitDescription}}" data-value="{{iu.unitDescription}}">{{iu.unitCode}}</option>
-                    </datalist>
-                    <button class="btn btn-primary col-md-1"  [disabled]="isReadonly_LookUp_Btn_ItemUnit" data-toggle="modal" data-target="#itemMasterUnitModal"><i class="fa fa-list"></i></button>
-                  </div>
-                </div>
-
-                <div class="form-group col-md-4">
-                  <label>Quantity</label><label style="color:red;font-size:15px"><b>*</b></label>
-                  <input (input)="onTextChangedQuantityInput()" formControlName="quantity_dtl" type="number" class="form-control"
-                         [readonly]="isReadonly_QTY"
-                         required autofocus>
-                </div>
-
-              </div>
-            <div class="row">
-              <div class="form-group col-md-3">
-                <label>LOT No.</label><label style="color:red;font-size:15px"><b>*</b></label>
-                <input formControlName="lotno_dtl" type="text" class="form-control"
-                       [class.is-invalid]="addInventoryInFormGroup.controls['lotno_dtl'].touched && addInventoryInFormGroup.controls['lotno_dtl'].value == ''" required autofocus>
-              </div>
-              <div class="form-group col-md-3">
-                <label>Expiration Date</label><label style="color:red;font-size:15px"><b>*</b></label>
-                <input formControlName="expDate_dtl" type="datetime-local" class="form-control"
-                       [class.is-invalid]="addInventoryInFormGroup.controls['expDate_dtl'].touched && addInventoryInFormGroup.controls['expDate_dtl'].value == ''" required autofocus>
-              </div>
-              <div class="form-group col-md-3">
-                <label>Count</label>
-                <input formControlName="count_dtl" type="number" readonly class="form-control" />
-              </div>
-
-              <div class="form-group col-md-3">
-                <label>Remaining Count</label>
-                <input formControlName="remainingcount_dtl" type="number" readonly class="form-control" />
-              </div>
-
-            </div>
-
-          </div>
-              
-            <div class="tile-footer">
-              <div class="row">
-                <div class="col-md-4"></div>
-                <div class="form-group col-md-4">
-                  <button type="button" (click)="CreateAutoGeneratedID()" class="btn btn-primary pull-right col-md-6"><i class="fa fa-arrow-circle-down"></i>Inventory In</button>
-                  <button type="button" (click)="resetScreen()" class="btn btn-warning pull-right col-md-6"><i class="fa fa-eraser"></i>Clear Fields</button></div>
-                  
-                <div class="col-md-4"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-    </div>
-  </form>
 </main>
 
 <div class="container">

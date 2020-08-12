@@ -65,7 +65,7 @@ export class ReportInventoryInComponent implements OnInit {
 
   }
 
-  public generateReportInvIn() {
+  async generateReportInvIn() {
     let fromDT = new Date();
     let toDT = new Date();
     fromDT = this.rptInvInFormGroup.controls.from_DT.value;
@@ -75,10 +75,13 @@ export class ReportInventoryInComponent implements OnInit {
     let supID = document.getElementById(this.rptInvInFormGroup.controls.supplier_hdr.value).innerText;
 
     
-    this.rptservice.getReportInventoryIn(itemID, itemunitID, supID, fromDT, toDT).subscribe((getreport) => this.rptInvInArray = getreport)
-    //this.exportAsExcelFile(this.rptInvInArray, 'sample');
-    this.ExportFile();
-    this.rptInvInArray = [];
+    await this.rptservice.getReportInventoryIn(itemID, itemunitID, supID, fromDT, toDT)
+      .toPromise().then((getreport) => {
+        this.rptInvInArray = getreport;
+      this.ExportFile();
+      })
+    //this.exportAsExcelFile(this.rptInvInArray, 'Report Inventory In');
+   
   }
 
   ExportFile() {
