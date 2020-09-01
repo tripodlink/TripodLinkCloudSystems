@@ -76,7 +76,6 @@ export class SupplierComponent{
         this.toastr.success("Data Saved", "Saved");
         this.getSupplier();
 
-
       },
         error => {
           errormessage = error.error;

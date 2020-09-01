@@ -20,13 +20,14 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "assets": ["src/assets"],
+            "assets": [
+              "src/assets"
+            ],
             "styles": [
               "src/styles.css",
               "node_modules/datatables.net-dt/css/jquery.dataTables.css"
             ],
             "scripts": [
-
               "node_modules/jquery/dist/jquery.js",
               "node_modules/datatables.net/js/jquery.dataTables.js",
               "src/assets/jquery-3.3.1.min.js",
@@ -36,20 +37,16 @@
               "src/assets/plugins/pace.min.js",
               "src/assets/plugins/jquery.dataTables.min.js",
               "src/assets/plugins/dataTables.bootstrap.min.js",
-
               "src/assets/plugins/moment.min.js",
               "src/assets/plugins/jquery-ui.custom.min.js",
               "src/assets/plugins/fullcalendar.min.js",
               "src/assets/plugins/bootstrap-datepicker.min.js",
-
               "src/assets/plugins/bootstrap-notify.min.js",
               "src/assets/plugins/chart.js",
               "src/assets/plugins/dropzone.js",
-
               "src/assets/plugins/jquery.vmap.min.js",
               "src/assets/plugins/jquery.vmap.sampledata.js",
               "src/assets/plugins/jquery.vmap.world.js",
-
               "src/assets/plugins/select2.min.js",
               "src/assets/plugins/sweetalert.min.js"
             ]
@@ -98,16 +95,25 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
-            "styles": ["src/styles.css"],
+            "styles": [
+              "src/styles.css"
+            ],
             "scripts": [],
-            "assets": ["src/assets"]
+            "assets": [
+              "src/assets"
+            ]
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
+            "tsConfig": [
+              "src/tsconfig.app.json",
+              "src/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "server": {
@@ -153,11 +159,16 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
     }
   },
-  "defaultProject": "Cloud_IMS_App"
+  "defaultProject": "Cloud_IMS_App",
+  "cli": {
+    "analytics": "3de26ecc-20a5-460f-a342-d644c5ebed81"
+  }
 }

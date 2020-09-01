@@ -8,7 +8,8 @@ import { InventorysServices } from '../services/inventorys.service';
 import { InventoryInComponent } from './inventory-in/inventory-in.component';
 import { InventoryOutComponent } from './inventory-out/inventory-out.component';
 import { InventoryInService } from '../services/InventoryIn.service';
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
+import { DefectedItemsComponent } from './defected-items/defected-items.component'
 
 
 
@@ -16,7 +17,8 @@ import { DatePipe } from '@angular/common'
   declarations: [
     InventoryManagementComponent,
     InventoryInComponent,
-    InventoryOutComponent
+    InventoryOutComponent,
+    DefectedItemsComponent,
   ],
   imports: [
     CommonModule,

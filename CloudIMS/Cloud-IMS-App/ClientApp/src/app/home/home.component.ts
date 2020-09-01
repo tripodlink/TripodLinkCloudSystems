@@ -45,6 +45,7 @@ export class HomeComponent {
       this.IItemListPendingToStockOut = itemlistpendingstockout;
     })
 
+
   }
   private getTrxNo_GotoInvOutScreen(trxno: string) {
     this.router.navigateByUrl("/inventory-management/inventory-out/"+trxno)
