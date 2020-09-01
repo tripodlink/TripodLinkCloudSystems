@@ -284,7 +284,8 @@ namespace CloudImsCommon.Migrations
                 columns: table => new
                 {
                     ug_id = table.Column<string>(maxLength: 20, nullable: false),
-                    ug_name = table.Column<string>(maxLength: 100, nullable: false)
+                    ug_name = table.Column<string>(maxLength: 100, nullable: false),
+                    ug_is_approver = table.Column<byte>(type: "TINYINT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -366,20 +367,20 @@ namespace CloudImsCommon.Migrations
                 columns: new[] { "pm_id", "pm_icon_name", "pm_icon_provider", "pm_icon_type", "pm_name", "pm_folder", "pm_route", "pm_seqno" },
                 values: new object[,]
                 {
-                    { "UM_USERACC", "fa fa-desktop", null, null, "User Account", "UM", "user-account", 10 },
-                    { "RPT_IVM_OUT", "fa fa-desktop", null, null, "(Report) Inventory Out", "RPT", "report-inventory-out", 20 },
-                    { "RPT_IVM_IN", "fa fa-desktop", null, null, "(Report) Inventory In", "RPT", "report-inventory-in", 10 },
+                    { "UM_USERACC", "fa fa-users", null, null, "User Account", "UM", "user-account", 10 },
+                    { "RPT_IVM_OUT", "fa fa-area-chart", null, null, "(Report) Inventory Out", "RPT", "report-inventory-out", 20 },
+                    { "RPT_IVM_IN", "fa fa-line-chart", null, null, "(Report) Inventory In", "RPT", "report-inventory-in", 10 },
                     { "DASH", "fa fa-tachometer", null, null, "Dashboard", "DASH", "dashboard", 10 },
-                    { "UM_USERPROF", "fa fa-desktop", null, null, "User Profile", "UM", "user-profile", 30 },
-                    { "DIC_DEP", "fa fa-desktop", null, null, "Department", "DIC", "department", 10 },
-                    { "UM_USERGRP", "fa fa-desktop", null, null, "User Group", "UM", "user-group", 20 },
-                    { "DIC_ITEM", "fa fa-desktop", null, null, "Item Master", "DIC", "item-master", 30 },
-                    { "DIC_MANU", "fa fa-desktop", null, null, "Manufacturer", "DIC", "manufacturer", 40 },
-                    { "DIC_ITEMGRP", "fa fa-desktop", null, null, "Item Group", "DIC", "item-group", 20 },
-                    { "DIC_SUP", "fa fa-desktop", null, null, "Supplier", "DIC", "supplier", 50 },
-                    { "DIC_UNIT", "fa fa-desktop", null, null, "Unit", "DIC", "unit-code", 60 },
-                    { "IVM_OUT", "fa fa-desktop", null, null, "Inventory Out", "IVM", "inventory-out", 20 },
-                    { "IVM_IN", "fa fa-desktop", null, null, "Inventory In", "IVM", "inventory-in", 10 }
+                    { "UM_USERPROF", "fa fa-user", null, null, "User Profile", "UM", "user-profile", 30 },
+                    { "DIC_DEP", "fa fa-home", null, null, "Department", "DIC", "department", 10 },
+                    { "UM_USERGRP", "fa fa-sitemap", null, null, "User Group", "UM", "user-group", 20 },
+                    { "DIC_ITEM", "fa fa-cube", null, null, "Item Master", "DIC", "item-master", 20 },
+                    { "DIC_MANU", "fa fa-industry", null, null, "Manufacturer", "DIC", "manufacturer", 40 },
+                    { "DIC_ITEMGRP", "fa fa-cubes", null, null, "Item Group", "DIC", "item-group", 30 },
+                    { "DIC_SUP", "fa fa-truck", null, null, "Supplier", "DIC", "supplier", 50 },
+                    { "DIC_UNIT", "fa fa-balance-scale", null, null, "Unit", "DIC", "unit-code", 60 },
+                    { "IVM_OUT", "fa fa-sign-out", null, null, "Inventory Out", "IVM", "inventory-out", 20 },
+                    { "IVM_IN", "fa fa-sign-in", null, null, "Inventory In", "IVM", "inventory-in", 10 }
                 });
 
             migrationBuilder.InsertData(
@@ -400,7 +401,7 @@ namespace CloudImsCommon.Migrations
             migrationBuilder.InsertData(
                 table: "user_account",
                 columns: new[] { "ua_user_id", "im_created_by", "im_created_on", "ua_is_active", "ua_password", "im_updated_by", "im_updated_on", "ua_user_name" },
-                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 7, 22, 18, 26, 0, 940, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 7, 22, 18, 26, 0, 941, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
+                values: new object[] { "SYSAD", "SYSTEM", new DateTime(2020, 8, 13, 23, 25, 32, 298, DateTimeKind.Local), (byte)1, ".00000", "SYSTEM", new DateTime(2020, 8, 13, 23, 25, 32, 299, DateTimeKind.Local), "SYSTEM ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "user_account_group",
@@ -409,8 +410,8 @@ namespace CloudImsCommon.Migrations
 
             migrationBuilder.InsertData(
                 table: "user_group",
-                columns: new[] { "ug_id", "ug_name" },
-                values: new object[] { "ADMIN", "SYSTEM ADMINISTRATORS" });
+                columns: new[] { "ug_id", "ug_is_approver", "ug_name" },
+                values: new object[] { "ADMIN", (byte)1, "SYSTEM ADMINISTRATORS" });
 
             migrationBuilder.InsertData(
                 table: "user_group_program",

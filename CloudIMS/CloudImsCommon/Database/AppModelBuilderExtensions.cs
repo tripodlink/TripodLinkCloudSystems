@@ -161,8 +161,8 @@ namespace CloudImsCommon.Database
 
             //create Sample Management menu 
             modelBuilder.Entity<ProgramMenu>().HasData(
-               new ProgramMenu { ID = "RPT_IVM_IN", Name = "(Report) Inventory In", ProgramFolderID = "RPT", IconName = "fa fa-desktop", RouteAttribute = "report-inventory-in", SequenceNo = 10 },
-               new ProgramMenu { ID = "RPT_IVM_OUT", Name = "(Report) Inventory Out", ProgramFolderID = "RPT", IconName = "fa fa-desktop", RouteAttribute = "report-inventory-out", SequenceNo = 20 }
+               new ProgramMenu { ID = "RPT_IVM_IN", Name = "(Report) Inventory In", ProgramFolderID = "RPT", IconName = "fa fa-line-chart", RouteAttribute = "report-inventory-in", SequenceNo = 10 },
+               new ProgramMenu { ID = "RPT_IVM_OUT", Name = "(Report) Inventory Out", ProgramFolderID = "RPT", IconName = "fa fa-area-chart", RouteAttribute = "report-inventory-out", SequenceNo = 20 }
                );
         }
 
@@ -188,8 +188,8 @@ namespace CloudImsCommon.Database
 
             //create Sample Management menu 
             modelBuilder.Entity<ProgramMenu>().HasData(
-               new ProgramMenu { ID = "IVM_IN", Name = "Inventory In", ProgramFolderID = "IVM", IconName = "fa fa-desktop", RouteAttribute = "inventory-in", SequenceNo = 10 },
-               new ProgramMenu { ID = "IVM_OUT", Name = "Inventory Out", ProgramFolderID = "IVM", IconName = "fa fa-desktop", RouteAttribute = "inventory-out", SequenceNo = 20 }
+               new ProgramMenu { ID = "IVM_IN", Name = "Inventory In", ProgramFolderID = "IVM", IconName = "fa fa-sign-in", RouteAttribute = "inventory-in", SequenceNo = 10 },
+               new ProgramMenu { ID = "IVM_OUT", Name = "Inventory Out", ProgramFolderID = "IVM", IconName = "fa fa-sign-out", RouteAttribute = "inventory-out", SequenceNo = 20 }
                );
         }
 
@@ -202,12 +202,12 @@ namespace CloudImsCommon.Database
 
             //create Sample Management menu 
             modelBuilder.Entity<ProgramMenu>().HasData(
-               new ProgramMenu { ID = "DIC_UNIT", Name = "Unit", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "unit-code", SequenceNo = 60 },
-               new ProgramMenu { ID = "DIC_SUP", Name = "Supplier", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "supplier", SequenceNo = 50 },
-               new ProgramMenu { ID = "DIC_MANU", Name = "Manufacturer", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "manufacturer", SequenceNo = 40 },
-               new ProgramMenu { ID = "DIC_ITEM", Name = "Item Master", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "item-master", SequenceNo = 30 },
-               new ProgramMenu { ID = "DIC_ITEMGRP", Name = "Item Group", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "item-group", SequenceNo = 20 },
-               new ProgramMenu { ID = "DIC_DEP", Name = "Department", ProgramFolderID = "DIC", IconName = "fa fa-desktop", RouteAttribute = "department", SequenceNo = 10 });
+               new ProgramMenu { ID = "DIC_UNIT", Name = "Unit", ProgramFolderID = "DIC", IconName = "fa fa-balance-scale", RouteAttribute = "unit-code", SequenceNo = 60 },
+               new ProgramMenu { ID = "DIC_SUP", Name = "Supplier", ProgramFolderID = "DIC", IconName = "fa fa-truck", RouteAttribute = "supplier", SequenceNo = 50 },
+               new ProgramMenu { ID = "DIC_MANU", Name = "Manufacturer", ProgramFolderID = "DIC", IconName = "fa fa-industry", RouteAttribute = "manufacturer", SequenceNo = 40 },
+               new ProgramMenu { ID = "DIC_ITEM", Name = "Item Master", ProgramFolderID = "DIC", IconName = "fa fa-cube", RouteAttribute = "item-master", SequenceNo = 20 },
+               new ProgramMenu { ID = "DIC_ITEMGRP", Name = "Item Group", ProgramFolderID = "DIC", IconName = "fa fa-cubes", RouteAttribute = "item-group", SequenceNo = 30 },
+               new ProgramMenu { ID = "DIC_DEP", Name = "Department", ProgramFolderID = "DIC", IconName = "fa fa-home", RouteAttribute = "department", SequenceNo = 10 });
         }
 
         private static void SeedUserManagementProgramMenus(ModelBuilder modelBuilder)
@@ -219,9 +219,9 @@ namespace CloudImsCommon.Database
 
             //create Sample Management menu 
             modelBuilder.Entity<ProgramMenu>().HasData(
-               new ProgramMenu { ID = "UM_USERACC", Name = "User Account", IconName= "fa fa-desktop", ProgramFolderID = "UM", RouteAttribute = "user-account", SequenceNo = 10 },
-               new ProgramMenu { ID = "UM_USERGRP", Name = "User Group", IconName = "fa fa-desktop", ProgramFolderID = "UM", RouteAttribute = "user-group", SequenceNo = 20 },
-               new ProgramMenu { ID = "UM_USERPROF", Name = "User Profile", IconName = "fa fa-desktop", ProgramFolderID = "UM", RouteAttribute = "user-profile", SequenceNo = 30 });
+               new ProgramMenu { ID = "UM_USERACC", Name = "User Account", IconName= "fa fa-users", ProgramFolderID = "UM", RouteAttribute = "user-account", SequenceNo = 10 },
+               new ProgramMenu { ID = "UM_USERGRP", Name = "User Group", IconName = "fa fa-sitemap", ProgramFolderID = "UM", RouteAttribute = "user-group", SequenceNo = 20 },
+               new ProgramMenu { ID = "UM_USERPROF", Name = "User Profile", IconName = "fa fa-user", ProgramFolderID = "UM", RouteAttribute = "user-profile", SequenceNo = 30 });
         }
 
         private static void CreateSystemAdminGroupWithUserPrograms(ModelBuilder modelBuilder)

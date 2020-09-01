@@ -13,7 +13,7 @@ import { IInventoryInTrxDetailClass } from '../../classes/inventory-management/I
 import { IiTemMasterUnitJoinUnit } from '../../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitJoinUnit.interface';
 import { IitemMasterUnitJoinUnitClass } from '../../classes/data-dictionary/ItemMasterUnit/IitemMasterJoinUnitClass';
 import { UserAuthorizationService } from '../../services/UserAuthorization.service';
-import * as XLSX from 'ts-xlsx';
+import * as XLSX from 'xlsx';
 
 
 

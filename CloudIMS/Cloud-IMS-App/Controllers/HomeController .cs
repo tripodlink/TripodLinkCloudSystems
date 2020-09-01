@@ -14,8 +14,7 @@ namespace Cloud_IMS_Api.Controllers
     [Route("api/[controller]")]
     public class HomeController : AppController
     {
-        
-
+       
         public HomeController(AppDbContext dbContext, ILogger<SupplierController> logger)
              : base(dbContext, logger)
         {
@@ -119,7 +118,7 @@ namespace Cloud_IMS_Api.Controllers
         [HttpGet]
         public IActionResult GetListOfItemPending_To_StockOut()
         {
-            var stockOut = from invOutHeader in dbContext.InventoryOutTrxHeaders
+            var stockOut = (from invOutHeader in dbContext.InventoryOutTrxHeaders
                            join invOutDetail in dbContext.InventoryOutTrxDetails on invOutHeader.TransactionNo equals invOutDetail.TransactionNo
                            join im in dbContext.ItemMasters on invOutDetail.ItemID equals im.ID
                            join uc in dbContext.UnitCodes on invOutDetail.Unit equals uc.Code
@@ -129,8 +128,33 @@ namespace Cloud_IMS_Api.Controllers
                                txrno = invOutHeader.TransactionNo,
                                trxdate = invOutHeader.TransactionDate,
                                itemname = im.ItemName,
-                           };
+                           })
+                           .GroupBy(l => new { l.txrno, l.trxdate })
+                           .Select(g => new { g.Key.txrno, itemname = string.Join(" | ", g.Select(i => i.itemname)), g.Key.trxdate, });
+
+
             return Ok(stockOut.ToList());
+        }
+
+        [Route("[action]")]
+        [HttpGet]
+        public IActionResult CountNotif()
+        {
+            var count_notif = (from invOutHeader in dbContext.InventoryOutTrxHeaders
+                            join invOutDetail in dbContext.InventoryOutTrxDetails on invOutHeader.TransactionNo equals invOutDetail.TransactionNo
+                            join im in dbContext.ItemMasters on invOutDetail.ItemID equals im.ID
+                            join uc in dbContext.UnitCodes on invOutDetail.Unit equals uc.Code
+                            where invOutHeader.Status == "P"
+                            select new
+                            {
+                                txrno = invOutHeader.TransactionNo,
+                                trxdate = invOutHeader.TransactionDate,
+                                itemname = im.ItemName,
+                            })
+                           .GroupBy(l => new { l.txrno, l.trxdate })
+                           .Select(g => new { g.Key.txrno, itemname = string.Join(" | ", g.Select(i => i.itemname)), g.Key.trxdate, });
+            var count = count_notif.Select(x => x.txrno).Count();
+            return Ok(count);
         }
 
     }

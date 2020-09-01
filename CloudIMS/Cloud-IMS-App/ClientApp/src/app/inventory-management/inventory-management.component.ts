@@ -27,4 +27,5 @@ export class InventoryManagementComponent implements OnInit {
         // error while retrieving user data
       })
   }
+  fjfd
 }

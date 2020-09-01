@@ -9,6 +9,8 @@ import { IItemListStockIn } from '../classes/home/IItemListStockIn.interface';
 import { IItemListStockOut } from '../classes/home/IItemListStockOut.interface';
 import { IItemListPendingToStockOut } from '../classes/home/IItemListPendingToStockOut.interface';
 
+import { ICountNotif } from '../classes/app-sidebar-menu/ICountNotif.interface';
+
 @Injectable()
 export class HomeService {
 
@@ -18,6 +20,7 @@ export class HomeService {
   url_GetListOfItemStockIn: string = 'api/home/GetListOfItemStockIn';
   url_GetListOfItemStockOut: string = 'api/home/GetListOfItemStockOut';
   url_GetListOfItemPending_To_StockOut: string = 'api/home/GetListOfItemPending_To_StockOut';
+  url_count_notif: string = 'api/home/CountNotif';
 
   
   constructor(private _http: HttpClient) {
@@ -39,5 +42,8 @@ export class HomeService {
   }
   getItemListPending_To_StockOut(): Observable<IItemListPendingToStockOut[]> {
     return this._http.get<IItemListPendingToStockOut[]>(this.url_GetListOfItemPending_To_StockOut);
+  }
+  getCountNotif(): Observable<ICountNotif[]> {
+    return this._http.get<ICountNotif[]>(this.url_count_notif);
   }
 }

@@ -41,11 +41,11 @@ export class UserGroupComponent {
       checked: false,
       programMenus: new FormArray([]),
     });
-
+    ///////////////////////////////////
     //(pfForm.controls.id as FormControl).setValue(pf.id);
     //(pfForm.controls.name as FormControl).setValue(pf.name);
     //(pfForm.controls.checked as FormControl).setValue(false);
-
+    //////////////////////////////////////
     pf.programMenus.forEach((pm) => {
       let pmArray = pfForm.controls.programMenus as FormArray;
       let pmForm: FormGroup = this.createProgramForm(pm, pfForm);

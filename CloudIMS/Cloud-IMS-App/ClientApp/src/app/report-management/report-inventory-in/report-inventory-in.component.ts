@@ -9,6 +9,7 @@ import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import { IReportInventoryInClass } from '../../classes/report-management/report-inventory-in/IReportInventoryInClass';
 
+
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
@@ -61,8 +62,6 @@ export class ReportInventoryInComponent implements OnInit {
     this.rptservice.getItemMasterData().subscribe((itemaster)=> this.itemasterArray =itemaster)
     this.rptservice.getUnitCodeData().subscribe((itemunit) => this.itemUnitCodeArray = itemunit)
     this.rptservice.getSupplierData().subscribe((supplier) => this.supplierArray = supplier)
-
-
   }
 
   async generateReportInvIn() {
@@ -74,21 +73,21 @@ export class ReportInventoryInComponent implements OnInit {
     let itemunitID = document.getElementById(this.rptInvInFormGroup.controls.itemUnit_dtl.value).innerText;
     let supID = document.getElementById(this.rptInvInFormGroup.controls.supplier_hdr.value).innerText;
 
-    
     await this.rptservice.getReportInventoryIn(itemID, itemunitID, supID, fromDT, toDT)
-      .toPromise().then((getreport) => {
+      .toPromise().then((getreport) => {       
         this.rptInvInArray = getreport;
-      this.ExportFile();
       })
-    //this.exportAsExcelFile(this.rptInvInArray, 'Report Inventory In');
-   
+
+
+    this.exportAsExcelFile(this.rptInvInArray, 'report_inventory_in');
+    //this.ExportFile();
   }
 
   ExportFile() {
     /* table id is passed over here */
     let element = document.getElementById('rptInvInTable');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
-   
+
     /* generate workbook and add the worksheet */
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
   
@@ -105,6 +104,7 @@ export class ReportInventoryInComponent implements OnInit {
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     this.saveAsExcelFile(excelBuffer, excelFileName);
   }
+
   public saveAsExcelFile(buffer: any, fileName: string): void {
     const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);

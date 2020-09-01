@@ -43,13 +43,11 @@ namespace Cloud_IMS_Api.Controllers
                                inv_in_trxhdr.TransactionDate >= DateTime.Parse(from_dt) 
                                && 
                                inv_in_trxhdr.TransactionDate <= DateTime.Parse(to_dt)
-                               
-                            
                                select new
                                {
-                                   itemID = inv_in_trxdtl.ItemID,
-                                   itemunitID = inv_in_trxdtl.Unit,
-                                   supplierID = inv_in_trxhdr.Supplier,
+                                   //itemID = inv_in_trxdtl.ItemID,
+                                   //itemunitID = inv_in_trxdtl.Unit,
+                                   //supplierID = inv_in_trxhdr.Supplier,
 
                                    trxno = inv_in_trxdtl.TransactionNo,
                                    trxdate = inv_in_trxhdr.TransactionDate,
@@ -60,7 +58,7 @@ namespace Cloud_IMS_Api.Controllers
                                    supplier = sup.Name
 
                                };
-                if (ItemID != "%")
+                /*if (ItemID != "%")
                 {
                     rptinvin = rptinvin.Where(imid => imid.itemID.Contains(ItemID));
                 }
@@ -81,7 +79,9 @@ namespace Cloud_IMS_Api.Controllers
                 {
 
                     throw new Exception($"User Not found with a user ID of ''.");
-                }
+                }*/
+
+                return Json(rptinvin.ToList()); ;
             }
             catch(Exception e)
             {

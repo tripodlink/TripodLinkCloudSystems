@@ -501,20 +501,20 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("program_menu");
 
                     b.HasData(
-                        new { ID = "IVM_IN", IconName = "fa fa-desktop", Name = "Inventory In", ProgramFolderID = "IVM", RouteAttribute = "inventory-in", SequenceNo = 10 },
-                        new { ID = "IVM_OUT", IconName = "fa fa-desktop", Name = "Inventory Out", ProgramFolderID = "IVM", RouteAttribute = "inventory-out", SequenceNo = 20 },
-                        new { ID = "DIC_UNIT", IconName = "fa fa-desktop", Name = "Unit", ProgramFolderID = "DIC", RouteAttribute = "unit-code", SequenceNo = 60 },
-                        new { ID = "DIC_SUP", IconName = "fa fa-desktop", Name = "Supplier", ProgramFolderID = "DIC", RouteAttribute = "supplier", SequenceNo = 50 },
-                        new { ID = "DIC_MANU", IconName = "fa fa-desktop", Name = "Manufacturer", ProgramFolderID = "DIC", RouteAttribute = "manufacturer", SequenceNo = 40 },
-                        new { ID = "DIC_ITEM", IconName = "fa fa-desktop", Name = "Item Master", ProgramFolderID = "DIC", RouteAttribute = "item-master", SequenceNo = 30 },
-                        new { ID = "DIC_ITEMGRP", IconName = "fa fa-desktop", Name = "Item Group", ProgramFolderID = "DIC", RouteAttribute = "item-group", SequenceNo = 20 },
-                        new { ID = "DIC_DEP", IconName = "fa fa-desktop", Name = "Department", ProgramFolderID = "DIC", RouteAttribute = "department", SequenceNo = 10 },
-                        new { ID = "UM_USERACC", IconName = "fa fa-desktop", Name = "User Account", ProgramFolderID = "UM", RouteAttribute = "user-account", SequenceNo = 10 },
-                        new { ID = "UM_USERGRP", IconName = "fa fa-desktop", Name = "User Group", ProgramFolderID = "UM", RouteAttribute = "user-group", SequenceNo = 20 },
-                        new { ID = "UM_USERPROF", IconName = "fa fa-desktop", Name = "User Profile", ProgramFolderID = "UM", RouteAttribute = "user-profile", SequenceNo = 30 },
+                        new { ID = "IVM_IN", IconName = "fa fa-sign-in", Name = "Inventory In", ProgramFolderID = "IVM", RouteAttribute = "inventory-in", SequenceNo = 10 },
+                        new { ID = "IVM_OUT", IconName = "fa fa-sign-out", Name = "Inventory Out", ProgramFolderID = "IVM", RouteAttribute = "inventory-out", SequenceNo = 20 },
+                        new { ID = "DIC_UNIT", IconName = "fa fa-balance-scale", Name = "Unit", ProgramFolderID = "DIC", RouteAttribute = "unit-code", SequenceNo = 60 },
+                        new { ID = "DIC_SUP", IconName = "fa fa-truck", Name = "Supplier", ProgramFolderID = "DIC", RouteAttribute = "supplier", SequenceNo = 50 },
+                        new { ID = "DIC_MANU", IconName = "fa fa-industry", Name = "Manufacturer", ProgramFolderID = "DIC", RouteAttribute = "manufacturer", SequenceNo = 40 },
+                        new { ID = "DIC_ITEM", IconName = "fa fa-cube", Name = "Item Master", ProgramFolderID = "DIC", RouteAttribute = "item-master", SequenceNo = 20 },
+                        new { ID = "DIC_ITEMGRP", IconName = "fa fa-cubes", Name = "Item Group", ProgramFolderID = "DIC", RouteAttribute = "item-group", SequenceNo = 30 },
+                        new { ID = "DIC_DEP", IconName = "fa fa-home", Name = "Department", ProgramFolderID = "DIC", RouteAttribute = "department", SequenceNo = 10 },
+                        new { ID = "UM_USERACC", IconName = "fa fa-users", Name = "User Account", ProgramFolderID = "UM", RouteAttribute = "user-account", SequenceNo = 10 },
+                        new { ID = "UM_USERGRP", IconName = "fa fa-sitemap", Name = "User Group", ProgramFolderID = "UM", RouteAttribute = "user-group", SequenceNo = 20 },
+                        new { ID = "UM_USERPROF", IconName = "fa fa-user", Name = "User Profile", ProgramFolderID = "UM", RouteAttribute = "user-profile", SequenceNo = 30 },
                         new { ID = "DASH", IconName = "fa fa-tachometer", Name = "Dashboard", ProgramFolderID = "DASH", RouteAttribute = "dashboard", SequenceNo = 10 },
-                        new { ID = "RPT_IVM_IN", IconName = "fa fa-desktop", Name = "(Report) Inventory In", ProgramFolderID = "RPT", RouteAttribute = "report-inventory-in", SequenceNo = 10 },
-                        new { ID = "RPT_IVM_OUT", IconName = "fa fa-desktop", Name = "(Report) Inventory Out", ProgramFolderID = "RPT", RouteAttribute = "report-inventory-out", SequenceNo = 20 }
+                        new { ID = "RPT_IVM_IN", IconName = "fa fa-line-chart", Name = "(Report) Inventory In", ProgramFolderID = "RPT", RouteAttribute = "report-inventory-in", SequenceNo = 10 },
+                        new { ID = "RPT_IVM_OUT", IconName = "fa fa-area-chart", Name = "(Report) Inventory Out", ProgramFolderID = "RPT", RouteAttribute = "report-inventory-out", SequenceNo = 20 }
                     );
                 });
 
@@ -612,7 +612,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 7, 22, 18, 26, 0, 940, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 7, 22, 18, 26, 0, 941, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 8, 13, 23, 25, 32, 298, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 8, 13, 23, 25, 32, 299, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 
@@ -642,6 +642,10 @@ namespace CloudImsCommon.Migrations
                         .HasColumnName("ug_id")
                         .HasMaxLength(20);
 
+                    b.Property<byte>("IsApprover")
+                        .HasColumnName("ug_is_approver")
+                        .HasColumnType("TINYINT");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("ug_name")
@@ -652,7 +656,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_group");
 
                     b.HasData(
-                        new { ID = "ADMIN", Name = "SYSTEM ADMINISTRATORS" }
+                        new { ID = "ADMIN", IsApprover = (byte)1, Name = "SYSTEM ADMINISTRATORS" }
                     );
                 });
 

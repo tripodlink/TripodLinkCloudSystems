@@ -18,6 +18,8 @@ import { InventorysServices } from '../../services/inventorys.service';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
+import { AppSidebarMenuComponent } from '../../app-sidebar-menu/app-sidebar-menu.component'
+
 
 @Component({
   selector: 'app-inventory-out',
@@ -27,6 +29,8 @@ import { ActivatedRoute } from '@angular/router';
 export class InventoryOutComponent implements OnInit {
 
   userIDLogin: string;
+
+  appSideBarMenu: AppSidebarMenuComponent;
 
   InventoryOutHeaderForm: FormGroup;
   InventoryOutDetailForm: FormGroup;
@@ -255,6 +259,9 @@ export class InventoryOutComponent implements OnInit {
             }
             else {
               this.updateTrxtoIssued();
+              this.resetPage();
+
+              //load the notification here madafaka
             }
         }
           }
@@ -271,7 +278,7 @@ export class InventoryOutComponent implements OnInit {
     this.trxNumFunction = data
 
       let trxNum = this.trxNumFunction.split('|');
-      let type = trxNum[0];
+      let type = trxNum[0].toString();
       let year = trxNum[1];
       let convertYear = this.datepipe.transform(new Date(), year.toLowerCase());
       let num = trxNum[2];
@@ -352,14 +359,17 @@ export class InventoryOutComponent implements OnInit {
         this.inventoryServices.insertOutDetail(this.inventDetailOutArray).subscribe(data => {
           if (this.status == "P") {
             this.toastr.info("Transaction Saved");
+            this.appSideBarMenu.ngOnInit();
           }
           else {
             this.checkIfRemainingCountisValid();
+            this.appSideBarMenu.ngOnInit();
           }
         },
           error => {
             this.errormessage = error.error;
             this.toastr.error(this.errormessage, "Error");
+            this.appSideBarMenu.ngOnInit();
           });
       })
 
