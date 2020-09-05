@@ -9,8 +9,6 @@ import { InventoryInComponent } from './inventory-in/inventory-in.component';
 import { InventoryOutComponent } from './inventory-out/inventory-out.component';
 import { InventoryInService } from '../services/InventoryIn.service';
 import { DatePipe } from '@angular/common';
-import { DefectedItemsComponent } from './defected-items/defected-items.component'
-
 
 
 @NgModule({
@@ -18,7 +16,7 @@ import { DefectedItemsComponent } from './defected-items/defected-items.componen
     InventoryManagementComponent,
     InventoryInComponent,
     InventoryOutComponent,
-    DefectedItemsComponent,
+    
   ],
   imports: [
     CommonModule,

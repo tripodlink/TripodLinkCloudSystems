@@ -82,8 +82,8 @@ export class InventorysServices {
 
   }
 
-  getRemainingCount(itemID: string, lotNum: string): Observable<IInventoryInTrxDetail[]> {
-    let params = new HttpParams().set('itemID', itemID).set('lotNum', lotNum);
+  getRemainingCount(trxNum: string,itemID: string, lotNum: string): Observable<IInventoryInTrxDetail[]> {
+    let params = new HttpParams().set("trxID", trxNum).set('itemID', itemID).set('lotNum', lotNum);
     return this._http.get<IInventoryInTrxDetail[]>(this.urldtl + "/findRemainingCount", { params: params });
   }
 

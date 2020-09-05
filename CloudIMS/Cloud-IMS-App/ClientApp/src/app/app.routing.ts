@@ -37,7 +37,7 @@ import { UserGroupComponent } from './user-management/user-group/user-group.comp
 import { AppSidebarMenuComponent } from './app-sidebar-menu/app-sidebar-menu.component';
 import { ReportInventoryInComponent } from './report-management/report-inventory-in/report-inventory-in.component';
 import { ReportInventoryOutComponent } from './report-management/report-inventory-out/report-inventory-out.component';
-import { DefectedItemsComponent } from './inventory-management/defected-items/defected-items.component';
+//import { DefectedItemsComponent } from './inventory-management/defected-items/defected-items.component';
 
 //##############################################################################################
 
@@ -63,7 +63,7 @@ const routes: Routes = [
   { path: 'inventory-management/inventory-in', component: InventoryInComponent, canActivate: [AuthGuard] },
   { path: 'inventory-management/inventory-out', component: InventoryOutComponent, canActivate: [AuthGuard] },
   { path: 'inventory-management/inventory-out/:trxno', component: InventoryOutComponent, canActivate: [AuthGuard] },
-  { path: 'inventory-management/defected-items', component: DefectedItemsComponent, canActivate: [AuthGuard] },
+  //{ path: 'inventory-management/defected-items', component: DefectedItemsComponent, canActivate: [AuthGuard] },
 
   //report management
   { path: 'report-management', component: ReportManagementComponent, canActivate: [AuthGuard] },

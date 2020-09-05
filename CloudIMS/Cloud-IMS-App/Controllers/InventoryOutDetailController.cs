@@ -100,11 +100,12 @@ namespace Cloud_IMS_Api.Controllers
             }
         }
         [Route("[action]")]
-        public IActionResult findRemainingCount(string itemID,string lotNum)
+        public IActionResult findRemainingCount(string trxID, string itemID,string lotNum)
         {
             try
             {
                 var remainingCount = dbContext.InventoryInTrxDetails
+                    .Where(data => data.TransactionNo == trxID)
                     .Where(data => data.ItemID == itemID)
                     .Where(data => data.LotNumber == lotNum);
                 if (remainingCount != null)
