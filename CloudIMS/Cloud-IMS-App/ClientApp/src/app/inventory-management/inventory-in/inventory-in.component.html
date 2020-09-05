@@ -49,7 +49,7 @@
                         </div>
                         <div class="form-group">
                           <label>Received By</label><label style="color:red;font-size:15px"><b>*</b></label>
-                          <input type="text" formControlName="rcvdBy_hdr" class="form-control"
+                          <input type="text" formControlName="rcvdBy_hdr" class="form-control" 
                                  [class.is-invalid]="addInventoryInFormGroup.controls['rcvdBy_hdr'].touched && addInventoryInFormGroup.controls['rcvdBy_hdr'].value.trim() == ''" required autofocus>
                         </div>
 
@@ -68,9 +68,8 @@
                         </div>
 
                         <div class="form-group">
-                          <label>Reference No.</label><label style="color:red;font-size:15px"><b>*</b></label>
-                          <input type="text" formControlName="refNo_hdr" class="form-control"
-                                 [class.is-invalid]="addInventoryInFormGroup.controls['refNo_hdr'].touched && addInventoryInFormGroup.controls['refNo_hdr'].value.trim() == ''" required autofocus>
+                          <label>Reference No.</label><label style="color:red;font-size:15px"></label>
+                          <input type="text" formControlName="refNo_hdr" class="form-control" autofocus>
                         </div>
                         <div class="form-group">
                           <label>Document No.</label>
@@ -78,7 +77,7 @@
                         </div>
                         <div class="form-group">
                           <label for="exampleTextarea">Remarks</label>
-                          <textarea type="text" formControlName="remarks_hdr" class="form-control" required autofocus rows="2"></textarea>
+                          <textarea type="text" formControlName="remarks_hdr" class="form-control" autofocus rows="2"></textarea>
                         </div>
                       </div>
 
@@ -122,26 +121,45 @@
                                    required autofocus>
                           </div>
                           <div class="form-group">
-                            <label>LOT No.</label><label style="color:red;font-size:15px"><b>*</b></label>
+                            <label>LOT No. / Serial No.</label><label style="color:red;font-size:15px"><b>*</b></label>
                             <input formControlName="lotno_dtl" type="text" class="form-control"
                                    [class.is-invalid]="addInventoryInFormGroup.controls['lotno_dtl'].touched && addInventoryInFormGroup.controls['lotno_dtl'].value == ''" required autofocus>
                           </div>
+
                           <div class="form-group">
                             <label>Expiration Date</label><label style="color:red;font-size:15px"><b>*</b></label>
-                            <input formControlName="expDate_dtl" type="datetime-local" class="form-control"
-                                   [class.is-invalid]="addInventoryInFormGroup.controls['expDate_dtl'].touched && addInventoryInFormGroup.controls['expDate_dtl'].value == ''" required autofocus>
-                          </div>
-                          <div class="form-group">
-                            <label>Count</label>
-                            <input formControlName="count_dtl" type="number" readonly class="form-control" />
-                          </div>
+                            <div class="row">
 
-                          <div class="form-group">
-                            <label>Remaining Count</label>
-                            <input formControlName="remainingcount_dtl" type="number" readonly class="form-control" />
-                          </div>
+                   
+                              <div class="row">
+                                <div class="col-md-1">
+                                </div>
 
-                        </div>
+                                <div class="col-md-9">
+                                  <input formControlName="expDate_dtl" type="datetime-local" class="form-control"
+                                         [class.is-invalid]="addInventoryInFormGroup.controls['expDate_dtl'].touched && addInventoryInFormGroup.controls['expDate_dtl'].value == ''" required autofocus>
+                                </div>
+
+                                <div class="col-md-2">
+
+                                  <input type="checkbox" id="NotApplicable" formControlName="NotApplicable" name="NotApplicable">
+                                  <label for="NotApplicable">N/A</label><br>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                           
+                            <div class="form-group">
+                              <label>Count</label>
+                              <input formControlName="count_dtl" type="number" readonly class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                              <label>Remaining Count</label>
+                              <input formControlName="remainingcount_dtl" type="number" readonly class="form-control" />
+                            </div>
+
+                          </div>
                       </div>
                     <div class="tile-footer">
                       <button type="button" (click)="resetScreen()" class="btn btn-warning"><i class="fa fa-eraser"></i>Clear Fields</button>&nbsp;
@@ -175,9 +193,28 @@
                             <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file" accept=".xlsx">
                             <button type="button" class="btn btn-info" (click)="Upload()">Upload</button>
                           </div>
-
-
-
+                        </div>
+                        <div class="tile-body">
+                          <div class="table-responsive">
+                            <table class="table table-hover table-bordered" id="table">
+                              <thead>
+                                <tr>
+                                  <th>ID</th>
+                                  <th>FirstName</th>
+                                  <th>LastName</th>
+                                  <th>MiddleName</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let exp of excelUpload">
+                                  <td>{{exp.SpecimenId}}</td>
+                                  <td>{{exp.LastName}}</td>
+                                  <td>{{exp.FirstName}}</td>
+                                  <td>{{exp.MiddleName}}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>

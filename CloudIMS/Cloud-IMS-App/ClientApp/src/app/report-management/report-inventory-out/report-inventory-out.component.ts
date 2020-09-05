@@ -25,7 +25,7 @@ export class ReportInventoryOutComponent implements OnInit {
 
   reportOutArray: IReportInventoryOut[];
   reportOutNewArray: Array<{
-    TransactionNumber: string, TransactionDate: string, IssuedBy: string, ReceivedBy: string,
+    TransactionNumber: string, TransactionDate: string, IssuedDate: string, IssuedBy: string, ReceivedBy: string,
     DepartmentName: string, ReferenceNumber: string, Remarks, ItemName: string, Description: string,
     LotNumber: string, Quantity: number, DetailRemarks: string }> = [];
 
@@ -96,7 +96,7 @@ export class ReportInventoryOutComponent implements OnInit {
     }
     this.transactionDateFrom = this.invInReports.controls.dateFrom.value;
     this.transactionDateTo = this.invInReports.controls.dateTo.value;
-
+    
     this.reportServices.getReport(HeaderTransactionNo, itemInnerHtml, unitcodeInnerHtml,
       departmentInnerHtml, this.transactionDateFrom, this.transactionDateTo,
       this.invInReports.controls.reportType.value).subscribe((data) => {
@@ -114,6 +114,7 @@ export class ReportInventoryOutComponent implements OnInit {
             this.reportOutNewArray.push({
               TransactionNumber: arr.headerTransactionNo,
               TransactionDate: this.datePipe.transform(arr.transactionDate, "yyyy-MM-dd hh:mm:ss"),
+              IssuedDate: this.datePipe.transform(arr.issuedDate, "yyyy-MM-dd hh:mm:ss"),
               IssuedBy: arr.issuedBy,
               ReceivedBy: arr.receivedBy,
               DepartmentName: arr.departmentName,

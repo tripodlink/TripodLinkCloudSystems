@@ -3,6 +3,7 @@ export interface IReportInventoryOut {
   //Header
   headerTransactionNo: string;
   transactionDate: Date
+  issuedDate: Date
   issuedBy: string
   receivedBy: string
   department: string;
