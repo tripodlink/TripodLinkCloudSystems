@@ -12,6 +12,8 @@ import { Http } from '@angular/http';
 import { IiTemMasterUnitJoinUnit } from '../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitJoinUnit.interface';
 import { IitemMasterUnitJoinUnitClass } from '../classes/data-dictionary/ItemMasterUnit/IitemMasterJoinUnitClass';
 import { IitemMasterUnitConversionFactor } from '../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitConversionFactor.interface';
+import { IItemListStockIn } from '../classes/home/IItemListStockIn.interface';
+import { IInventoryInTrxList, IInventoryInTrxDetail } from '../classes/inventory-management/InventoryIn/IInventoryInTrxDetail.interface';
 
 @Injectable()
 export class InventoryInService {
@@ -19,6 +21,11 @@ export class InventoryInService {
   url_supplier: string = 'api/supplier';
   url_unitcode: string = 'api/unitcode';
   url_itemmaster: string = 'api/itemmaster';
+  url_GetListOfTrxListInvIn: string = 'api/inventoryin/GetTrxListInventoryIn';
+  url_UpdateTrxListInvInHdr: string = 'api/inventoryin/Update_Trx_Header';
+  url_UpdateTrxListInvInDtl: string = 'api/inventoryin/Update_Trx_Detail';
+  url_DeleteTrxListInvInHdr: string = 'api/inventoryin/Delete_Trx_Header';
+  url_DeleteTrxListInvInDtl: string = 'api/inventoryin/Delete_Trx_Detail';
 
 
   constructor(private _http: HttpClient) {
@@ -52,6 +59,35 @@ export class InventoryInService {
 
   }
 
+  updateInventoryInTrxHeader(trxheader: IInventoryInTrxHeader) {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    });
+    return this._http.post<IInventoryInTrxHeader>(this.url_UpdateTrxListInvInHdr, JSON.stringify(trxheader), { headers: headers });
+
+  }
+
+  updateInventoryInTrxDetails(trxdetails: IInventoryInTrxDetail) {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    });
+    return this._http.post<IInventoryInTrxDetail>(this.url_UpdateTrxListInvInDtl, JSON.stringify(trxdetails), { headers: headers });
+
+  }
+
+
+  deleteInventoryInTrxDetails(trxno: string): Observable<string> {
+    let params = new HttpParams().set('trxno', trxno.toString());
+    return this._http.delete<string>(this.url_DeleteTrxListInvInDtl, { params: params });
+  }
+
+  deleteInventoryInTrxHeader(trxno: string): Observable<string> {
+    let params = new HttpParams().set('trxno', trxno.toString());
+    return this._http.delete<string>(this.url_DeleteTrxListInvInHdr, { params: params });
+  }
+
   getItemasterUnit(id: string): Observable<IitemMasterUnitJoinUnitClass[]> {
     let params = new HttpParams().set('id', id);
     return this._http.get<IitemMasterUnitJoinUnitClass[]>(this.url_invIn + "/GetUnitCodeFromItem", {params : params})
@@ -66,4 +102,8 @@ export class InventoryInService {
     return this._http.get<string>(this.url_invIn + "/getTrxNumFunction");
   }
 
+
+  getTrxListInvIn(): Observable<IInventoryInTrxList[]> {
+    return this._http.get<IInventoryInTrxList[]>(this.url_GetListOfTrxListInvIn);
+  }
 }
