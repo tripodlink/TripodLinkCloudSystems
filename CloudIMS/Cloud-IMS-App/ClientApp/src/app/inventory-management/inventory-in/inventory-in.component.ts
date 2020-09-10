@@ -4,17 +4,18 @@ import { IInventoryInTrxHeaderClass } from '../../classes/inventory-management/I
 import { FormGroup, FormBuilder} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { InventoryInService } from '../../services/InventoryIn.service';
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import { ISupplier } from '../../classes/data-dictionary/Supplier/ISupplier.interface';
 import { IiTemMaster } from '../../classes/data-dictionary/ItemMaster/IitemMaster.interface';
 import { IUnitCode } from '../../classes/data-dictionary/UnitCode/IUnitCode.interface';
-import { IInventoryInTrxDetail } from '../../classes/inventory-management/InventoryIn/IInventoryInTrxDetail.interface';
+import { IInventoryInTrxDetail, IInventoryInTrxList } from '../../classes/inventory-management/InventoryIn/IInventoryInTrxDetail.interface';
 import { IInventoryInTrxDetailClass } from '../../classes/inventory-management/InventoryIn/IInventoryInTrxDetailClass';
 import { IiTemMasterUnitJoinUnit } from '../../classes/data-dictionary/ItemMasterUnit/IitemMasterUnitJoinUnit.interface';
 import { IitemMasterUnitJoinUnitClass } from '../../classes/data-dictionary/ItemMasterUnit/IitemMasterJoinUnitClass';
 import { UserAuthorizationService } from '../../services/UserAuthorization.service';
 import * as XLSX from 'xlsx';
 import { CookieService } from 'ngx-cookie-service';
+import { truncate } from 'fs';
 
 
 @Component({
@@ -30,6 +31,7 @@ export class InventoryInComponent {
   user: string;
   iinv_in_trx_hdr: IInventoryInTrxHeader = new IInventoryInTrxHeaderClass();
   iinv_in_trx_dtl: IInventoryInTrxDetail = new IInventoryInTrxDetailClass();
+  iinv_in_trx_list: IInventoryInTrxList[];
   addInventoryInFormGroup: FormGroup;
   addInventoryInFormGroupByBatch: FormGroup;
   trxDate: Date;
@@ -42,6 +44,7 @@ export class InventoryInComponent {
   ItemMasterUnitArray: IiTemMasterUnitJoinUnit[];
   ItemMasterUnitArray_convfactor: IiTemMasterUnitJoinUnit[];
   ItemMasterUnitArray_convfactor_Arr: IitemMasterUnitJoinUnitClass[] = new Array();
+
   conversionFactor: number;
 
   isReadonly_UC: boolean;
@@ -53,6 +56,9 @@ export class InventoryInComponent {
  
   trxNumFunction: string;
   fileName = 'ExcelSheet.xlsx';
+
+  isForInvIn: boolean;
+  isExpirable: boolean;
   constructor(public inv_in_service: InventoryInService, public cookieService: CookieService,public toastr: ToastrService, public builder: FormBuilder, public auth: UserAuthorizationService,
     public datepipe: DatePipe) {
     this.CreateForm();
@@ -63,15 +69,198 @@ export class InventoryInComponent {
     this.enabledUnitCode();
     this.loadDataFromDictionary()
     this.ItemMasterUnitArray_convfactor;
+    this.loadTrxListInvIn();
     //this.getUser()
     this.getDateTimeNow()
     this.addInventoryInFormGroup.controls.trxNo_hdr.setValue("*********************************");
     this.addInventoryInFormGroupByBatch.controls.trxNo_hdr_by_batch.setValue("*********************************");
     this.userIDLogin = this.cookieService.get('userId');
-
-    console.log(this.userIDLogin)
+    this.addInventoryInFormGroup.controls.rcvdBy_hdr.setValue(this.userIDLogin);
+    this.isForInvIn = true;
+    this.isExpirable = true;
   }
 
+  checkExpire() {
+   
+
+    if (this.isExpirable == false) {
+      this.isExpirable = true;
+    } else {
+      this.isExpirable = false;
+    }
+  }
+  async loadTrxListInvIn() {
+
+    await this.inv_in_service.getTrxListInvIn().toPromise().then((invInTrxList) => {
+      this.iinv_in_trx_list = invInTrxList;
+    })
+  }
+  async getTrxInvIn(trxno: string) {
+    this.isForInvIn = false;
+    let item_id: string;
+    let item_unit_id: string;
+
+    await this.inv_in_service.getTrxListInvIn().toPromise().then((invInTrxList) => {
+      this.iinv_in_trx_list = invInTrxList;
+
+     
+      for (let invtl of this.iinv_in_trx_list) {
+        if (invtl.transactionNo == trxno) {
+          // hdr
+          this.addInventoryInFormGroup.controls.trxNo_hdr.setValue(invtl.transactionNo);
+          this.addInventoryInFormGroup.controls.trxDate_hdr.setValue(invtl.transactionDate);
+          this.addInventoryInFormGroup.controls.rcvdDate_hdr.setValue(invtl.receivedDate);
+          this.addInventoryInFormGroup.controls.rcvdBy_hdr.setValue(invtl.receivedBy);
+          this.addInventoryInFormGroup.controls.PONo_hdr.setValue(invtl.poNumber);
+          this.addInventoryInFormGroup.controls.invoiceNo_hdr.setValue(invtl.invoiceNo);
+          this.addInventoryInFormGroup.controls.refNo_hdr.setValue(invtl.referenceNo);
+          this.addInventoryInFormGroup.controls.docNo_hdr.setValue(invtl.documnetNo);
+          this.addInventoryInFormGroup.controls.supplier_hdr.setValue(invtl.supplierName);
+          this.addInventoryInFormGroup.controls.remarks_hdr.setValue(invtl.remarks);
+          // dtl
+          item_id = invtl.itemID;
+          item_unit_id = invtl.unit;
+          this.addInventoryInFormGroup.controls.itemMaster_dtl.setValue(invtl.itemName);
+          this.addInventoryInFormGroup.controls.itemUnit_dtl.setValue(invtl.unitName);
+          this.addInventoryInFormGroup.controls.quantity_dtl.setValue(invtl.quantity);
+          this.addInventoryInFormGroup.controls.lotno_dtl.setValue(invtl.lotNumber);
+
+          let dtstr = "0001-01-01" + "T" + "00:00:00"
+          let dtdefault = new Date(dtstr);
+          let dtfromdbase = new Date(invtl.expirationDate);
+
+          let DayMonthYear1 = dtdefault.toISOString().slice(0, 10)
+          let TimeNow1 = dtdefault.toTimeString().slice(0, 5)
+          let CompleteDate1 = DayMonthYear1 + "T" + TimeNow1
+
+          let DayMonthYear2 = dtfromdbase.toISOString().slice(0, 10)
+          let TimeNow2 = dtfromdbase.toTimeString().slice(0, 5)
+          let CompleteDate2 = DayMonthYear2+ "T" + TimeNow2
+
+
+
+          if (CompleteDate1 == CompleteDate2) {
+            this.isExpirable = false
+            this.addInventoryInFormGroup.controls.checkbox_expdate.setValue(true)
+          } else {
+            this.isExpirable = true
+            this.addInventoryInFormGroup.controls.checkbox_expdate.setValue(false)
+          }
+          this.addInventoryInFormGroup.controls.expDate_dtl.setValue(invtl.expirationDate);
+          this.addInventoryInFormGroup.controls.count_dtl.setValue(invtl.count);
+          this.addInventoryInFormGroup.controls.remainingcount_dtl.setValue(invtl.remainigCount);
+
+          this.enabledLookUpButtonItemUnit();
+          this.enabledUnitCode();
+          this.enabledQuantity();
+
+          
+          this.itemMasterSelectLookUp(item_id);
+          this.itemMasterUnitSelectLookup(item_unit_id)
+
+        }
+      }
+    })
+
+    
+
+  }
+
+  async updateInventoryInTrx() {
+    // hdr
+    this.iinv_in_trx_hdr.transactionNo = this.addInventoryInFormGroup.controls.trxNo_hdr.value
+    this.iinv_in_trx_hdr.transactionDate = this.addInventoryInFormGroup.controls.trxDate_hdr.value
+    this.iinv_in_trx_hdr.receivedDate = this.addInventoryInFormGroup.controls.rcvdDate_hdr.value
+    this.iinv_in_trx_hdr.receivedBy = this.addInventoryInFormGroup.controls.rcvdBy_hdr.value
+    this.iinv_in_trx_hdr.poNumber = this.addInventoryInFormGroup.controls.PONo_hdr.value
+    this.iinv_in_trx_hdr.invoiceNo = this.addInventoryInFormGroup.controls.invoiceNo_hdr.value
+    this.iinv_in_trx_hdr.referenceNo = this.addInventoryInFormGroup.controls.refNo_hdr.value
+    this.iinv_in_trx_hdr.documnetNo = this.addInventoryInFormGroup.controls.docNo_hdr.value
+
+    let sup
+    try {
+      sup = document.getElementById(this.addInventoryInFormGroup.controls.supplier_hdr.value).innerText;
+    } catch{ }
+
+
+    this.iinv_in_trx_hdr.supplier = sup
+    this.iinv_in_trx_hdr.remarks = this.addInventoryInFormGroup.controls.remarks_hdr.value
+
+    // dtl
+    this.iinv_in_trx_dtl.transactionNo = this.addInventoryInFormGroup.controls.trxNo_hdr.value
+
+    let imid
+    try {
+      imid = document.getElementById(this.addInventoryInFormGroup.controls.itemMaster_dtl.value).innerText;
+    } catch{ }
+    this.iinv_in_trx_dtl.itemID = imid
+
+    let unitid
+    try {
+      unitid = document.getElementById(this.addInventoryInFormGroup.controls.itemUnit_dtl.value).innerText;
+    } catch{ }
+    this.iinv_in_trx_dtl.unit = unitid
+
+    this.iinv_in_trx_dtl.quantity = this.addInventoryInFormGroup.controls.quantity_dtl.value
+    this.iinv_in_trx_dtl.lotNumber = this.addInventoryInFormGroup.controls.lotno_dtl.value
+
+    if (this.isExpirable == false) {
+      let CompleteDate = "0001-01-01" + "T" + "00:00:00"
+
+      this.addInventoryInFormGroup.controls.expDate_dtl.setValue(CompleteDate)
+      this.iinv_in_trx_dtl.expirationDate = this.addInventoryInFormGroup.controls.expDate_dtl.value
+    } else {
+      this.iinv_in_trx_dtl.expirationDate = this.addInventoryInFormGroup.controls.expDate_dtl.value
+    }
+   
+    this.iinv_in_trx_dtl.count = this.addInventoryInFormGroup.controls.count_dtl.value
+    this.iinv_in_trx_dtl.remainigCount = this.addInventoryInFormGroup.controls.remainingcount_dtl.value
+
+
+    let errormessage = "Error";
+    this.inv_in_service.updateInventoryInTrxHeader(this.iinv_in_trx_hdr).subscribe(data => {
+    },
+
+      error => {
+        errormessage = error.error;
+        this.toastr.error(errormessage, "Error");
+      });
+
+
+    this.inv_in_service.updateInventoryInTrxDetails(this.iinv_in_trx_dtl).subscribe(data => {
+    },
+
+      error => {
+        errormessage = error.error;
+        this.toastr.error(errormessage, "Error");
+      });
+
+    this.toastr.info("Data Successfully Updated", "Edited");
+  }
+
+  deleteInventoryInTrx() {
+    let trxno = this.addInventoryInFormGroup.controls.trxNo_hdr.value;
+    if (confirm("Are you sure do you want to delete this Transaction" + " " + trxno)) {
+      let errormessage = "Error";
+      this.inv_in_service.deleteInventoryInTrxHeader(trxno).subscribe(data => {
+      },
+        error => {
+          errormessage = error.error;
+          this.toastr.error(errormessage, "Error");
+        });
+      this.inv_in_service.deleteInventoryInTrxDetails(trxno).subscribe(data => {
+      },
+        error => {
+          errormessage = error.error;
+          this.toastr.error(errormessage, "Error");
+        });
+
+      this.toastr.info("Transaction No." + " " + trxno + " " + "Successfully Deleted", "Deleted");
+      document.getElementById(trxno).remove();
+
+      this.resetScreen();
+    }
+  }
   async CreateAutoGeneratedID() {
     await this.inv_in_service.getTrxNumFunction().toPromise().then((result) => {
       this.trxNumFunction = result;
@@ -130,7 +319,8 @@ export class InventoryInComponent {
       count_dtl: [''],
       remainingcount_dtl: [''],
 
-     cnvfactor: ['']
+     cnvfactor: [''],
+     checkbox_expdate: ['']
     })
     this.addInventoryInFormGroupByBatch = this.builder.group({
       trxNo_hdr_by_batch: [''],
@@ -141,7 +331,8 @@ export class InventoryInComponent {
    async insertInventoryInTrx() {
      let errormessage = "Error";
 
-      console.log("testing")
+     console.log("testing")
+      let trxdt = this.addInventoryInFormGroup.controls.trxDate_hdr.value
       let rcvddate = this.addInventoryInFormGroup.controls.rcvdDate_hdr.value;
       let rcvdby = this.addInventoryInFormGroup.controls.rcvdBy_hdr.value
       let ponumber = this.addInventoryInFormGroup.controls.PONo_hdr.value;
@@ -161,16 +352,21 @@ export class InventoryInComponent {
       let qty = this.addInventoryInFormGroup.controls.quantity_dtl.value;
      let lotno = this.addInventoryInFormGroup.controls.lotno_dtl.value;
 
-     let expdate = this.addInventoryInFormGroup.controls.expDate_dtl.value;
-     if (this.addInventoryInFormGroup.controls.NotApplicable.value) {
-      expdate = null
-     }
+     let expdate 
+     if (this.addInventoryInFormGroup.controls.checkbox_expdate.value == true) {
+       let CompleteDate = "0001-01-01" + "T" + "00:00:00"
+       this.addInventoryInFormGroup.controls.expDate_dtl.setValue(CompleteDate);
+        expdate = this.addInventoryInFormGroup.controls.expDate_dtl.value
 
+     } else {
+       expdate = this.addInventoryInFormGroup.controls.expDate_dtl.value
+     }
       
       let count = this.addInventoryInFormGroup.controls.count_dtl.value;
       let remainingcount = this.addInventoryInFormGroup.controls.remainingcount_dtl.value;
 
      
+      this.iinv_in_trx_hdr.transactionDate = trxdt
       this.iinv_in_trx_hdr.receivedDate = rcvddate
       this.iinv_in_trx_hdr.receivedBy = rcvdby
       this.iinv_in_trx_hdr.poNumber = ponumber
@@ -294,6 +490,8 @@ export class InventoryInComponent {
     this.itemmasteunitSelectList = null;
     this.itemasterSelectList = null;
     this.supplierSelectList = null;
+    this.isForInvIn = true;
+    this.addInventoryInFormGroup.controls.rcvdBy_hdr.setValue(this.userIDLogin);
   }
   public enabledUnitCode() {
     if (this.addInventoryInFormGroup.controls.itemMaster_dtl.value == '') {
@@ -342,6 +540,7 @@ export class InventoryInComponent {
 
   itemMasterSelectLookUp(value: string) {
     try {
+     
 
       this.inv_in_service.getItemMasterData().subscribe((itemmaster) => {
       this.itemasterSelectList = itemmaster;
@@ -350,13 +549,21 @@ export class InventoryInComponent {
           let imID = im.id
 
           if (value == imID) {
-            this.addInventoryInFormGroup.controls.itemMaster_dtl.setValue(im.itemName)
 
+            //this.isReadonly_QTY = true;
+            //this.addInventoryInFormGroup.controls.itemUnit_dtl.setValue('')
+            //this.addInventoryInFormGroup.controls.quantity_dtl.setValue('')
+            //this.addInventoryInFormGroup.controls.count_dtl.setValue(0)
+            //this.addInventoryInFormGroup.controls.remainingcount_dtl.setValue(0)
+            //this.enabledUnitCode()
+
+            this.addInventoryInFormGroup.controls.itemMaster_dtl.setValue(im.itemName)
             this.itemmasterId_doc = document.getElementById(this.addInventoryInFormGroup.controls.itemMaster_dtl.value).innerText;
             value = this.itemmasterId_doc;
 
             this.inv_in_service.getItemasterUnit(value).subscribe((itemmaster) => this.ItemMasterUnitArray = itemmaster);
             this.enabledUnitCode()
+            
           }
           else {
 
@@ -370,7 +577,7 @@ export class InventoryInComponent {
   itemMasterUnitSelectLookup(itemMasterUnitId: string) {
 
     try {
-
+      
 
       let itemMasterId = document.getElementById(this.addInventoryInFormGroup.controls.itemMaster_dtl.value).innerText
       this.inv_in_service.getItemasterUnit(itemMasterId).subscribe((itemmaster) => {
@@ -378,11 +585,12 @@ export class InventoryInComponent {
 
         for (let imu of this.itemmasteunitSelectList) {
           if (itemMasterUnitId == imu.unitCode) {
+
+
             this.addInventoryInFormGroup.controls.itemUnit_dtl.setValue(imu.unitDescription)
 
-            this.itemmasterUnit_doc = document.getElementById(this.addInventoryInFormGroup.controls.itemUnit_dtl.value).innerText;
-
-            itemMasterUnitId = this.itemmasterUnit_doc;
+            //this.itemmasterUnit_doc = document.getElementById(this.addInventoryInFormGroup.controls.itemUnit_dtl.value).innerText;
+            //itemMasterUnitId = this.itemmasterUnit_doc;
 
             this.inv_in_service.getItemasterUnitConversionFactor(itemMasterId, itemMasterUnitId).subscribe((itemmasterunit) => {
               this.ItemMasterUnitArray_convfactor = itemmasterunit;

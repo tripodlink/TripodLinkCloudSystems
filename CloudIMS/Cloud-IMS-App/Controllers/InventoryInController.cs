@@ -51,16 +51,13 @@ namespace Cloud_IMS_Api.Controllers
           
                 try
                 {
-                var dtnow = DateTime.Now;
-
-                var dtdate = dtnow.ToString("yyyy-MM-dd");
 
 
                 InventoryInTrxHeader invtoadd = new InventoryInTrxHeader()
                     {
 
                         TransactionNo = InvInTrxHeader.TransactionNo,
-                        TransactionDate = DateTime.Parse(dtdate),
+                        TransactionDate = InvInTrxHeader.TransactionDate,
                         ReceivedDate = InvInTrxHeader.ReceivedDate,
                         ReceivedBy = InvInTrxHeader.ReceivedBy,
                         PONumber = InvInTrxHeader.PONumber,
@@ -121,6 +118,140 @@ namespace Cloud_IMS_Api.Controllers
             }
         }
         [Route("[action]")]
+        [HttpPost]
+        public IActionResult Update_Trx_Header([FromBody] InventoryInTrxHeader InvInTrxHeader)
+        {
+
+            try
+            {
+
+
+                InventoryInTrxHeader invtrxlist = new InventoryInTrxHeader()
+                {
+
+                    TransactionNo = InvInTrxHeader.TransactionNo,
+                    TransactionDate = InvInTrxHeader.TransactionDate,
+                    ReceivedDate = InvInTrxHeader.ReceivedDate,
+                    ReceivedBy = InvInTrxHeader.ReceivedBy,
+                    PONumber = InvInTrxHeader.PONumber,
+                    InvoiceNo = InvInTrxHeader.InvoiceNo,
+                    ReferenceNo = InvInTrxHeader.ReferenceNo,
+                    DocumnetNo = InvInTrxHeader.DocumnetNo,
+                    Supplier = InvInTrxHeader.Supplier,
+                    Remarks = InvInTrxHeader.Remarks,
+
+
+                };
+                if(invtrxlist != null)
+                {
+                    dbContext.InventoryInTrxHeaders.Update(invtrxlist);
+                    dbContext.SaveChanges();
+                    return Json(InvInTrxHeader);
+                }
+                else
+                {
+                    throw new Exception($"Transaction Not found with transaction no. of '{invtrxlist.TransactionNo}'.");
+                }
+             
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
+
+
+        [Route("[action]")]
+        [HttpPost]
+        public IActionResult Update_Trx_Detail([FromBody] InventoryInTrxDetail InvInTrxDetail)
+        {
+
+            try
+            {
+                InventoryInTrxDetail invtrxlist = new InventoryInTrxDetail()
+                {
+
+                    TransactionNo = InvInTrxDetail.TransactionNo,
+                    ItemID = InvInTrxDetail.ItemID,
+                    Unit = InvInTrxDetail.Unit,
+                    Quantity = InvInTrxDetail.Quantity,
+                    LotNumber = InvInTrxDetail.LotNumber,
+                    ExpirationDate = InvInTrxDetail.ExpirationDate,
+                    Count = InvInTrxDetail.Count,
+                    RemainigCount = InvInTrxDetail.RemainigCount,
+                };
+
+                if (invtrxlist != null)
+                {
+                    dbContext.InventoryInTrxDetails.Update(invtrxlist);
+                    dbContext.SaveChanges();
+                    return Json(InvInTrxDetail);
+                }
+                else
+                {
+                    throw new Exception($"Transaction Not found with transaction no. of '{invtrxlist.TransactionNo}'.");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
+        [Route("[action]")]
+        [HttpDelete]
+        public IActionResult Delete_Trx_Header(string trxno)
+        {
+            try
+            {
+                InventoryInTrxHeader invtrxhdr = dbContext.InventoryInTrxHeaders.Find(trxno);
+                if (invtrxhdr != null)
+                {
+
+                    dbContext.InventoryInTrxHeaders.Remove(invtrxhdr);
+                    dbContext.SaveChanges();
+
+                    return Json(trxno);
+                }
+                else
+                {
+                    throw new Exception($"Transaction Not found with a user transaction number of '{trxno}'.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
+
+        [Route("[action]")]
+        [HttpDelete]
+        public IActionResult Delete_Trx_Detail(string trxno)
+        {
+            try
+            {
+                InventoryInTrxDetail invtrxdtl = dbContext.InventoryInTrxDetails.Find(trxno);
+                if (invtrxdtl != null)
+                {
+
+                    dbContext.InventoryInTrxDetails.Remove(invtrxdtl);
+                    dbContext.SaveChanges();
+
+                    return Json(trxno);
+                }
+                else
+                {
+                    throw new Exception($"Transaction Not found with a user transaction number of '{trxno}'.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
+
+        [Route("[action]")]
         public IActionResult GetUnitCodeFromItem(string id)
         {
             try
@@ -163,10 +294,8 @@ namespace Cloud_IMS_Api.Controllers
             try
             {
                 var itemMasterUnitJoinUnitCode = from ItemMasterUnit in dbContext.itemMasterUnits
-                                                 join Itemmaster in dbContext.ItemMasters on ItemMasterUnit.ID 
-                                                 equals Itemmaster.ID
-                                                 join UnitCode in dbContext.UnitCodes on ItemMasterUnit.itemMasterUnitUnit
-                                                 equals UnitCode.Code
+                                                 join Itemmaster in dbContext.ItemMasters on ItemMasterUnit.ID equals Itemmaster.ID
+                                                 join UnitCode in dbContext.UnitCodes on ItemMasterUnit.itemMasterUnitUnit equals UnitCode.Code
                                                  where Itemmaster.ID == id
                                                  where ItemMasterUnit.itemMasterUnitUnit == idunit
                                                  select new
@@ -185,7 +314,7 @@ namespace Cloud_IMS_Api.Controllers
                 else
                 {
 
-                    throw new Exception($"User Not found with a user ID of '{id}'.");
+                    throw new Exception($"ItemID Not found with a ItemID of '{id}'.");
                 }
             }
             catch(Exception e)
@@ -217,6 +346,53 @@ namespace Cloud_IMS_Api.Controllers
             }
 
         }
-}
+
+        [Route("[action]")]
+        [HttpGet]
+        public IActionResult GetTrxListInventoryIn()
+        {
+            try
+            {
+                var trxListInvIn = from InvInTrxDtl in dbContext.InventoryInTrxDetails
+                                                 join InvInTrxHdr in dbContext.InventoryInTrxHeaders on InvInTrxDtl.TransactionNo equals InvInTrxHdr.TransactionNo
+                                                 join im in dbContext.ItemMasters on InvInTrxDtl.ItemID equals im.ID
+                                                 join uc in dbContext.UnitCodes on InvInTrxDtl.Unit equals uc.Code
+                                                 join sup in dbContext.Suppliers on InvInTrxHdr.Supplier equals sup.ID
+
+                                   select new
+                                                 {
+                                                    transactionNo = InvInTrxDtl.TransactionNo,
+                                                    itemID = InvInTrxDtl.ItemID,
+                                                    itemName = im.ItemName,
+                                                    unit = InvInTrxDtl.Unit,
+                                                    unitName = uc.Description,
+                                                    quantity = InvInTrxDtl.Quantity,
+                                                    lotNumber = InvInTrxDtl.LotNumber,
+                                                    expirationDate = InvInTrxDtl.ExpirationDate,
+                                                    count = InvInTrxDtl.Count,
+                                                    remainigCount = InvInTrxDtl.RemainigCount,
+                                                    transactionDate = InvInTrxHdr.TransactionDate,
+                                                    receivedDate = InvInTrxHdr.ReceivedDate,
+                                                    receivedBy = InvInTrxHdr.ReceivedBy,
+                                                    poNumber = InvInTrxHdr.PONumber,
+                                                    invoiceNo = InvInTrxHdr.InvoiceNo,
+                                                    referenceNo = InvInTrxHdr.ReferenceNo,
+                                                    documnetNo = InvInTrxHdr.DocumnetNo, 
+                                                    supplierId = InvInTrxHdr.Supplier,
+                                                    supplierName = sup.Name,
+                                                    remarks = InvInTrxHdr.Remarks
+                                                 };
+
+
+                 return Json(trxListInvIn.ToList());
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(GetErrorMessage(e));
+            }
+
+        }
+    }
 }
 
