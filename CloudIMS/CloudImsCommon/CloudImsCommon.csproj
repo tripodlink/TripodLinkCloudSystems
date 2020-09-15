@@ -44,6 +44,20 @@
     <Compile Remove="Migrations\20200506090752_InitialMigration.Designer.cs" />
     <Compile Remove="Migrations\20200511021258_InitialMigration.cs" />
     <Compile Remove="Migrations\20200511021258_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200906154156_AddDefectedItems.cs" />
+    <Compile Remove="Migrations\20200906154156_AddDefectedItems.Designer.cs" />
+    <Compile Remove="Migrations\20200909065115_updateDefectedItemsModel.cs" />
+    <Compile Remove="Migrations\20200909065115_updateDefectedItemsModel.Designer.cs" />
+    <Compile Remove="Migrations\20200909075809_DefectedItemsMigration.cs" />
+    <Compile Remove="Migrations\20200909075809_DefectedItemsMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200909080037_DefectedItemsMigration.cs" />
+    <Compile Remove="Migrations\20200909080037_DefectedItemsMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200911023924_UpdateDefectedItemsModel.cs" />
+    <Compile Remove="Migrations\20200911023924_UpdateDefectedItemsModel.Designer.cs" />
+    <Compile Remove="Migrations\20200911033657_NewUpdateDefectedItemsModel.cs" />
+    <Compile Remove="Migrations\20200911033657_NewUpdateDefectedItemsModel.Designer.cs" />
+    <Compile Remove="Migrations\20200911033904_UpdateDefectedItemsModel.cs" />
+    <Compile Remove="Migrations\20200911033904_UpdateDefectedItemsModel.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

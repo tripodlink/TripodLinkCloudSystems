@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CloudImsCommon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200813152532_InitialMigration")]
+    [Migration("20200906082509_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -505,6 +505,7 @@ namespace CloudImsCommon.Migrations
                     b.HasData(
                         new { ID = "IVM_IN", IconName = "fa fa-sign-in", Name = "Inventory In", ProgramFolderID = "IVM", RouteAttribute = "inventory-in", SequenceNo = 10 },
                         new { ID = "IVM_OUT", IconName = "fa fa-sign-out", Name = "Inventory Out", ProgramFolderID = "IVM", RouteAttribute = "inventory-out", SequenceNo = 20 },
+                        new { ID = "IVM_DEFECT", IconName = "fa fa-times", Name = "Defected Items", ProgramFolderID = "IVM", RouteAttribute = "defected-items", SequenceNo = 30 },
                         new { ID = "DIC_UNIT", IconName = "fa fa-balance-scale", Name = "Unit", ProgramFolderID = "DIC", RouteAttribute = "unit-code", SequenceNo = 60 },
                         new { ID = "DIC_SUP", IconName = "fa fa-truck", Name = "Supplier", ProgramFolderID = "DIC", RouteAttribute = "supplier", SequenceNo = 50 },
                         new { ID = "DIC_MANU", IconName = "fa fa-industry", Name = "Manufacturer", ProgramFolderID = "DIC", RouteAttribute = "manufacturer", SequenceNo = 40 },
@@ -614,7 +615,7 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 8, 13, 23, 25, 32, 298, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 8, 13, 23, 25, 32, 299, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
+                        new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 9, 6, 16, 25, 9, 384, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 9, 6, 16, 25, 9, 385, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });
 
