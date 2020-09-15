@@ -11,7 +11,10 @@ import { InventoryInService } from '../services/InventoryIn.service';
 import { DatePipe } from '@angular/common';
 import { ItemTrackingComponent } from './item-tracking/item-tracking.component';
 import { ItemTrackingServices } from '../../app/services/itemTracking.service';
-
+import { DataTablesModule } from 'angular-datatables';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
 
 
 @NgModule({
@@ -26,8 +29,8 @@ import { ItemTrackingServices } from '../../app/services/itemTracking.service';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
-
+    ReactiveFormsModule, DataTablesModule,
+    HttpClientModule, BrowserModule, HttpModule ,
     RouterModule.forRoot([])
   ],
 

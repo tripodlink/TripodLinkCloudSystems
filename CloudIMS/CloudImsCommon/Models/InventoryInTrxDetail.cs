@@ -37,7 +37,7 @@ namespace CloudImsCommon.Models
         [MaxLength(100, ErrorMessage = "LotNumber cannot exceed 100 characters.")]
         public String LotNumber { get; set; }
 
-        [Required]
+        
         [Column("exp_date")]
         public DateTime ExpirationDate { get; set; }
 

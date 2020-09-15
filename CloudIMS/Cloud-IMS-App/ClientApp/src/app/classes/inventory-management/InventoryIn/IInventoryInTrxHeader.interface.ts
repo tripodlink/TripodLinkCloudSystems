@@ -11,3 +11,8 @@ export interface IInventoryInTrxHeader {
   supplier: string;
   remarks: string;
 }
+
+export interface IListOfUserAccount {
+  userID: string;
+  userName: string;
+}

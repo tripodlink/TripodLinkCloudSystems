@@ -190,7 +190,8 @@ namespace CloudImsCommon.Database
             //create Sample Management menu 
             modelBuilder.Entity<ProgramMenu>().HasData(
                new ProgramMenu { ID = "IVM_IN", Name = "Inventory In", ProgramFolderID = "IVM", IconName = "fa fa-sign-in", RouteAttribute = "inventory-in", SequenceNo = 10 },
-               new ProgramMenu { ID = "IVM_OUT", Name = "Inventory Out", ProgramFolderID = "IVM", IconName = "fa fa-sign-out", RouteAttribute = "inventory-out", SequenceNo = 20 }
+               new ProgramMenu { ID = "IVM_OUT", Name = "Inventory Out", ProgramFolderID = "IVM", IconName = "fa fa-sign-out", RouteAttribute = "inventory-out", SequenceNo = 20 },
+               new ProgramMenu { ID = "IVM_DEFECT", Name = "Defected Items", ProgramFolderID = "IVM", IconName = "fa fa-times", RouteAttribute = "defected-items", SequenceNo = 30 }
                );
         }
 
