@@ -11,7 +11,7 @@ import { IiTemMasterUnitJoinUnit } from '../classes/data-dictionary/ItemMasterUn
 import { IitemMasterJoinInvIN } from '../classes/data-dictionary/ItemMasterUnit/IitemMasterJoinInvIN.interface';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { IInventoryInTrxHeader } from '../classes/inventory-management/InventoryIn/IInventoryInTrxHeader.interface';
-
+import { itemLotNo, ItemTracking } from '../classes/inventory-management/itemTracking/itemTracking.interface';
 @Injectable()
 export class InventorysServices {
 
@@ -25,6 +25,7 @@ export class InventorysServices {
 
   urlItmu: string = 'api/itemmasterunit';
 
+  urlTracking: string = 'api/itemtracking';
   constructor(private _http: HttpClient) {
   }
 
@@ -103,6 +104,11 @@ export class InventorysServices {
   getIssuedTrx(): Observable<IinventoryOutIssuedTrx[]> {
     return this._http.get<IinventoryOutIssuedTrx[]>(this.url + "/getIssuedTrx");
   }
+
+
+  getTrxNumFunctionTracking(): Observable<string> {
+    return this._http.get<string>(this.urlTracking + "/getTrxNumFunction");
+  }
   //
 
   //FIND
@@ -141,5 +147,15 @@ export class InventorysServices {
   updateRemaningCount(trxNum: string, minCount: string): Observable<string> {
     let params = new HttpParams().set('trxNum', trxNum).set('minCount', minCount);
     return this._http.get<string>(this.urldtl + "/UpdateINVInRemainingCount", { params: params });
+  }
+
+
+  updateLocation(itemTracking: ItemTracking) {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    });
+    return this._http.post<ItemTracking>(this.urlTracking + "/UpdateLocation", JSON.stringify(itemTracking), { headers: headers });
+
   }
 }

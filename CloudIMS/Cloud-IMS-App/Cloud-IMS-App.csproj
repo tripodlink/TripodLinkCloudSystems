@@ -57,6 +57,7 @@
     <None Remove="ClientApp\src\app\classes\inventory-management\inventory-out\IinventoryOutHeaderClass.ts" />
     <None Remove="ClientApp\src\app\classes\inventory-management\InventoryIn\IInventoryInTrxDetailClass.ts" />
     <None Remove="ClientApp\src\app\classes\inventory-management\InventoryIn\IInventoryInTrxHeaderClass.ts" />
+    <None Remove="ClientApp\src\app\classes\inventory-management\itemTracking\itemTrackingClass.ts" />
     <None Remove="ClientApp\src\app\classes\ISupplierClass.ts" />
     <None Remove="ClientApp\src\app\classes\report-management\report-inventory-in\IReportInventoryInClass.ts" />
     <None Remove="ClientApp\src\app\classes\report-management\report-inventory-out\IReportInventoryOutClass.ts" />
@@ -140,6 +141,10 @@
     <TypeScriptCompile Include="ClientApp\src\app\classes\inventory-management\InventoryIn\IInventoryInTrxHeaderClass.ts" />
 
     <TypeScriptCompile Include="ClientApp\src\app\classes\inventory-management\inventory-out\IinventoryOutHeaderClass.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+
+    <TypeScriptCompile Include="ClientApp\src\app\classes\inventory-management\itemTracking\itemTrackingClass.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\classes\ProgramFolder.ts" />

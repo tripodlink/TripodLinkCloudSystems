@@ -9,6 +9,9 @@ import { InventoryInComponent } from './inventory-in/inventory-in.component';
 import { InventoryOutComponent } from './inventory-out/inventory-out.component';
 import { InventoryInService } from '../services/InventoryIn.service';
 import { DatePipe } from '@angular/common';
+import { ItemTrackingComponent } from './item-tracking/item-tracking.component';
+import { ItemTrackingServices } from '../../app/services/itemTracking.service';
+
 
 
 @NgModule({
@@ -16,6 +19,8 @@ import { DatePipe } from '@angular/common';
     InventoryManagementComponent,
     InventoryInComponent,
     InventoryOutComponent,
+    ItemTrackingComponent,
+
     
   ],
   imports: [
@@ -26,7 +31,7 @@ import { DatePipe } from '@angular/common';
     RouterModule.forRoot([])
   ],
 
-  providers: [InventoryService, InventoryInService, InventorysServices, DatePipe]
+  providers: [InventoryService, InventoryInService, InventorysServices, DatePipe, ItemTrackingServices]
 
 })
 export class InventoryManagementModule { }

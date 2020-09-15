@@ -16,7 +16,7 @@
         <h3>Transaction Header</h3>
 
         <br />
-        <form class="form" [formGroup]="InventoryOutHeaderForm" (change)="generateTrxNumandDate()">
+        <form class="form" [formGroup]="InventoryOutHeaderForm" >
           <div class="row">
 
             <div class="form-group col-md-3">
@@ -40,21 +40,30 @@
                      [class.is-invalid]="this.InventoryOutHeaderForm.controls.transactionDate.touched && this.InventoryOutHeaderForm.controls.transactionDate.value == ''" required readonly>
             </div>
 
-            <div class="form-group col-md-3">
-              <label for="department">Department</label>&nbsp;<label style="color:red; font:bold">*</label>
-              <select formControlName="department" class="form-control"
-                      [class.is-invalid]="this.InventoryOutHeaderForm.controls.department.touched && this.InventoryOutHeaderForm.controls.department.value.trim() == ''" required>
-                <option *ngFor="let depList of depListArray" value="{{depList.id}}">{{depList.departmentName}}</option>
-              </select>
+            <div class="form-group col-md-2" hidden>
+              <label for="transactionIssuedDate">Transaction Date</label>&nbsp;<label style="color:red; font:bold">*</label>
+              <input type="datetime-local" formControlName="transactionIssuedDate" class="form-control"
+                     [class.is-invalid]="this.InventoryOutHeaderForm.controls.transactionDate.touched && this.InventoryOutHeaderForm.controls.transactionDate.value == ''" required readonly>
             </div>
 
-            <div class="form-group col-md-3">
+
+            <div class="form-group col-md-3" hidden>
+              <label for="department">Department</label>&nbsp;<label style="color:red; font:bold">*</label>
+              <!--<select formControlName="department" class="form-control"
+            [class.is-invalid]="this.InventoryOutHeaderForm.controls.department.touched && this.InventoryOutHeaderForm.controls.department.value.trim() == ''" required>
+      <option *ngFor="let depList of depListArray" value="{{depList.id}}">{{depList.departmentName}}</option>
+    </select>-->
+            </div>
+
+            <div class="form-group col-md-3" hidden>
               <label for="referenceNo">Reference Number</label>&nbsp;<label style="color:red; font:bold">*</label>
               <input formControlName="referenceNo" class="form-control">
             </div>
 
             <div class="form-group col-md-12">
-              <label for="remarks">Remarks</label>
+              <label for="remarks">
+              </label>
+              
               <textarea formControlName="remarks" class="form-control"></textarea>
             </div>
           </div>
@@ -218,7 +227,7 @@
         <h3>Transaction Detail</h3>
 
         <br />
-        <form class="form" [formGroup]="InventoryOutDetailForm">
+        <form class="form" [formGroup]="InventoryOutDetailForm" (change)="generateTrxNumandDate()">
           <div class="row">
 
             <!-- ITEM ID -->
@@ -277,9 +286,18 @@
             </div>
 
             <!-- REMARKS -->
-            <div class="form-group col-md-3">
+            <!--<div class="form-group col-md-3">
               <label for="remarks">Remarks</label>
               <input formControlName="remarks" class="form-control">
+            </div>-->
+
+            <div class="form-group col-md-3" >
+              <label for="remarks">Department</label>&nbsp;<label style="color:red; font:bold">*</label>
+              <select formControlName="remarks" class="form-control"
+                      [class.is-invalid]="this.InventoryOutHeaderForm.controls.department.touched && this.InventoryOutHeaderForm.controls.department.value.trim() == ''" required>
+                <option></option>
+                <option *ngFor="let depList of depListArray" id="{{depList.departmentName}}" title="{{depList.id}}">{{depList.departmentName}}</option>
+              </select>
             </div>
 
             <div class="form-group col-md-1 align-self-center">
@@ -349,7 +367,7 @@
 
                   <td>{{item.remarks}}</td>
                   <td>
-                    <button type="button" class="btn btn-danger fc-center" (click)="removeItem(item.itemID,item.unitName,item.lotNumber )"><i class="fa fa-trash"></i>Remove Item</button>
+                    <button type="button" class="btn btn-danger fc-center" (click)="removeItem(item.itemID,item.unitName,item.lotNumber)"><i class="fa fa-trash"></i>Remove Item</button>
                   </td>
                 </tr>
               </tbody>
@@ -361,13 +379,13 @@
 
   </div>
   <div class="row">
-    <div class="form-grou col-12">
+    <div class="form-group col-12">
       <div class="fa-pull-right">
         <button class="btn btn-warning" type="button" (click)="resetPage()"><i class="fa fa-refresh"></i>Clear</button>
         &nbsp;
         <button class="btn btn-danger" type="button" [disabled]="isDisabledDeleteButton" (click)="deleteTransaction()"><i class="fa fa-trash-o"></i>Delete Transaction</button>
         &nbsp;
-        <button class="btn btn-secondary" type="button" [disabled]="InventoryOutHeaderForm.invalid || quantityValid" (click)="saveorIssueTransaction('P')"><i class="fa fa-floppy-o"></i>Save Transaction</button>
+        <button class="btn btn-secondary" type="button" [disabled]="InventoryOutHeaderForm.invalid || quantityValid" (click)="saveorIssueTransaction('P')"><i class="fa fa-floppy-o"></i>Request Item</button>
         &nbsp;
         <button class="btn btn-primary" type="button" [disabled]="InventoryOutHeaderForm.invalid || quantityValid" [hidden]="!isApprover" (click)="saveorIssueTransaction('I')"><i class="fa fa-arrow-circle-up"></i>Issue Item</button>
       </div>

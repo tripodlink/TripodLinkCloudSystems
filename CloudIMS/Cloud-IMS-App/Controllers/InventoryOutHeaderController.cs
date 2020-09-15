@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using CloudImsCommon.Database;
 using CloudImsCommon.Extensions;
@@ -42,7 +43,20 @@ namespace Cloud_IMS_Api.Controllers
             {
                 try
                 {
-                    dbContext.InventoryOutTrxHeaders.Add(inventoryOut);
+                    var ivnList = new InventoryOutTrxHeader();
+
+                    ivnList.TransactionNo = inventoryOut.TransactionNo;
+                    ivnList.TransactionDate = inventoryOut.TransactionDate;
+                    ivnList.IssuedBy = "";
+                    var dateFromC = "01/01/0001 00:00:00";
+                    ivnList.IssuedDate = DateTime.Parse(dateFromC);
+                    ivnList.ReceivedBy = inventoryOut.ReceivedBy;
+                    ivnList.Department = inventoryOut.Department;
+                    ivnList.ReferenceNo = inventoryOut.ReferenceNo;
+                    ivnList.Remarks = inventoryOut.Remarks;
+                    ivnList.Status = inventoryOut.Status;
+                    
+                    dbContext.InventoryOutTrxHeaders.Add(ivnList);
                     dbContext.SaveChanges();
                     transaction.Commit();
                     return Ok(inventoryOut);
@@ -150,11 +164,11 @@ namespace Cloud_IMS_Api.Controllers
         }
 
         [Route("[action]")]
-        public IActionResult findTrxNum(string trxNUm)
+        public IActionResult findTrxNum(string trxNum, string lotNum)
         {
             try
             {
-                var trxNumList = dbContext.InventoryOutTrxHeaders.Where(data => data.TransactionNo == trxNUm).ToList();
+                var trxNumList = dbContext.InventoryOutTrxHeaders.Where(data => data.TransactionNo == trxNum).ToList();
                 if (trxNumList != null)
                 {
                     return Ok(trxNumList);
@@ -267,6 +281,12 @@ namespace Cloud_IMS_Api.Controllers
                     {
 
                         findTrxNum.Status = invOutTrx.Status;
+                        findTrxNum.TransactionNo = invOutTrx.TransactionNo;
+                        findTrxNum.IssuedBy = invOutTrx.IssuedBy;
+                        findTrxNum.IssuedDate = invOutTrx.IssuedDate;
+                        findTrxNum.Department = invOutTrx.Department;
+                        findTrxNum.ReferenceNo = invOutTrx.ReferenceNo;
+                        findTrxNum.Remarks = invOutTrx.Remarks;
                         dbContext.InventoryOutTrxHeaders.Update(findTrxNum);
                         dbContext.SaveChanges();
                         transaction.Commit();

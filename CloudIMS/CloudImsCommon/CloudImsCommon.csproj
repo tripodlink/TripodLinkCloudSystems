@@ -46,6 +46,12 @@
     <Compile Remove="Migrations\20200511021258_InitialMigration.Designer.cs" />
     <Compile Remove="Migrations\20200813152532_InitialMigration.cs" />
     <Compile Remove="Migrations\20200813152532_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200910043827_UpdateInventoryOutHeader.cs" />
+    <Compile Remove="Migrations\20200910043827_UpdateInventoryOutHeader.Designer.cs" />
+    <Compile Remove="Migrations\20200910044914_UpdateInventoryOutHeader.cs" />
+    <Compile Remove="Migrations\20200910044914_UpdateInventoryOutHeader.Designer.cs" />
+    <Compile Remove="Migrations\20200910045424_UpdateTransactionHeaderOut.cs" />
+    <Compile Remove="Migrations\20200910045424_UpdateTransactionHeaderOut.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
