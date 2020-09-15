@@ -442,16 +442,15 @@ export class DefectedItemsComponent implements OnInit {
     await item.toPromise().then((strName) => {
       this.itemName = strName;
       this.defectedItemFormGroup.controls.item_name.setValue(this.itemName)
-
+    }, error => {
+      this.toastr.error("No item found on item id", "NO ITEM");
     })
 
   }
 
   async itemIdTextChange() {
     this.itemId = this.defectedItemFormGroup.controls.item_id.value
-
-    if (this.itemId.length == 2) {
-      this.defectedItemFormGroup.controls.def_trx_no.setValue(" * * * * * * * * * * * *")
+    console.log(this.itemId)
       await this.getStringItemName(this.itemId)
 
       if (this.itemName == "") {
@@ -459,22 +458,21 @@ export class DefectedItemsComponent implements OnInit {
         this.clearAll()
         this.clearTransactionDetails()
         this.disableLotNumber(true)
+        this.defectedItemFormGroup.controls.def_trx_no.setValue("")
+        this.defectedItemFormGroup.controls.item_name.setValue("")
+        this.itemName = ""
+        this.clearAll()
+        this.clearTransactionDetails()
+        this.lot_no_isReadOnly = true
+        this.disableLotNumber(true)
 
       } else {
         this.defectedItemFormGroup.controls.item_id.setValue(this.itemId)
         this.getLotNumber(this.itemId)
         this.lot_no_isReadOnly = false
 
+
       }
-    } else {
-      this.defectedItemFormGroup.controls.def_trx_no.setValue("")
-      this.defectedItemFormGroup.controls.item_name.setValue("")
-      this.itemName = ""
-      this.clearAll()
-      this.clearTransactionDetails()
-      this.lot_no_isReadOnly = true
-      this.disableLotNumber(true)
-    }
 
     if (this.itemId.length > 0) {
       this.isHiddenClear = false

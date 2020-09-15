@@ -20,7 +20,7 @@ import { DepartmentComponent } from './dictionary/department/department.componen
 import { InventoryManagementComponent } from './inventory-management/inventory-management.component';
 import { InventoryInComponent } from './inventory-management/inventory-in/inventory-in.component';
 import { InventoryOutComponent } from './inventory-management/inventory-out/inventory-out.component';
-
+import { DefectedItemsComponent } from './inventory-management/defected-items/defected-items.component';
 //report management
 import { ReportManagementComponent } from './report-management/report-management.component';
 
@@ -38,7 +38,6 @@ import { AppSidebarMenuComponent } from './app-sidebar-menu/app-sidebar-menu.com
 import { ReportInventoryInComponent } from './report-management/report-inventory-in/report-inventory-in.component';
 import { ReportInventoryOutComponent } from './report-management/report-inventory-out/report-inventory-out.component';
 import { ItemTrackingComponent } from './inventory-management/item-tracking/item-tracking.component';
-//import { DefectedItemsComponent } from './inventory-management/defected-items/defected-items.component';
 
 //##############################################################################################
 
@@ -65,7 +64,7 @@ const routes: Routes = [
   { path: 'inventory-management/inventory-out', component: InventoryOutComponent, canActivate: [AuthGuard] },
   { path: 'inventory-management/inventory-out/:trxno', component: InventoryOutComponent, canActivate: [AuthGuard] },
   { path: 'inventory-management/item-tracking', component: ItemTrackingComponent, canActivate: [AuthGuard] },
-  //{ path: 'inventory-management/defected-items', component: DefectedItemsComponent, canActivate: [AuthGuard] },
+  { path: 'inventory-management/inventory-defect', component: DefectedItemsComponent, canActivate: [AuthGuard] },
 
   //report management
   { path: 'report-management', component: ReportManagementComponent, canActivate: [AuthGuard] },
