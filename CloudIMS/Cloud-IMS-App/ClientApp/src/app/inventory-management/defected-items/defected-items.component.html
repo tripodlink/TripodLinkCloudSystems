@@ -11,170 +11,67 @@
   <div class="col-lg-12 col-md-12 col-sm-12">
 
     <div class="bs-component">
-          <form [formGroup]="defectedItemFormGroup">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="tile">
-                  <div class="row">
-                    <div class="col-lg-4 mr-auto ml-auto">
-                      <div class="form-group">
-                        <label>Item ID</label>
-                        <input formControlName="lotno_dtl" type="text" class="form-control"
-                               [class.is-invalid]="addInventoryInFormGroup.controls['lotno_dtl'].touched && addInventoryInFormGroup.controls['lotno_dtl'].value == ''" required autofocus>
-                      </div>
-                        <div class="form-group">
-                          <label>Item Name</label>
-                            <input formControlName="itemMaster_dtl" readonly class="form-control" >
-                        </div>
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <label>Item Unit</label>
-                          <div class="row">
-                            <input formControlName="itemUnit_dtl" class="form-control col-md-10" list="unitSelect" #itemMasterUnitSelect (change)='onSelectCoversionFactor(itemMasterSelect.value,itemMasterUnitSelect.value)'
-                                   [readonly]="isReadonly_UC"
-                                   (input)="enabledQuantity()"
-                                   required autofocus>
-                            <datalist id="unitSelect">
 
-                              <option value=""></option>
-                              <option *ngFor="let iu of ItemMasterUnitArray" id="{{iu.unitDescription}}" data-value="{{iu.unitDescription}}">{{iu.unitCode}}</option>
-                            </datalist>
-                            <button class="btn btn-primary col-md-1" [disabled]="isReadonly_LookUp_Btn_ItemUnit" data-toggle="modal" data-target="#itemMasterUnitModal"><i class="fa fa-list"></i></button>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label>Quantity</label>
-                        <input (input)="onTextChangedQuantityInput()" formControlName="quantity_dtl" type="number" class="form-control"
-                               [readonly]="isReadonly_QTY"
-                               required autofocus>
-                      </div>
-                      <div class="form-group">
-                        <label>LOT No.</label>
-                        <input formControlName="lotno_dtl" type="text" readonly class="form-control"
-                               [class.is-invalid]="addInventoryInFormGroup.controls['lotno_dtl'].touched && addInventoryInFormGroup.controls['lotno_dtl'].value == ''" required autofocus>
-                      </div>
-                      
-                      <div class="form-group">
-                        <label>Count</label>
-                        <input formControlName="count_dtl" type="number" readonly class="form-control" />
-                      </div>
+      <div class="col-md-12">
+        <div class="tile">
 
-                      <div class="form-group">
-                        <label>Remaining Count</label>
-                        <input formControlName="remainingcount_dtl" type="number" readonly class="form-control" />
-                      </div>
+          <div class="row">
 
-                      <div class="form-group">
-                        <label for="exampleTextarea">Remarks</label>
-                        <textarea type="text" formControlName="remarks_hdr" class="form-control" required autofocus rows="2"></textarea>
-                      </div>
-
-                    </div>
-                    <div class="col-lg-6 mr-auto ml-auto">
-                      <div class="form-group">
-                        <label>Transaction No.</label>
-                        <input type="text" formControlName="trxNo_hdr" readonly class="form-control"
-                               [class.is-invalid]="addInventoryInFormGroup.controls['trxNo_hdr'].touched && addInventoryInFormGroup.controls['trxNo_hdr'].value == ''" required autofocus>
-                      </div>
-                      <div class="form-group">
-                        <label>Transaction Date</label>
-                        <input type="datetime-local" formControlName="trxDate_hdr" readonly class="form-control">
-                      </div>
-                      <div class="form-group">
-                        <label>PO No.</label>
-                        <input type="text" formControlName="PONo_hdr" readonly class="form-control"
-                               [class.is-invalid]="addInventoryInFormGroup.controls['PONo_hdr'].touched && addInventoryInFormGroup.controls['PONo_hdr'].value == ''" required autofocus>
-                      </div>
-                      <div class="form-group">
-                        <label>Invoice No.</label>
-                        <input type="text" formControlName="invoiceNo_hdr"  readonly class="form-control"
-                               [class.is-invalid]="addInventoryInFormGroup.controls['invoiceNo_hdr'].touched && addInventoryInFormGroup.controls['invoiceNo_hdr'].value == ''" required autofocus>
-                      </div>
-                      <div class="form-group">
-                        <label>Received Date</label>
-                        <input type="datetime-local" formControlName="trxDate_hdr" readonly class="form-control">
-                      </div>
-                      <div class="form-group">
-                        <label>Received By</label>
-                        <input type="text" formControlName="rcvdBy_hdr" readonly  class="form-control"
-                               [class.is-invalid]="addInventoryInFormGroup.controls['rcvdBy_hdr'].touched && addInventoryInFormGroup.controls['rcvdBy_hdr'].value.trim() == ''" required autofocus>
-                      </div>
-
-                        <div class="form-group">
-                          <label>Supplier Name</label>
-                            <input formControlName="supplier_hdr"  readonly  class="form-control"/>
-                          
-                        </div>
-
-                      <div class="form-group">
-                        <label>Reference No.</label>
-                        <input type="text" formControlName="refNo_hdr"  readonly  class="form-control"
-                               [class.is-invalid]="addInventoryInFormGroup.controls['refNo_hdr'].touched && addInventoryInFormGroup.controls['refNo_hdr'].value.trim() == ''" required autofocus>
-                      </div>
-                      <div class="form-group">
-                        <label>Document No.</label>
-                        <input type="text" formControlName="docNo_hdr" readonly  class="form-control" />
-                      </div>
-                      
-                    </div>
+            <div class="col-md-12">
+              <div class="tile">
+                <div class="row">
+                  <div class="col-md-11">
+                    <h3 class="tile-title">List of Defected Items</h3>
                   </div>
-                  <div class="tile-footer">
-                    <button type="button" (click)="resetScreen()" class="btn btn-warning"><i class="fa fa-eraser"></i>Clear Fields</button>&nbsp;
-                    <button type="button" (click)="insertInventoryInTrx()" class="btn btn-primary"><i class="fa fa-times"></i>Mark as Defected</button>
+                  <div class="col-md-1 fa-pull-right">
+                    <span class="input-group-btn">
+                      <button (click)="showModalAdd()" data-toggle="modal" data-target="#defectedItemForm" class="btn btn-primary"><i class="fa fa-plus"></i>Add</button>
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
-          </form>
-    </div>
+          </div>
+
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Transaction Number</th>
+                        <th>Item Name</th>
+                        <th>Lot Number</th>
+                        <th>Transaction Date</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let diList of IDefectedItemsToList">
+                        <td>{{diList.defTransactionNo}}</td>
+                        <td>{{diList.itemName}}</td>
+                        <td>{{diList.lotNumber}}</td>
+                        <td>{{diList.transactionDate}}</td>
+                        <td>{{diList.quantity}}</td>
+                        <td>{{diList.status}}</td>
+                        <td>
+                          <button (click)="showModalUpdate(diList.defTransactionNo,diList.status)" data-toggle="modal" data-target="#defectedItemForm" class="btn btn-primary"><i class="fa fa-pencil"></i>Edit</button>&nbsp;
+                          <button (click)="showModalDelete(diList.defTransactionNo,diList.status,diList.itemName)" data-toggle="modal" data-target="#defectedItemForm" class="btn btn-danger"><i class="fa fa-trash"></i>Delete</button>&nbsp;
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
   </div>
 </main>
 
-<div class="container">
-  <!-- Modal -->
-  <div class="modal fade" id="supplierModal" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title"><i class="fa fa-list"></i>List of Suppliers</h4>
-        </div>
-
-
-        <div class="modal-body">
-          <div class="table">
-            <table class="table table-hover table-bordered" id="sampletable">
-              <thead>
-                <tr>
-                  <th>id</th>
-                  <th>Name</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let sup of Isupplier" [id]="sup.id">
-                  <td>{{sup.id}}</td>
-                  <td>{{sup.name}}</td>
-                  <td><button class="btn btn-primary" (click)="supplierSelectLookUp(sup.id)" data-dismiss="modal"><i class="fa fa-check-square"></i>Select</button></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="modal-footer">
-
-          <button type="button" id="closeModal" #closeModal class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="container">
   <!-- Modal -->
-  <div class="modal fade" id="itemMasterModal" role="dialog">
+  <div class="modal fade" id="itemModal" role="dialog">
     <div class="modal-dialog">
 
       <!-- Modal content-->
@@ -186,19 +83,19 @@
 
         <div class="modal-body">
           <div class="table">
-            <table class="table table-hover table-bordered" id="sampletable">
+            <table class="table table-hover table-bordered" id="sampletable"><
               <thead>
                 <tr>
-                  <th>id</th>
+                  <th>Item ID</th>
                   <th>Name</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let im of Iitemmaster" [id]="im.id">
-                  <td>{{im.id}}</td>
+                <tr *ngFor="let im of IDefectedItemsItemMaster" [id]="im.itemId">
+                  <td>{{im.itemId}}</td>
                   <td>{{im.itemName}}</td>
-                  <td><button class="btn btn-primary" (click)="itemMasterSelectLookUp(im.id)" data-dismiss="modal"><i class="fa fa-check-square"></i>Select</button></td>
+                  <td><button class="btn btn-primary" (click)="itemMasterSelectLookUp(im.itemId)" data-dismiss="modal" data-toggle="modal" data-target="#defectedItemForm"><i class="fa fa-check-square"></i>Select</button></td>
                 </tr>
               </tbody>
             </table>
@@ -215,39 +112,215 @@
 
 <div class="container">
   <!-- Modal -->
-  <div class="modal fade" id="itemMasterUnitModal" role="dialog">
-    <div class="modal-dialog">
+  <div class="modal fade" id="defectedItemForm" role="dialog">
+    <div class="modal-dialog modal-xl">
 
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title"><i class="fa fa-list"></i>List of Item Units</h4>
+                <h4 class="modal-title"><i class="fa fa-times"></i>Defected Items Form</h4>
         </div>
 
 
         <div class="modal-body">
-          <div class="table">
-            <table class="table table-hover table-bordered" id="sampletable">
-              <thead>
-                <tr>
-                  <th>id</th>
-                  <th>Name</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let iu of ItemMasterUnitArray" [id]="iu.unitCode">
-                  <td>{{iu.unitCode}}</td>
-                  <td>{{iu.unitDescription}}</td>
-                  <td><button class="btn btn-primary" (click)="itemMasterUnitSelectLookup(iu.unitCode)" data-dismiss="modal"><i class="fa fa-check-square"></i>Select</button></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+
+          <form [formGroup]="defectedItemFormGroup">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="tile">
+                  <div class="row">
+                    <div class="col-lg-6 mr-auto ml-auto">
+
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>Defected On: INVENTORY IN | INVENTORY OUT</label>
+                          <div class="row">
+
+                            <input formControlName="status" class="form-control col-md-12" required list="statSelect" (change)='statusChanged()'
+                                   (input)=statusTextChanged()
+                                   [readonly]="status_isReadOnly">
+                            <datalist id="statSelect">
+                              <option id="IN" value="IN">IN</option>
+                              <option id="OUT" value="OUT">OUT</option>
+                            </datalist>
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>Item ID</label>
+                          <div class="row">
+
+                            <input formControlName="item_id" type="text" class="form-control col-md-11" required autofocus maxlength="12"
+                                   (input)=itemIdTextChange()
+                                   [readonly]="item_id_isReadOnly">
+                            <button class="btn btn-primary col-md-1" [hidden]="item_id_isReadOnly" #closeModal (click)="itemMasterModalClick()" data-toggle="modal" data-target="#itemModal" data-dismiss="modal"><i class="fa fa-list"></i></button>
+                          </div>
+                        </div>
+                      </div>
+
+                        <div class="form-group">
+                          <label>Item Name</label>
+                          <input formControlName="item_name" class="form-control" readonly>
+                        </div>
+
+
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label>LOT No.</label>
+                            <div class="row">
+
+                              <input formControlName="lot_no" class="form-control col-md-12" required list="lotSelect"
+                                     (change)='getTransactionIDs()'
+                                     (input)=lotNumberTextChanged()
+                                     [readonly]="lot_no_isReadOnly">
+                              <datalist id="lotSelect">
+                                <option value=""></option>
+                                <option *ngFor="let lot of IDefectedItemsLot" id="{{lot.lotNumber}}" data-value="{{lot.lotNumber}}">{{lot.lotNumber}}</option>
+                              </datalist>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label>Item Unit</label>
+                            <div class="row">
+                              <input formControlName="item_unit" class="form-control col-md-12" list="unitSelect" (change)='getUnitConversion()'
+                                     (input)=itemUnitTextChange()
+                                     [readonly]="item_unit_isReadOnly">
+                              <datalist id="unitSelect">
+                                <option value=""></option>
+                                <option *ngFor="let unit of IDefectedItemsUnit" id="{{unit.unit}}" data-value="{{unit.unitName}}">{{unit.unitConversion}}</option>
+                              </datalist>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <label>Quantity</label>
+                              <input formControlName="quantity" type="number" class="form-control" required (input)=multiplyUnitConversionToQuantity()
+                                     [readonly]="quantity_isReadOnly">
+                            </div>
+
+                            <div class="col-md-6">
+                              <label>Count</label>
+                              <input formControlName="count" type="number" readonly class="form-control" />
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+
+
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label>Remarks</label>
+                            <div class="row">
+
+                              <input formControlName="remarks" class="form-control col-md-12" required list="remarksSelect"
+                                     [readonly]="remarks_isReadOnly">
+                              <datalist id="remarksSelect">
+                                <option value=""></option>
+                                <option *ngFor="let rmks of IDefectedItemsRemarks" id="{{rmks.remarks}}">{{rmks.remarks}}</option>
+                              </datalist>
+
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label>Transaction No.</label>
+                            <div class="row">
+                              <input formControlName="trx_no" class="form-control col-md-12" list="trxNoSelect"
+                                     (change)='getFinalDetail()'
+                                     (input)=transactionNumberTextChange()
+                                     [readonly]="trx_no_isReadOnly"
+                                     required>
+                              <datalist id="trxNoSelect">
+                                <option value=""></option>
+                                <option *ngFor="let trx of IDefectedItemsTrx" id="{{trx.transactionNo}}" data-value="{{trx.transactionNo}}">{{trx.transactionNo}}</option>
+                              </datalist>
+
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+
+                      <div class="col-lg-6 mr-auto ml-auto">
+                        <!--
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label><strong>TRANSACTION INFORMATION</strong></label>
+                            </div>
+                          </div>-->
+
+                        <div class="form-group">
+                          <label>Transaction Date</label>
+                          <input type="datetime-local" formControlName="trx_date" readonly class="form-control">
+                        </div>
+                        <div class="form-group">
+                          <label>PO No.</label>
+                          <input type="text" formControlName="po_no" readonly class="form-control" required autofocus>
+                        </div>
+                        <div class="form-group">
+                          <label>Invoice No.</label>
+                          <input type="text" formControlName="inv_no" readonly class="form-control" required autofocus>
+                        </div>
+                        <div class="form-group">
+                          <label>Received Date</label>
+                          <input type="datetime-local" formControlName="rcvd_date" readonly class="form-control">
+                        </div>
+                        <div class="form-group">
+                          <label>Received By</label>
+                          <input type="text" formControlName="rcvd_by" readonly class="form-control" required autofocus>
+                        </div>
+
+                        <div class="form-group">
+                          <label>Supplier Name</label>
+                          <input formControlName="supplier" readonly class="form-control" />
+
+                        </div>
+
+                        <div class="form-group">
+                          <label>Reference No.</label>
+                          <input type="text" formControlName="ref_no" readonly class="form-control" required autofocus>
+                        </div>
+                        <div class="form-group">
+                          <label>Document No.</label>
+                          <input type="text" formControlName="doc_no" readonly class="form-control" />
+                        </div>
+
+                        <input formControlName="date_now" type="datetime-local" class="form-control" hidden>
+
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
         </div>
         <div class="modal-footer">
+          <button type="button" (click)="resetScreen()" id="closeModal" #closeModal class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>&nbsp;
+          <button type="button" (click)="resetScreen()" class="btn btn-warning" [hidden]="isHiddenClear"><i class="fa fa-eraser"></i>Clear Fields</button>&nbsp;
+          <button type="button" (click)="addDefectedItem()" class="btn btn-primary" [disabled]="defectedItemFormGroup.invalid" [hidden]="isHiddenAdd"><i class="fa fa-times"></i>Mark as Defected</button>&nbsp;
+          <button type="button" (click)="updateDefectedItem()" class="btn btn-primary" [disabled]="defectedItemFormGroup.invalid" [hidden]="isHiddenUpdate" data-dismiss="modal"><i class="fa fa-pencil"></i>Update</button>&nbsp;
+          <button type="button" (click)="deleteDefectedItem()" class="btn btn-danger" [disabled]="defectedItemFormGroup.invalid" [hidden]="isHiddenDelete" data-dismiss="modal"><i class="fa fa-trash"></i>Delete</button>
 
-          <button type="button" id="closeModal" #closeModal class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>Close</button>
         </div>
       </div>
     </div>
