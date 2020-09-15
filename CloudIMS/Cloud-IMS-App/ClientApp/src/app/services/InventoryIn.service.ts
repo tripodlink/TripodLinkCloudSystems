@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IInventoryInTrxHeader } from '../classes/inventory-management/InventoryIn/IInventoryInTrxHeader.interface';
+import { IInventoryInTrxHeader, IListOfUserAccount } from '../classes/inventory-management/InventoryIn/IInventoryInTrxHeader.interface';
 import { IInventoryInTrxHeaderClass } from '../classes/inventory-management/InventoryIn/IInventoryInTrxHeaderClass';
 import { ISupplier } from '../classes/data-dictionary/Supplier/ISupplier.interface';
 import { IUnitCode } from '../classes/data-dictionary/UnitCode/IUnitCode.interface';
@@ -26,6 +26,7 @@ export class InventoryInService {
   url_UpdateTrxListInvInDtl: string = 'api/inventoryin/Update_Trx_Detail';
   url_DeleteTrxListInvInHdr: string = 'api/inventoryin/Delete_Trx_Header';
   url_DeleteTrxListInvInDtl: string = 'api/inventoryin/Delete_Trx_Detail';
+  url_ListOfUsers: string = 'api/inventoryin/GetListOfUsers';
 
 
   constructor(private _http: HttpClient) {
@@ -38,6 +39,9 @@ export class InventoryInService {
   }
     getItemMasterData(): Observable<IiTemMaster[]> {
       return this._http.get<IiTemMaster[]>(this.url_itemmaster);
+  }
+  getListOfUsers(): Observable<IListOfUserAccount[]> {
+    return this._http.get<IListOfUserAccount[]>(this.url_ListOfUsers);
   }
 
   insertInventoryInTrxHeader(trxheader: IInventoryInTrxHeaderClass) {
