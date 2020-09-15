@@ -29,6 +29,7 @@ export interface IinventoryOutTable {
   lotNumber: string;
 
   quantity: number
+  remarksID: string
   remarks: string;
   minCount: number;
 

@@ -77,5 +77,6 @@ namespace CloudImsCommon.Database
         public DbSet<Department> Departments { get; set; }
 
         public DbSet<AutoNumber> autoNumbers { get; set; }
+        public DbSet<ItemTracking> itemTrackings { get; set; }
     }
 }

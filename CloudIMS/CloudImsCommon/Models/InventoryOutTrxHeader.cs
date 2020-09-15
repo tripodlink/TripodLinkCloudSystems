@@ -20,12 +20,12 @@ namespace CloudImsCommon.Models
         [Column("itoh_trx_date")]
         public DateTime TransactionDate { get; set; }
 
-        [Required]
-        [Column("itoh_issued_by")]
+
+       [Column("itoh_issued_by")]
         [MaxLength(100, ErrorMessage = "Issued By cannot exceed 100 characters.")]
         public String IssuedBy { get; set; }
 
-        [Required]
+      
         [Column("itoh_issued_date")]
         public DateTime IssuedDate { get; set; }
 

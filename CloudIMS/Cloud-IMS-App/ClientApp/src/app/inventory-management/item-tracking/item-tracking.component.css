@@ -1,0 +1,5 @@
+.table-responsive {
+  height: 490px;
+  overflow-y: scroll;
+  border-bottom: 1px solid #ddd;
+}

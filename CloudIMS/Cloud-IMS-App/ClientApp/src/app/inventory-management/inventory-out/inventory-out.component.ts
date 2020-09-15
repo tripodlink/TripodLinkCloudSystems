@@ -15,10 +15,14 @@ import { IinventoryOutPendingTrx } from '../../classes/inventory-management/inve
 import { IinventoryOutHeaderClass } from '../../classes/inventory-management/inventory-out/IinventoryOutHeaderClass';
 import { IInventoryInTrxDetail } from '../../classes/inventory-management/InventoryIn/IInventoryInTrxDetail.interface';
 import { InventorysServices } from '../../services/inventorys.service';
+import { itemLotNo, ItemTracking } from '../../classes/inventory-management/itemTracking/itemTracking.interface';
+import { itemLotNoClass, itemTracking } from '../../classes/inventory-management/itemTracking/itemTrackingClass';
+
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 import { AppSidebarMenuComponent } from '../../app-sidebar-menu/app-sidebar-menu.component'
+import { async } from 'rxjs/internal/scheduler/async';
 
 
 @Component({
@@ -55,12 +59,13 @@ export class InventoryOutComponent implements OnInit {
   retrieveOutTable: IinventoryOutTable[];
   itemArrayDTL: Array<{
     transactionNo: string, itemID: string, itemName: string, unit: string, unitName:
-    string, in_TrxNo: string, lotNumber: string, quantity: number, remarks: string, minCount: number,
+    string, in_TrxNo: string, lotNumber: string, quantity: number, remarksId: string, remarks: string, minCount: number,
     remainingCount: number, tableExpDate: string, convertFactor: number
   }> = [];
 
   InventoryOutHeaderArray: IinventoryOutHeader = new IinventoryOutHeaderClass();
   checkTrxNumArray: IinventoryOutHeader[];
+  dtlFormArray: ItemTracking = new itemTracking()
 
   formatDate: string;
   isDisabledDeleteButton: boolean = true;
@@ -81,6 +86,8 @@ export class InventoryOutComponent implements OnInit {
   trxNumFunction: string;
   isApprover: boolean;
 
+  requestedBy: string
+
   constructor(public toastr: ToastrService, public builder: FormBuilder, public inventoryServices: InventorysServices,
     public cookieService: CookieService,
     public datepipe: DatePipe,
@@ -99,6 +106,7 @@ export class InventoryOutComponent implements OnInit {
     this.userIDLogin = this.cookieService.get('userId');
     this.getIfApprover();
     this.Get_TrxNo_from_Dashboard();
+    console.log(this.userIDLogin)
   }
 
   public getIfApprover() {
@@ -126,8 +134,9 @@ export class InventoryOutComponent implements OnInit {
     this.InventoryOutHeaderForm = this.builder.group({
       transactionNo: ['', Validators.required],
       transactionDate: [this.formatDate, Validators.required],
-      department: ['', Validators.required],
-      referenceNo: ['', Validators.required],
+      transactionIssuedDate: [this.formatDate, Validators.required],
+      department: ['0', Validators.required],
+      referenceNo: ['0', Validators.required],
       remarks: ['']
     })
   }
@@ -167,7 +176,6 @@ export class InventoryOutComponent implements OnInit {
   public Get_TrxNo_from_Dashboard() {
     this._trxno_snapshot = this._activatedRoute.snapshot.params["trxno"];
     if (this._trxno_snapshot == undefined) {
-      console.log("snapshot params empty")
     } else {
       this.InventoryOutHeaderForm.controls.transactionNo.setValue(this._trxno_snapshot);
       this.getTrxNum()
@@ -251,17 +259,14 @@ export class InventoryOutComponent implements OnInit {
       if (this.InventoryOutHeaderForm.valid) {
         if (trxNum != "") {
           if (this.checkTrxNumArray == undefined || this.checkTrxNumArray.length == 0) {
-            this.getTrxNumFunction();
+            this.addOutDetailAndHeader(status);
           }
           else {
             if (this.status == 'P') {
               this.saveOutDetails();
             }
             else {
-              this.updateTrxtoIssued();
-              this.resetPage();
-
-              //load the notification here madafaka
+              this.updateTrxtoIssued("Exist");
             }
         }
           }
@@ -273,55 +278,38 @@ export class InventoryOutComponent implements OnInit {
     this.InventoryOutHeaderForm.get('transactionDate').patchValue(this.getDateTimeNow());
   }
 
-  public getTrxNumFunction() {
-    this.inventoryServices.getTrxNumFunction().subscribe((data) => {
-    this.trxNumFunction = data
+  async addOutDetailAndHeader(status: string) {
+    if (status == "P") {
+      await this.getTrxNumber()
+      await this.saveOutDetails()
+      await this.saveOutHeader()
+      this.toastr.info("Transaction Saved");
+    }
+    else {
+      await this.updateTrxtoIssued("New");
+    }
+  }
+
+  async getTrxNumber(){
+    await this.inventoryServices.getTrxNumFunction().subscribe((data) => {
+      this.trxNumFunction = data
 
       let trxNum = this.trxNumFunction.split('|');
       let type = trxNum[0].toString();
       let year = trxNum[1];
       let convertYear = this.datepipe.transform(new Date(), year.toLowerCase());
       let num = trxNum[2];
-
       this.InventoryOutHeaderForm.controls.transactionNo.setValue(type + convertYear + num);
-      this.saveOutHeader();
-      this.saveOutDetails();
-      if (type == "P") {
-        this.toastr.info("Transaction Saved");
-      }
-      else {
-        this.toastr.info("Transaction Issued")
-      }
-
-    })  
+    })
   }
 
-  public checkIfRemainingCountisValid() {
-    this.inventoryServices.getTrxTable(this.getTrxHeaderForm().transactionNo).subscribe((data) => {
-      if (confirm("Do you really want to Issue Item?")) {
-        this.retrieveOutTable = data;
-        setTimeout(() => {
-          Array.from(this.retrieveOutTable).forEach((trx) => {
-            if (trx.remainigCount / trx.itemMasterUnitConversion < trx.quantity) {
-              this.verifyIcon = "fa-times";
-            }
-            else {
-              this.verifyIcon = "fa-check";
-              let minus = (trx.remainigCount) - (trx.itemMasterUnitConversion * trx.quantity);
-              this.inventoryServices.updateRemaningCount(trx.in_TrxNo, String(minus)).subscribe(data => {
-                this.toastr.info("Transaction" + " " + data + " " + "Issued");
-              })
-            }
-          })
-        }, 1000)
-      }
-      })
-  }
+
   public getTrxHeaderForm() {
+    this.InventoryOutHeaderForm.get('transactionIssuedDate').patchValue(this.getDateTimeNow());
     this.InventoryOutHeaderArray.transactionNo = this.InventoryOutHeaderForm.controls.transactionNo.value;
     this.InventoryOutHeaderArray.transactionDate = this.InventoryOutHeaderForm.controls.transactionDate.value as Date;
     this.InventoryOutHeaderArray.issuedBy = this.userIDLogin;
-    this.InventoryOutHeaderArray.issuedDate = this.InventoryOutHeaderForm.controls.transactionDate.value as Date;
+    this.InventoryOutHeaderArray.issuedDate = this.InventoryOutHeaderForm.controls.transactionIssuedDate.value as Date;
     this.InventoryOutHeaderArray.receivedBy = this.userIDLogin;
     this.InventoryOutHeaderArray.department = this.InventoryOutHeaderForm.controls.department.value;
     this.InventoryOutHeaderArray.referenceNo = this.InventoryOutHeaderForm.controls.referenceNo.value;
@@ -329,11 +317,12 @@ export class InventoryOutComponent implements OnInit {
     this.InventoryOutHeaderArray.status = this.status;
 
     return this.InventoryOutHeaderArray;
+    return this.InventoryOutHeaderArray;
   }
 
   //SAVE THE HEADER INFO TO DB
-  public saveOutHeader()  {
-    this.inventoryServices.insertOutHeader(this.getTrxHeaderForm()).subscribe(data => {
+  async saveOutHeader()  {
+    await this.inventoryServices.insertOutHeader(this.getTrxHeaderForm()).subscribe((data) => {
       },
         error => {
           this.errormessage = error.error;
@@ -342,12 +331,12 @@ export class InventoryOutComponent implements OnInit {
   }
 
   //SAVE THE DETAILS INFO TO DB
-  public saveOutDetails() {
+  async saveOutDetails() {
 
     let trxNum = this.InventoryOutHeaderForm.controls.transactionNo.value;
-    this.inventoryServices.deleteAllDetails(trxNum).subscribe(data => {
+    await this.inventoryServices.deleteAllDetails(trxNum).toPromise().then((data) => {
 
-      Array.from(this.itemArrayDTL).forEach((array) => {
+      Array.from(this.itemArrayDTL).forEach(async (array) => {
         this.inventDetailOutArray.transactionNo = this.InventoryOutHeaderForm.controls.transactionNo.value;
         this.inventDetailOutArray.itemID = array.itemID;
         this.inventDetailOutArray.unit = array.unit;
@@ -355,16 +344,10 @@ export class InventoryOutComponent implements OnInit {
         this.inventDetailOutArray.quantity = array.quantity as number;
         this.inventDetailOutArray.remarks = array.remarks;
         this.inventDetailOutArray.minCount =array.minCount;
+          let inserDetauls = this.inventoryServices.insertOutDetail(this.inventDetailOutArray)
 
-        this.inventoryServices.insertOutDetail(this.inventDetailOutArray).subscribe(data => {
-          if (this.status == "P") {
-            this.toastr.info("Transaction Saved");
+        await inserDetauls.subscribe((data) => {
             this.appSideBarMenu.ngOnInit();
-          }
-          else {
-            this.checkIfRemainingCountisValid();
-            this.appSideBarMenu.ngOnInit();
-          }
         },
           error => {
             this.errormessage = error.error;
@@ -376,12 +359,80 @@ export class InventoryOutComponent implements OnInit {
     });
   }
 
-  public updateTrxtoIssued() {
-  this.inventoryServices.updatePendingTrx(this.getTrxHeaderForm()).subscribe(data => {
+  async updateTrxtoIssued(type: string) {
+    if (confirm("Do you really want to Issue Item?")) {
 
-      this.checkIfRemainingCountisValid();
-    
-    });
+     
+      if (type == "New") {
+        await this.getTrxNumber()
+        await this.saveOutDetails()
+        await this.saveOutHeader()
+
+        await this.updateCountAndTrxNum()
+      }
+      else if (type == "Exist") {
+        await this.updateCountAndTrxNum()
+        //this.resetPage();
+      }
+    }
+  }
+
+  async updateCountAndTrxNum() {
+    let getTrxNum = this.InventoryOutHeaderForm.controls.transactionNo.value;
+    let geTrxTable = this.inventoryServices.getTrxTable(getTrxNum)
+
+    await geTrxTable.subscribe((data) => {
+      this.retrieveOutTable = data;
+      Array.from(this.retrieveOutTable).forEach((trx) => {
+        if (trx.remainigCount / trx.itemMasterUnitConversion < trx.quantity) {
+          this.verifyIcon = "fa-times";
+        }
+        else {
+          this.verifyIcon = "fa-check";
+          let minus = (trx.remainigCount) - (trx.itemMasterUnitConversion * trx.quantity);
+          this.inventoryServices.updateRemaningCount(trx.in_TrxNo, String(minus)).subscribe(async data => {
+
+
+            await this.inventoryServices.updatePendingTrx(this.getTrxHeaderForm()).subscribe(async data => {
+
+              
+              this.InventoryOutHeaderForm.get('transactionIssuedDate').patchValue(this.getDateTimeNow());
+
+              Array.from(this.itemArrayDTL).forEach(async (array) => {
+                let ItemDefectTrxNum: string
+                await this.inventoryServices.getTrxNumFunctionTracking().subscribe(async (data) => { ItemDefectTrxNum = data
+
+                this.dtlFormArray.transactionNo = ItemDefectTrxNum;
+                console.log(ItemDefectTrxNum)
+                this.dtlFormArray.itemID = array.itemID;
+                this.dtlFormArray.lotNo = array.lotNumber;
+                this.dtlFormArray.dateUpdated = this.InventoryOutHeaderForm.controls.transactionIssuedDate.value as Date
+                this.dtlFormArray.location = array.remarksId
+
+                await this.inventoryServices.updateLocation(this.dtlFormArray).subscribe((data) => {
+                  this.toastr.info("Transaction" + " " + this.getTrxHeaderForm().transactionNo + " " + "Issued");
+                })
+                },
+                  error => {
+                    this.errormessage = error.error;
+                    this.toastr.error(this.errormessage, "Error");
+                    this.appSideBarMenu.ngOnInit();
+                  });
+              })
+            
+            }); 
+          })
+          
+        }
+      })
+     
+    },
+      error => {
+        this.errormessage = error.error;
+        this.toastr.error(this.errormessage, "Error");
+        this.appSideBarMenu.ngOnInit();
+      })
+   
   }
 
   // Get TRX from Table
@@ -404,6 +455,7 @@ export class InventoryOutComponent implements OnInit {
         let random = "T" + new Date().getFullYear() + new Date().getDate() + new Date().getTime();
         this.InventoryOutHeaderForm.controls.transactionNo.setValue("*********************************");
         this.InventoryOutHeaderForm.get('transactionDate').patchValue(this.getDateTimeNow());
+        this.InventoryOutHeaderForm.get('transactionIssuedDate').patchValue(this.getDateTimeNow());
         this.trxInputDisabled = true;
     }
   }
@@ -424,6 +476,7 @@ export class InventoryOutComponent implements OnInit {
           in_TrxNo: trx.in_TrxNo,
           lotNumber: trx.lotNumber,
           quantity: trx.quantity,
+          remarksId: trx.remarksID,
           remarks: trx.remarks,
           minCount: trx.minCount,
           remainingCount: parseFloat(Number(trx.remainigCount / trx.itemMasterUnitConversion).toFixed(2)),
@@ -437,6 +490,7 @@ export class InventoryOutComponent implements OnInit {
         this.InventoryOutHeaderForm.controls.department.setValue(trx.department);
         this.InventoryOutHeaderForm.controls.referenceNo.setValue(trx.referenceNo);
         this.InventoryOutHeaderForm.controls.remarks.setValue(trx.remarks);
+     
       })
       
     })
@@ -461,11 +515,15 @@ export class InventoryOutComponent implements OnInit {
     let Name = this.InventoryOutDetailForm.controls.unit.value;
     let trxNum = this.InventoryOutDetailForm.controls.in_TrxNo.value;
     let unit = this.InventoryOutDetailForm.controls.unit.value;
-    let unitCV = document.getElementById(unit).title;
+    let remarks = this.InventoryOutDetailForm.controls.remarks.value;
 
+
+    let unitCV = document.getElementById(unit).title;
     let item = document.getElementById(itemID).innerHTML;
     let unitName = document.getElementById(Name).innerHTML;
     let lotNum = document.getElementById(trxNum).innerHTML;
+    let remarksID = document.getElementById(remarks).title
+
     this.itemArrayDTL.push({
       transactionNo: this.InventoryOutHeaderForm.controls.transactionNo.value,
       itemID: item,
@@ -475,7 +533,8 @@ export class InventoryOutComponent implements OnInit {
       in_TrxNo: trxNum,
       lotNumber: lotNum,
       quantity: this.InventoryOutDetailForm.controls.quantity.value,
-      remarks: this.InventoryOutDetailForm.controls.remarks.value,
+      remarksId: remarksID,
+      remarks: remarks,
       minCount: this.InventoryOutDetailForm.controls.quantity.value * Number(unitCV),
       remainingCount: this.remainingCount,
       tableExpDate: null,
@@ -484,30 +543,16 @@ export class InventoryOutComponent implements OnInit {
   }
 
   public addItem() {
-    console.log("hello")
     let itemID = this.InventoryOutDetailForm.controls.itemID.value;
     let trxNum = this.InventoryOutDetailForm.controls.in_TrxNo.value;
-
+    let unitname = this.InventoryOutDetailForm.controls.unit.value;
     let result = this.itemArrayDTL.find(({ itemName }) => itemName === itemID);
 
     let item = document.getElementById(itemID).innerHTML;
     let lotNum = document.getElementById(trxNum).innerHTML;
-
-    if (result == undefined) {
+    
       this.pushToArray();
-    }
-
-    else if (result != undefined) {
-      let findID = result.itemID;
-      let findLotNum = result.in_TrxNo;
-      if (findID != item || findLotNum != lotNum) {
-        this.pushToArray();
-      }
-
-      else {
-        this.toastr.error("Item is Already Entered");
-      }
-    }
+    
     this.InventoryOutDetailForm.reset();
     this.unitArray = [];
     this.lotNumArray = [];
@@ -515,12 +560,10 @@ export class InventoryOutComponent implements OnInit {
     this.InventoryOutDetailForm.controls.in_TrxNo.setValue('');
   }
 
-  public removeItem(id, unit, lotNum) {
+  public removeItem(id ,unitName ,lotNum) {
     if (confirm("Are you sure you want to Remove" + " " + id + "?")) {
-      this.itemArrayDTL = this.itemArrayDTL.filter(({ itemID }) => itemID !== id)
-        .filter(({ itemName }) => itemName !== unit)
-        .filter(({ lotNumber }) => lotNumber !== lotNum);
-        ;
+      this.itemArrayDTL = this.itemArrayDTL.filter(({ lotNumber }) => lotNumber !== lotNum && (({ unitNames }) => unitNames !== unitName))
+                        
     }
   }
 
@@ -551,7 +594,7 @@ export class InventoryOutComponent implements OnInit {
   }
   //HMTL ONCHANGE CHECK UNIT
   public checkUnit() {
-    if (this.InventoryOutHeaderForm.valid) {
+    //if (this.InventoryOutHeaderForm.valid) {
       let itemID = this.InventoryOutDetailForm.controls.itemID.value;
       if (itemID == '') {
         this.unitArray = [];
@@ -565,17 +608,17 @@ export class InventoryOutComponent implements OnInit {
       let itemName = this.InventoryOutDetailForm.controls.itemID.value;
       let itemIDs = document.getElementById(itemName).innerHTML;
       this.inventoryServices.getJoinUnitAndITMU(itemIDs).subscribe((unit) => this.unitArray = unit);
-    }
-    else {
-      this.InventoryOutDetailForm.controls.itemID.setValue('');
-      this.toastr.warning("Please Complete Important Fields in Transaction Header First")
-    }
+    
+    //else {
+    //  this.InventoryOutDetailForm.controls.itemID.setValue('');
+    //  this.toastr.warning("Please Complete Important Fields in Transaction Header First")
+    //}
   
   }
 
   //HTML ONCHANGE OF CHECK LOT NUMBER
   public checkLotNum() {
-    if (this.InventoryOutHeaderForm.valid) {
+    //if (this.InventoryOutHeaderForm.valid) {
       this.isQuantityOver = '';
       this.lotNumArray = [];
       let itemName = this.InventoryOutDetailForm.controls.itemID.value;
@@ -584,11 +627,11 @@ export class InventoryOutComponent implements OnInit {
       let unitName = document.getElementById(unit).innerHTML;
 
       this.inventoryServices.getLotNum(itemIDs, unitName).subscribe((lotNUm) => this.lotNumArray = lotNUm);
-    }
-      else {
-      this.InventoryOutDetailForm.controls.unit.setValue('');
-      this.toastr.warning("Please Complete Important Fields in Transaction Header First");
-      }
+    
+      //else {
+      //this.InventoryOutDetailForm.controls.unit.setValue('');
+      //this.toastr.warning("Please Complete Important Fields in Transaction Header First");
+      //}
   }
 
   //FOR CHECKING REMAINING COUNT
@@ -617,9 +660,14 @@ export class InventoryOutComponent implements OnInit {
         Array.from(this.Count).forEach((expDate) => {
           let getExpDate = String(expDate.expirationDate);
           let convertDate = this.datepipe.transform(getExpDate, 'MMMM d, y')
-          if (getExpDate < this.getDateTimeNow()) {
-            this.expDate = convertDate + " " + "EXPIRED";
-
+          console.log(convertDate)
+          if (getExpDate == '0001-01-01T00:00:00') {
+            this.expDate = ""
+          }
+          else {
+            if (getExpDate < this.getDateTimeNow()) {
+              this.expDate = convertDate + " " + "EXPIRED";
+            }
           }
         })
       });
@@ -676,7 +724,7 @@ export class InventoryOutComponent implements OnInit {
     this.itemArrayDTL = [];
     this.remainingCount = null;
     this.InventoryOutDetailForm.controls.in_TrxNo.setValue('');
-   
+    this.verifyIcon =""
   }
 
 }

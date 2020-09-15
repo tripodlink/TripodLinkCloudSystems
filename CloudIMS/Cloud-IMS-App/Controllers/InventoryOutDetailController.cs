@@ -114,7 +114,7 @@ namespace Cloud_IMS_Api.Controllers
                 }
                 else
                 {
-                    return Json(remainingCount);
+                    return Ok(remainingCount);
                 }
             }
             catch (Exception ex)
@@ -192,6 +192,7 @@ namespace Cloud_IMS_Api.Controllers
                                      join itemUnits in dbContext.UnitCodes on invOutDetail.Unit equals itemUnits.Code
                                      join invInTrxDetail in dbContext.InventoryInTrxDetails on invOutDetail.In_TrxNo equals invInTrxDetail.TransactionNo
                                      join invOutHeader in dbContext.InventoryOutTrxHeaders on invOutDetail.TransactionNo equals invOutHeader.TransactionNo
+                                     join depList in dbContext.Departments on invOutDetail.Remarks equals depList.ID
                                      join itemMasterUnits in dbContext.itemMasterUnits on new { key1 = invOutDetail.ItemID, key2 = invOutDetail.Unit } equals new { key1 = itemMasterUnits.ID, key2 = itemMasterUnits.itemMasterUnitUnit }
                                      where invOutDetail.TransactionNo == trxNum
                                      select new
@@ -204,7 +205,8 @@ namespace Cloud_IMS_Api.Controllers
                                          in_TrxNo = invOutDetail.In_TrxNo,
                                          lotNumber = invInTrxDetail.LotNumber,
                                          quantity = invOutDetail.Quantity,
-                                         remarks = invOutDetail.Remarks,
+                                         remarks = depList.DepartmentName,
+                                         remarksID = invOutDetail.Remarks,
                                          minCount = invOutDetail.MinCount,
                                          expirationDate = invInTrxDetail.ExpirationDate,
                                          remainigCount = invInTrxDetail.RemainigCount,

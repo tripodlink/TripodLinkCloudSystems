@@ -1,0 +1,146 @@
+<main class="app-content">
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-arrow-circle-up"></i>Inventory Management / Item Tracking</h1>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+      <li class="breadcrumb-item"><a href="#"><i class="fa fa-home fa-lg"></i></a></li>
+    </ul>
+  </div>
+ 
+  <div class="row">
+   
+      <div class="col-md-12">
+        <div class="tile">
+          <h3 class="tile-title"></h3>
+          <form [formGroup]="itemTrackingHdrForm">  
+            <div class="row">
+              &nbsp;
+
+              <div class="form-group col-md-3">
+                <label for="scanItemBarcodeNo">Scan Item ID / Barcode No.</label>
+                <div class="form-group input-group">
+                  <input formControlName="scanItemBarcodeNo" (keyup.enter)="checkItemLotNo()" (change)="checkItemLotNo()" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="form-group col-md-3">
+                <label for="serialLotNo">Serial No. / Lot No.</label>
+                <div class="form-group input-group">
+                  <input list="serialLotNoList" formControlName="serialLotNo" class="form-control" [readonly]="!isValidItemId">
+                  <datalist id="serialLotNoList">
+                    <option *ngFor="let lotNum of lotNumArray">{{lotNum.lotNumber}}</option>
+                  </datalist>
+                </div>
+              </div>
+              <br />
+              <div class="form-group col-md-1 align-self-center">
+                <button class="btn btn-primary" type="button" (click)="searchItem()" [disabled]="itemTrackingHdrForm.invalid"><i class="fa fa-search" ></i>Search</button>
+              </div>
+              <br />
+              <div class="form-group align-self-center"> 
+                <button class="btn btn-secondary" type="button" (click)="clearItem()"><i class="fa fa-eraser"></i>Clear</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+     
+      <div class="col-md-12" [hidden]="!isValidHdr">
+        <div class="tile">
+          <h3 class="tile-title"></h3>
+          <div class="form-group col-md-12">
+            <div class="tile-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <form [formGroup]="itemTrackingDtlForm">
+                    <div class="form-group">
+                      <div class="row">
+
+                        <!--<div class="form-group col-md-3">
+    <label for="transactionNo">Location</label>
+    <input formControlName="location" (change)="generateDate()" class="form-control">
+  </div>-->
+
+                        <div class="form-group col-md-3">
+                          <label for="location">Department</label>&nbsp;<label style="color:red; font:bold">*</label>
+                          <select formControlName="location" class="form-control" (change)="generateDate()"
+                              required>
+                            <option></option>
+                            <option *ngFor="let depList of depListArray" id="{{depList.departmentName}}" title="{{depList.id}}">{{depList.departmentName}}</option>
+                          </select>
+                        </div>
+
+
+                        <div class="form-group col-md-3">
+                          <label for="transactionDate">Date</label>
+                          <input type="datetime-local" formControlName="updateDate" class="form-control">
+                        </div>
+
+                        <div class="form-group col-m-1 align-self-center">
+                          <br />
+                          <button type="button" class="btn btn-primary" [disabled]="itemTrackingDtlForm.invalid" (click)="getTrxNumFunction()"><i class="fa fa-refresh"></i>Update</button>
+                        </div>
+                      </div>
+                    </div>
+                    </form>
+                    <div class="row">
+                      <div class="form-group col-md-8">
+                        <h3>Item Location History</h3>
+                        <div class="table-responsive">
+                          <table class="table table-hover table-bordered" id="table">
+                            <thead>
+                              <tr>
+                                <th>Barcode / ID No.</th>
+                                <th>Serial / Lot No.</th>
+                                <th>Date Updated</th>
+                                <th>Location</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let array of dtlTableArray" id="{{array.transactionNo}}">
+                                <td>{{array.itemID}}</td>
+                                <td>{{array.lotNo}}</td>
+                                <td>{{array.dateUpdated | date:'medium'}}</td>
+                                <td>{{array.location}}</td>
+                                <td><button type="button" class="btn btn-danger fc-center" (click)="deleteItemTrack(array.transactionNo)"><i class="fa fa-trash"></i>Delete</button></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <br />
+                        <div class="tile">
+                          <h1>{{currentLocation}}</h1>
+                          <h5>Item Current Location</h5>
+                        </div>
+                        <div class="tile-footer">
+                        </div>
+
+                        <div class="tile">
+                          <h1>{{remainingCount}} {{itemUnit}}</h1>
+                          <h5>Item Remaining Count</h5>
+                        </div>
+                        <div class="tile-footer">
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+
+  <div class="row">
+    <div class="form-grou col-12">
+
+    </div>
+  </div>
+</main>

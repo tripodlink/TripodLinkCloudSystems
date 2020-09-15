@@ -9,16 +9,21 @@ import { InventoryInComponent } from './inventory-in/inventory-in.component';
 import { InventoryOutComponent } from './inventory-out/inventory-out.component';
 import { InventoryInService } from '../services/InventoryIn.service';
 import { DatePipe } from '@angular/common';
+import { ItemTrackingComponent } from './item-tracking/item-tracking.component';
+import { ItemTrackingServices } from '../../app/services/itemTracking.service';
 import { DataTablesModule } from 'angular-datatables';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
+
 
 @NgModule({
   declarations: [
     InventoryManagementComponent,
     InventoryInComponent,
     InventoryOutComponent,
+    ItemTrackingComponent,
+
     
   ],
   imports: [
@@ -29,7 +34,7 @@ import { HttpModule } from '@angular/http';
     RouterModule.forRoot([])
   ],
 
-  providers: [InventoryService, InventoryInService, InventorysServices, DatePipe]
+  providers: [InventoryService, InventoryInService, InventorysServices, DatePipe, ItemTrackingServices]
 
 })
 export class InventoryManagementModule { }
