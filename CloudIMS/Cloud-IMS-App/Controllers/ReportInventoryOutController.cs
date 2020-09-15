@@ -35,9 +35,9 @@ namespace Cloud_IMS_Api.Controllers
         {
 
             try
-            {
-                var dateFromC = dateFrom.ToString("yyyy-MM-dd");
-                var dateToC = dateTo.ToString("yyyy-MM-dd");
+            {   
+                var dateFromC = dateFrom.ToString("yyyy-MM-dd 00:00:00");
+                var dateToC = dateTo.ToString("yyyy-MM-dd 23:59:59");
                 if (reportType == "TransactionDate")
                 {
 
@@ -48,11 +48,12 @@ namespace Cloud_IMS_Api.Controllers
                                       join itemMasterUnit in dbContext.itemMasterUnits on invOutDetail.Unit equals itemMasterUnit.itemMasterUnitUnit
                                       join unitCode in dbContext.UnitCodes on invOutDetail.Unit equals unitCode.Code
                                       join invInDetail in dbContext.InventoryInTrxDetails on invOutDetail.In_TrxNo equals invInDetail.TransactionNo
-                                      where invOutHeader.TransactionDate >= DateTime.Parse(dateFromC) && invOutHeader.TransactionDate <= DateTime.Parse(dateToC)
+                                      where (invOutHeader.TransactionDate >= DateTime.Parse(dateFromC) && invOutHeader.TransactionDate <= DateTime.Parse(dateToC))
                                       select new {
                                           headerTransactionNo = invOutHeader.TransactionNo,
                                           transactionDate = invOutHeader.TransactionDate,
                                           issuedBy = invOutHeader.IssuedBy,
+                                          issuedDate = invOutHeader.IssuedDate,
                                           receivedBy = invOutHeader.ReceivedBy,
                                           department = invOutHeader.Department,
                                           departmentName = departments.DepartmentName,
@@ -95,11 +96,12 @@ namespace Cloud_IMS_Api.Controllers
                                          join itemMasterUnit in dbContext.itemMasterUnits on invOutDetail.Unit equals itemMasterUnit.itemMasterUnitUnit
                                          join unitCode in dbContext.UnitCodes on invOutDetail.Unit equals unitCode.Code
                                          join invInDetail in dbContext.InventoryInTrxDetails on invOutDetail.In_TrxNo equals invInDetail.TransactionNo
-                                         where invOutHeader.IssuedDate >= DateTime.Parse(dateFromC) && invOutHeader.IssuedDate <= DateTime.Parse(dateToC)
+                                         where (invOutHeader.IssuedDate >= DateTime.Parse(dateFromC) && invOutHeader.IssuedDate <= DateTime.Parse(dateToC))
                                          select new
                                          {
                                              headerTransactionNo = invOutHeader.TransactionNo,
                                              transactionDate = invOutHeader.TransactionDate,
+                                             issueDate = invOutHeader.IssuedDate,
                                              issuedBy = invOutHeader.IssuedBy,
                                              receivedBy = invOutHeader.ReceivedBy,
                                              department = invOutHeader.Department,

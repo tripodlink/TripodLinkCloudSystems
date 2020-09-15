@@ -50,8 +50,7 @@
 
             <div class="form-group col-md-3">
               <label for="referenceNo">Reference Number</label>&nbsp;<label style="color:red; font:bold">*</label>
-              <input formControlName="referenceNo" class="form-control"
-                     [class.is-invalid]="this.InventoryOutHeaderForm.controls.referenceNo.touched && this.InventoryOutHeaderForm.controls.referenceNo.value.trim() == ''" required>
+              <input formControlName="referenceNo" class="form-control">
             </div>
 
             <div class="form-group col-md-12">
@@ -258,7 +257,7 @@
               </ng-template>
 
               <datalist id="lotNumOption">
-                <option *ngFor="let lotNums of lotNumArray" id="{{lotNums.lotNumber}}" value="{{lotNums.lotNumber}}">{{lotNums.transactionNo}}</option>
+                <option *ngFor="let lotNums of lotNumArray" id="{{lotNums.transactionNo}}" value="{{lotNums.transactionNo}}">{{lotNums.lotNumber}}</option>
               </datalist>
             </div>
 

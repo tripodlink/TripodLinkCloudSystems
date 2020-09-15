@@ -459,21 +459,21 @@ export class InventoryOutComponent implements OnInit {
   public pushToArray() {
     let itemID = this.InventoryOutDetailForm.controls.itemID.value;
     let Name = this.InventoryOutDetailForm.controls.unit.value;
-    let lot = this.InventoryOutDetailForm.controls.in_TrxNo.value;
+    let trxNum = this.InventoryOutDetailForm.controls.in_TrxNo.value;
     let unit = this.InventoryOutDetailForm.controls.unit.value;
     let unitCV = document.getElementById(unit).title;
 
     let item = document.getElementById(itemID).innerHTML;
     let unitName = document.getElementById(Name).innerHTML;
-    let lotNum = document.getElementById(lot).innerHTML;
+    let lotNum = document.getElementById(trxNum).innerHTML;
     this.itemArrayDTL.push({
       transactionNo: this.InventoryOutHeaderForm.controls.transactionNo.value,
       itemID: item,
       itemName: this.InventoryOutDetailForm.controls.itemID.value,
       unit: unitName,
       unitName: this.InventoryOutDetailForm.controls.unit.value,
-      in_TrxNo: lotNum,
-      lotNumber: this.InventoryOutDetailForm.controls.in_TrxNo.value,
+      in_TrxNo: trxNum,
+      lotNumber: lotNum,
       quantity: this.InventoryOutDetailForm.controls.quantity.value,
       remarks: this.InventoryOutDetailForm.controls.remarks.value,
       minCount: this.InventoryOutDetailForm.controls.quantity.value * Number(unitCV),
@@ -484,13 +484,14 @@ export class InventoryOutComponent implements OnInit {
   }
 
   public addItem() {
+    console.log("hello")
     let itemID = this.InventoryOutDetailForm.controls.itemID.value;
-    let lot = this.InventoryOutDetailForm.controls.in_TrxNo.value;
+    let trxNum = this.InventoryOutDetailForm.controls.in_TrxNo.value;
 
     let result = this.itemArrayDTL.find(({ itemName }) => itemName === itemID);
 
     let item = document.getElementById(itemID).innerHTML;
-    let lotNum = document.getElementById(lot).innerHTML;
+    let lotNum = document.getElementById(trxNum).innerHTML;
 
     if (result == undefined) {
       this.pushToArray();
@@ -592,31 +593,37 @@ export class InventoryOutComponent implements OnInit {
 
   //FOR CHECKING REMAINING COUNT
   public checkRemainingCount() {
-    let itemName = this.InventoryOutDetailForm.controls.itemID.value;
-    let itemID = document.getElementById(itemName).innerHTML;
-    let unit = this.InventoryOutDetailForm.controls.unit.value;
-    let unitName = document.getElementById(unit).innerHTML;
-    let cvFactor = document.getElementById(unit).title;
+    let trxNum = this.InventoryOutDetailForm.controls.in_TrxNo.value;
+   
+    if (trxNum != "") {
+      let itemName = this.InventoryOutDetailForm.controls.itemID.value;
+      let itemID = document.getElementById(itemName).innerHTML;
+      let unit = this.InventoryOutDetailForm.controls.unit.value;
+      let unitName = document.getElementById(unit).innerHTML;
+      let cvFactor = document.getElementById(unit).title;
 
-    let lotNum = this.InventoryOutDetailForm.controls.in_TrxNo.value;
-    this.inventoryServices.getRemainingCount(itemID, lotNum).subscribe((count) => {
-      this.Count = count;
-      Array.from(this.Count).forEach((data) => {
-        let rC = Number(data.remainigCount) / Number(cvFactor);
-        this.remainingCount = parseFloat(rC.toFixed(2));
-      })
+      let lotNum = document.getElementById(trxNum).innerHTML
 
-      Array.from(this.Count).forEach((expDate) => {
-        let getExpDate = String(expDate.expirationDate);
-        let convertDate = this.datepipe.transform(getExpDate, 'MMMM d, y')
-        if (getExpDate < this.getDateTimeNow()) {
-          this.expDate = convertDate + " " + "EXPIRED";
-         
-        }
-      })
-    });
+      this.inventoryServices.getRemainingCount(trxNum, itemID, lotNum).subscribe((count) => {
+        this.Count = count;
+        Array.from(this.Count).forEach((data) => {
+          let rC = Number(data.remainigCount) / Number(cvFactor);
+          this.remainingCount = parseFloat(rC.toFixed(2));
+        },
+          error => {
+            
+          })
 
+        Array.from(this.Count).forEach((expDate) => {
+          let getExpDate = String(expDate.expirationDate);
+          let convertDate = this.datepipe.transform(getExpDate, 'MMMM d, y')
+          if (getExpDate < this.getDateTimeNow()) {
+            this.expDate = convertDate + " " + "EXPIRED";
 
+          }
+        })
+      });
+    }
   }
 
   public checkInputQuantity() {

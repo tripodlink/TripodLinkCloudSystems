@@ -3,14 +3,16 @@ using System;
 using CloudImsCommon.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CloudImsCommon.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200906153500_MigratationUpdateExpDateNullable")]
+    partial class MigratationUpdateExpDateNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,54 +85,6 @@ namespace CloudImsCommon.Migrations
                     b.HasData(
                         new { ID = "000", CompanyID = "NEW", CompanyName = "NEW CLOUD IMS CUSTOMER" }
                     );
-                });
-
-            modelBuilder.Entity("CloudImsCommon.Models.DefectedItemsModel", b =>
-                {
-                    b.Property<string>("DefectTransactionNo")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("defect_trxno")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("ItemID")
-                        .IsRequired()
-                        .HasColumnName("item_id")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("ItemUnit")
-                        .IsRequired()
-                        .HasColumnName("item_unit")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("LotNumber")
-                        .IsRequired()
-                        .HasColumnName("lot_number")
-                        .HasMaxLength(100);
-
-                    b.Property<double>("Quantity")
-                        .HasColumnName("quantity");
-
-                    b.Property<string>("Remarks")
-                        .IsRequired()
-                        .HasColumnName("remarks")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnName("status")
-                        .HasMaxLength(10);
-
-                    b.Property<DateTime>("TransactionDate")
-                        .HasColumnName("trx_date");
-
-                    b.Property<string>("TransactionNo")
-                        .IsRequired()
-                        .HasColumnName("trxno")
-                        .HasMaxLength(100);
-
-                    b.HasKey("DefectTransactionNo");
-
-                    b.ToTable("defected_items");
                 });
 
             modelBuilder.Entity("CloudImsCommon.Models.Department", b =>
@@ -551,7 +505,6 @@ namespace CloudImsCommon.Migrations
                     b.HasData(
                         new { ID = "IVM_IN", IconName = "fa fa-sign-in", Name = "Inventory In", ProgramFolderID = "IVM", RouteAttribute = "inventory-in", SequenceNo = 10 },
                         new { ID = "IVM_OUT", IconName = "fa fa-sign-out", Name = "Inventory Out", ProgramFolderID = "IVM", RouteAttribute = "inventory-out", SequenceNo = 20 },
-                        new { ID = "IVM_DEFECT", IconName = "fa fa-times", Name = "Defected Items", ProgramFolderID = "IVM", RouteAttribute = "defected-items", SequenceNo = 30 },
                         new { ID = "DIC_UNIT", IconName = "fa fa-balance-scale", Name = "Unit", ProgramFolderID = "DIC", RouteAttribute = "unit-code", SequenceNo = 60 },
                         new { ID = "DIC_SUP", IconName = "fa fa-truck", Name = "Supplier", ProgramFolderID = "DIC", RouteAttribute = "supplier", SequenceNo = 50 },
                         new { ID = "DIC_MANU", IconName = "fa fa-industry", Name = "Manufacturer", ProgramFolderID = "DIC", RouteAttribute = "manufacturer", SequenceNo = 40 },
@@ -661,7 +614,6 @@ namespace CloudImsCommon.Migrations
                     b.ToTable("user_account");
 
                     b.HasData(
-
                         new { UserID = "SYSAD", CreatedBy = "SYSTEM", CreatedOn = new DateTime(2020, 9, 6, 23, 34, 59, 844, DateTimeKind.Local), IsActive = (byte)1, Password = ".00000", UpdatedBy = "SYSTEM", UpdatedOn = new DateTime(2020, 9, 6, 23, 34, 59, 846, DateTimeKind.Local), UserName = "SYSTEM ADMINISTRATOR" }
                     );
                 });

@@ -13,3 +13,4 @@ export class IInventoryInTrxHeaderClass implements IInventoryInTrxHeader{
   remarks: string = "";
  
 }
+
