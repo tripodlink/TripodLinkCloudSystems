@@ -358,6 +358,7 @@ namespace Cloud_IMS_Api.Controllers
                                                  join im in dbContext.ItemMasters on InvInTrxDtl.ItemID equals im.ID
                                                  join uc in dbContext.UnitCodes on InvInTrxDtl.Unit equals uc.Code
                                                  join sup in dbContext.Suppliers on InvInTrxHdr.Supplier equals sup.ID
+                                                 join ua in dbContext.UserAccounts on InvInTrxHdr.ReceivedBy equals ua.UserID
 
                                    select new
                                                  {
@@ -373,7 +374,7 @@ namespace Cloud_IMS_Api.Controllers
                                                     remainigCount = InvInTrxDtl.RemainigCount,
                                                     transactionDate = InvInTrxHdr.TransactionDate,
                                                     receivedDate = InvInTrxHdr.ReceivedDate,
-                                                    receivedBy = InvInTrxHdr.ReceivedBy,
+                                                    receivedBy = ua.UserName,
                                                     poNumber = InvInTrxHdr.PONumber,
                                                     invoiceNo = InvInTrxHdr.InvoiceNo,
                                                     referenceNo = InvInTrxHdr.ReferenceNo,
@@ -385,6 +386,30 @@ namespace Cloud_IMS_Api.Controllers
 
 
                  return Json(trxListInvIn.ToList());
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(GetErrorMessage(e));
+            }
+
+        }
+
+        [Route("[action]")]
+        [HttpGet]
+        public IActionResult GetListOfUsers()
+        {
+            try
+            {
+
+                var listofusers = from ua in dbContext.UserAccounts
+                                  select new
+                                  {
+                                      userID = ua.UserID,
+                                      userName = ua.UserName
+                                  };
+
+                return Json(listofusers.ToList());
 
             }
             catch (Exception e)
