@@ -1,6 +1,6 @@
 import { IinventoryOutHeader } from "../inventory-out/IinventoryOutHeader.interface";
-import { IinventoryOutPendingTrx } from "../inventory-out/IinventoryOutHeader.interface";
-import { IinventoryOutIssuedTrx } from "../inventory-out/IinventoryOutHeader.interface";
+import { IinventoryOutFindTrx } from "../inventory-out/IinventoryOutHeader.interface";
+
 
 export class IinventoryOutHeaderClass implements IinventoryOutHeader {
   transactionNo: string;
@@ -14,18 +14,13 @@ export class IinventoryOutHeaderClass implements IinventoryOutHeader {
   status: string;
 }
 
-export class IinventoryOuPendingTrxClass implements IinventoryOutPendingTrx {
+export class IinventoryOuIssuedTrxClass implements IinventoryOutFindTrx {
   transactionNo: string;
   transactionDate: Date;
   issuedDate: Date;
+  receivedBy: string
   department: string;
   referenceNo: string;
-}
-
-export class IinventoryOuIssuedTrxClass implements IinventoryOutIssuedTrx {
-  transactionNo: string;
-  transactionDate: Date;
-  issuedDate: Date;
-  department: string;
-  referenceNo: string;
+  remarks: string;
+  status: string;
 }

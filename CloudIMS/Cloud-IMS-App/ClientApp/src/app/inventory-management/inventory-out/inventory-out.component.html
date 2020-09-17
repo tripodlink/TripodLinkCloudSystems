@@ -117,7 +117,7 @@
 
                       <div class="form-group col-md-1 align-self-center">
                         <br />
-                        <div class="btn-group"><button class="btn btn-warning" type="button" (click)="clearTrxLookup('pending')"><i class="fa fa-lg fa-eraser"></i></button>&nbsp;&nbsp; <button class="btn btn-primary" type="submit" (click)="searchTrx('pending')"><i class="fa fa-lg fa-search"></i></button></div>
+                        <div class="btn-group"><button class="btn btn-warning" type="button" (click)="clearTrxLookup('pending')"><i class="fa fa-lg fa-eraser"></i></button>&nbsp;&nbsp; <button class="btn btn-primary" type="submit" (click)="searchTrx('P')"><i class="fa fa-lg fa-search"></i></button></div>
                       </div>
 
                     </div>
@@ -133,18 +133,14 @@
                           <tr>
                             <th>Transaction Number</th>
                             <th>Transaction Date</th>
-                            <th>Issued Date</th>
-                            <th>Department</th>
-                            <th>Reference Number</th>
+                            <th>Requested By</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let pend of pendingTrxArray" data-dismiss="modal" (click)="tableRowClick(pend.transactionNo)">
+                          <tr *ngFor="let pend of searchTrxArray" data-dismiss="modal" (click)="tableRowClick(pend.transactionNo)">
                             <td>{{pend.transactionNo}}</td>
-                            <td>{{pend.transactionDate}}</td>
-                            <td>{{pend.issuedDate}}</td>
-                            <td>{{pend.department}}</td>
-                            <td>{{pend.referenceNo}}</td>
+                            <td>{{pend.transactionDate | date:'medium'}}</td>
+                            <td>{{pend.receivedBy}}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -175,7 +171,7 @@
                       </div>
 
                       <div class="form-group col-md-1 align-self-end">
-                        <div class="btn-group"><button class="btn btn-warning" (click)="clearTrxLookup('issued')"><i class="fa fa-lg fa-eraser"></i></button>&nbsp;&nbsp;<button class="btn btn-primary" (click)="searchTrx('issued')"><i class="fa fa-lg fa-search"></i></button></div>
+                        <div class="btn-group"><button class="btn btn-warning" (click)="clearTrxLookup('issued')"><i class="fa fa-lg fa-eraser"></i></button>&nbsp;&nbsp;<button class="btn btn-primary" (click)="searchTrx('I')"><i class="fa fa-lg fa-search"></i></button></div>
                       </div>
                     </div>
                   </form>
@@ -189,18 +185,18 @@
                           <tr>
                             <th>Transaction Number</th>
                             <th>Transaction Date</th>
+                            <th>Recieve By</th>
                             <th>Issued Date</th>
-                            <th>Department</th>
-                            <th>Reference Number</th>
+                            <th>Issued By</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let issued of issuedTrxArray" data-dismiss="modal" (click)="tableRowClick(issued.transactionNo)">
+                          <tr *ngFor="let issued of searchTrxArray" data-dismiss="modal" (click)="tableRowClick(issued.transactionNo)">
                             <td>{{issued.transactionNo}}</td>
-                            <td>{{issued.transactionDate}}</td>
-                            <td>{{issued.issuedDate}}</td>
-                            <td>{{issued.department}}</td>
-                            <td>{{issued.referenceNo}}</td>
+                            <td>{{issued.transactionDate | date:'medium'}}</td>
+                            <td>{{issued.receivedBy}}</td>
+                            <td>{{issued.issuedDate | date:'medium'}}</td>
+                            <td>{{issued.issuedBy}}</td>
                           </tr>
                         </tbody>
                       </table>

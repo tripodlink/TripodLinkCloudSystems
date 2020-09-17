@@ -216,10 +216,10 @@ namespace Cloud_IMS_Api.Controllers
                                          referenceNo = invOutHeader.ReferenceNo,
                                          headremarks = invOutHeader.Remarks
 
-                                     }) ;
-                if (JoinInvtoITMU != null)
+                                     }).ToList() ;
+                if (JoinInvtoITMU.Count != 0)
                 {
-                    return Json(JoinInvtoITMU.ToList()); ;
+                    return Json(JoinInvtoITMU); ;
                 }
                 else
                 {
