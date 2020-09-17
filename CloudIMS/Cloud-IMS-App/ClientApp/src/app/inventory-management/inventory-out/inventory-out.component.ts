@@ -10,8 +10,7 @@ import { IinventoryOutTable } from '../../classes/inventory-management/inventory
 import { IinventoryOutDetailClass } from '../../classes/inventory-management/inventory-out/IinventoryOutDetailClass';
 import { IinventoryOutTableClass } from '../../classes/inventory-management/inventory-out/IinventoryOutDetailClass';
 import { IinventoryOutHeader } from '../../classes/inventory-management/inventory-out/IinventoryOutHeader.interface';
-import { IinventoryOutIssuedTrx } from '../../classes/inventory-management/inventory-out/IinventoryOutHeader.interface';
-import { IinventoryOutPendingTrx } from '../../classes/inventory-management/inventory-out/IinventoryOutHeader.interface';
+import { IinventoryOutFindTrx } from '../../classes/inventory-management/inventory-out/IinventoryOutHeader.interface';
 import { IinventoryOutHeaderClass } from '../../classes/inventory-management/inventory-out/IinventoryOutHeaderClass';
 import { IInventoryInTrxDetail } from '../../classes/inventory-management/InventoryIn/IInventoryInTrxDetail.interface';
 import { InventorysServices } from '../../services/inventorys.service';
@@ -23,6 +22,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { AppSidebarMenuComponent } from '../../app-sidebar-menu/app-sidebar-menu.component'
 import { async } from 'rxjs/internal/scheduler/async';
+
 
 
 @Component({
@@ -50,8 +50,8 @@ export class InventoryOutComponent implements OnInit {
   Count: IInventoryInTrxDetail[];
   remainingCount: number;
 
-  pendingTrxArray: IinventoryOutPendingTrx[];
-  issuedTrxArray: IinventoryOutIssuedTrx[];
+
+  searchTrxArray: IinventoryOutFindTrx[];
 
   inventHeadOutArray: IinventoryOutHeader = new IinventoryOutHeaderClass();
   inventDetailOutArray: IinventoryOutDetail = new IinventoryOutDetailClass();
@@ -88,6 +88,9 @@ export class InventoryOutComponent implements OnInit {
 
   requestedBy: string
 
+  transactionDateFrom: Date;
+  transactionDateTo: Date;
+  
   constructor(public toastr: ToastrService, public builder: FormBuilder, public inventoryServices: InventorysServices,
     public cookieService: CookieService,
     public datepipe: DatePipe,
@@ -192,56 +195,20 @@ export class InventoryOutComponent implements OnInit {
   }
 
   public searchTrx(type) {
-     if (type == "pending") {
-       this.inventoryServices.getPendingTrx().subscribe((pending) => {
-         this.pendingTrxArray = pending;
-         let PdateFrom = this.datepipe.transform(this.findTrxPending.controls.pendingDateFrom.value, 'yyyy-MM-dd');
-         let PdateTo = this.datepipe.transform(this.findTrxPending.controls.pendingDateTo.value, 'yyyy-MM-dd');
-         let PRef = this.findTrxPending.controls.pendingRefNumber.value;
-         console.log(PdateFrom);
-         console.log(PdateTo);
-         if (PdateFrom == null || PdateTo == null) {
-           this.pendingTrxArray = this.pendingTrxArray.filter((item) => item.referenceNo == PRef);
-         }
+    if (type == "P") {
+      this.transactionDateFrom = this.findTrxPending.controls.pendingDateFrom.value;
+      this.transactionDateTo = this.findTrxPending.controls.pendingDateTo.value;
+    }
+    else {
+      this.transactionDateFrom = this.findTrxIssued.controls.issuedDateFrom.value;
+      this.transactionDateTo = this.findTrxIssued.controls.issuedDateTo.value;
+    }
 
-         else if (PdateFrom != null && PdateTo != null && PRef == "") {
-             this.pendingTrxArray = this.pendingTrxArray.filter((item) =>
-               this.datepipe.transform(item.transactionDate, 'yyyy-MM-dd') >= PdateFrom
-               && this.datepipe.transform(item.transactionDate, 'yyyy-MM-dd') <= PdateTo);
-         }
-
-         else {
-             this.pendingTrxArray = this.pendingTrxArray.filter((item) =>
-               this.datepipe.transform(item.issuedDate, 'yyyy-MM-dd') >= PdateFrom
-               && this.datepipe.transform(item.issuedDate, 'yyyy-MM-dd') <= PdateTo)
-               .filter(((item) => item.referenceNo == PRef));
-         }
-         })
-     }
-        
-    else if (type == "issued") {
-      this.inventoryServices.getIssuedTrx().subscribe((issued) => {
-      this.issuedTrxArray = issued
-      let IdateFrom = this.datepipe.transform(this.findTrxIssued.controls.issuedDateFrom.value, 'yyyy-MM-dd');
-      let IdateTo = this.datepipe.transform(this.findTrxIssued.controls.issuedDateTo.value, 'yyyy-MM-dd');
-        let IRef = this.findTrxIssued.controls.issuedRefNumber.value;
-
-        if (IdateFrom == null || IdateTo == null) {
-          this.issuedTrxArray = this.issuedTrxArray.filter((item) => item.referenceNo == IRef);
-        }
-        else if (IdateFrom != null && IdateTo != null && IRef == "") {
-            this.issuedTrxArray = this.issuedTrxArray.filter((item) =>
-              this.datepipe.transform(item.issuedDate, 'yyyy-MM-dd') >= IdateFrom
-              && this.datepipe.transform(item.issuedDate, 'yyyy-MM-dd') <= IdateTo)
-        }
-        else {
-            this.issuedTrxArray = this.issuedTrxArray.filter((item) =>
-              this.datepipe.transform(item.issuedDate, 'yyyy-MM-dd') >= IdateFrom
-              && this.datepipe.transform(item.issuedDate, 'yyyy-MM-dd') <= IdateTo)
-              .filter((item) => item.referenceNo == IRef);
-        }
-      })
-      } 
+    this.inventoryServices.searchTrx(type, this.transactionDateFrom, this.transactionDateTo).subscribe((data) => {
+      this.searchTrxArray = data
+      console.log(this.searchTrxArray)
+    }
+    )
   }
 
   public tableRowClick(trxNum) {
@@ -281,8 +248,8 @@ export class InventoryOutComponent implements OnInit {
   async addOutDetailAndHeader(status: string) {
     if (status == "P") {
       await this.getTrxNumber()
-      await this.saveOutDetails()
       await this.saveOutHeader()
+      await this.saveOutDetails()
       this.toastr.info("Transaction Saved");
     }
     else {
@@ -291,7 +258,9 @@ export class InventoryOutComponent implements OnInit {
   }
 
   async getTrxNumber(){
-    await this.inventoryServices.getTrxNumFunction().subscribe((data) => {
+     let getTrxNum = this.inventoryServices.getTrxNumFunction()
+
+   await getTrxNum.toPromise().then(data => {
       this.trxNumFunction = data
 
       let trxNum = this.trxNumFunction.split('|');
@@ -299,7 +268,11 @@ export class InventoryOutComponent implements OnInit {
       let year = trxNum[1];
       let convertYear = this.datepipe.transform(new Date(), year.toLowerCase());
       let num = trxNum[2];
-      this.InventoryOutHeaderForm.controls.transactionNo.setValue(type + convertYear + num);
+
+      let TransactionNumber = type + convertYear + num
+      this.InventoryOutHeaderForm.controls.transactionNo.setValue(TransactionNumber);
+
+      return TransactionNumber
     })
   }
 
@@ -317,37 +290,41 @@ export class InventoryOutComponent implements OnInit {
     this.InventoryOutHeaderArray.status = this.status;
 
     return this.InventoryOutHeaderArray;
-    return this.InventoryOutHeaderArray;
   }
 
   //SAVE THE HEADER INFO TO DB
   async saveOutHeader()  {
-    await this.inventoryServices.insertOutHeader(this.getTrxHeaderForm()).subscribe((data) => {
+     let InsertHeader = this.inventoryServices.insertOutHeader(this.getTrxHeaderForm())
+
+
+    await InsertHeader.toPromise().then(data => {
       },
         error => {
           this.errormessage = error.error;
           this.toastr.error(this.errormessage, "Error");
-        }); 
+      });
+
+    return InsertHeader
   }
 
   //SAVE THE DETAILS INFO TO DB
   async saveOutDetails() {
 
     let trxNum = this.InventoryOutHeaderForm.controls.transactionNo.value;
-    await this.inventoryServices.deleteAllDetails(trxNum).toPromise().then((data) => {
+    await this.inventoryServices.deleteAllDetails(trxNum).toPromise().then(async data => {
 
-      Array.from(this.itemArrayDTL).forEach(async (array) => {
+      Array.from(this.itemArrayDTL).forEach(async(array) => {
         this.inventDetailOutArray.transactionNo = this.InventoryOutHeaderForm.controls.transactionNo.value;
         this.inventDetailOutArray.itemID = array.itemID;
         this.inventDetailOutArray.unit = array.unit;
         this.inventDetailOutArray.in_TrxNo = array.in_TrxNo;
         this.inventDetailOutArray.quantity = array.quantity as number;
-        this.inventDetailOutArray.remarks = array.remarks;
+        this.inventDetailOutArray.remarks = array.remarksId;
         this.inventDetailOutArray.minCount =array.minCount;
           let inserDetauls = this.inventoryServices.insertOutDetail(this.inventDetailOutArray)
 
-        await inserDetauls.subscribe((data) => {
-            this.appSideBarMenu.ngOnInit();
+        await inserDetauls.toPromise().then(data => {
+            //this.appSideBarMenu.ngOnInit();
         },
           error => {
             this.errormessage = error.error;
@@ -362,12 +339,10 @@ export class InventoryOutComponent implements OnInit {
   async updateTrxtoIssued(type: string) {
     if (confirm("Do you really want to Issue Item?")) {
 
-     
       if (type == "New") {
         await this.getTrxNumber()
-        await this.saveOutDetails()
         await this.saveOutHeader()
-
+        await this.saveOutDetails()
         await this.updateCountAndTrxNum()
       }
       else if (type == "Exist") {

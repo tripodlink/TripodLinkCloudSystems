@@ -11,18 +11,14 @@ export interface IinventoryOutHeader {
   status: string;
 }
 
-export interface IinventoryOutPendingTrx {
-  transactionNo: string;
-  transactionDate: Date;
-  issuedDate: Date;
-  department: string;
-  referenceNo: string;
-}
 
-export interface IinventoryOutIssuedTrx {
+export interface IinventoryOutFindTrx {
   transactionNo: string;
   transactionDate: Date;
   issuedDate: Date;
+  receivedBy: string
   department: string;
   referenceNo: string;
+  remarks: string;
+  status: string;
 }

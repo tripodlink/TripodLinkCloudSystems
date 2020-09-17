@@ -100,56 +100,29 @@ namespace Cloud_IMS_Api.Controllers
                 return BadRequest(GetErrorMessage(ex));
             }
         }
+
         [Route("[action]")]
-        public IActionResult getPendingTrx()
+        public IActionResult searchTrx(string type,DateTime dateFrom, DateTime dateTo)
         {
             try
             {
-                var result = (from invOutHeaders in dbContext.InventoryOutTrxHeaders
-                              join depList in dbContext.Departments on invOutHeaders.Department equals depList.ID
-                              where invOutHeaders.Status == "P"
-                                     select new
-                                     {
-                                         transactionNo = invOutHeaders.TransactionNo,
-                                         transactionDate = invOutHeaders.TransactionDate,
-                                         issuedDate = invOutHeaders.IssuedDate,
-                                         department = depList.DepartmentName,
-                                         referenceNo = invOutHeaders.ReferenceNo
-                                     });
-                if (result != null)
+
+                var dateFromC = dateFrom.ToString("yyyy-MM-dd 00:00:00");
+                var dateToC = dateTo.ToString("yyyy-MM-dd 23:59:59");
+
+                var result = dbContext.InventoryOutTrxHeaders.ToList();
+                if (type == "P")
                 {
-                    return Json(result.ToList()); ;
+                    result = dbContext.InventoryOutTrxHeaders.Where(invout => invout.TransactionDate >= DateTime.Parse(dateFromC) && invout.TransactionDate <= DateTime.Parse(dateToC)).OrderByDescending(date => date.TransactionDate).ToList();
                 }
                 else
                 {
-
-                    throw new Exception($"No Data Found.");
+                    result = dbContext.InventoryOutTrxHeaders.Where(invout => invout.IssuedDate >= DateTime.Parse(dateFromC) && invout.IssuedDate <= DateTime.Parse(dateToC)).OrderByDescending(date => date.IssuedBy).ToList();
                 }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(GetErrorMessage(ex));
-            }
-        }
-        [Route("[action]")]
-        public IActionResult getIssuedTrx()
-        {
-            try
-            {
-                var result = (from invOutHeaders in dbContext.InventoryOutTrxHeaders
-                              join depList in dbContext.Departments on invOutHeaders.Department equals depList.ID
-                              where invOutHeaders.Status == "I"
-                              select new
-                              {
-                                  transactionNo = invOutHeaders.TransactionNo,
-                                  transactionDate = invOutHeaders.TransactionDate,
-                                  issuedDate = invOutHeaders.IssuedDate,
-                                  department = depList.DepartmentName,
-                                  referenceNo = invOutHeaders.ReferenceNo
-                              });
-                if (result != null)
+
+                if (result.Count != 0)
                 {
-                    return Json(result.ToList()); ;
+                    return Json(result); ;
                 }
                 else
                 {
@@ -164,7 +137,7 @@ namespace Cloud_IMS_Api.Controllers
         }
 
         [Route("[action]")]
-        public IActionResult findTrxNum(string trxNum, string lotNum)
+        public IActionResult findTrxNum(string trxNum)
         {
             try
             {

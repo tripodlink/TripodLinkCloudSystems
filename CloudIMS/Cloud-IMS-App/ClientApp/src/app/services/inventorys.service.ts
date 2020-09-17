@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IinventoryOutHeader } from '../classes/inventory-management/inventory-out/IinventoryOutHeader.interface';
-import { IinventoryOutPendingTrx } from '../classes/inventory-management/inventory-out/IinventoryOutHeader.interface';
-import { IinventoryOutIssuedTrx } from '../classes/inventory-management/inventory-out/IinventoryOutHeader.interface';
+import { IinventoryOutFindTrx } from '../classes/inventory-management/inventory-out/IinventoryOutHeader.interface';
 import { IinventoryOutDetail } from '../classes/inventory-management/inventory-out/IinventoryOutDetail.interface';
 import { IinventoryOutTable } from '../classes/inventory-management/inventory-out/IinventoryOutDetail.interface';
 import { IDepartment } from '../classes/data-dictionary/Department/IDepartment.interface';
@@ -97,12 +96,11 @@ export class InventorysServices {
     return this._http.get<string>(this.url + "/getTrxNumFunction");
   }
 
-  getPendingTrx(): Observable<IinventoryOutPendingTrx[]> {
-    return this._http.get<IinventoryOutPendingTrx[]>(this.url + "/getPendingTrx");
-  }
+ 
 
-  getIssuedTrx(): Observable<IinventoryOutIssuedTrx[]> {
-    return this._http.get<IinventoryOutIssuedTrx[]>(this.url + "/getIssuedTrx");
+  searchTrx(type:string, dateFrom: Date, dateTo: Date): Observable<IinventoryOutFindTrx[]> {
+    let params = new HttpParams().set('type', type).set('dateFrom', dateFrom.toString()).set('dateTo', dateTo.toString());
+    return this._http.get<IinventoryOutFindTrx[]>(this.url + "/searchTrx", {params: params});
   }
 
 
