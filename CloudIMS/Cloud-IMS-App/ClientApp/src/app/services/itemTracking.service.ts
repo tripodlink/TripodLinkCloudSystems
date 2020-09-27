@@ -47,6 +47,11 @@ export class ItemTrackingServices {
     return this._http.get<string>(this.url + "/getItemUnit", { params: params })
   }
 
+  getItemMinimumLimit(ItemID: string): Observable<number> {
+    let params = new HttpParams().set('ItemID', ItemID);
+    return this._http.get<number>(this.url + "/getItemMinimumLimit", { params: params })
+  }
+
   updateLocation(itemTracking: ItemTracking) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",

@@ -72,6 +72,7 @@ export class ItemMasterComponent implements OnInit {
       ItemGroup: [Validators.required],
       ItemName: [Validators.required],
       Unit: [Validators.required],
+      MnmStockLvl: ['0',Validators.required],
       Supplier: [Validators.required],
       Manufacturer: [Validators.required]
     });
@@ -85,7 +86,8 @@ export class ItemMasterComponent implements OnInit {
     });
   }
 
-   LoadData() {
+  LoadData() {
+     console.log("ItemMAstrer")
     //this.itemMasterService.getItemMasterData().subscribe((itemMaster) => this.ItemMasterArray = itemMaster);
     this.itemMasterService.getAllDataDic().subscribe((dataDic) => this.showAllDataDic = dataDic);
     this.itemMasterService.getItemGroupData().subscribe((itemGroup) => this.itemGroupArray = itemGroup);
@@ -130,7 +132,8 @@ export class ItemMasterComponent implements OnInit {
     this.ItemMasterForm.id = this.addItemMasterForm.controls.id.value;
     this.ItemMasterForm.ItemGroup = this.addItemMasterForm.controls.ItemGroup.value;
     this.ItemMasterForm.ItemName = this.addItemMasterForm.controls.ItemName.value;
-    this.ItemMasterForm.Unit = this.addItemMasterForm.controls.Unit.value;
+     this.ItemMasterForm.Unit = this.addItemMasterForm.controls.Unit.value;
+     this.ItemMasterForm.minimumStockLevel = this.addItemMasterForm.controls.MnmStockLvl.value;
     this.ItemMasterForm.Supplier = this.addItemMasterForm.controls.Supplier.value;
     this.ItemMasterForm.Manufacturer = this.addItemMasterForm.controls.Manufacturer.value;
 
@@ -162,7 +165,7 @@ export class ItemMasterComponent implements OnInit {
         });
     }
   }
-   PassData(id, itemGroup, itemName, unit, supplier, manufacturer) {
+   PassData(id, itemGroup, itemName, unit, mnmStockLevel,supplier, manufacturer) {
     this.Status = "Save Changes";
     this.icon = "pencil";
     this.isAdd = false;
@@ -171,7 +174,8 @@ export class ItemMasterComponent implements OnInit {
     this.addItemMasterForm.controls.id.setValue(id);
     this.addItemMasterForm.controls.ItemGroup.setValue(itemGroup);
     this.addItemMasterForm.controls.ItemName.setValue(itemName);
-    this.addItemMasterForm.controls.Unit.setValue(unit);
+     this.addItemMasterForm.controls.Unit.setValue(unit);
+     this.addItemMasterForm.controls.MnmStockLvl.setValue(mnmStockLevel);
     this.addItemMasterForm.controls.Supplier.setValue(supplier);
     this.addItemMasterForm.controls.Manufacturer.setValue(manufacturer);
   }
@@ -181,7 +185,8 @@ export class ItemMasterComponent implements OnInit {
     this.ItemMasterForm.id = this.addItemMasterForm.controls.id.value;
     this.ItemMasterForm.ItemGroup = this.addItemMasterForm.controls.ItemGroup.value;
     this.ItemMasterForm.ItemName = this.addItemMasterForm.controls.ItemName.value;
-    this.ItemMasterForm.Unit = this.addItemMasterForm.controls.Unit.value;
+     this.ItemMasterForm.Unit = this.addItemMasterForm.controls.Unit.value;
+     this.ItemMasterForm.minimumStockLevel = Number(this.addItemMasterForm.controls.MnmStockLvl.value);
     this.ItemMasterForm.Supplier = this.addItemMasterForm.controls.Supplier.value;
     this.ItemMasterForm.Manufacturer = this.addItemMasterForm.controls.Manufacturer.value;
 

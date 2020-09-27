@@ -71,18 +71,29 @@ namespace Cloud_IMS_Api.Controllers
         {
             try
             {
-                var trxNumList = dbContext.itemTrackings.Where(data => data.ItemID == ItemID)
-                                                        .Where(data => data.LotNo == lotNum)
-                                                        .Select(x => new { x.Location, x.DateUpdated}).OrderByDescending(x => x.DateUpdated)
-                                                        .First()
-                                                        ;
+                var trxNumList = (from depList in dbContext.Departments
+                                  join itmTrcking in dbContext.itemTrackings on depList.ID equals itmTrcking.Location
+                                  where itmTrcking.ItemID == ItemID && itmTrcking.LotNo == lotNum 
+                                  select new
+                                  {
+                                      dateUpdated = itmTrcking.DateUpdated,
+                                      departmentDescription = depList.DepartmentName
+                                  }
+
+                                   ).OrderByDescending(x => x.dateUpdated).First();
+                    
+                    //dbContext.itemTrackings.Where(data => data.ItemID == ItemID)
+                    //                                    .Where(data => data.LotNo == lotNum)
+                    //                                    .Select(x => new { x.Location, x.DateUpdated}).OrderByDescending(x => x.DateUpdated)
+                    //                                    .First()
+                    //                                    ;
                 if (trxNumList != null)
                 {
                     return Ok(trxNumList);
                 }
                 else
                 {
-                    return Ok(trxNumList);
+                    return null;
                 }
             }
             catch (Exception ex)
@@ -207,6 +218,29 @@ namespace Cloud_IMS_Api.Controllers
                 if (JoinInvtoITMU != null)
                 {
                     return Ok(JoinInvtoITMU);
+                }
+                else
+                {
+
+                    throw new Exception($"No Data Found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }  [Route("[action]")]
+        public IActionResult getItemMinimumLimit(string itemID)
+        {
+            try
+            {
+                var MinimumLimit = dbContext.ItemMasters.Where(itmMaster => itmMaster.ID == itemID)
+                                                         .Select(itmMaster => itmMaster.MinimumStockLevel);
+
+
+                if (MinimumLimit != null)
+                {
+                    return Ok(MinimumLimit);
                 }
                 else
                 {

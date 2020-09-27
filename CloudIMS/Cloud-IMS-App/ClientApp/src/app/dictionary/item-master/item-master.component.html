@@ -29,6 +29,7 @@
                   <th>Item Group Name</th>
                   <th>Item Name</th>
                   <th>Item Minimum Unit</th>
+                  <th>Minumum Stock Level</th>
                   <th>Item Supplier</th>
                   <th>Item Manufacturer</th>
                   <th>Action</th>
@@ -40,12 +41,13 @@
                   <td id="{{showD.itemGroupID}}">{{showD.itemgroupname}}</td>
                   <td>{{showD.itemName}}</td>
                   <td id="{{showD.code}}">{{showD.description}}</td>
+                  <td>{{showD.minimumStockLevel}}</td>
                   <td id="{{showD.suppID}}">{{showD.suppName}}</td>
                   <td id="{{showD.mauFactID}}">{{showD.manufactName}}</td>
                   <td>
                     <button type="button" class="btn btn-primary" (click)="passDataItemMaster(showD.itemName,showD.itemMasterID)" data-toggle="modal" data-target="#AddItemUnitsModal"><i class="fa fa-plus-square-o"></i>Add Unit</button>&nbsp;
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal"
-                            (click)="PassData(showD.itemMasterID, showD.itemGroupID, showD.itemName, showD.code,showD.suppID, showD.mauFactID)">
+                            (click)="PassData(showD.itemMasterID, showD.itemGroupID, showD.itemName, showD.code, showD.minimumStockLevel, showD.suppID, showD.mauFactID)">
                       <i class="fa fa-pencil"></i>Edit
                     </button>&nbsp;
                     &nbsp;<button type="button" class="btn btn-danger" (click)="deleteItemMaster(showD.itemMasterID)"><i class="fa fa-trash"></i>Delete</button>
@@ -110,6 +112,12 @@
                   <option value=""></option>
                   <option *ngFor="let unitC of unitCodeArray" value="{{unitC.code}}">{{unitC.description}}</option>
                 </select>
+              </div>
+
+              <div class="form-group">
+                <label for="MnmStockLvl">Minimum Stock Level</label>
+                <input formControlName="MnmStockLvl" type="number" class="form-control itemGroupByClass"
+                       [class.is-invalid]="this.addItemMasterForm.controls.MnmStockLvl.touched && this.addItemMasterForm.controls.MnmStockLvl.value == ''" required>
               </div>
 
               <div class="form-group">

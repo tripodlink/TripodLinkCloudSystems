@@ -26,8 +26,9 @@ namespace CloudImsCommon.Models
         [MaxLength(250, ErrorMessage = "Item Name cannot exceed 250 characters.")]
         public String ItemName { get; set; }
 
+        [Column("im_min_stock_lvl")]
+        public double MinimumStockLevel { get; set; }
 
-        [Required]
         [Column("im_unit")]
         [MaxLength(100, ErrorMessage = "Unit name cannot exceed 100 characters.")]
         public String Unit { get; set; }

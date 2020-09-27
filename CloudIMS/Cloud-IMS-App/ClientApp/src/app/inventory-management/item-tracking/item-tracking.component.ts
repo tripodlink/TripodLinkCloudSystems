@@ -28,6 +28,7 @@ export class ItemTrackingComponent implements OnInit {
   currentLocation: string;
   remainingCount: number
   itemUnit: string
+  MinimumCount: number;
 
   constructor(public toastr: ToastrService, public builder: FormBuilder,
     public cookieService: CookieService,
@@ -117,7 +118,8 @@ export class ItemTrackingComponent implements OnInit {
     await this.getTrackingData(ItemID,lotNum)
     await this.getCurrentLocation(ItemID, lotNum)
     await this.getRemainingCount(ItemID,lotNum)
-    await this.getItemUnit(ItemID,lotNum)
+    await this.getItemUnit(ItemID, lotNum)
+    await this.getItemMinimumStockLevel(ItemID)
 
   }
   async getTrackingData(itemID: string, lotNum: string) {
@@ -129,7 +131,11 @@ export class ItemTrackingComponent implements OnInit {
 
   async getCurrentLocation(itemID: string, lotNum: string) {
     let currentLocation = this.itemTrackingServices.getCurrentLocation(itemID, lotNum)
-    await currentLocation.toPromise().then((data) => this.currentLocation = data["location"])
+    await currentLocation.toPromise().then((data) => {
+      this.currentLocation = data['departmentDescription']
+    
+    }
+    )
   }
 
   async getRemainingCount(itemID: string, lotNum: string) {
@@ -142,6 +148,12 @@ export class ItemTrackingComponent implements OnInit {
     let itemUnit = this.itemTrackingServices.getItemUnit(itemID, lotNum)
 
     await itemUnit.toPromise().then((data) => this.itemUnit = data["itemUnit"])
+  }
+
+  async getItemMinimumStockLevel(itemID: string) {
+    let itemMinimum = this.itemTrackingServices.getItemMinimumLimit(itemID)
+
+    await itemMinimum.toPromise().then((data) => this.MinimumCount = data)
   }
 
   public deleteItemTrack(itemTrx: string): void {
