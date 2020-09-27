@@ -109,7 +109,6 @@ export class InventoryOutComponent implements OnInit {
     this.userIDLogin = this.cookieService.get('userId');
     this.getIfApprover();
     this.Get_TrxNo_from_Dashboard();
-    console.log(this.userIDLogin)
   }
 
   public getIfApprover() {

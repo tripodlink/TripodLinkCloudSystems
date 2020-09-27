@@ -45,6 +45,7 @@ namespace Cloud_IMS_Api.Controllers
                                     ItemName = itemMaster.ItemName,
                                     code = unitCode.Code,
                                     description = unitCode.Description,
+                                    minimumStockLevel = itemMaster.MinimumStockLevel,
                                     suppID = supplierData.ID,
                                     SuppName = supplierData.Name,
                                     mauFactID = manufactData.ID,
@@ -96,6 +97,7 @@ namespace Cloud_IMS_Api.Controllers
                     itemM.ItemGroup = itemMaster.ItemGroup;
                     itemM.ItemName = itemMaster.ItemName;
                     itemM.Unit = itemMaster.Unit;
+                    itemM.MinimumStockLevel = itemMaster.MinimumStockLevel;
                     itemM.Supplier = itemMaster.Supplier;
                     itemM.Manufacturer = itemMaster.Manufacturer;
         

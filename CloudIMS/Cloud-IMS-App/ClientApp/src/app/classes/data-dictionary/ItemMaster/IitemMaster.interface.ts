@@ -4,6 +4,7 @@ export interface IiTemMaster {
   ItemGroup: string;
   ItemName: string;
   Unit: string;
+  minimumStockLevel: number;
   Supplier: string;
   Manufacturer: string;
 }
