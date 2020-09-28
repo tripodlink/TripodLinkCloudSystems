@@ -21,9 +21,9 @@
              data-toggle="tab"
              href="#InventoryIn_By_Single">Inventory In (By Single)</a>
         </li>
-        <li class="nav-item">
+        <!--<li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#InventoryIn_By_Batch">Inventory In (By Batch)</a>
-        </li>
+        </li>-->
       </ul>
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade active show" id="InventoryIn_By_Single">
@@ -162,12 +162,12 @@
                                  [readonly]="isReadonly_QTY" required autofocus />
                         </div>
                         <div class="form-group col-md-4">
-                          <label><b>Count</b></label>
+                          <label><b>Count / Quantity</b></label>
                           <input formControlName="count_dtl" type="number" readonly class="form-control" />
                         </div>
 
                         <div class="form-group col-md-4">
-                          <label><b>Remaining Count</b></label>
+                          <label><b>Total Count</b></label>
                           <input formControlName="remainingcount_dtl" type="number" readonly class="form-control" />
                         </div>
                       </div>
@@ -223,7 +223,7 @@
             </div>
           </form>
         </div>
-        <div class="tab-pane fade" id="InventoryIn_By_Batch">
+        <!--<div class="tab-pane fade" id="InventoryIn_By_Batch">
           <form [formGroup]="addInventoryInFormGroupByBatch">
             <div class="row">
               <div class="col-md-12">
@@ -275,7 +275,7 @@
               </div>
             </div>
           </form>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
