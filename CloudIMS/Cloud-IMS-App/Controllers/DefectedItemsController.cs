@@ -62,13 +62,14 @@ namespace Cloud_IMS_Api.Controllers
                                 unit = itemMaster.ID,
                                 unitName = ic.Description,
                                 unitConversion = iu.itemMasterUnitConversion
-                            });
+                            }).Distinct();
                 return Json(unit.ToList());
             }
             catch (Exception e)
             {
                 return BadRequest(GetErrorMessage(e));
             }
+            
         }
 
         [Route("[action]")]
@@ -477,11 +478,12 @@ namespace Cloud_IMS_Api.Controllers
         {
             try
             {
-                var dfToList = (from di in dbContext.ItemMasters
+                var dfToList = (from itd in dbContext.InventoryInTrxDetails
+                                join im in dbContext.ItemMasters on itd.ItemID equals im.ID
                                 select new
                                 {
-                                    itemId = di.ID,
-                                    itemName = di.ItemName
+                                    itemId = im.ID,
+                                    itemName = im.ItemName
 
                                 });
                 return Json(dfToList.ToList());

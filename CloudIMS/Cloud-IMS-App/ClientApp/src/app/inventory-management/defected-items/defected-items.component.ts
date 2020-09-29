@@ -22,6 +22,7 @@ import { IDefectedItemsToSave } from '../../classes/inventory-management/defecte
 import { error } from '@angular/compiler/src/util';
 import { get } from 'http';
 import { clear } from 'console';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 
 @Component({
@@ -169,20 +170,31 @@ export class DefectedItemsComponent implements OnInit {
 
   deleteDefectedItem() {
     let id = this._delete_id
-    if (confirm("Are you sure na si emart ay pogi" + this.itemName)) {
-      let errormessage = "Error";
-      this.defectedItemsSer.deleteDefectedItem(id).subscribe(data => {
-        this.toastr.info("Successfully deleted item on defected items.", "Deleted");
-        this.resetScreen()
-        this.getTolist(this.searchString)
-        this.getRemarks()
 
-      },
-        error => {
-          errormessage = error.error;
-          this.toastr.error(errormessage, "Item Master Error");
-        });
-    }
+    Swal.fire({
+      title: 'Are you sure do you want to delete this Transaction ' + id + ' ?', text: 'You will not be able to recover this Transaction ' + id, icon: 'warning', showCancelButton: true,
+      confirmButtonText: 'Yes', cancelButtonText: 'Cancel'
+
+    }).then((result) => {
+      if (result.value) {
+        let errormessage = "Error";
+        this.defectedItemsSer.deleteDefectedItem(id).subscribe(data => {
+          this.toastr.info("Successfully deleted item on defected items.", "Deleted");
+          this.resetScreen()
+          this.getTolist(this.searchString)
+          this.getRemarks()
+
+        },
+          error => {
+            errormessage = error.error;
+            this.toastr.error(errormessage, "Item Master Error");
+          });
+
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+        Swal.fire('Cancelled', 'Your data is safe!', 'error')
+      }
+    })
     this.deleteItemName = ""
   }
 
@@ -196,17 +208,16 @@ export class DefectedItemsComponent implements OnInit {
     this.isHiddenAdd = false
   }
 
-  async showModalUpdate(deftrx: string, statuss) {
-
+  async showModalUpdate(deftrx: string, statuss: string) {
     this.hideUD()
     this.isHiddenUpdate = false
     this._update_id = deftrx
-    this.fillAll(deftrx, statuss)
+    await this.fillAll(this._update_id, statuss)
     this.item_id_isReadOnly = true
     this.status_isReadOnly = true
     this.itemIdTextChange()
     this.lot_no_isReadOnly = false
-    this.disableLotNumber(false)
+    this.onupdateED(false)
 
   }
 
@@ -238,6 +249,8 @@ export class DefectedItemsComponent implements OnInit {
   async itemMasterSelectLookUp(id: string) {
     this.itemId = id
     this.defectedItemFormGroup.controls.item_id.setValue(this.itemId)
+    //////////////////
+    //////////////////
     this.itemIdTextChange()
     if (this.itemName == "") {
       this.disableItemID(true)
@@ -246,6 +259,9 @@ export class DefectedItemsComponent implements OnInit {
       this.disableLotNumber(true)
 
     } else {
+
+      this.defectedItemFormGroup.controls.lot_no.setValue("")
+      this.disableLotNumber(true)
       await this.getLotNumber(this.itemId)
     }
   }
@@ -307,6 +323,14 @@ export class DefectedItemsComponent implements OnInit {
     this.clearTransactionDetails()
   }
 
+  //ENABLE AND DISABLE
+  onupdateED(s: boolean) {
+    this.item_unit_isReadOnly = s
+    this.quantity_isReadOnly = s
+    this.remarks_isReadOnly = s
+    this.trx_no_isReadOnly = s
+  }
+
   //Clear
   clearAll() {
     this.defectedItemFormGroup.controls.def_trx_no.setValue("")
@@ -344,9 +368,15 @@ export class DefectedItemsComponent implements OnInit {
   //Tools
 
   multiplyUnitConversionToQuantity() {
+    console.log(this.unitMultiplier)
     let quantity = parseInt(this.defectedItemFormGroup.controls.quantity.value)
-    let productCount = this.unitMultiplier * quantity
-    this.defectedItemFormGroup.controls.count.setValue(productCount.toString())
+    if (quantity < 0) {
+      quantity = 0
+      this.defectedItemFormGroup.controls.quantity.setValue(quantity.toString())
+    } else {
+      let productCount = this.unitMultiplier * quantity
+      this.defectedItemFormGroup.controls.count.setValue(productCount.toString())
+    }
   }
 
   public getDateTimeNow() {
@@ -528,11 +558,9 @@ export class DefectedItemsComponent implements OnInit {
   async getItemUnit(itemId: string) {
     await this.defectedItemsSer.getUnit(itemId).toPromise().then((unit) => {
       this.IDefectedItemsUnit = unit;
-      if (this.IDefectedItemsUnit.length > 0){
-
-      } else {
-
-      }
+      if (this.IDefectedItemsUnit.length <= 0){
+        this.toastr.error("There is no item unit for the selected item.", "Warning");
+      } 
     })
 
   }
@@ -645,7 +673,6 @@ export class DefectedItemsComponent implements OnInit {
   }
 
   async fillAll(deftrx: string, statuss: string) {
-    console.log("Fill All"+statuss)
     let errormessage = "Error in getting defected item transactions"
     await this.defectedItemsSer.fillAll(deftrx, statuss).toPromise().then((fill_all) => {
       this.IDefectedItemsFillAll = fill_all;
@@ -653,7 +680,6 @@ export class DefectedItemsComponent implements OnInit {
       if (this.IDefectedItemsFillAll.length > 0) {
 
         for (let final of this.IDefectedItemsFillAll) {
-          
           this.defectedItemFormGroup.controls.status.setValue(final.status)
           this.defectedItemFormGroup.controls.item_id.setValue(final.itemId)
           this.defectedItemFormGroup.controls.item_name.setValue(final.itemName)
@@ -672,7 +698,8 @@ export class DefectedItemsComponent implements OnInit {
           this.defectedItemFormGroup.controls.ref_no.setValue(final.refNo)
           this.defectedItemFormGroup.controls.doc_no.setValue(final.documentNo)
 
-
+          //SET UNIT CONVERSION
+          this.unitMultiplier = final.itemUnitConversion
         }
 
       } else {
