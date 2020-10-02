@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IReportInventoryOut} from '../classes/report-management/report-inventory-out/IReportInventoryOut.interface';
+import {IReportTally } from '../classes/report-management/report-tally/IReportTally.interface';
 import { IiTemMaster } from '../classes/data-dictionary/ItemMaster/IitemMaster.interface';
 import { IUnitCode } from '../classes/data-dictionary/UnitCode/IUnitCode.interface';
 import { IDepartment } from '../classes/data-dictionary/Department/IDepartment.interface';
@@ -39,5 +40,9 @@ export class ReportInventoryOutService {
 
   getDepartment(): Observable<IDepartment[]> {
     return this._http.get<IDepartment[]>(this.urlDep);
+  }
+
+  getTallyReport(): Observable<IReportTally[]> {
+    return this._http.get<IReportTally[]>(this.url + "/GenerateTallyReport");
   }
 }

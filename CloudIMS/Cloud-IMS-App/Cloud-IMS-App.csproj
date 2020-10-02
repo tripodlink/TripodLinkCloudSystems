@@ -63,6 +63,7 @@
     <None Remove="ClientApp\src\app\classes\ISupplierClass.ts" />
     <None Remove="ClientApp\src\app\classes\report-management\report-inventory-in\IReportInventoryInClass.ts" />
     <None Remove="ClientApp\src\app\classes\report-management\report-inventory-out\IReportInventoryOutClass.ts" />
+    <None Remove="ClientApp\src\app\classes\report-management\report-tally\IReportTallyClass.ts" />
     <None Remove="ClientApp\src\app\Controllers\DepartmentController.cs" />
     <None Remove="ClientApp\src\app\Controllers\DictionaryController.cs" />
     <None Remove="ClientApp\src\app\Controllers\HomeController .cs" />
@@ -154,6 +155,7 @@
     </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\classes\ProgramFolder.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\ProgramMenu.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\classes\report-management\report-tally\IReportTallyClass.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\report-management\report-inventory-out\IReportInventoryOutClass.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\report-management\report-inventory-in\IReportInventoryInClass.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\classes\UserAccount.ts" />

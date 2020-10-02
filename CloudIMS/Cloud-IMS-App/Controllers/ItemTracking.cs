@@ -205,9 +205,9 @@ namespace Cloud_IMS_Api.Controllers
         {
             try
             {
-                var JoinInvtoITMU = (from invInDetail in dbContext.InventoryInTrxDetails
-                                     join unitCodes in dbContext.UnitCodes on invInDetail.Unit equals unitCodes.Code
-                                     where invInDetail.ItemID == itemID && invInDetail.LotNumber == LotNum
+                var JoinInvtoITMU = (from invIn in dbContext.InventoryInTrxDetails
+                                     join unitCodes in dbContext.UnitCodes on invIn.Unit equals unitCodes.Code
+                                     where invIn.ItemID == itemID && invIn.LotNumber == LotNum
                                     
                                      select new
                                      {

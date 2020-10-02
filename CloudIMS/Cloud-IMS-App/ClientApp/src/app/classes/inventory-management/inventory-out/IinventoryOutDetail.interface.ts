@@ -11,6 +11,7 @@ export interface IinventoryOutDetail {
 
 
 export interface IinventoryOutTable {
+  itoh_ID: string;
   transactionNo: string;
   transactionDate: Date;
   department: string;

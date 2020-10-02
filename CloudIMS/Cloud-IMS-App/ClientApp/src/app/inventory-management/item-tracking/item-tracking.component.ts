@@ -7,6 +7,7 @@ import { itemLotNoClass, itemTracking} from '../../classes/inventory-management/
 import { ItemTrackingServices } from '../../services/itemTracking.service';
 import { DatePipe } from '@angular/common';
 import { IDepartment } from '../../classes/data-dictionary/Department/IDepartment.interface';
+import { IInventoryInTrxDetail } from '../../classes/inventory-management/InventoryIn/IInventoryInTrxDetail.interface';
 @Component({
   selector: 'app-item-tracking',
   templateUrl: './item-tracking.component.html',
@@ -30,6 +31,8 @@ export class ItemTrackingComponent implements OnInit {
   itemUnit: string
   MinimumCount: number;
 
+  inventoryInArray: IInventoryInTrxDetail[];
+
   constructor(public toastr: ToastrService, public builder: FormBuilder,
     public cookieService: CookieService,
     public itemTrackingServices: ItemTrackingServices,
@@ -40,6 +43,7 @@ export class ItemTrackingComponent implements OnInit {
 
   ngOnInit() {
     this.itemTrackingServices.getDepartmentList().subscribe((depList) => this.depListArray = depList);
+    this.itemTrackingServices.getInventInDetail().subscribe((inventArray) => this.inventoryInArray = inventArray);
   }
 
   public createAllForm() {

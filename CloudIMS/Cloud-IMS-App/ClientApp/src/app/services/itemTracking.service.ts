@@ -3,12 +3,15 @@ import { Observable } from 'rxjs';
 import { itemLotNo, ItemTracking } from '../classes/inventory-management/itemTracking/itemTracking.interface';
 import { IDepartment } from '../classes/data-dictionary/Department/IDepartment.interface';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { IInventoryInTrxDetail } from '../classes/inventory-management/InventoryIn/IInventoryInTrxDetail.interface';
 @Injectable()
 export class ItemTrackingServices {
 
   urlDep: string = 'api/department';
 
   url: string = 'api/itemtracking';
+
+  urldtl: string = 'api/inventoryoutdetail';
 
   constructor(private _http: HttpClient) {
   }
@@ -64,5 +67,9 @@ export class ItemTrackingServices {
   deleteLocationHistory(trxNum: string): Observable<string> {
     let params = new HttpParams().set('trxNum', trxNum);
     return this._http.delete<string>(this.url + "/DeleteAllTrx", { params: params });
+  }
+
+  getInventInDetail(): Observable<IInventoryInTrxDetail[]> {
+    return this._http.get<IInventoryInTrxDetail[]>(this.urldtl + "/JoinINVtoItemMaster");
   }
 }

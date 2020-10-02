@@ -12,6 +12,7 @@ export class IinventoryOutDetailClass implements IinventoryOutDetail {
 }
 
 export class IinventoryOutTableClass implements IinventoryOutTable {
+  itoh_ID: string;
   transactionNo: string;
   transactionDate: Date;
   department: string;
