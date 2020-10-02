@@ -21,6 +21,7 @@ import { InventoryManagementComponent } from './inventory-management/inventory-m
 import { InventoryInComponent } from './inventory-management/inventory-in/inventory-in.component';
 import { InventoryOutComponent } from './inventory-management/inventory-out/inventory-out.component';
 import { DefectedItemsComponent } from './inventory-management/defected-items/defected-items.component';
+import { ItemTrackingComponent } from './inventory-management/item-tracking/item-tracking.component';
 //report management
 import { ReportManagementComponent } from './report-management/report-management.component';
 
@@ -37,7 +38,7 @@ import { UserGroupComponent } from './user-management/user-group/user-group.comp
 import { AppSidebarMenuComponent } from './app-sidebar-menu/app-sidebar-menu.component';
 import { ReportInventoryInComponent } from './report-management/report-inventory-in/report-inventory-in.component';
 import { ReportInventoryOutComponent } from './report-management/report-inventory-out/report-inventory-out.component';
-import { ItemTrackingComponent } from './inventory-management/item-tracking/item-tracking.component';
+import { ReportTallyComponent } from './report-management/report-tally/report-tally.component';
 
 //##############################################################################################
 
@@ -70,6 +71,7 @@ const routes: Routes = [
   { path: 'report-management', component: ReportManagementComponent, canActivate: [AuthGuard] },
   { path: 'report-management/report-inventory-in', component: ReportInventoryInComponent, canActivate: [AuthGuard] },
   { path: 'report-management/report-inventory-out', component: ReportInventoryOutComponent, canActivate: [AuthGuard] },
+  { path: 'report-management/report-tally', component: ReportTallyComponent, canActivate: [AuthGuard] },
 
 
   //user management folder

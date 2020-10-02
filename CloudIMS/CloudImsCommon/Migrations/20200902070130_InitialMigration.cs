@@ -110,11 +110,6 @@ namespace CloudImsCommon.Migrations
                     itoh_quantity = table.Column<double>(nullable: false),
                     itoh_remarks = table.Column<string>(maxLength: 300, nullable: true),
                     itoh_mincount = table.Column<double>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_inventoryout_trx_detail", x => new { x.itoh_trxno, x.itoh_item_id, x.itoh_in_trxno });
-                    table.UniqueConstraint("AK_inventoryout_trx_detail_itoh_in_trxno_itoh_item_id_itoh_trxno", x => new { x.itoh_in_trxno, x.itoh_item_id, x.itoh_trxno });
                 });
 
             migrationBuilder.CreateTable(

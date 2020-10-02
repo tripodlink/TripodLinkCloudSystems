@@ -10,6 +10,7 @@ import { IDepartment } from '../../classes/data-dictionary/Department/IDepartmen
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import { DatePipe } from '@angular/common';
+import { trimTrailingNulls } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'app-report-inventory-out',
@@ -40,6 +41,7 @@ export class ReportInventoryOutComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
+    console.log("Report Out")
   }
   createForm() {
     this.invInReports = this.builder.group({
@@ -140,20 +142,24 @@ export class ReportInventoryOutComponent implements OnInit {
   }
 
   exportReport() {
-  /* table id is passed over here */
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.reportOutNewArray);
+    let ws: XLSX.WorkSheet
+    /* table id is passed over here */
+    const header = ["Transaction Number", "Transaction Date", "Issued Date", "Received By", "Department", "Reference Number", "Remarks", "Item Name",
+      "Description", "Lot Number", "Quantity", "Detail Remarks"]
 
-      /* generate workbook and add the worksheet */
-      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    ws = XLSX.utils.json_to_sheet(this.reportOutNewArray);
 
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
 
-      /* save to file */
+    /* save to file */
     let dateFrom = this.datePipe.transform(this.transactionDateFrom, 'MMMM d, y');
     let dateTo = this.datePipe.transform(this.transactionDateTo, 'MMMM d, y');
-      XLSX.writeFile(wb,"Inventory Out For" + " " +dateFrom + " " + "to" + " " + dateTo + ".xlsx");
-    }
+    XLSX.writeFile(wb, "Inventory Out For" + " " + dateFrom + " " + "to" + " " + dateTo + ".xlsx");
+  }
   
 }
 

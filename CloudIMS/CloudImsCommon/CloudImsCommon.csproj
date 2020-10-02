@@ -68,6 +68,44 @@
     <Compile Remove="Migrations\20200910044914_UpdateInventoryOutHeader.Designer.cs" />
     <Compile Remove="Migrations\20200910045424_UpdateTransactionHeaderOut.cs" />
     <Compile Remove="Migrations\20200910045424_UpdateTransactionHeaderOut.Designer.cs" />
+    <Compile Remove="Migrations\20200929082339_UpdateInventoryOutAddIncrementalID.cs" />
+    <Compile Remove="Migrations\20200929082339_UpdateInventoryOutAddIncrementalID.Designer.cs" />
+    <Compile Remove="Migrations\20200929082846_UpdateInventoryOutAddIncrementalID.cs" />
+    <Compile Remove="Migrations\20200929082846_UpdateInventoryOutAddIncrementalID.Designer.cs" />
+    <Compile Remove="Migrations\20200929094143_UpdateInventoryOutAddIncrementalID.cs" />
+    <Compile Remove="Migrations\20200929094143_UpdateInventoryOutAddIncrementalID.Designer.cs" />
+    <Compile Remove="Migrations\20200929094458_UpdateInventoryOutAddAutoIncremental.cs" />
+    <Compile Remove="Migrations\20200929094458_UpdateInventoryOutAddAutoIncremental.Designer.cs" />
+    <Compile Remove="Migrations\20200930185118_AddInventoryOutAutoIncrement.cs" />
+    <Compile Remove="Migrations\20200930185118_AddInventoryOutAutoIncrement.Designer.cs" />
+    <Compile Remove="Migrations\20200930190123_AddInventoryOutAutoIncrement.cs" />
+    <Compile Remove="Migrations\20200930190123_AddInventoryOutAutoIncrement.Designer.cs" />
+    <Compile Remove="Migrations\20200930190756_AddInventoryOutAutoIncrement.cs" />
+    <Compile Remove="Migrations\20200930190756_AddInventoryOutAutoIncrement.Designer.cs" />
+    <Compile Remove="Migrations\20200930191312_AddInventoryOutAutoIncrement.cs" />
+    <Compile Remove="Migrations\20200930191312_AddInventoryOutAutoIncrement.Designer.cs" />
+    <Compile Remove="Migrations\20200930191723_AddInventoryOutAutoIncrement.cs" />
+    <Compile Remove="Migrations\20200930191723_AddInventoryOutAutoIncrement.Designer.cs" />
+    <Compile Remove="Migrations\20200930192147_AddInventoryOutAutoIncrement.cs" />
+    <Compile Remove="Migrations\20200930192147_AddInventoryOutAutoIncrement.Designer.cs" />
+    <Compile Remove="Migrations\20200930192505_AddAutoIncerementInventoryOut.cs" />
+    <Compile Remove="Migrations\20200930192505_AddAutoIncerementInventoryOut.Designer.cs" />
+    <Compile Remove="Migrations\20201001051353_InventoryOutAddAutoIncrementalNumbers.cs" />
+    <Compile Remove="Migrations\20201001051353_InventoryOutAddAutoIncrementalNumbers.Designer.cs" />
+    <Compile Remove="Migrations\20201001052251_InventoryOutAdd.cs" />
+    <Compile Remove="Migrations\20201001052251_InventoryOutAdd.Designer.cs" />
+    <Compile Remove="Migrations\20201001124938_AddInventoryOutInitialMigration.cs" />
+    <Compile Remove="Migrations\20201001124938_AddInventoryOutInitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20201001130214_AddInventoryOutInitialMigration.cs" />
+    <Compile Remove="Migrations\20201001130214_AddInventoryOutInitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20201001131411_AddInventoryOutGuid.cs" />
+    <Compile Remove="Migrations\20201001131411_AddInventoryOutGuid.Designer.cs" />
+    <Compile Remove="Migrations\20201001132030_AddInventoryOutGuid.cs" />
+    <Compile Remove="Migrations\20201001132030_AddInventoryOutGuid.Designer.cs" />
+    <Compile Remove="Migrations\20201001133434_AddInventoryOutAutoIncrement.cs" />
+    <Compile Remove="Migrations\20201001133434_AddInventoryOutAutoIncrement.Designer.cs" />
+    <Compile Remove="Migrations\20201001134424_AddInventoryOutAutoIncrement.cs" />
+    <Compile Remove="Migrations\20201001134424_AddInventoryOutAutoIncrement.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

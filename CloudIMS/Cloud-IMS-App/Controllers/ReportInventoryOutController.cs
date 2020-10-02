@@ -30,12 +30,12 @@ namespace Cloud_IMS_Api.Controllers
         }
 
         [Route("[action]")]
-        public IActionResult FindReport(string trxNum, string itemName, string itemUnit, string department, 
+        public IActionResult FindReport(string trxNum, string itemName, string itemUnit, string department,
             DateTime dateFrom, DateTime dateTo, string reportType)
         {
 
             try
-            {   
+            {
                 var dateFromC = dateFrom.ToString("yyyy-MM-dd 00:00:00");
                 var dateToC = dateTo.ToString("yyyy-MM-dd 23:59:59");
                 if (reportType == "TransactionDate")
@@ -49,7 +49,8 @@ namespace Cloud_IMS_Api.Controllers
                                       join unitCode in dbContext.UnitCodes on invOutDetail.Unit equals unitCode.Code
                                       join invInDetail in dbContext.InventoryInTrxDetails on invOutDetail.In_TrxNo equals invInDetail.TransactionNo
                                       where (invOutHeader.TransactionDate >= DateTime.Parse(dateFromC) && invOutHeader.TransactionDate <= DateTime.Parse(dateToC))
-                                      select new {
+                                      select new
+                                      {
                                           headerTransactionNo = invOutHeader.TransactionNo,
                                           transactionDate = invOutHeader.TransactionDate,
                                           issuedBy = invOutHeader.IssuedBy,
@@ -60,12 +61,14 @@ namespace Cloud_IMS_Api.Controllers
                                           referenceNo = invOutHeader.ReferenceNo,
                                           headerRemarks = invOutHeader.Remarks,
                                           itemName = itemMaster.ItemName,
+                                          itemID = itemMaster.ID,
                                           unit = invOutDetail.Unit,
                                           itemMasterUnitUnit = itemMasterUnit.itemMasterUnitUnit,
                                           description = unitCode.Description,
                                           lotNumber = invInDetail.LotNumber,
                                           quantity = invOutDetail.Quantity,
-                                          detailRemarks = invOutDetail.Remarks }).Distinct();
+                                          detailRemarks = invOutDetail.Remarks
+                                      }).Distinct();
                     if (rptTrxDate != null)
                     {
                         if (trxNum != null)
@@ -74,7 +77,7 @@ namespace Cloud_IMS_Api.Controllers
                         }
                         if (itemName != "%")
                         {
-                            rptTrxDate = rptTrxDate.Where(invOutName => invOutName.itemName.Contains(itemName));
+                            rptTrxDate = rptTrxDate.Where(invOutName => invOutName.itemID.Contains(itemName));
                         }
                         if (itemUnit != "%")
                         {
@@ -109,6 +112,7 @@ namespace Cloud_IMS_Api.Controllers
                                              referenceNo = invOutHeader.ReferenceNo,
                                              headerRemarks = invOutHeader.Remarks,
                                              itemName = itemMaster.ItemName,
+                                             itemID = itemMaster.ID,
                                              unit = invOutDetail.Unit,
                                              itemMasterUnitUnit = itemMasterUnit.itemMasterUnitUnit,
                                              description = unitCode.Description,
@@ -125,7 +129,7 @@ namespace Cloud_IMS_Api.Controllers
                         }
                         if (itemName != "%")
                         {
-                            rptIsseudDate = rptIsseudDate.Where(invOutName => invOutName.itemName.Contains(itemName));
+                            rptIsseudDate = rptIsseudDate.Where(invOutName => invOutName.itemID.Contains(itemName));
                         }
                         if (itemUnit != "%")
                         {
@@ -136,11 +140,11 @@ namespace Cloud_IMS_Api.Controllers
                             rptIsseudDate = rptIsseudDate.Where(invOutUnit => invOutUnit.department.Contains(department));
                         }
                         return Json(rptIsseudDate.ToList());
-                }
-                else
-                {
-                    throw new Exception($"No Data Found.");
-                }
+                    }
+                    else
+                    {
+                        throw new Exception($"No Data Found.");
+                    }
                 }
                 return Ok();
             }
@@ -149,6 +153,48 @@ namespace Cloud_IMS_Api.Controllers
                 return BadRequest(GetErrorMessage(ex));
             }
         }
+ 
+        [Route("[action]")]
+        public IActionResult GenerateTallyReport()
+        {
+
+            try
+            {
+
+                var getTallyReports = (from invInDtl in dbContext.InventoryInTrxDetails
+                                       join invInHdr in dbContext.InventoryInTrxHeaders on invInDtl.TransactionNo equals invInHdr.TransactionNo
+                                       join itemMaster in dbContext.ItemMasters on invInDtl.ItemID equals itemMaster.ID
+                                       join invOutDtl in dbContext.InventoryOutTrxDetails on invInDtl.TransactionNo equals invOutDtl.In_TrxNo
+                                       join supp in dbContext.Suppliers on invInHdr.Supplier equals supp.ID
+                                       join dep in dbContext.Departments on invOutDtl.Remarks equals dep.ID
+                                       join itemUnit in dbContext.itemMasterUnits on invInDtl.ItemID equals itemUnit.ID 
+                                       join unitCode in dbContext.UnitCodes on itemUnit.itemMasterUnitUnit equals unitCode.Code
+                                       join defect in dbContext.DefectedItemsModel on new { key1 = invInDtl.TransactionNo, key2 = invInDtl.LotNumber } equals new { key1 = defect.TransactionNo, key2 = defect.LotNumber }
+                                       select new
+                                       {
+                                           ItemID = invInDtl.ItemID,
+                                           ItemName = itemMaster.ItemName,
+                                           SupplierName = supp.Name,
+                                           DateInventoryIn = invInHdr.TransactionDate,
+                                           InvoiceNumber = invInHdr.InvoiceNo,
+                                           PONumber = invInHdr.PONumber,
+                                           LotNumber = invInDtl.LotNumber,
+                                           RecievedBy = invInHdr.ReceivedBy,
+                                           Department = dep.DepartmentName,
+                                           ItemUnit = unitCode.Description,
+                                           ItemRemainingCount = invInDtl.RemainigCount,
+                                           InventoryIn = invInDtl.Quantity,
+                                           InventoryOut = invOutDtl.Quantity,
+                                           ItemDefect = defect.Quantity
+                                       }).ToList();
+
+                return Json(getTallyReports);
+            }
+          
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
+        }
     }
-   
 }

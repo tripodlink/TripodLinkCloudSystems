@@ -20,7 +20,11 @@
               <div class="form-group col-md-3">
                 <label for="scanItemBarcodeNo">Scan Item ID / Barcode No.</label>
                 <div class="form-group input-group">
-                  <input formControlName="scanItemBarcodeNo" (keyup.enter)="checkItemLotNo()" (change)="checkItemLotNo()" class="form-control" required>
+                  <input list="itemOption" formControlName="scanItemBarcodeNo" (keyup.enter)="checkItemLotNo()" (change)="checkItemLotNo()" class="form-control" required>
+
+                  <datalist id="itemOption">
+                    <option *ngFor="let option of inventoryInArray" id="{{option.itemID}}" value="{{option.itemID}}">{{option.itemName}}</option>
+                  </datalist>
                 </div>
               </div>
 

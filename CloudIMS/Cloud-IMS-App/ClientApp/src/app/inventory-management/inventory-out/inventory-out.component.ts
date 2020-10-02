@@ -90,6 +90,9 @@ export class InventoryOutComponent implements OnInit {
 
   transactionDateFrom: Date;
   transactionDateTo: Date;
+
+  isToIssued: boolean = false;
+  notExpirable: string = '0001-01-01T00:00:00'
   
   constructor(public toastr: ToastrService, public builder: FormBuilder, public inventoryServices: InventorysServices,
     public cookieService: CookieService,
@@ -109,6 +112,7 @@ export class InventoryOutComponent implements OnInit {
     this.userIDLogin = this.cookieService.get('userId');
     this.getIfApprover();
     this.Get_TrxNo_from_Dashboard();
+    console.log(this.userIDLogin)
   }
 
   public getIfApprover() {
@@ -250,6 +254,8 @@ export class InventoryOutComponent implements OnInit {
       await this.saveOutHeader()
       await this.saveOutDetails()
       this.toastr.info("Transaction Saved");
+      this.isToIssued = true
+      
     }
     else {
       await this.updateTrxtoIssued("New");
@@ -354,10 +360,10 @@ export class InventoryOutComponent implements OnInit {
   async updateCountAndTrxNum() {
     let getTrxNum = this.InventoryOutHeaderForm.controls.transactionNo.value;
     let geTrxTable = this.inventoryServices.getTrxTable(getTrxNum)
-
-    await geTrxTable.subscribe((data) => {
+      
+    await geTrxTable.subscribe(async(data) => {
       this.retrieveOutTable = data;
-      Array.from(this.retrieveOutTable).forEach((trx) => {
+     await Array.from(this.retrieveOutTable).forEach((trx) => {
         if (trx.remainigCount / trx.itemMasterUnitConversion < trx.quantity) {
           this.verifyIcon = "fa-times";
         }
@@ -389,8 +395,7 @@ export class InventoryOutComponent implements OnInit {
                 },
                   error => {
                     this.errormessage = error.error;
-                    this.toastr.error(this.errormessage, "Error");
-                    this.appSideBarMenu.ngOnInit();
+                    this.toastr.error(this.errormessage, "ErrorSSS");
                   });
               })
             
@@ -403,8 +408,7 @@ export class InventoryOutComponent implements OnInit {
     },
       error => {
         this.errormessage = error.error;
-        this.toastr.error(this.errormessage, "Error");
-        this.appSideBarMenu.ngOnInit();
+        this.toastr.error(this.errormessage, "ErrorSS");
       })
    
   }
@@ -458,13 +462,14 @@ export class InventoryOutComponent implements OnInit {
           convertFactor: trx.itemMasterUnitConversion
         })
         this.tableItemCount = String(trx.remainigCount);
-           
+
+        console.log(this.retrieveOutTable)
         this.checkTableItemQuantity();
         this.InventoryOutHeaderForm.get('transactionDate').patchValue(trx.transactionDate);
         this.InventoryOutHeaderForm.controls.department.setValue(trx.department);
         this.InventoryOutHeaderForm.controls.referenceNo.setValue(trx.referenceNo);
         this.InventoryOutHeaderForm.controls.remarks.setValue(trx.remarks);
-     
+         this.isToIssued = true
       })
       
     })
@@ -635,7 +640,7 @@ export class InventoryOutComponent implements OnInit {
           let getExpDate = String(expDate.expirationDate);
           let convertDate = this.datepipe.transform(getExpDate, 'MMMM d, y')
           console.log(convertDate)
-          if (getExpDate == '0001-01-01T00:00:00') {
+          if (getExpDate == this.notExpirable) {
             this.expDate = ""
           }
           else {
@@ -698,7 +703,8 @@ export class InventoryOutComponent implements OnInit {
     this.itemArrayDTL = [];
     this.remainingCount = null;
     this.InventoryOutDetailForm.controls.in_TrxNo.setValue('');
-    this.verifyIcon =""
+    this.verifyIcon = ""
+    this.isToIssued = false
   }
 
 }

@@ -11,12 +11,16 @@ namespace CloudImsCommon.Models
     public class InventoryOutTrxDetail
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required]
+        public int itoh_ID { get; set; }
+
+        [Key]
         [Required]
         [Column("itoh_trxno")]
         [MaxLength(100, ErrorMessage = "TransactionNo cannot exceed 10 characters.")]
         public String TransactionNo { get; set; }
 
-        [Key]
         [Required]
         [Column("itoh_item_id")]
         [MaxLength(100, ErrorMessage = "Item ID cannot exceed 100 characters.")]
@@ -27,7 +31,6 @@ namespace CloudImsCommon.Models
         [MaxLength(100, ErrorMessage = "Unit cannot exceed 100 characters.")]
         public String Unit { get; set; }
 
-        [Key]
         [Required]
         [Column("itoh_in_trxno")]
         [MaxLength(100, ErrorMessage = "In Transaction Number cannot exceed 100 characters.")]
