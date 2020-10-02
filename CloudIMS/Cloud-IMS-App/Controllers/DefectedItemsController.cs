@@ -53,15 +53,14 @@ namespace Cloud_IMS_Api.Controllers
         {
             try
             {
-                var unit = (from itemMaster in dbContext.ItemMasters
-                            join iu in dbContext.itemMasterUnits on itemMaster.Unit equals iu.itemMasterUnitUnit
-                            join ic in dbContext.UnitCodes on iu.itemMasterUnitUnit equals ic.Code
-                            where itemMaster.ID == iid
+                var unit = (from itemMasterUnit in dbContext.itemMasterUnits
+                            join ic in dbContext.UnitCodes on itemMasterUnit.itemMasterUnitUnit equals ic.Code
+                            where itemMasterUnit.ID == iid
                             select new
                             {
-                                unit = itemMaster.ID,
+                                unit = itemMasterUnit.ID,
                                 unitName = ic.Description,
-                                unitConversion = iu.itemMasterUnitConversion
+                                unitConversion = itemMasterUnit.itemMasterUnitConversion
                             }).Distinct();
                 return Json(unit.ToList());
             }
@@ -69,7 +68,9 @@ namespace Cloud_IMS_Api.Controllers
             {
                 return BadRequest(GetErrorMessage(e));
             }
-            
+
+
+
         }
 
         [Route("[action]")]
