@@ -1,4 +1,4 @@
-import { itemLotNo,ItemTracking } from "../itemTracking/itemTracking.interface";
+import { itemLotNo,ItemTracking,AuditTrail } from "../itemTracking/itemTracking.interface";
 
 export class itemLotNoClass implements itemLotNo {
   transactionNo: string;
@@ -17,4 +17,25 @@ export class itemTracking implements ItemTracking {
 }
 
 
-
+export class AuditTrailClass implements AuditTrail{
+  inTrasactionNo: string
+  itemID: string
+  itemName: string
+  supplierName: string
+  dateInventoryIn: Date
+  invoiceNumber: string
+  poNumber: string
+  lotNumber: string
+  receivedBy: string
+  itemRemainingCount: number
+  inventoryIn: number
+  outTransactionNo: string
+  dateInventoryOut: Date
+  department: string
+  requestedBy: string
+  issuedBy: string
+  itemUnit: string
+  unitID: string
+  inventoryOut: number
+  itemDefect: number
+}

@@ -1,5 +1,9 @@
 .table-responsive {
-  height: 490px;
+  height: 600px;
   overflow-y: scroll;
   border-bottom: 1px solid #ddd;
+}
+
+.modal-lg {
+  max-width: 80% !important;
 }

@@ -1,5 +1,4 @@
-import {IReportTally } from "./IReportTally.interface";
-
+import { IReportTally } from "./IReportTally.interface";
 
 export class IReportTallyClass implements IReportTally{
   itemID: string
@@ -8,12 +7,15 @@ export class IReportTallyClass implements IReportTally{
   dateInventoryIn: Date
   invoiceNumber: string
   poNumber: string
-  lotNumber
+  lotNumber: string
+  inTransactionNumber: string
   recievedBy: string
   department: string
   itemUnit: string
+  unitID: string
   itemRemainingCount: number
   inventoryIn: number
   inventoryOut: number
   itemDefect: number
 }
+

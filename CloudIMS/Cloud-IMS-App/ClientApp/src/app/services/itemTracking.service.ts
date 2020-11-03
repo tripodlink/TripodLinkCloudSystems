@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { itemLotNo, ItemTracking } from '../classes/inventory-management/itemTracking/itemTracking.interface';
+import { itemLotNo, ItemTracking,AuditTrail } from '../classes/inventory-management/itemTracking/itemTracking.interface';
 import { IDepartment } from '../classes/data-dictionary/Department/IDepartment.interface';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { IInventoryInTrxDetail } from '../classes/inventory-management/InventoryIn/IInventoryInTrxDetail.interface';
+
 @Injectable()
 export class ItemTrackingServices {
 
@@ -71,5 +72,10 @@ export class ItemTrackingServices {
 
   getInventInDetail(): Observable<IInventoryInTrxDetail[]> {
     return this._http.get<IInventoryInTrxDetail[]>(this.urldtl + "/JoinINVtoItemMaster");
+  }
+
+  getAuditTrailReport(itemID: string, lotNum: string): Observable<AuditTrail[]> {
+    let params = new HttpParams().set('itemID', itemID).set('lotNum', lotNum);
+    return this._http.get<AuditTrail[]>(this.url + "/GenerateAuditTrail", { params: params});
   }
 }
