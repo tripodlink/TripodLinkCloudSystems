@@ -45,4 +45,24 @@ export class ReportInventoryOutService {
   getTallyReport(): Observable<IReportTally[]> {
     return this._http.get<IReportTally[]>(this.url + "/GenerateTallyReport");
   }
+
+  getItemTotalCount(itemID: string, lotNum:string): Observable<number> {
+    let params = new HttpParams().set('itemID', itemID).set('lotNum', lotNum);
+    return this._http.get<number>(this.url + "/GetItemTotalCount", { params: params})
+  }
+
+  getItemInventoryIn(itemID: string, lotNum: string): Observable<number> {
+    let params = new HttpParams().set('itemID', itemID).set('lotNum', lotNum);
+    return this._http.get<number>(this.url + "/GetItemInventoryIn", { params: params})
+  }
+
+  getItemDefect(itemID: string, lotNum: string): Observable<number> {
+    let params = new HttpParams().set('itemID', itemID).set('lotNum', lotNum);
+    return this._http.get<number>(this.url + "/GetItemDefect", { params: params})
+  }
+
+  getItemInventoryOut(itemID: string, InTrxNo: string): Observable<number> {
+    let params = new HttpParams().set('itemID', itemID).set('InTrxNo', InTrxNo);
+    return this._http.get<number>(this.url + "/GetItemInventoryOut", { params: params})
+  }
 }

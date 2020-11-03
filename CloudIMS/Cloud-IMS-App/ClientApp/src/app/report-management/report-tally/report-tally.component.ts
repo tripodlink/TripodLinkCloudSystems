@@ -4,6 +4,10 @@ import { IReportTally } from '../../classes/report-management/report-tally/IRepo
 import { DatePipe } from '@angular/common';
 import { ReportInventoryOutService } from '../../../app/services/ReportInventoryOut.service';
 import * as XLSX from 'xlsx';
+import { async } from 'rxjs/internal/scheduler/async';
+import { addSyntheticLeadingComment } from 'typescript';
+import { asap } from 'rxjs/internal/scheduler/asap';
+import { getInterpolationArgsLength } from '@angular/compiler/src/render3/view/util';
 @Component({
   selector: 'app-report-tally',
   templateUrl: './report-tally.component.html',
@@ -25,6 +29,12 @@ export class ReportTallyComponent implements OnInit {
   transactionDateTo: Date;
   ResultCount: string
 
+  ItemTotalCount: number = 0
+  ItemInventoryIn: number = 0
+  ItemInventoryOut: number = 0
+  ItemDefect: number = 0
+  count: number = 0
+
   constructor(public builder: FormBuilder,
     public datePipe: DatePipe,
     public reportServices: ReportInventoryOutService) {
@@ -34,6 +44,7 @@ export class ReportTallyComponent implements OnInit {
   ngOnInit() {
     this.invReportsTally.get('dateFrom').patchValue(this.getMonth());
     this.invReportsTally.get('dateTo').patchValue(this.getDateNow());
+    console.log("Tally Report")
   }
 
   public getDateNow(): string {
@@ -59,55 +70,106 @@ export class ReportTallyComponent implements OnInit {
     })
   }
 
-  public generateReports() {
-     this.reportServices.getTallyReport().subscribe((array) => {
-       this.reportTally = array;
-      var count = 0;
+  async generateReports() {
+    
+    let getTallyReport = this.reportServices.getTallyReport()
+
+    await getTallyReport.toPromise().then( async(array) => {
+      this.count = 0
+      this.reportTally = array;
+
       this.reportTallyArray = [];
 
-       Array.from(this.reportTally).forEach((tally) => {
+     await Array.from(this.reportTally).forEach(async (tally) => {
+        
+       this.reportTallyArray.push({
+          ItemID: tally.itemID,
+          ItemName: tally.itemName,
+          SupplierName: tally.supplierName,
+          DateInventoryIn: this.datePipe.transform(tally.dateInventoryIn, "yyyy-MM-dd hh:mm:ss"),
+          InvoiceNumber: tally.invoiceNumber,
+          PONumber: tally.poNumber,
+          LotNumber: tally.lotNumber,
+          ReceivedBy: tally.recievedBy,
+          Department: tally.department,
+          ItemUnit: tally.itemUnit,
+          ItemTotalCount: await this.getItemTotalCountClass(tally.itemID, tally.lotNumber),
+          ItemInventoryIn: await this.getItemInventoryInClass(tally.itemID, tally.lotNumber),
+          ItemInventoryOut: await this.getItemInventoryOutClass(tally.itemID,tally.inTransactionNumber),
+          ItemDefect: await this.getItemDefectClass(tally.itemID,tally.lotNumber)
+        })
 
-         this.reportTallyArray.push({
-           ItemID: tally.itemID,
-           ItemName: tally.itemName,
-           SupplierName: tally.supplierName,
-           DateInventoryIn: this.datePipe.transform(tally.dateInventoryIn, "yyyy-MM-dd hh:mm:ss"),
-           InvoiceNumber: tally.invoiceNumber,
-           PONumber: tally.poNumber,
-           LotNumber: tally.lotNumber,
-           ReceivedBy: tally.recievedBy,
-           Department: tally.department,
-           ItemUnit: tally.itemUnit,
-           ItemTotalCount: tally.itemRemainingCount,
-           ItemInventoryIn: tally.inventoryIn,
-           ItemInventoryOut: tally.inventoryOut,
-           ItemDefect: tally.itemDefect
-           })
-          
-         count++
-       })
-       this.Result = "Found " + " " + count + " " + "Record";
-       this.exportReport()
+        this.count++
+        this.Result = "Found " + " " + this.count + " " + "Record";
+      })
     })
+    await getTallyReport.toPromise().then(async () => { })
+    await getTallyReport.toPromise().then(async () => { })
+    await getTallyReport.toPromise().then(async () => { })
+   await getTallyReport.toPromise().then(async () => {await this.exportReport() })
+    
+     
   }
-  exportReport() {
-    let ws: XLSX.WorkSheet
-    /* table id is passed over here */
-    const header = ["Transaction Number", "Transaction Date", "Issued Date", "Received By", "Department", "Reference Number", "Remarks", "Item Name",
-      "Description", "Lot Number", "Quantity", "Detail Remarks"]
 
-    ws = XLSX.utils.json_to_sheet(this.reportTallyArray);
+  async getItemTotalCountClass(itemID:string,lotNumber:string) {
+    let getItemTotalAccount = this.reportServices.getItemTotalCount(itemID, lotNumber)
+    await getItemTotalAccount.toPromise().then((itemtotalcount) => {
+      this.ItemTotalCount = itemtotalcount
+    })
+    return this.ItemTotalCount
+  }
 
-    /* generate workbook and add the worksheet */
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  async getItemInventoryInClass(itemID: string, lotNumber: string) {
+    let getInventoryIn = this.reportServices.getItemInventoryIn(itemID, lotNumber)
+    await getInventoryIn.toPromise().then((inventoryIn) => {
+      this.ItemInventoryIn = inventoryIn
+    })
+    return this.ItemInventoryIn
+  }
 
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  async getItemInventoryOutClass(itemID: string, itemTransactionNumber: string) {
+
+    let getItemInventoryOut = this.reportServices.getItemInventoryOut(itemID, itemTransactionNumber)
+    await getItemInventoryOut.toPromise().then((inventoryOut) => {
+      this.ItemInventoryOut = inventoryOut
+    })
+    return this.ItemInventoryOut
+  }
+
+  async getItemDefectClass(itemID: string, lotNumber: string) {
+    let getItemDefect = this.reportServices.getItemDefect(itemID, lotNumber)
+    await getItemDefect.toPromise().then((itmDefect) => {
+      this.ItemDefect = itmDefect
+    })
+    return this.ItemDefect
+  }
 
 
-    /* save to file */
-    let dateFrom = this.datePipe.transform(this.transactionDateFrom, 'MMMM d, y');
-    let dateTo = this.datePipe.transform(this.transactionDateTo, 'MMMM d, y');
-    XLSX.writeFile(wb, "Inventory Out For" + " " + dateFrom + " " + "to" + " " + dateTo + ".xlsx");
+  async exportReport(): Promise<any> {
+
+    try {
+
+      Promise.resolve()
+        .then(async() => {
+          let ws: XLSX.WorkSheet
+          /* table id is passed over here */
+          //const header = ["Transaction Number", "Transaction Date", "Issued Date", "Received By", "Department", "Reference Number", "Remarks", "Item Name",
+          //  "Description", "Lot Number", "Quantity", "Detail Remarks"]
+
+          ws = XLSX.utils.json_to_sheet(this.reportTallyArray);
+
+          /* generate workbook and add the worksheet */
+          const wb: XLSX.WorkBook = XLSX.utils.book_new();
+
+          XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+          await XLSX.writeFile(wb, "Inventory Tally.xlsx");
+
+        })
+    } catch (e) {
+      console.log(e)
+    }
+   
   }
 
 }

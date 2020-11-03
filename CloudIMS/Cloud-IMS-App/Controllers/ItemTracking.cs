@@ -155,7 +155,7 @@ namespace Cloud_IMS_Api.Controllers
             try
             {
                 var JoinInvtoITMU = dbContext.InventoryInTrxDetails.Where(data => data.ItemID == itemID)
-                    .Select(data => new { data.LotNumber, data.ItemID, data.TransactionNo });
+                    .Select(data => new { data.LotNumber, data.ItemID }).Distinct();
                                                        
                                     
                 if (JoinInvtoITMU != null)
@@ -277,6 +277,66 @@ namespace Cloud_IMS_Api.Controllers
                 }
             }
 
+        }
+
+        [Route("[action]")]
+        public IActionResult GenerateAuditTrail(string itemID, string lotNum)
+        {
+
+            try
+            {
+                var getAuditTrail = (from invInDtl in dbContext.InventoryInTrxDetails
+                                     join invInHdr in dbContext.InventoryInTrxHeaders on invInDtl.TransactionNo equals invInHdr.TransactionNo into intoInvInHdr
+                                     from fromInvInHdr in intoInvInHdr.DefaultIfEmpty()
+                                     join itemMaster in dbContext.ItemMasters on invInDtl.ItemID equals itemMaster.ID into intoItemMaster
+                                     from fromItemMaster in intoItemMaster.DefaultIfEmpty()
+                                     join invOutDtl in dbContext.InventoryOutTrxDetails on invInDtl.TransactionNo equals invOutDtl.In_TrxNo into intoInvOutDtl
+                                     from fromInvOutDtl in intoInvOutDtl.DefaultIfEmpty()
+                                     join invOutHdr in dbContext.InventoryOutTrxHeaders on fromInvOutDtl.TransactionNo equals invOutHdr.TransactionNo into intoInvOutHdr
+                                     from fromInvOutHdr in intoInvOutHdr.DefaultIfEmpty()
+                                     join supp in dbContext.Suppliers on fromInvInHdr.Supplier equals supp.ID into intoSupp
+                                     from fromSupp in intoSupp.DefaultIfEmpty()
+                                     join userAccout in dbContext.UserAccounts on fromInvInHdr.ReceivedBy equals userAccout.UserID into intoUserAccounts
+                                     from fromUserAccounts in intoUserAccounts.DefaultIfEmpty()
+                                     join dep in dbContext.Departments on fromInvOutDtl.Remarks equals dep.ID into intoDepartment
+                                     from fromDepartment in intoDepartment.DefaultIfEmpty()
+                                     join itemUnit in dbContext.itemMasterUnits on fromItemMaster.ID equals itemUnit.ID into intoItemUnit
+                                     from fromItemUnit in intoItemUnit.DefaultIfEmpty()
+                                     join unitCode in dbContext.UnitCodes on fromItemUnit.ID equals unitCode.Code into intoUnitCode
+                                     from fromUnitCode in intoUnitCode.DefaultIfEmpty()
+                                     join defect in dbContext.DefectedItemsModel on new { key1 = invInDtl.TransactionNo, key2 = invInDtl.LotNumber } equals new { key1 = defect.TransactionNo, key2 = defect.LotNumber }
+                                     into intoItemDefect
+                                     from fromDefect in intoItemDefect.DefaultIfEmpty()
+                                     where invInDtl.ItemID == itemID && invInDtl.LotNumber == lotNum
+                                     select new
+                                     {
+                                         InTrasactionNo = invInDtl.TransactionNo != "" ? invInDtl.TransactionNo : "",
+                                         ItemID = invInDtl.ItemID != "" ? invInDtl.ItemID : "",
+                                         ItemName = fromItemMaster.ItemName != "" ? fromItemMaster.ItemName : "",
+                                         SupplierName = fromSupp.Name != "" ? fromSupp.Name : "",
+                                         DateInventoryIn = fromInvInHdr.TransactionDate,
+                                         InvoiceNumber = fromInvInHdr.InvoiceNo != "" ? fromInvInHdr.InvoiceNo : "",
+                                         PONumber = fromInvInHdr.PONumber != "" ? fromInvInHdr.PONumber : "",
+                                         LotNumber = invInDtl.LotNumber != "" ? invInDtl.LotNumber : "",
+                                         ReceivedBy = fromUserAccounts.UserName != "" ? fromUserAccounts.UserName : "",
+                                         ItemRemainingCount = invInDtl.RemainigCount > 0 ? invInDtl.RemainigCount : 0,
+                                         InventoryIn = invInDtl.Count > 0 ? invInDtl.Count : 0,
+                                         OutTransactionNo = fromInvOutHdr.TransactionNo != "" ? fromInvOutHdr.TransactionNo : "",
+                                         DateInventoryOut = fromInvOutHdr.TransactionDate != null ? fromInvOutHdr.TransactionDate : (DateTime?)null,
+                                         Department = fromDepartment.DepartmentName != "" ? fromDepartment.DepartmentName : "",
+                                         RequestedBy = fromInvOutHdr.ReceivedBy != "" ? fromInvOutHdr.ReceivedBy : "",
+                                         IssuedBy = fromInvOutHdr.IssuedBy != "" ? fromInvOutHdr.IssuedBy : "",
+                                         ItemUnit = fromUnitCode.Description != "" ? fromUnitCode.Description : "",
+                                         InventoryOut = fromInvOutDtl.Quantity > 0 ? fromInvOutDtl.Quantity : 0,
+                                         ItemDefect = fromDefect.Quantity > 0 ? fromDefect.Quantity : 0
+                                     }).OrderBy(tally => tally.DateInventoryIn);
+
+                return Json(getAuditTrail.ToList());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(GetErrorMessage(ex));
+            }
         }
     }
    
