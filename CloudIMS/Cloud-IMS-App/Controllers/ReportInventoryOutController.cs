@@ -9,6 +9,8 @@ using CloudImsCommon.Models;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 
 namespace Cloud_IMS_Api.Controllers
 {
@@ -220,6 +222,86 @@ namespace Cloud_IMS_Api.Controllers
             catch (Exception ex)
             {
                 return BadRequest(GetErrorMessage(ex));
+            }
+        }
+        public class ReportTally {
+            public string ItemID { get; set; }
+            public string ItemName { get; set; }
+            public string SupplierName { get; set; }
+            public string DateInventoryIn { get; set; }
+            public string DateInventoryOut { get; set; }
+            public string InvoiceNumber { get; set; }
+            public string PONumber { get; set; }
+            public string LotNumber { get; set; }
+            public string ReceivedBy { get; set; }
+            public string Department { get; set; }
+            public string ItemUnit { get; set; }
+            public string ItemInventoryIn { get; set; }
+            public string ItemInventoryOut { get; set; }
+            public string ItemDefect { get; set; }
+        }
+
+        [Route("[action]")]
+        public IActionResult GetTallyReport()
+        {
+            List<ReportTally> list = new List<ReportTally>();
+            using (var transaction = dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    var mcom = dbContext.Database.GetDbConnection().CreateCommand();
+                    mcom.CommandText = @"select distinct t.item_id as ItemID,im.im_item_name as ItemName,s.sup_name as SupplierName,date(ith.rcvd_date) as DateInventoryIn, 
+                                        date(oth.itoh_issued_date) as DateInventoryOut,ipl.inv as InvoiceNumber, ipl.po as PONumber,ipl.ln as LotNumber,ua.ua_user_name as 
+                                        ReceivedBy, oth.itoh_remarks as Department, uc.uc_description as ItemUnit , itd.quantity as ItemInventoryIn, otd.itoh_quantity as 
+                                        ItemInventoryOut, t.defect as ItemDefect from (select itd.trxno as transaction_no, itd.item_id as item_id, unit as item_unit, 
+                                        ith.rcvd_by as rcvd_by, di.quantity as defect, itd.quantity as quantity from inventoryin_trx_detail as itd left join inventoryin_trx_header
+                                        ith on itd.trxno = ith.trxno left join defected_items di on itd.trxno = di.trxno union all select otd.itoh_trxno as transaction_no, 
+                                        otd.itoh_item_id as item_id, itoh_unit as item_unit, oth.itoh_rcvd_by as rcvd_by, di.quantity as defect, otd.itoh_quantity as quantity 
+                                        from inventoryout_trx_detail as otd left join inventoryout_trx_header oth on otd.itoh_trxno = oth.itoh_trxno left join defected_items
+                                         di on otd.itoh_trxno = di.trxno) as t left join item_master im on t.item_id = im.im_id left join supplier s on im.im_supp = s.sup_id
+                                        left join inventoryin_trx_header ith on t.transaction_no = ith.trxno left join inventoryout_trx_header oth on t.transaction_no = 
+                                        oth.itoh_trxno left join inventoryin_trx_detail itd on t.transaction_no = itd.trxno left join inventoryout_trx_detail otd on 
+                                        t.transaction_no = otd.itoh_trxno left join user_account ua on t.rcvd_by = ua.ua_user_id left join unit_code uc on t.item_unit = 
+                                        uc.uc_code left join (select test.TransactionNumber as tn,test.InvoiceNumber as inv,test.PONumber as po,test.LotNumber as ln from 
+                                        (select ith.trxno as TransactionNumber , ith.invoice_number as InvoiceNumber, ith.po_number as PONumber, itd.lotno as LotNumber  from 
+                                        inventoryin_trx_header as ith left join inventoryin_trx_detail itd on ith.trxno = itd.trxno union all select oth.itoh_trxno as 
+                                        TransactionNumber , ith.invoice_number as InvoiceNumber, ith.po_number as PONumber, itd.lotno as LotNumber from inventoryout_trx_header 
+                                        as oth left join inventoryout_trx_detail otd on oth.itoh_trxno = otd.itoh_trxno left join inventoryin_trx_header ith on otd.itoh_in_trxno 
+                                        = ith.trxno left join inventoryin_trx_detail itd on ith.trxno = itd.trxno) as test) ipl on t.transaction_no = ipl.tn";
+                    var returnVal = mcom.ExecuteReader();
+                    try
+                    {
+                        while (returnVal.Read())
+                        {
+                            ReportTally report = new ReportTally();
+                            report.ItemID = !returnVal.IsDBNull(0) ? returnVal.GetString(0).ToString():"" ;
+                            report.ItemName = !returnVal.IsDBNull(1) ? returnVal.GetString(1).ToString():"";
+                            report.SupplierName = !returnVal.IsDBNull(2) ? returnVal.GetString(2).ToString(): "";
+                            report.DateInventoryIn = !returnVal.IsDBNull(3) ? returnVal.GetDateTime(3).ToString("MMM dd, yyyy") : "";
+                            report.DateInventoryOut = !returnVal.IsDBNull(4) ? returnVal.GetDateTime(4).ToString("MMM dd, yyyy") : "";
+                            report.InvoiceNumber = !returnVal.IsDBNull(5) ? returnVal.GetString(5).ToString() : "";
+                            report.PONumber = !returnVal.IsDBNull(6) ? returnVal.GetString(6).ToString() : "";
+                            report.LotNumber = !returnVal.IsDBNull(7) ? returnVal.GetString(7).ToString() : "";
+                            report.ReceivedBy = !returnVal.IsDBNull(8) ? returnVal.GetString(8).ToString() : "";
+                            report.Department = !returnVal.IsDBNull(9) ? returnVal.GetString(9).ToString() : "";
+                            report.ItemUnit = !returnVal.IsDBNull(10) ? returnVal.GetString(10).ToString() : "";
+                            report.ItemInventoryIn = !returnVal.IsDBNull(11)?returnVal.GetDouble(11).ToString() : "";
+                            report.ItemInventoryOut = !returnVal.IsDBNull(12)?returnVal.GetDouble(12).ToString() : "";
+                            report.ItemDefect = !returnVal.IsDBNull(13)?returnVal.GetDouble(13).ToString() : "";
+                            list.Add(report);
+                        }
+                    }
+                    catch(Exception e)
+                    {}
+
+                    returnVal.Close();
+                    return Json(list);
+                }
+                catch (Exception ex)
+                {
+                    //transaction.Rollback();
+                    return BadRequest(GetErrorMessage(ex));
+                }
             }
         }
 

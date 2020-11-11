@@ -20,9 +20,10 @@ export class ReportTallyComponent implements OnInit {
   reportTally: IReportTally[];
 
   reportTallyArray: Array<{
-    ItemID: string, ItemName: string, SupplierName: string, DateInventoryIn: string,
+    ItemID: string, ItemName: string, SupplierName: string, DateInventoryIn: string, DateInventoryOut: string,
     InvoiceNumber: string, PONumber: string, LotNumber: string, ReceivedBy: string, Department: string, ItemUnit: string,
-    ItemTotalCount: number, ItemInventoryIn: number, ItemInventoryOut: number, ItemDefect: number}> = [];
+    ItemInventoryIn: string, ItemInventoryOut: string, ItemDefect: string
+  }> = [];
 
   Result: string;
   transactionDateFrom: Date;
@@ -71,47 +72,44 @@ export class ReportTallyComponent implements OnInit {
   }
 
   async generateReports() {
-    
-    let getTallyReport = this.reportServices.getTallyReport()
 
-    await getTallyReport.toPromise().then( async(array) => {
+    let getTallyReport = this.reportServices.getTally()
+
+    await getTallyReport.toPromise().then(async (array) => {
       this.count = 0
       this.reportTally = array;
 
-      this.reportTallyArray = [];
+      this.reportTallyArray = this.reportTally;
+      //await Array.from(this.reportTally).forEach(async (tally) => {
+      //  console.log(tally[0])
+      //  await this.reportTallyArray.push({
+      //    ItemID: tally.ItemID,
 
-     await Array.from(this.reportTally).forEach(async (tally) => {
-        
-       this.reportTallyArray.push({
-          ItemID: tally.itemID,
-          ItemName: tally.itemName,
-          SupplierName: tally.supplierName,
-          DateInventoryIn: this.datePipe.transform(tally.dateInventoryIn, "yyyy-MM-dd hh:mm:ss"),
-          InvoiceNumber: tally.invoiceNumber,
-          PONumber: tally.poNumber,
-          LotNumber: tally.lotNumber,
-          ReceivedBy: tally.recievedBy,
-          Department: tally.department,
-          ItemUnit: tally.itemUnit,
-          ItemTotalCount: await this.getItemTotalCountClass(tally.itemID, tally.lotNumber),
-          ItemInventoryIn: await this.getItemInventoryInClass(tally.itemID, tally.lotNumber),
-          ItemInventoryOut: await this.getItemInventoryOutClass(tally.itemID,tally.inTransactionNumber),
-          ItemDefect: await this.getItemDefectClass(tally.itemID,tally.lotNumber)
-        })
+      //    ItemName: tally.ItemName,
+      //    SupplierName: tally.SupplierName,
+      //    DateInventoryIn: tally.DateInventoryIn,
+      //    DateInventoryOut: tally.DateInventoryOut,
+      //    InvoiceNumber: tally.InvoiceNumber,
+      //    PONumber: tally.PONumber,
+      //    LotNumber: tally.LotNumber,
+      //    ReceivedBy: tally.ReceivedBy,
+      //    Department: tally.Department,
+      //    ItemUnit: tally.ItemUnit,
+      //    ItemInventoryIn: tally.ItemInventoryIn,
+      //    ItemInventoryOut: tally.ItemInventoryOut,
+      //    ItemDefect: tally.ItemDefect
+      //  })
+      //  this.count++
+      //  this.Result = "Found " + " " + this.count + " " + "Record";
+      //})
 
-        this.count++
-        this.Result = "Found " + " " + this.count + " " + "Record";
-      })
+
     })
-    await getTallyReport.toPromise().then(async () => { })
-    await getTallyReport.toPromise().then(async () => { })
-    await getTallyReport.toPromise().then(async () => { })
-   await getTallyReport.toPromise().then(async () => {await this.exportReport() })
-    
-     
+    await getTallyReport.toPromise().then(async () => { await this.exportReport() })
+
   }
 
-  async getItemTotalCountClass(itemID:string,lotNumber:string) {
+  async getItemTotalCountClass(itemID: string, lotNumber: string) {
     let getItemTotalAccount = this.reportServices.getItemTotalCount(itemID, lotNumber)
     await getItemTotalAccount.toPromise().then((itemtotalcount) => {
       this.ItemTotalCount = itemtotalcount
@@ -146,22 +144,21 @@ export class ReportTallyComponent implements OnInit {
 
 
   async exportReport(): Promise<any> {
-
     try {
 
       Promise.resolve()
-        .then(async() => {
+        .then(async () => {
           let ws: XLSX.WorkSheet
-          /* table id is passed over here */
-          //const header = ["Transaction Number", "Transaction Date", "Issued Date", "Received By", "Department", "Reference Number", "Remarks", "Item Name",
-          //  "Description", "Lot Number", "Quantity", "Detail Remarks"]
+          ws = XLSX.utils.json_to_sheet([{A:"ItemID", B:"ItemName", C:"SupplierName", D:"DateInventoryIn", E:"DateInventoryOut", F:"InvoiceNumber", G:"PONumber"
+              , H:"LotNumber", I:"ReceivedBy", J:"Department", K:"ItemUnit", L:"ItemInventoryIn", M:"ItemInventoryOut", N:"ItemDefect"
+          }], { header: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N"], skipHeader: true });
+          XLSX.utils.sheet_add_json(ws,this.reportTallyArray, {skipHeader: true, origin:"A2"});
 
-          ws = XLSX.utils.json_to_sheet(this.reportTallyArray);
 
           /* generate workbook and add the worksheet */
           const wb: XLSX.WorkBook = XLSX.utils.book_new();
 
-          XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+          await XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
           await XLSX.writeFile(wb, "Inventory Tally.xlsx");
 
@@ -169,7 +166,7 @@ export class ReportTallyComponent implements OnInit {
     } catch (e) {
       console.log(e)
     }
-   
+
   }
 
 }
