@@ -1,21 +1,19 @@
 import { IReportTally } from "./IReportTally.interface";
 
 export class IReportTallyClass implements IReportTally{
-  itemID: string
-  itemName: string
-  supplierName: string
-  dateInventoryIn: Date
-  invoiceNumber: string
-  poNumber: string
-  lotNumber: string
-  inTransactionNumber: string
-  recievedBy: string
-  department: string
-  itemUnit: string
-  unitID: string
-  itemRemainingCount: number
-  inventoryIn: number
-  inventoryOut: number
-  itemDefect: number
+  ItemID: string
+  ItemName: string
+  SupplierName: string
+  DateInventoryIn: string
+  DateInventoryOut: string
+  InvoiceNumber: string
+  PONumber: string
+  LotNumber: string
+  ReceivedBy: string
+  Department: string
+  ItemUnit: string
+  ItemInventoryIn: string
+  ItemInventoryOut: string
+  ItemDefect: string
 }
 

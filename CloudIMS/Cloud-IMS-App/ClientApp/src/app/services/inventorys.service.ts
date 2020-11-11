@@ -156,4 +156,5 @@ export class InventorysServices {
     return this._http.post<ItemTracking>(this.urlTracking + "/UpdateLocation", JSON.stringify(itemTracking), { headers: headers });
 
   }
+  
 }

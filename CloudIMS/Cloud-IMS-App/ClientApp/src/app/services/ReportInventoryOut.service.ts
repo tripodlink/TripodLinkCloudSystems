@@ -65,4 +65,8 @@ export class ReportInventoryOutService {
     let params = new HttpParams().set('itemID', itemID).set('InTrxNo', InTrxNo);
     return this._http.get<number>(this.url + "/GetItemInventoryOut", { params: params})
   }
+  //Tally Report
+  getTally(): Observable<IReportTally[]> {
+    return this._http.get<IReportTally[]>(this.url + "/GetTallyReport");
+  }
 }
