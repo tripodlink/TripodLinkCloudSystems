@@ -157,6 +157,7 @@ export class ReportTallyComponent implements OnInit {
 
           /* generate workbook and add the worksheet */
           const wb: XLSX.WorkBook = XLSX.utils.book_new();
+          console.log("generated")
 
           await XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
