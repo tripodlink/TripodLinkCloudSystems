@@ -250,24 +250,24 @@ namespace Cloud_IMS_Api.Controllers
                 try
                 {
                     var mcom = dbContext.Database.GetDbConnection().CreateCommand();
-                    mcom.CommandText = @"select distinct t.item_id as ItemID,im.im_item_name as ItemName,s.sup_name as SupplierName,date(ith.rcvd_date) as DateInventoryIn, 
-                                        date(oth.itoh_issued_date) as DateInventoryOut,ipl.inv as InvoiceNumber, ipl.po as PONumber,ipl.ln as LotNumber,ua.ua_user_name as 
-                                        ReceivedBy, oth.itoh_remarks as Department, uc.uc_description as ItemUnit , itd.quantity as ItemInventoryIn, otd.itoh_quantity as 
-                                        ItemInventoryOut, t.defect as ItemDefect from (select itd.trxno as transaction_no, itd.item_id as item_id, unit as item_unit, 
-                                        ith.rcvd_by as rcvd_by, di.quantity as defect, itd.quantity as quantity from inventoryin_trx_detail as itd left join inventoryin_trx_header
-                                        ith on itd.trxno = ith.trxno left join defected_items di on itd.trxno = di.trxno union all select otd.itoh_trxno as transaction_no, 
-                                        otd.itoh_item_id as item_id, itoh_unit as item_unit, oth.itoh_rcvd_by as rcvd_by, di.quantity as defect, otd.itoh_quantity as quantity 
-                                        from inventoryout_trx_detail as otd left join inventoryout_trx_header oth on otd.itoh_trxno = oth.itoh_trxno left join defected_items
-                                         di on otd.itoh_trxno = di.trxno) as t left join item_master im on t.item_id = im.im_id left join supplier s on im.im_supp = s.sup_id
-                                        left join inventoryin_trx_header ith on t.transaction_no = ith.trxno left join inventoryout_trx_header oth on t.transaction_no = 
-                                        oth.itoh_trxno left join inventoryin_trx_detail itd on t.transaction_no = itd.trxno left join inventoryout_trx_detail otd on 
-                                        t.transaction_no = otd.itoh_trxno left join user_account ua on t.rcvd_by = ua.ua_user_id left join unit_code uc on t.item_unit = 
-                                        uc.uc_code left join (select test.TransactionNumber as tn,test.InvoiceNumber as inv,test.PONumber as po,test.LotNumber as ln from 
-                                        (select ith.trxno as TransactionNumber , ith.invoice_number as InvoiceNumber, ith.po_number as PONumber, itd.lotno as LotNumber  from 
-                                        inventoryin_trx_header as ith left join inventoryin_trx_detail itd on ith.trxno = itd.trxno union all select oth.itoh_trxno as 
-                                        TransactionNumber , ith.invoice_number as InvoiceNumber, ith.po_number as PONumber, itd.lotno as LotNumber from inventoryout_trx_header 
-                                        as oth left join inventoryout_trx_detail otd on oth.itoh_trxno = otd.itoh_trxno left join inventoryin_trx_header ith on otd.itoh_in_trxno 
-                                        = ith.trxno left join inventoryin_trx_detail itd on ith.trxno = itd.trxno) as test) ipl on t.transaction_no = ipl.tn";
+                    mcom.CommandText = @"SELECT DISTINCT t.item_id AS ItemID,im.im_item_name AS ItemName,s.sup_name AS SupplierName,DATE(ith.rcvd_date) AS DateInventoryIn, 
+                                        DATE(oth.itoh_issued_date) AS DateInventoryOut,ipl.inv AS InvoiceNumber, ipl.po AS PONumber,ipl.ln AS LotNumber,ua.ua_user_name AS 
+                                        ReceivedBy, oth.itoh_remarks AS Department, uc.uc_description AS ItemUnit , itd.quantity AS ItemInventoryIn, otd.itoh_quantity AS 
+                                        ItemInventoryOut, t.defect AS ItemDefect FROM (SELECT itd.trxno AS transaction_no, itd.item_id AS item_id, unit AS item_unit, 
+                                        ith.rcvd_by AS rcvd_by, di.quantity AS defect, itd.quantity AS quantity FROM inventoryin_trx_detail AS itd LEFT JOIN inventoryin_trx_header
+                                        ith ON itd.trxno = ith.trxno LEFT JOIN defected_items di ON itd.trxno = di.trxno UNION ALL SELECT otd.itoh_trxno AS transaction_no, 
+                                        otd.itoh_item_id AS item_id, itoh_unit AS item_unit, oth.itoh_rcvd_by AS rcvd_by, di.quantity AS defect, otd.itoh_quantity AS quantity 
+                                        FROM inventoryout_trx_detail AS otd LEFT JOIN inventoryout_trx_header oth ON otd.itoh_trxno = oth.itoh_trxno LEFT JOIN defected_items
+                                         di ON otd.itoh_trxno = di.trxno) AS t LEFT JOIN item_master im ON t.item_id = im.im_id LEFT JOIN supplier s ON im.im_supp = s.sup_id
+                                        LEFT JOIN inventoryin_trx_header ith ON t.transaction_no = ith.trxno LEFT JOIN inventoryout_trx_header oth ON t.transaction_no = 
+                                        oth.itoh_trxno LEFT JOIN inventoryin_trx_detail itd ON t.transaction_no = itd.trxno LEFT JOIN inventoryout_trx_detail otd ON 
+                                        t.transaction_no = otd.itoh_trxno LEFT JOIN user_account ua ON t.rcvd_by = ua.ua_user_id LEFT JOIN unit_code uc ON t.item_unit = 
+                                        uc.uc_code LEFT JOIN (SELECT test.TransactionNumber AS tn,test.InvoiceNumber AS inv,test.PONumber AS po,test.LotNumber AS ln FROM 
+                                        (SELECT ith.trxno AS TransactionNumber , ith.invoice_number AS InvoiceNumber, ith.po_number AS PONumber, itd.lotno AS LotNumber  FROM 
+                                        inventoryin_trx_header AS ith LEFT JOIN inventoryin_trx_detail itd ON ith.trxno = itd.trxno UNION ALL SELECT oth.itoh_trxno AS 
+                                        TransactionNumber , ith.invoice_number AS InvoiceNumber, ith.po_number AS PONumber, itd.lotno AS LotNumber FROM inventoryout_trx_header 
+                                        AS oth LEFT JOIN inventoryout_trx_detail otd ON oth.itoh_trxno = otd.itoh_trxno LEFT JOIN inventoryin_trx_header ith ON otd.itoh_in_trxno 
+                                        = ith.trxno LEFT JOIN inventoryin_trx_detail itd ON ith.trxno = itd.trxno) AS test) ipl ON t.transaction_no = ipl.tn ORDER BY t.item_id";
                     var returnVal = mcom.ExecuteReader();
                     try
                     {
@@ -291,7 +291,7 @@ namespace Cloud_IMS_Api.Controllers
                             list.Add(report);
                         }
                     }
-                    catch(Exception e)
+                    catch(Exception )
                     {}
 
                     returnVal.Close();
