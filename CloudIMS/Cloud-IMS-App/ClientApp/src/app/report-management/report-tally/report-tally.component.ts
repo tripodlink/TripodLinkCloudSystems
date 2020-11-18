@@ -8,6 +8,7 @@ import { async } from 'rxjs/internal/scheduler/async';
 import { addSyntheticLeadingComment } from 'typescript';
 import { asap } from 'rxjs/internal/scheduler/asap';
 import { getInterpolationArgsLength } from '@angular/compiler/src/render3/view/util';
+
 @Component({
   selector: 'app-report-tally',
   templateUrl: './report-tally.component.html',
@@ -77,33 +78,32 @@ export class ReportTallyComponent implements OnInit {
 
     await getTallyReport.toPromise().then(async (array) => {
       this.count = 0
-      this.reportTally = array;
+      //this.reportTally = array;
 
-      this.reportTallyArray = this.reportTally;
-      //await Array.from(this.reportTally).forEach(async (tally) => {
-      //  console.log(tally[0])
-      //  await this.reportTallyArray.push({
-      //    ItemID: tally.ItemID,
+      //this.reportTallyArray = this.reportTally;
 
-      //    ItemName: tally.ItemName,
-      //    SupplierName: tally.SupplierName,
-      //    DateInventoryIn: tally.DateInventoryIn,
-      //    DateInventoryOut: tally.DateInventoryOut,
-      //    InvoiceNumber: tally.InvoiceNumber,
-      //    PONumber: tally.PONumber,
-      //    LotNumber: tally.LotNumber,
-      //    ReceivedBy: tally.ReceivedBy,
-      //    Department: tally.Department,
-      //    ItemUnit: tally.ItemUnit,
-      //    ItemInventoryIn: tally.ItemInventoryIn,
-      //    ItemInventoryOut: tally.ItemInventoryOut,
-      //    ItemDefect: tally.ItemDefect
-      //  })
-      //  this.count++
-      //  this.Result = "Found " + " " + this.count + " " + "Record";
-      //})
+      let arr = Object.entries(array)
+      arr.map(item => {
 
-
+        this.reportTallyArray.push({
+          ItemID: item[1]['itemID'],
+          ItemName: item[1]['itemName'],
+          SupplierName: item[1]['supplierName: '],
+          DateInventoryIn: item[1]['dateInventoryIn'],
+          DateInventoryOut: item[1]['dateInventoryOut'],
+          InvoiceNumber: item[1]['invoiceNumber'],
+          PONumber: item[1]['poNumber'],
+          LotNumber: item[1]['lotNumber'],
+          ReceivedBy: item[1]['receivedBy'],
+          Department: item[1]['receivedBy'],
+          ItemUnit: item[1]['itemUnit'],
+          ItemInventoryIn: item[1]['itemInventoryIn'],
+          ItemInventoryOut: item[1]['itemInventoryOut'],
+          ItemDefect: item[1]['itemDefect']
+        })
+        this.count++
+        this.Result = "Found " + " " + this.count + " " + "Record";
+      })
     })
     await getTallyReport.toPromise().then(async () => { await this.exportReport() })
 
